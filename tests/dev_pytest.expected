@@ -1,0 +1,103 @@
+load 0
+=== files and tests
+--- pytest 
+src/
+tests/
+--- pytest tests/
+tests/other_test.py 
+tests/test_things.py 
+--- pytest tests/test_things.py::
+tests/test_things.py::TestThing 	class
+tests/test_things.py::test_one 	test
+tests/test_things.py::test_two 	test
+--- pytest tests/test_things.py::test_
+tests/test_things.py::test_one 	test
+tests/test_things.py::test_two 	test
+--- pytest tests/test_things.py::TestThing::
+tests/test_things.py::TestThing::TestNested 	class
+tests/test_things.py::TestThing::test_after 	test
+tests/test_things.py::TestThing::test_method 	test
+--- pytest tests/test_things.py::TestThing::TestNested::
+tests/test_things.py::TestThing::TestNested::test_deep 	test
+--- pytest tests/test_things.py::Other::
+tests/test_things.py::Other::test_not_collected 	test
+--- pytest tests/nosuch.py::
+--- pytest --doctest-modules src/pkg/
+src/pkg/mod.py 
+--- pytest --deselect tests/test_things.py::TestT
+tests/test_things.py::TestThing 	class
+=== markers
+--- pytest -m 
+and 
+filterwarnings 
+gpu 
+integration 
+network 
+not 
+or 
+parametrize 
+skip 
+skipif 
+slow 
+usefixtures 
+xfail 
+--- pytest -m "slow and n
+"slow and network" 
+"slow and not" 
+--- pytest -m "not (g
+"not (gpu" 
+=== options and values
+--- pytest --tb=
+--tb=auto 
+--tb=line 
+--tb=long 
+--tb=native 
+--tb=no 
+--tb=short 
+--- pytest --lf
+--lf 	rerun only the tests that failed at the last run (or all if none failed)
+--lfnf=	with --lf, what to run when there are no known failures
+--- pytest -o log_c
+log_cli=	enable log display during test run (also known as 'live logging')
+log_cli_date_format=	default value for --log-cli-date-format
+log_cli_format=	default value for --log-cli-format
+log_cli_level=	default value for --log-cli-level
+--- pytest --log-level 
+CRITICAL 
+DEBUG 
+ERROR 
+INFO 
+WARNING 
+--- pytest -p 
+--- pytest -n 
+auto 
+logical 
+--- pytest --dist=
+--dist=each 
+--dist=load 
+--dist=loadfile 
+--dist=loadgroup 
+--dist=loadscope 
+--dist=no 
+--dist=worksteal 
+--- pytest --cov-report 
+annotate 
+html 
+json 
+lcov 
+markdown 
+markdown-append 
+term 
+term-missing 
+term:skip-covered 
+xml 
+--- pytest --cov=
+--cov=src/
+--cov=tests/
+--- pytest --basetemp 
+src/
+tests/
+--- pytest --pyargs py
+py_compile 
+pydoc 
+pytest 

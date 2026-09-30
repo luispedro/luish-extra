@@ -9,15 +9,15 @@ completion modules that don't belong in luish's standard library (`std`), in plu
 and `system`. Rhai (luish's scripting language) is the implementation language: `plugin.toml` + `extension.rhai` per
 plugin.
 
-`complete/bio` and `complete/science` exist so far. `complete/bio`: `extension.rhai` (registers the completers, one
-function per module), `kinds.rhai` (bio file kinds: FASTA, BAM, index prefixes of aligners, reference names and samples
-of VCFs, ...) and, by family of tools, `ours.rhai` (ngless, SemiBin2, macrel, argnorm), `hts.rhai` (samtools,
-bedtools, tabix, bgzip, htsfile), `bcftools.rhai`, `align.rhai` (bwa, bwa-mem2, bowtie2, hisat2, minimap2, STAR,
-kallisto, featureCounts), `blast.rhai` (BLAST+), `diamond.rhai`, `hmmer.rhai` and `dynamic.rhai` (mmseqs: the options
-are read from the installed program's `-h` when Tab is pressed, through std's `help_spec`; use it for programs whose
-help has a regular format). Python programs built with Click (multiqc, genmod, cooler, ...) have no module:
-`extension.rhai` registers them with std's Click bridge (`@std/completion/bridges`), only if they answer in under a
-second.
+`complete/bio`, `complete/science`, `complete/dev` and `complete/system` exist so far (`gui` doesn't yet).
+`complete/bio`: `extension.rhai` (registers the completers, one function per module), `kinds.rhai` (bio file kinds:
+FASTA, BAM, index prefixes of aligners, reference names and samples of VCFs, ...) and, by family of tools, `ours.rhai`
+(ngless, SemiBin2, macrel, argnorm), `hts.rhai` (samtools, bedtools, tabix, bgzip, htsfile), `bcftools.rhai`,
+`align.rhai` (bwa, bwa-mem2, bowtie2, hisat2, minimap2, STAR, kallisto, featureCounts), `blast.rhai` (BLAST+),
+`diamond.rhai`, `hmmer.rhai` and `dynamic.rhai` (mmseqs: the options are read from the installed program's `-h` when Tab
+is pressed, through std's `help_spec`; use it for programs whose help has a regular format). Python programs built with
+Click (multiqc, genmod, cooler, ...) have no module: `extension.rhai` registers them with std's Click bridge
+(`@std/completion/bridges`), only if they answer in under a second.
 
 `complete/science`: `kinds.rhai` (files by extension; the rules of a Snakefile; the profiles, runs and projects of
 Nextflow and the parameters of an nf-core pipeline's schema; pandoc's formats; ...), `workflow.rhai` (jug, nf-test),
@@ -25,8 +25,15 @@ Nextflow and the parameters of an nf-core pipeline's schema; pandoc's formats; .
 `jupyter_specs.rhai`), `tools.rhai` (duckdb, datamash, pigz, gnuplot, R, Rscript), `dynamic.rhai` (xsv and qsv, read
 from `-h` like mmseqs), `bridges.rhai` (aws, through `aws_completer`) and the generated `snakemake.rhai`, `pandoc.rhai`,
 `aria2.rhai`, `parallel.rhai`, `miller.rhai`, `cwltool.rhai`, `jupyter_specs.rhai`. `extension.rhai` also registers
-apptainer and singularity (Cobra bridge) and nf-core (Click bridge). The rest of `PLAN.md` ("Order", "Next steps") is
-still to do. A new module needs a line in `extension.rhai`.
+apptainer and singularity (Cobra bridge) and nf-core (Click bridge).
+
+`complete/dev`: `kinds.rhai` (pytest's tests in a file and markers; poetry's groups, extras, dependencies, locked
+packages, scripts and sources from `pyproject.toml` and `poetry.lock`; `~/.pypirc`; ruff's rules and settings; bat's
+languages and themes), `python.rhai` (twine), `tools.rhai` (fzf, bat and batcat), `dynamic.rhai` (ruff, from its `-h`
+like mmseqs) and the generated `pytest.rhai`, `mypy.rhai`, `poetry.rhai`. `complete/system`: `kinds.rhai` (borg
+locations and compression specs, FUSE mount points from `/proc/mounts`), `tools.rhai` (fusermount, fusermount3) and
+the generated `borg.rhai`. svn, netlify and adb (`dev`) are still to do, and the rest of `PLAN.md` ("Order", "Next
+steps"). A new module needs a line in `extension.rhai`.
 
 Option tables are written from the tools' real `--help`, and `completion-todo.md` records the version each ticked tool
 was checked against. To check or add one, use the scripts (all run the tool through `pixi exec`, a temporary
@@ -40,19 +47,25 @@ environment with Bioconda, so nothing is installed):
   (hybracter, pysradb print usage), and Typer programs don't speak this protocol: read the output.
 - `scripts/help2opts.py` drafts `opts:` and `values:` from a help text on standard input; read a draft before using
   it, since help formats differ in many small ways.
-- `align.rhai`, `blast.rhai`, `diamond.rhai` and `hmmer.rhai` of `bio`, and `snakemake.rhai`, `pandoc.rhai`,
-  `aria2.rhai`, `parallel.rhai`, `miller.rhai`, `cwltool.rhai` and `jupyter_specs.rhai` of `science`, are **generated**
+- `align.rhai`, `blast.rhai`, `diamond.rhai` and `hmmer.rhai` of `bio`, `snakemake.rhai`, `pandoc.rhai`,
+  `aria2.rhai`, `parallel.rhai`, `miller.rhai`, `cwltool.rhai` and `jupyter_specs.rhai` of `science`, `pytest.rhai`,
+  `mypy.rhai` and `poetry.rhai` of `dev`, and `borg.rhai` of `system`, are **generated**
   by `scripts/gen/mk_*.py` from the `--help` of pinned versions (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`,
   cached in `$HELP_CACHE`), with the corrections and value kinds written in the generators. For Python programs built
   with argparse, `gen.argparse_dump(PKG, "module", "function")` runs the parser in the program's environment
   (`argparse_dump.py`) and gives its options with their choices and number of values, and `gen.emit_argparse` writes the
-  table. Edit the generator and run it (`python3 scripts/gen/mk_align.py`), not the `.rhai`; to move to a new version,
-  change the pin, rerun, read the diff of the module and of the tests' `.expected`, and update the version in
-  `completion-todo.md`. The other modules are written by hand. `PLUGIN=complete/science scripts/optcheck.sh ...` checks a
-  spec of `science` (`HELP='--help=#all'` for aria2c; `HELP=-help` for duckdb).
+  table. The module can be a helper file of `scripts/gen` (`pytest_parser.py`, `borg_parser.py`) for a parser that
+  needs a few lines to get at, `tree=True` gives the subcommands too (borg), and `python=` runs a local interpreter
+  instead of pixi (borg: not in conda-forge). `gen.cleo_dump` does the same for Cleo programs (poetry), and `gen.dump`
+  runs any helper that prints JSON (`mypy_info.py`: mypy's error codes). The generators stop at an option they have no
+  kind for (`KINDS`, `VALUES`, `ARGS` in each), so a new version's options get looked at. Edit the generator and run
+  it (`python3 scripts/gen/mk_align.py`), not the `.rhai`; to move to a new version, change the pin, rerun, read the
+  diff of the module and of the tests' `.expected`, and update the version in `completion-todo.md`. The other modules
+  are written by hand. `PLUGIN=complete/science scripts/optcheck.sh ...` checks a spec of `science`
+  (`HELP='--help=#all'` for aria2c; `HELP=-help` for duckdb), and `PLUGIN=complete/dev` one of `dev`.
 - Never run a tool with its standard input on a terminal: `samtools sort` waits for it. Use `</dev/null`.
 
-Tests (`tests/run.sh`, cases `tests/bio_*.sh` with `.expected`) load std's `completion` plugin and this repo's
+Tests (`tests/run.sh`, cases `tests/PLUGIN_*.sh` with `.expected`) load std's `completion` plugin and this repo's
 plugin, then run `__luish_internal complete LINE`, as `../luish/tests/plugins/std_completion*.sh` do. Programs that
 completion itself runs are stood in for by scripts in `tests/bin`. Read the `.expected` before committing it: it is
 a snapshot, not a check.
@@ -89,9 +102,10 @@ sphinx-build -W docs docs/_build
   where its completion is good).
 - Rhai gotchas met so far: functions get arrays and maps **by value** (a helper that fills a list must return it);
   `String::replace`, `trim` and `sort` change the value in place and return `()`; a `switch` case with several values is
-  `"a" | "b" =>`; a closure kept in a variable can't be called as `f(x)` (use a named `fn`); a backtick
-  string keeps `\n` as two characters; and `module` and `in` are reserved words (also as keys of a map literal: quote them); an `import` can't be chosen at run time, so `extension.rhai` has one
-  completer function per module.
+  `"a" | "b" =>`; a closure kept in a variable can't be called as `f(x)` (use a named `fn`); a backtick string keeps
+  `\n` as two characters; `module` and `in` are reserved words (also as keys of a map literal: quote them); `parse_json`
+  takes only an object, so a JSON array is read as ``parse_json(`{"a": ${out}}`).a``; an `import` can't be chosen at run
+  time, so `extension.rhai` has one completer function per module.
 - For a program whose long options take their value as the next word and have a single dash or two (`mlr`: `single_dash: true`
   and `strict_eq: true`, else the engine completes `--name=`; `nextflow` and `latexmk` have `single_dash` only). The `sub_spec`
   of a spec is `"@extra-complete/science/MODULE:NAME"`, and the engine calls `MODULE::sub_spec(NAME, SUBCOMMAND)`

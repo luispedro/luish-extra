@@ -1,0 +1,244 @@
+load 0
+--- poetry 
+about 	shows information about Poetry
+add 	adds a new dependency to pyproject.toml and installs it
+build 	builds a package, as a tarball and a wheel by default
+cache 	manage Poetry's caches
+check 	validates the content of the pyproject.toml file and its consistency with the poetry.lock
+config 	manages configuration settings
+debug 	debug Poetry
+env 	manage the project's virtual environments
+help 	displays help for a command
+init 	creates a basic pyproject.toml file in the current directory
+install 	installs the project dependencies
+list 	lists commands
+lock 	locks the project dependencies
+new 	creates a new Python project at <path>
+publish 	publishes a package to a remote repository
+python 	manage the Python versions Poetry installs
+remove 	removes a package from the project dependencies
+run 	runs a command in the appropriate environment
+search 	searches for packages on remote repositories
+self 	manage Poetry's own installation
+show 	shows information about packages
+source 	manage the package sources of the project
+sync 	update the project's environment according to the lockfile
+update 	update the dependencies as according to the pyproject.toml file
+version 	shows the version of the project or bumps it when a valid bump rule is provided
+--- poetry --
+--ansi 	force ANSI output
+--directory=	the working directory for the Poetry command
+--help 	display help for the given command
+--no-ansi 	disable ANSI output
+--no-cache 	disables the use of Poetry's caches
+--no-interaction 	do not ask any interactive question
+--no-plugins 	disables plugins
+--project=	specify another path as the project root
+--quiet 	do not output any message
+--verbose 	increase the verbosity of messages (-vv, -vvv: more)
+--version 	display this application version
+--- poetry -C 
+bin/
+--- poetry add --
+--allow-prereleases 	accept prereleases
+--ansi 	force ANSI output
+--dev 	add as a development dependency
+--directory=	the working directory for the Poetry command
+--dry-run 	output the operations but do not execute anything (implicitly enables --verbose)
+--editable 	add vcs/path dependencies as editable
+--extras=	extras to activate for the dependency
+--group=	the group to add the dependency to
+--help 	display help for the given command
+--lock 	do not perform operations (only update the lockfile)
+--markers=	environment markers which describe when the dependency should be installed
+--no-ansi 	disable ANSI output
+--no-cache 	disables the use of Poetry's caches
+--no-interaction 	do not ask any interactive question
+--no-plugins 	disables plugins
+--optional=	add as an optional dependency to an extra
+--platform=	platforms for which the dependency must be installed
+--project=	specify another path as the project root
+--python=	python version for which the dependency must be installed
+--quiet 	do not output any message
+--source=	name of the source to use to install the package
+--verbose 	increase the verbosity of messages (-vv, -vvv: more)
+--version 	display this application version
+--- poetry add -G 
+dev 
+docs 
+lint 
+main 
+--- poetry add --extras 
+cli 
+plot 
+--- poetry install --with 
+dev 
+docs 
+lint 
+main 
+--- poetry install --only=
+--only=dev 
+--only=docs 
+--only=lint 
+--only=main 
+--- poetry sync -E 
+cli 
+plot 
+--- poetry remove 
+click 
+matplotlib 
+numpy 
+pytest 
+requests 
+ruff 
+--- poetry update 
+click 
+matplotlib 
+numpy 
+pytest 
+requests 
+ruff 
+--- poetry show 
+certifi 
+numpy 
+--- poetry show --format 
+json 
+text 
+--- poetry run x
+xdemo 	script
+xtool 
+--- poetry build -f 
+sdist 
+wheel 
+--- poetry cache 
+clear 	clear Poetry's caches
+list 	list Poetry's caches
+--- poetry cache clear --
+--all 	clear all entries in the cache
+--ansi 	force ANSI output
+--directory=	the working directory for the Poetry command
+--help 	display help for the given command
+--no-ansi 	disable ANSI output
+--no-cache 	disables the use of Poetry's caches
+--no-interaction 	do not ask any interactive question
+--no-plugins 	disables plugins
+--project=	specify another path as the project root
+--quiet 	do not output any message
+--verbose 	increase the verbosity of messages (-vv, -vvv: more)
+--version 	display this application version
+--- poetry self 
+add 	add additional packages to Poetry's runtime environment
+install 	install locked packages
+lock 	lock the Poetry installation's system requirements
+remove 	remove additional packages from Poetry's runtime environment
+show 	show packages from Poetry's runtime environment
+sync 	sync Poetry's own environment according to the locked packages
+update 	updates Poetry to the latest version
+--- poetry self show 
+plugins 	shows information about the currently installed plugins
+--- poetry source 
+add 	add source configuration for project
+remove 	remove source configured for the project
+show 	show information about sources configured for the project
+--- poetry source remove 
+private 
+--- poetry source add --priority 
+explicit 
+primary 
+supplemental 
+--- poetry env use 
+pypy3 
+python3.12 
+--- poetry config 
+cache-dir 
+certificates.
+data-dir 
+http-basic.
+installer.builtin-uninstall 
+installer.max-workers 
+installer.no-binary 
+installer.only-binary 
+installer.parallel 
+installer.re-resolve 
+keyring.enabled 
+pypi-token.
+python.installation-dir 
+repositories.
+requests.max-retries 
+solver.lazy-wheel 
+solver.min-release-age 
+solver.min-release-age-exclude 
+solver.min-release-age-exclude-source 
+system-git-client 
+virtualenvs.create 
+virtualenvs.in-project 
+virtualenvs.options.always-copy 
+virtualenvs.options.no-pip 
+virtualenvs.options.system-site-packages 
+virtualenvs.path 
+virtualenvs.prompt 
+virtualenvs.use-poetry-python 
+--- poetry config virtualenvs.
+virtualenvs.create 
+virtualenvs.in-project 
+virtualenvs.options.always-copy 
+virtualenvs.options.no-pip 
+virtualenvs.options.system-site-packages 
+virtualenvs.path 
+virtualenvs.prompt 
+virtualenvs.use-poetry-python 
+--- poetry version 
+major 
+minor 
+patch 
+premajor 
+preminor 
+prepatch 
+prerelease 
+--- poetry help 
+about 
+add 
+build 
+cache 
+check 
+config 
+debug 
+env 
+help 
+init 
+install 
+list 
+lock 
+new 
+publish 
+python 
+remove 
+run 
+search 
+self 
+show 
+source 
+sync 
+update 
+version 
+--- poetry list 
+cache 
+debug 
+env 
+python 
+self 
+source 
+--- poetry --verbose check --
+--ansi 	force ANSI output
+--directory=	the working directory for the Poetry command
+--help 	display help for the given command
+--lock 	checks that poetry.lock exists for the current version of pyproject.toml
+--no-ansi 	disable ANSI output
+--no-cache 	disables the use of Poetry's caches
+--no-interaction 	do not ask any interactive question
+--no-plugins 	disables plugins
+--project=	specify another path as the project root
+--quiet 	do not output any message
+--strict 	fail if check reports warnings
+--verbose 	increase the verbosity of messages (-vv, -vvv: more)
+--version 	display this application version

@@ -1,0 +1,211 @@
+load 0
+=== borg
+--- borg 
+benchmark 	benchmark command
+break-lock 	break repository and cache locks
+check 	verify repository
+compact 	compact segment files / free space in repo
+config 	get and set configuration values
+create 	create backup
+debug 	debugging command
+delete 	delete archive
+diff 	find differences in archive contents
+export-tar 	create tarball from archive
+extract 	extract archive contents
+help 	show help on a command or a topic
+import-tar 	create a backup archive from a tarball
+info 	show repository or archive information
+init 	initialize empty repository
+key 	manage repository key
+list 	list archive or repository contents
+mount 	mount repository
+prune 	prune archives
+recreate 	re-create archives
+rename 	rename archive
+serve 	start repository server process
+umount 	umount repository
+upgrade 	upgrade repository format
+with-lock 	run user command with lock held
+--- borg --lock
+--lock-wait=	wait at most SECONDS for acquiring a repository/cache lock
+--- borg init -e 
+authenticated 
+authenticated-blake2 
+keyfile 
+keyfile-blake2 
+none 
+repokey 
+repokey-blake2 
+--- borg init --encryption=repokey-
+--encryption=repokey-blake2 
+--- borg init back
+backups/
+--- borg init backups/
+backups/repo/
+--- borg create --comp
+--compression=	the compression algorithm (see borg help compression)
+--- borg create -C 
+auto,	compress only data that lz4 finds compressible
+lz4 	very high speed, very low compression (default)
+lzma 	low speed, high compression (level 6)
+lzma,	lzma with a level (0-9)
+none 	no compression
+obfuscate,	obfuscate the sizes of the compressed chunks
+zlib 	medium speed, medium compression (level 6)
+zlib,	zlib with a level (0-9)
+zstd 	modern wide-range algorithm (level 3)
+zstd,	zstd with a level (1-22)
+--- borg create --compression=zs
+--compression=zstd 	modern wide-range algorithm (level 3)
+--compression=zstd,	zstd with a level (1-22)
+--- borg create --chunker-params 
+buzhash,	CHUNK_MIN_EXP,CHUNK_MAX_EXP,HASH_MASK_BITS,HASH_WINDOW_SIZE
+default 	buzhash,19,23,21,4095
+fixed,	BLOCK_SIZE[,HEADER_SIZE]
+--- borg create --files-cache=
+--files-cache=ctime,size 
+--files-cache=ctime,size,inode 
+--files-cache=disabled 
+--files-cache=mtime,size 
+--files-cache=mtime,size,inode 
+--files-cache=rechunk,ctime 
+--files-cache=rechunk,mtime 
+--files-cache=size 
+--- borg create --exclude-from 
+backups/
+bin/
+excludes.txt 
+mnt/
+src/
+system_tools.sh 
+--- borg create backups/repo::today 
+backups/
+bin/
+excludes.txt 
+mnt/
+src/
+system_tools.sh 
+--- borg create backups/repo::
+--- borg list --sort-by 
+archive 
+id 
+name 
+timestamp 
+--- borg list backups/repo::x 
+--- borg prune --keep-
+--keep-daily=	number of daily archives to keep
+--keep-hourly=	number of hourly archives to keep
+--keep-last=	number of secondly archives to keep
+--keep-minutely=	number of minutely archives to keep
+--keep-monthly=	number of monthly archives to keep
+--keep-secondly=	number of secondly archives to keep
+--keep-weekly=	number of weekly archives to keep
+--keep-within=	keep all archives within this time interval
+--keep-yearly=	number of yearly archives to keep
+--- borg recreate --recompress=
+--recompress=always 
+--recompress=if-different 
+--recompress=never 
+--- borg mount backups/repo mn
+mnt/
+--- borg umount /zz-no-such-mount
+--- borg key 
+change-passphrase 	change repository passphrase
+export 	export repository key for backup
+import 	import repository key from backup
+migrate-to-repokey 	migrate passphrase-mode repository to repokey
+--- borg key export --
+--bypass-lock 	bypass locking mechanism
+--consider-part-files 	treat part files like normal files (e.g to list/extract them)
+--critical 	work on log level CRITICAL
+--debug 	enable debug output, work on log level DEBUG
+--debug-profile=	write an execution profile into FILE
+--debug-topic=	enable TOPIC debugging (can be specified multiple times)
+--error 	work on log level ERROR
+--help 	show this help message and exit
+--iec 	format using IEC units (1KiB = 1024B)
+--info 	work on log level INFO
+--lock-wait=	wait at most SECONDS for acquiring a repository/cache lock
+--log-json 	output one JSON object per log line instead of formatted text
+--paper 	create an export suitable for printing and later type-in
+--progress 	show progress information
+--qr-html 	create an html file suitable for printing and later type-in or qr scan
+--remote-buffer=	deprecated, use --upload-buffer instead
+--remote-path=	use PATH as borg executable on the remote
+--remote-ratelimit=	deprecated, use --upload-ratelimit instead
+--rsh=	use this command to connect to the 'borg serve' process
+--show-rc 	show/log the return code (rc)
+--show-version 	show/log the borg version
+--umask=	set umask to M (local only, default: 0077)
+--upload-buffer=	set network upload buffer size in MiB
+--upload-ratelimit=	set network upload rate limit in kiByte/s
+--verbose 	work on log level INFO
+--warning 	work on log level WARNING
+--- borg benchmark crud backups/repo 
+backups/
+bin/
+mnt/
+src/
+--- borg help 
+benchmark 
+break-lock 
+check 
+compact 
+compression 
+config 
+create 
+debug 
+delete 
+diff 
+export-tar 
+extract 
+help 
+import-tar 
+info 
+init 
+key 
+list 
+mount 
+patterns 
+placeholders 
+prune 
+recreate 
+rename 
+serve 
+umount 
+upgrade 
+with-lock 
+--- borg help p
+patterns 
+placeholders 
+prune 
+--- borg with-lock backups/repo zzc
+zzcmd 
+--- borg with-lock backups/repo zzcmd s
+src/
+system_tools.sh 
+--- borg list :
+--- borg list :
+::	an archive of BORG_REPO
+=== fusermount
+--- fusermount -
+-V 	print version
+-h 	print help
+-o 	mount options (comma-separated)
+-q 	quiet
+-u 	unmount
+-z 	lazy unmount
+--- fusermount m
+mnt/
+--- fusermount -o 
+allow_other 
+allow_root 
+auto_unmount 
+default_permissions 
+nodev 
+noexec 
+nosuid 
+ro 
+rw 
+--- fusermount -u /zz-no-such-mount
+--- fusermount3 -uz /zz-no-such-mount

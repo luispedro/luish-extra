@@ -1,0 +1,322 @@
+load 0
+=== mypy
+--- mypy 
+dist/
+main.py 
+pkg/
+--- mypy pkg/
+pkg/__init__.py 
+pkg/core.py 
+pkg/core.pyi 
+--- mypy --strict-o
+--strict-optional 	inverse of --no-strict-optional
+--- mypy --no-strict-o
+--no-strict-optional 	disable strict Optional checks
+--- mypy --allow-untyped-d
+--allow-untyped-decorators 	inverse of --disallow-untyped-decorators
+--allow-untyped-defs 	inverse of --disallow-untyped-defs
+--- mypy --python-version 
+3.10 
+3.11 
+3.12 
+3.13 
+3.14 
+--- mypy --follow-imports=
+--follow-imports=error 
+--follow-imports=normal 
+--follow-imports=silent 
+--follow-imports=skip 
+--- mypy --disable-error-code 
+abstract 	prevent instantiation of classes with abstract attributes
+annotation-unchecked 	notify about type annotations in unchecked functions
+arg-type 	check argument types in calls
+assert-type 	check that assert_type() call succeeds
+assignment 	check that assigned value is compatible with target
+attr-defined 	check that attribute exists
+await-not-async 	warn about 'await' outside coroutine ('async def')
+call-arg 	check number, names and kinds of arguments in calls
+call-overload 	check that an overload variant matches arguments
+comparison-overlap 	check that types in comparisons and 'in' expressions overlap
+deprecated 	warn when importing or using deprecated (overloaded) functions, methods or classes
+dict-item 	check dict items in a dict expression {key: value, ...}
+empty-body 	a dedicated error code to opt out return errors for empty/trivial bodies
+exhaustive-match 	reject match statements that are not exhaustive
+exit-return 	warn about too general return type for '__exit__'
+explicit-any 	warn about explicit Any type annotations
+explicit-override 	require @override decorator if method is overriding a base class method
+func-returns-value 	check that called function returns a value in value context
+has-type 	check that type of reference can be determined
+ignore-without-code 	warn about '# type: ignore' comments which do not have error codes
+import 	require that imported module can be found or has stubs
+import-not-found 	require that imported module can be found
+import-untyped 	require that imported module has stubs
+index 	check indexing operations
+list-item 	check list items in a list expression [item, ...]
+literal-required 	check that value is a literal
+maybe-unrecognized-str-typeform 	error when a string is used where a TypeForm is expected but a string annotation cannot be recognized
+metaclass 	ensure that metaclass is valid
+method-assign 	check that assignment target is not a method
+misc 	miscellaneous other checks
+mutable-override 	reject covariant overrides for mutable attributes
+name-defined 	check that name is defined
+name-match 	check that type definition has consistent naming
+narrowed-type-not-subtype 	warn if a TypeIs function's narrowed type is not a subtype of the original type
+no-any-return 	reject returning value with 'Any' type if return type is not 'Any'
+no-any-unimported 	reject 'Any' types from unfollowed imports
+no-overload-impl 	check that overloaded functions outside stub files have an implementation
+no-redef 	check that each name is defined once
+no-untyped-call 	disallow calling functions without type annotations from annotated functions
+no-untyped-def 	check that every function has an annotation
+nonetype-type 	check that type (annotation) is not NoneType
+operator 	check that operator is valid for operands
+overload-cannot-match 	warn if an @overload signature can never be matched
+overload-overlap 	warn if multiple @overload variants overlap in unsafe ways
+override 	check that method override is compatible with base class
+possibly-undefined 	warn about variables that are defined only in some execution paths
+prop-decorator 	decorators on top of @property are not supported
+redundant-cast 	check that cast changes type of expression
+redundant-expr 	warn about redundant expressions
+redundant-self 	warn about redundant Self type annotations on method first argument
+return 	check that function always returns a value
+return-value 	check that return value is compatible with signature
+safe-super 	warn about calls to abstract methods with empty/trivial bodies
+str-bytes-safe 	warn about implicit coercions related to bytes and string types
+str-format 	check that string formatting/interpolation is type-safe
+str-unpack 	warn about expressions that unpack str
+syntax 	report syntax errors
+top-level-await 	warn about top level await expressions
+truthy-bool 	warn about expressions that could always evaluate to true in boolean contexts
+truthy-function 	warn about function that always evaluate to true in boolean contexts
+truthy-iterable 	warn about Iterable expressions that could always evaluate to true in boolean contexts
+type-abstract 	require only concrete classes where Type[...] is expected
+type-arg 	check that generic type arguments are present
+type-var 	check that type variable values are valid
+typeddict-item 	check items when constructing TypedDict
+typeddict-readonly-mutated 	typedDict's ReadOnly key is mutated
+typeddict-unknown-key 	check unknown keys when constructing TypedDict
+unimported-reveal 	require explicit import from typing or typing_extensions for reveal_type
+union-attr 	check that attribute exists in each item of a union
+unreachable 	warn about unreachable statements or expressions
+untyped-decorator 	error if an untyped decorator makes a typed function untyped
+unused-awaitable 	ensure that all awaitable values are used
+unused-coroutine 	ensure that all coroutines are used
+unused-ignore 	ensure that all type ignores are used
+used-before-def 	warn about variables that are used before they are defined
+valid-newtype 	check that argument 2 to NewType is valid
+valid-type 	check that type (annotation) is valid
+var-annotated 	require variable annotation if type can't be inferred
+--- mypy --enable-error-code unused-
+unused-awaitable 	ensure that all awaitable values are used
+unused-coroutine 	ensure that all coroutines are used
+unused-ignore 	ensure that all type ignores are used
+--- mypy --html-report 
+dist/
+pkg/
+--- mypy -m 
+IPython 
+black 
+build 
+cProfile 
+calendar 
+compileall 
+doctest 
+ensurepip 
+flask 
+http.server 
+json.tool 
+jupyter 
+main 
+mypy 
+pdb 
+pip 
+pipx 
+pkg 
+profile 
+py_compile 
+pydoc 
+pytest 
+ruff 
+site 
+tarfile 
+timeit 
+trace 
+twine 
+unittest 
+uvicorn 
+venv 
+zipfile 
+--- mypy -c 
+--- mypy -p pk
+pkg 
+=== ruff
+--- ruff 
+analyze 	run analysis over Python source code
+check 	run Ruff on the given files or directories
+clean 	clear any caches in the current directory and any subdirectories
+config 	list or describe the available configuration options
+format 	run the Ruff formatter on the given files or directories
+help 	print this message or the help of the given subcommand(s)
+linter 	list all supported upstream linters
+rule 	explain a rule (or all rules)
+server 	run the language server
+version 	display Ruff's version
+--- ruff check --fi
+--fix 	apply fixes to resolve lint violations
+--fix-only 	apply fixes to resolve lint violations, but don't report on, or exit non-zero for, leftover violations
+--fixable=	list of rule codes to treat as eligible for fix
+--- ruff check --output-format 
+azure 
+concise 
+full 
+github 
+gitlab 
+grouped 
+json 
+json-lines 
+junit 
+pylint 
+rdjson 
+sarif 
+--- ruff check --target-version=
+--target-version=py310 
+--target-version=py311 
+--target-version=py312 
+--target-version=py313 
+--target-version=py314 
+--target-version=py315 
+--target-version=py37 
+--target-version=py38 
+--target-version=py39 
+--- ruff check --select 
+A 	flake8-builtins
+ALL 	all rules
+B 	flake8-bugbear
+E 	pycodestyle (Error)
+F 	Pyflakes
+I 	isort
+PLC 	Pylint (Convention)
+PLE 	Pylint (Error)
+PLR 	Pylint (Refactor)
+PLW 	Pylint (Warning)
+UP 	pyupgrade
+W 	pycodestyle (Warning)
+--- ruff check --select F
+F 	Pyflakes
+--- ruff check --select F4
+F401 	unused-import
+F403 	undefined-local-with-import-star
+--- ruff check --ignore E501,B
+E501,B 	flake8-bugbear
+--- ruff check --extend-select PL
+PLC 	Pylint (Convention)
+PLE 	Pylint (Error)
+PLR 	Pylint (Refactor)
+PLW 	Pylint (Warning)
+--- ruff check --select PLR0
+PLR0913 	too-many-arguments
+--- ruff check --color 
+always 
+auto 
+never 
+--- ruff check 
+analysis.ipynb 
+dist/
+main.py 
+pkg/
+--- ruff check pkg/
+pkg/__init__.py 
+pkg/core.py 
+pkg/core.pyi 
+--- ruff format --line
+--line-length=	set the line-length
+--- ruff rule 
+A 	flake8-builtins
+ALL 	all rules
+B 	flake8-bugbear
+E 	pycodestyle (Error)
+F 	Pyflakes
+I 	isort
+PLC 	Pylint (Convention)
+PLE 	Pylint (Error)
+PLR 	Pylint (Refactor)
+PLW 	Pylint (Warning)
+UP 	pyupgrade
+W 	pycodestyle (Warning)
+--- ruff rule E5
+E501 	line-too-long
+--- ruff config 
+analyze 
+builtins 
+cache-dir 
+exclude 
+extend 
+extend-exclude 
+extend-include 
+extension 
+fix 
+fix-only 
+force-exclude 
+format 
+include 
+indent-width 
+line-length 
+lint 
+namespace-packages 
+output-format 
+output-prefer-rule-codes 
+per-file-target-version 
+preview 
+required-version 
+respect-gitignore 
+show-fixes 
+src 
+target-version 
+unsafe-fixes 
+--- ruff config lint.
+lint.allowed-confusables 
+lint.dummy-variable-rgx 
+lint.extend-fixable 
+lint.extend-ignore 
+lint.extend-safe-fixes 
+lint.extend-select 
+lint.extend-unsafe-fixes 
+lint.external 
+lint.fixable 
+lint.ignore 
+lint.ignore-init-module-imports 
+lint.logger-objects 
+--- ruff config lint.f
+lint.fixable 
+--- ruff help 
+analyze 
+check 
+clean 
+config 
+format 
+help 
+linter 
+rule 
+server 
+version 
+--- ruff nosuch --
+=== twine
+--- twine 
+check 	check that the long description of distribution files will render on PyPI
+register 	pre-register a project (not needed with PyPI)
+upload 	upload distribution files to a package index
+--- twine upload 
+dist/
+pkg/
+--- twine upload dist/
+dist/x-1.0-py3-none-any.whl 
+dist/x-1.0.tar.gz 
+--- twine upload -r 
+private 
+pypi 
+testpypi 
+--- twine upload --repository-url 
+https://test.pypi.org/legacy/ 
+https://upload.pypi.org/legacy/ 
+--- twine check --
+--help 	show help
+--strict 	fail on warnings

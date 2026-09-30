@@ -894,21 +894,26 @@ stand-ins in `tests/bin` were cut from.
 
 ## `dev`: development and deployment
 
-- [ ] `poetry`
-- [ ] `twine`
-- [ ] `pytest`
-- [ ] `ruff`
-- [ ] `mypy`
-- [ ] `fzf`
-- [ ] `bat`
+Versions are what the options were checked against, from conda-forge. `scripts/gen/mk_*.py` generate pytest's, mypy's
+and poetry's tables from their parsers (pytest's with the pytest-xdist and pytest-cov that are pinned with it). ruff's
+options, linters and rules are read from the installed ruff when Tab is pressed (`dynamic.rhai`), so the version is that
+of the output the test stand-in in `tests/bin` was cut from.
+
+- [x] `poetry`: poetry 2.5.1
+- [x] `twine`: twine 7.0.0
+- [x] `pytest`: pytest 9.1.1, pytest-xdist 3.8.0, pytest-cov 7.1.0 (also `py.test`)
+- [x] `ruff`: ruff 0.16.9 (options, linters and rules read from the installed `ruff`)
+- [x] `mypy`: mypy 2.3.1
+- [x] `fzf`: fzf 0.74
+- [x] `bat`: bat 0.26.1 (also `batcat`; languages and themes read from the installed `bat`)
 - [ ] `svn`
 - [ ] `netlify`
 - [ ] `adb`
 
 ## `system`: system administration
 
-- [ ] `borg`
-- [ ] `fusermount`
+- [x] `borg`: borgbackup 1.2.8 (not in conda-forge: generated from the installed borg, Debian's package)
+- [x] `fusermount`: fuse 3.14.0 (also `fusermount3`)
 
 ## Possible later plugins
 

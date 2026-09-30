@@ -177,9 +177,11 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
 
 ## `dev`: development and deployment
 
-- **Environments and packaging**: `poetry`, `twine`
-- **Python tooling**: `pytest`, `ruff`, `mypy`
-- **Command-line utilities**: `fzf`, `bat`
+- **Environments and packaging**: `poetry` (the groups, extras, dependencies and sources of `pyproject.toml`, the
+  packages of `poetry.lock`), `twine` (the repositories of `~/.pypirc`)
+- **Python tooling**: `pytest` (test files and the tests in them, `FILE::CLASS::TEST`; markers; the options of
+  pytest-xdist and pytest-cov), `ruff` (rule codes and linter prefixes), `mypy` (error codes)
+- **Command-line utilities**: `fzf`, `bat` (`batcat` on Debian; its languages and themes)
 - **Version control**: `svn`
 - **Web deployment**: `netlify`
 - **Android**: `adb`
@@ -187,7 +189,7 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
 ## `system`: system administration
 
 - **Backups**: `borg`
-- **Filesystems**: `fusermount`
+- **Filesystems**: `fusermount` / `fusermount3` (the FUSE mount points, for `-u`)
 
 ## Possible later plugins
 

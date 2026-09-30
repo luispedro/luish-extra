@@ -1,0 +1,224 @@
+load 0
+=== fzf
+--- fzf --lay
+--layout=	choose layout
+--- fzf --layout=
+--layout=default 
+--layout=reverse 
+--layout=reverse-list 
+--- fzf --layout 
+default 
+reverse 
+reverse-list 
+--- fzf --border=
+--border=block 
+--border=bold 
+--border=bottom 
+--border=dashed 
+--border=double 
+--border=horizontal 
+--border=left 
+--border=line 
+--border=none 
+--border=right 
+--border=rounded 
+--border=sharp 
+--border=thinblock 
+--border=top 
+--border=vertical 
+--- fzf --border
+--border	draw border around the finder
+--border-label-pos=	position of the border label
+--border-label=	label to print on the border
+--- fzf --header-border=
+--header-border=block 
+--header-border=bold 
+--header-border=bottom 
+--header-border=dashed 
+--header-border=double 
+--header-border=horizontal 
+--header-border=inline 
+--header-border=left 
+--header-border=line 
+--header-border=none 
+--header-border=right 
+--header-border=rounded 
+--header-border=sharp 
+--header-border=thinblock 
+--header-border=top 
+--header-border=vertical 
+--- fzf --tiebreak=
+--tiebreak=begin 
+--tiebreak=chunk 
+--tiebreak=end 
+--tiebreak=index 
+--tiebreak=length 
+--tiebreak=pathname 
+--- fzf -m
+-m 	enable multi-select with tab/shift-tab
+--- fzf --walker-root=
+--walker-root=bin/
+--walker-root=src/
+--- fzf --history 
+bin/
+dev_tools.sh 
+notes.md 
+src/
+--- fzf --no-
+--no-bold 	do not use bold text
+--no-color 	disable colors
+--no-extended 	disable extended-search mode
+--no-hscroll 	disable horizontal scroll
+--no-ignore-case 	case-sensitive match
+--no-input 	disable and hide the input section
+--no-mouse 	disable mouse
+--no-multi 	disable multi-select
+--no-multi-line 	disable multi-line display of items when using --read0
+--no-scrollbar 	hide scrollbar
+--no-separator 	hide info line separator
+--no-sort 	do not sort the result
+--- fzf 
+=== bat
+--- bat 
+bin/
+dev_tools.sh 
+notes.md 
+src/
+--- bat -l 
+CITATION.cff 	YAML
+GNUmakefile 	Makefile
+JSON 	language
+Makefile 	language
+Makefile.am 	Makefile
+Makefile.in 	Makefile
+Markdown 	language
+OCamlMakefile 	Makefile
+Pipfile.lock 	JSON
+Python 	language
+Rust 	language
+SConscript 	Python
+SConstruct 	Python
+Sconstruct 	Python
+Snakefile 	Python
+YAML 	language
+bazel 	Python
+bzl 	Python
+cpy 	Python
+fish_history 	YAML
+flake.lock 	JSON
+gyp 	Python
+gypi 	Python
+ipynb 	JSON
+json 	JSON
+mak 	Makefile
+make 	Makefile
+makefile 	Makefile
+makefile.am 	Makefile
+makefile.in 	Makefile
+markdn 	Markdown
+markdown 	Markdown
+md 	Markdown
+mdown 	Markdown
+mk 	Makefile
+pxd 	Python
+pxd.in 	Python
+pxi 	Python
+pxi.in 	Python
+py 	Python
+py3 	Python
+pyi 	Python
+pyw 	Python
+pyx 	Python
+pyx.in 	Python
+rpy 	Python
+rs 	Rust
+sconstruct 	Python
+sublime-build 	JSON
+sublime-color-scheme 	JSON
+sublime-commands 	JSON
+sublime-completions 	JSON
+sublime-keymap 	JSON
+sublime-macro 	JSON
+sublime-menu 	JSON
+sublime-mousemap 	JSON
+sublime-project 	JSON
+sublime-settings 	JSON
+sublime-syntax 	YAML
+sublime-theme 	JSON
+vpy 	Python
+wscript 	Python
+yaml 	YAML
+yml 	YAML
+--- bat -l py
+py 	Python
+py3 	Python
+pyi 	Python
+pyw 	Python
+pyx 	Python
+pyx.in 	Python
+--- bat --language=Ma
+--language=Makefile 	language
+--language=Makefile.am 	Makefile
+--language=Makefile.in 	Makefile
+--language=Markdown 	language
+--- bat --theme=
+--theme=1337 
+--theme=Dracula 
+--theme=GitHub 
+--theme=Monokai\ Extended 
+--theme=Nord 
+--theme=OneHalfDark 
+--theme=Solarized\ \(dark\) 
+--theme=auto 	a dark or light theme, from the terminal's colors
+--theme=auto:always 	auto, even when the output is redirected
+--theme=auto:system 	auto, from the system's preference (macOS)
+--theme=dark 	the theme of --theme-dark
+--theme=gruvbox-dark 
+--theme=gruvbox-light 
+--theme=light 	the theme of --theme-light
+--- bat --theme-dark 
+1337 
+Dracula 
+GitHub 
+Monokai\ Extended 
+Nord 
+OneHalfDark 
+Solarized\ \(dark\) 
+gruvbox-dark 
+gruvbox-light 
+--- bat --style 
+auto 
+changes 
+default 
+full 
+grid 
+header 
+header-filename 
+header-filesize 
+numbers 
+plain 
+rule 
+snip 
+--- bat --paging=
+--paging=always 
+--paging=auto 
+--paging=never 
+--- bat -p
+-p 	only show plain style, no decorations (-pp: also no paging)
+--- batcat -l R
+Rust 	language
+--- batcat --theme 
+1337 
+Dracula 
+GitHub 
+Monokai\ Extended 
+Nord 
+OneHalfDark 
+Solarized\ \(dark\) 
+auto 	a dark or light theme, from the terminal's colors
+auto:always 	auto, even when the output is redirected
+auto:system 	auto, from the system's preference (macOS)
+dark 	the theme of --theme-dark
+gruvbox-dark 
+gruvbox-light 
+light 	the theme of --theme-light

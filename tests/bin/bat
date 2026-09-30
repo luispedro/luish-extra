@@ -1,0 +1,30 @@
+#!/bin/sh
+# Stand-in for bat in the tests: its real lists of languages and themes (bat 0.26.1), cut short.
+case "$*" in
+"--list-languages")
+    cat <<'OUT'
+JSON:json,sublime-settings,sublime-menu,sublime-keymap,sublime-mousemap,sublime-theme,sublime-build,sublime-project,sublime-completions,sublime-commands,sublime-macro,sublime-color-scheme,ipynb,Pipfile.lock,*.jsonl,*.jsonc,*.jsonld,*.geojson,*.ndjson,flake.lock,*.sarif
+Makefile:make,GNUmakefile,makefile,Makefile,makefile.am,Makefile.am,makefile.in,Makefile.in,OCamlMakefile,mak,mk
+Markdown:md,mdown,markdown,markdn,*.mkd
+Python:py,py3,pyw,pyi,pyx,pyx.in,pxd,pxd.in,pxi,pxi.in,rpy,cpy,SConstruct,Sconstruct,sconstruct,SConscript,gyp,gypi,Snakefile,vpy,wscript,bazel,bzl,*.xsh,*.xonshrc
+Rust:rs,*.ron
+YAML:yaml,yml,sublime-syntax,CITATION.cff,.clang-format,fish_history,/etc/kubernetes/*.conf
+OUT
+    ;;
+"--list-themes --color=never")
+    cat <<'OUT'
+1337
+Dracula
+GitHub
+Monokai Extended
+Nord
+OneHalfDark
+Solarized (dark)
+gruvbox-dark
+gruvbox-light
+OUT
+    ;;
+*)
+    exit 1
+    ;;
+esac

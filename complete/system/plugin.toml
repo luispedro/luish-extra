@@ -1,0 +1,4 @@
+description = "Completion for system administration tools"
+
+[dependencies]
+std.completion = "*"
