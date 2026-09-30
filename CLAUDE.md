@@ -14,7 +14,9 @@ Only `complete/bio` exists so far: `extension.rhai` (registers the completers, o
 tools, `ours.rhai` (ngless, SemiBin2, macrel, argnorm), `hts.rhai` (samtools, bedtools, tabix, bgzip, htsfile),
 `bcftools.rhai`, `align.rhai` (bwa, bwa-mem2, bowtie2, hisat2, minimap2, STAR, kallisto, featureCounts), `blast.rhai`
 (BLAST+), `diamond.rhai`, `hmmer.rhai` and `dynamic.rhai` (mmseqs: the options are read from the installed program's
-`-h` when Tab is pressed, through std's `help_spec`; use it for programs whose help has a regular format). The rest of
+`-h` when Tab is pressed, through std's `help_spec`; use it for programs whose help has a regular format). Python
+programs built with Click (multiqc, genmod, cooler, ...) have no module: `extension.rhai` registers them with std's Click
+bridge (`@std/completion/bridges`), only if they answer in under a second. The rest of
 `PLAN.md` ("Order", "Next steps") is still to do. A new module needs a line in `extension.rhai`.
 
 Option tables are written from the tools' real `--help`, and `completion-todo.md` records the version each ticked tool
@@ -23,6 +25,10 @@ environment with Bioconda, so nothing is installed):
 
 - `scripts/optcheck.sh PKG=VERSION PROG [SUB]...` compares a spec with the tool's `--help` (via `optdiff.py`; `HELP=-h`
   for tools without `--help`). What it prints for a finished spec is only noise from prose in the help.
+- `scripts/clickcheck.sh PACKAGE PROG [WORD]...` checks that a program built with Click answers the bridge's protocol
+  (`_PROG_COMPLETE=fish_complete`) and times it. Tab runs the program each time, so register only fast ones; the
+  others are for `complete-click`. Not every Python program with `click` in its dependencies is a Click program
+  (hybracter, pysradb print usage), and Typer programs don't speak this protocol: read the output.
 - `scripts/help2opts.py` drafts `opts:` and `values:` from a help text on standard input; read a draft before using
   it, since help formats differ in many small ways.
 - `align.rhai`, `blast.rhai`, `diamond.rhai` and `hmmer.rhai` are **generated** by `scripts/gen/mk_*.py` from the

@@ -1,0 +1,73 @@
+load 0
+=== each command is asked
+--- multiqc 
+info 	Show info.
+run 	Run multiqc.
+--- peddy 
+info 	Show info.
+run 	Run peddy.
+--- genmod 
+info 	Show info.
+run 	Run genmod.
+--- plassembler 
+info 	Show info.
+run 	Run plassembler.
+--- cooler 
+info 	Show info.
+run 	Run cooler.
+--- pairtools 
+info 	Show info.
+run 	Run pairtools.
+--- checkv 
+info 	Show info.
+run 	Run checkv.
+--- virsorter 
+info 	Show info.
+run 	Run virsorter.
+--- metacoag 
+info 	Show info.
+run 	Run metacoag.
+--- harpy 
+info 	Show info.
+run 	Run harpy.
+--- defense-finder 
+info 	Show info.
+run 	Run defense-finder.
+--- dnaapler 
+info 	Show info.
+run 	Run dnaapler.
+--- genomepy 
+info 	Show info.
+run 	Run genomepy.
+--- freyja 
+info 	Show info.
+run 	Run freyja.
+--- fastq-dl 
+info 	Show info.
+run 	Run fastq-dl.
+--- biom 
+info 	Show info.
+run 	Run biom.
+=== subcommands, options, values, files
+--- multiqc ru
+run 	Run multiqc.
+--- multiqc run --
+--format 	The format.
+--help 	Show this message and exit.
+--input 	The input.
+--- multiqc run --format 
+json 
+tsv 
+--- multiqc run -i r
+reads.fq 
+report.html 
+results/
+--- fastq-dl run --f
+--format 	The format.
+--- defense-finder run --format j
+json 
+=== not installed: filenames
+--- nosuchclick r
+reads.fq 
+report.html 
+results/

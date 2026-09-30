@@ -19,6 +19,17 @@ made before versions were recorded: they were checked again on 2026-09-30, which
 subcommands without options, fixed at the same time.
 
 
+## Programs built with Click
+
+Python programs built with Click complete themselves, and std's `completion` plugin has a bridge for them
+(`bridges::click`), so `extension.rhai` registers them with no spec. A tick with `(Click)` means the program
+answers `_PROG_COMPLETE=fish_complete` and takes under a second to do it (`scripts/clickcheck.sh PACKAGE PROG
+[WORD]...` measures it, in a temporary pixi environment). Tab runs the program each time, so those that import
+too much at startup (cooltools, bigscape, iphop, genomad, pyprophet, easypqp, ms2rescore, velocyto: 1.4 to 5 s)
+are not registered, and stay unticked with their time. A user who accepts the delay can add one with `complete-click PROG`. Typer programs (binette, taxpasta, wisecondorx) don't answer the same
+protocol. `nf-core` and `planemo` (Click, 0.1 and 1.4 s) belong to the `science` plugin, and `proksee` (Click,
+0.3 s) to `gui`: they are for those plugins.
+
 ## `bio`: bioinformatics
 
 
@@ -104,18 +115,18 @@ subcommands without options, fixed at the same time.
 - [ ] `gangstr`
 - [ ] `slivar`
 - [ ] `vcfanno`
-- [ ] `peddy`
+- [x] `peddy`: peddy 0.4.8 (Click)
 - [ ] `somalier`
 - [ ] `verifybamid2`
 - [ ] `vembrane`
 - [ ] `vcf2maf`
 - [ ] `gemini`
-- [ ] `genmod`
+- [x] `genmod`: genmod 3.12.0 (Click)
 - [ ] `ascat`
 - [ ] `control-freec`
 - [ ] `sequenza-utils`
 - [ ] `cnvpytor`
-- [ ] `wisecondorx`
+- [ ] `wisecondorx`: Typer: no `fish_complete`, no completion
 - [ ] `snp-sites`
 - [ ] `snp-dists`
 - [ ] `gofasta`
@@ -217,7 +228,7 @@ subcommands without options, fixed at the same time.
 - [ ] `alevin-fry`
 - [ ] `simpleaf`
 - [ ] `kb`
-- [ ] `velocyto`
+- [ ] `velocyto`: Click, 5 s: `complete-click velocyto`
 - [ ] `kma`
 - [ ] `rseqc`
 
@@ -275,7 +286,7 @@ subcommands without options, fixed at the same time.
 - [ ] `fastp`
 - [ ] `fastqc`
 - [ ] `falco`
-- [ ] `multiqc`
+- [x] `multiqc`: multiqc 1.35 (Click)
 - [ ] `cutadapt`
 - [ ] `trimmomatic`
 - [ ] `trim_galore`
@@ -299,7 +310,7 @@ subcommands without options, fixed at the same time.
 - [ ] `NanoStat`
 - [ ] `porechop`
 - [ ] `fastq-screen`
-- [ ] `fastq-dl`
+- [x] `fastq-dl`: fastq-dl 4.0.1 (Click)
 - [ ] `kmc`
 - [ ] `jellyfish`
 - [ ] `meryl`
@@ -392,8 +403,8 @@ subcommands without options, fixed at the same time.
 - [ ] `yahs`
 - [ ] `trycycler`
 - [ ] `dragonflye`
-- [ ] `plassembler`
-- [ ] `hybracter`
+- [x] `plassembler`: plassembler 1.8.5 (Click)
+- [ ] `hybracter`: Click, but prints its banner: no completion
 - [ ] `metamdbg`
 - [ ] `jcvi`
 
@@ -456,9 +467,9 @@ subcommands without options, fixed at the same time.
 ### Hi-C and epigenomics
 
 - [ ] `hicexplorer`
-- [ ] `cooler`
-- [ ] `cooltools`
-- [ ] `pairtools`
+- [x] `cooler`: cooler 0.10.4 (Click)
+- [ ] `cooltools`: Click, 1.6 s: `complete-click cooltools`
+- [x] `pairtools`: pairtools 1.1.3 (Click)
 - [ ] `pairix`
 - [ ] `chromosight`
 - [ ] `hictk`
@@ -541,7 +552,7 @@ subcommands without options, fixed at the same time.
 - [ ] `motus`
 - [ ] `checkm`
 - [ ] `checkm2`
-- [ ] `checkv`
+- [x] `checkv`: checkv 1.1.1 (Click)
 - [ ] `gunc`
 - [ ] `singlem`
 - [ ] `gtdbtk`
@@ -552,7 +563,7 @@ subcommands without options, fixed at the same time.
 - [ ] `drep`
 - [ ] `coverm`
 - [ ] `vamb`
-- [ ] `genomad`
+- [ ] `genomad`: Click, 1.4 s: `complete-click genomad`
 - [ ] `emapper.py`
 - [ ] `mothur`
 - [ ] `qiime`
@@ -577,7 +588,7 @@ subcommands without options, fixed at the same time.
 - [ ] `staramr`
 - [ ] `mykrobe`
 - [ ] `tb-profiler`
-- [ ] `bactopia`
+- [ ] `bactopia`: no completion by the program
 - [ ] `anvi-*`
 - [ ] `phispy`
 - [ ] `antismash`
@@ -586,40 +597,40 @@ subcommands without options, fixed at the same time.
 - [ ] `graftm`
 - [ ] `dram`
 - [ ] `vibrant`
-- [ ] `virsorter`
+- [x] `virsorter`: virsorter 2.2.4 (Click)
 - [ ] `vcontact2`
-- [ ] `iphop`
+- [ ] `iphop`: Click, 1.5 s: `complete-click iphop`
 - [ ] `phabox`
 - [ ] `instrain`
 - [ ] `binsanity`
 - [ ] `comebin`
-- [ ] `metacoag`
-- [ ] `binette`
+- [x] `metacoag`: metacoag 1.3.0 (Click)
+- [ ] `binette`: Typer: no `fish_complete`, no completion
 - [ ] `kmcp`
 - [ ] `ganon`
 - [ ] `metacache`
 - [ ] `krakentools`
 - [ ] `kraken-biom`
-- [ ] `taxpasta`
+- [ ] `taxpasta`: Typer: no `fish_complete`, no completion
 - [ ] `metaeuk`
 - [ ] `insilicoseq`
 - [ ] `unifrac`
-- [ ] `deblur`
+- [ ] `deblur`: Click, but no environment solves (conda)
 - [ ] `gneiss`
 - [ ] `emperor`
 - [ ] `lefse`
 - [ ] `maaslin2`
 - [ ] `thapbi-pict`
-- [ ] `harpy`
+- [x] `harpy`: harpy 4.2 (Click)
 - [ ] `resfinder`
 - [ ] `plasmidfinder`
 - [ ] `mob_suite`
 - [ ] `hamronization`
-- [ ] `defense-finder`
+- [x] `defense-finder`: defense-finder 3.0.0 (Click)
 - [ ] `macsyfinder`
 - [ ] `integron_finder`
 - [ ] `islandpath`
-- [ ] `bigscape`
+- [ ] `bigscape`: Click, 1.6 s: `complete-click bigscape`
 - [ ] `deepbgc`
 - [ ] `gecco`
 - [ ] `kaptive`
@@ -635,7 +646,7 @@ subcommands without options, fixed at the same time.
 - [ ] `mentalist`
 - [ ] `ntm-profiler`
 - [ ] `nullarbor`
-- [ ] `dnaapler`
+- [x] `dnaapler`: dnaapler 1.4.0 (Click)
 - [ ] `pyrodigal`
 - [ ] `phanotate`
 - [ ] `minced`
@@ -667,13 +678,13 @@ subcommands without options, fixed at the same time.
 - [ ] `ena-upload-cli`
 - [ ] `pyega3`
 - [ ] `kingfisher`
-- [ ] `pysradb`
+- [ ] `pysradb`: argparse, not Click
 - [ ] `geofetch`
 - [ ] `ffq`
 - [ ] `parallel-fastq-dump`
 - [ ] `refgenie`
-- [ ] `genomepy`
-- [ ] `bioconvert`
+- [x] `genomepy`: genomepy 0.16.4 (Click)
+- [ ] `bioconvert`: rich-click, but no completion
 - [ ] `pygenometracks`
 - [ ] `igv-reports`
 - [ ] `igvtools`
@@ -682,7 +693,7 @@ subcommands without options, fixed at the same time.
 - [ ] `asciigenome`
 - [ ] `goatools`
 - [ ] `gseapy`
-- [ ] `biom`
+- [x] `biom`: biom-format 2.1.17 (Click)
 
 ### Proteomics and mass spectrometry
 
@@ -699,9 +710,9 @@ subcommands without options, fixed at the same time.
 - [ ] `sage`
 - [ ] `flashlfq`
 - [ ] `msstitch`
-- [ ] `pyprophet`
-- [ ] `easypqp`
-- [ ] `ms2rescore`
+- [ ] `pyprophet`: Click, 2 s: `complete-click pyprophet`
+- [ ] `easypqp`: Click, 2.5 s: `complete-click easypqp`
+- [ ] `ms2rescore`: Click, 4 s: `complete-click ms2rescore`
 - [ ] `sirius`
 - [ ] `metfrag`
 - [ ] `mzmine`
@@ -750,7 +761,7 @@ subcommands without options, fixed at the same time.
 - [ ] `augur`
 - [ ] `auspice`
 - [ ] `usher`
-- [ ] `freyja`
+- [x] `freyja`: freyja 2.0.5 (Click)
 - [ ] `artic`
 - [ ] `primer3_core`
 - [ ] `RNAfold`
