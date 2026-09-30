@@ -22,6 +22,59 @@ fn with_suffix(cur, suffixes) {
     r
 }
 
+// The names of the directory of `cur` without the first of `suffixes` that
+// they end with, for files that make up a whole (the index of an aligner
+// is `PREFIX.1.bt2`, ...), and the directories. Files of the same prefix
+// come once.
+fn prefixes(cur, suffixes) {
+    let r = std_kinds::listing(cur, "", false);
+    let out = [];
+    for c in r.candidates {
+        if type_of(c) == "map" {
+            out.push(c);
+            continue;
+        }
+        for s in suffixes {
+            if c.ends_with(s) && c.len() > s.len() {
+                let p = c.sub_string(0, c.len() - s.len());
+                if !out.contains(p) {
+                    out.push(p);
+                }
+                break;
+            }
+        }
+    }
+    r.candidates = out;
+    r
+}
+
+// BLAST databases: PREFIX.nin, PREFIX.pin, or PREFIX.NN.nin for each volume.
+fn blast_db(cur) {
+    let r = prefixes(cur, [".nal", ".pal", ".nin", ".pin", ".ndb", ".pdb"]);
+    let out = [];
+    for c in r.candidates {
+        if type_of(c) == "string" && c.len() > 3 && c[c.len() - 3] == '.'
+            && c[c.len() - 2] >= '0' && c[c.len() - 2] <= '9' && c[c.len() - 1] >= '0' && c[c.len() - 1] <= '9' {
+            c = c.sub_string(0, c.len() - 3);
+        }
+        if !out.contains(c) {
+            out.push(c);
+        }
+    }
+    r.candidates = out;
+    r
+}
+
+// The candidates of both `a` and `b` (results of `with_suffix` or `prefixes`).
+fn union(a, b) {
+    for c in b.candidates {
+        if !a.candidates.contains(c) {
+            a.candidates.push(c);
+        }
+    }
+    a
+}
+
 fn is_fasta(name) {
     compressed([".fa", ".fna", ".fasta", ".faa", ".ffn", ".fas"]).some(|s| name.ends_with(s))
 }
@@ -75,6 +128,38 @@ fn tabix_regions(words) {
     []
 }
 
+fn is_vcf(name) {
+    compressed([".vcf"]).some(|s| name.ends_with(s)) || name.ends_with(".bcf")
+}
+
+// The sequences of the first VCF/BCF in the line: from its index
+// (`bcftools index -s`, name, length and count), else `tabix -l`.
+fn vcf_regions(words) {
+    for w in words {
+        if is_vcf(w) && fs::is_file(w) {
+            let r = sh::capture(`timeout 5 bcftools index -s ${sh::quote(w)} 2>/dev/null`);
+            let names = r.out.split("\n").filter(|l| l != "").map(|l| l.split("\t")[0]);
+            if !names.is_empty() {
+                return names;
+            }
+            let r = sh::capture(`timeout 5 tabix -l ${sh::quote(w)} 2>/dev/null`);
+            return r.out.split("\n").filter(|l| l != "");
+        }
+    }
+    []
+}
+
+// The samples of the first VCF/BCF in the line (`bcftools query -l`).
+fn vcf_samples(words) {
+    for w in words {
+        if is_vcf(w) && fs::is_file(w) {
+            let r = sh::capture(`timeout 5 bcftools query -l ${sh::quote(w)} 2>/dev/null`);
+            return r.out.split("\n").filter(|l| l != "");
+        }
+    }
+    []
+}
+
 fn kind(name, cur, words) {
     switch name {
         "fasta" => with_suffix(cur, compressed([".fa", ".fna", ".fasta", ".faa", ".ffn", ".fas"])),
@@ -82,6 +167,7 @@ fn kind(name, cur, words) {
         "sequences" => with_suffix(cur, compressed([".fa", ".fna", ".fasta", ".faa", ".ffn", ".fas", ".fq", ".fastq"])),
         "sam" => with_suffix(cur, [".sam", ".bam", ".cram"]),
         "bam" => with_suffix(cur, [".bam", ".cram"]),
+        "sam_header" => with_suffix(cur, [".sam", ".hdr", ".txt"]),
         "bam_index" => with_suffix(cur, [".bai", ".csi", ".crai"]),
         "vcf" => with_suffix(cur, compressed([".vcf"]) + [".bcf"]),
         "bed" => with_suffix(cur, compressed([".bed", ".bedgraph", ".bdg", ".narrowPeak", ".broadPeak", ".bedpe"])),
@@ -90,12 +176,24 @@ fn kind(name, cur, words) {
             cur,
             compressed([".bed", ".bedgraph", ".bdg", ".gff", ".gff3", ".gtf", ".vcf", ".bedpe"]) + [".bam", ".bcf"]
         ),
+        "bwa_index" => union(prefixes(cur, [".bwt", ".bwt.2bit.64"]), with_suffix(cur, compressed([".fa", ".fna", ".fasta"]))),
+        "bowtie_index" => prefixes(cur, [".1.ebwt", ".1.ebwtl"]),
+        "bowtie2_index" => prefixes(cur, [".1.bt2", ".1.bt2l"]),
+        "hisat2_index" => prefixes(cur, [".1.ht2", ".1.ht2l"]),
+        "minimap2_ref" => with_suffix(cur, compressed([".fa", ".fna", ".fasta", ".fq", ".fastq"]) + [".mmi"]),
+        "kallisto_index" => with_suffix(cur, [".idx", ".kidx"]),
+        "blast_db" => blast_db(cur),
+        "diamond_db" => with_suffix(cur, [".dmnd"]),
+        "sai" => with_suffix(cur, [".sai"]),
+        "msa" => with_suffix(cur, compressed([".sto", ".stk", ".sth", ".aln", ".a2m", ".afa", ".pfam", ".phy", ".fa", ".fasta"])),
         "hmm" => with_suffix(cur, compressed([".hmm"])),
         "ngless" => with_suffix(cur, [".ngl"]),
         "genome" => with_suffix(cur, [".genome", ".sizes", ".fai", ".len", ".txt"]),
         "bgzipped" => with_suffix(cur, [".gz", ".bgz"]),
         "regions" => regions(words),
         "tabix_regions" => tabix_regions(words),
+        "vcf_regions" => vcf_regions(words),
+        "vcf_samples" => vcf_samples(words),
         _ => throw `unknown kind: ${name}`,
     }
 }

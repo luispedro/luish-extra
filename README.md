@@ -26,7 +26,10 @@ Completes commands by their name (not their Bioconda package's): options, subcom
 FASTQ, BAM, BED, ... files by extension; reference names for regions, from a `.fai` or a BAM header; presets and
 output formats).
 
-Done: `ngless`, `SemiBin2` / `SemiBin`, `macrel`, `argnorm`, `samtools`, `bedtools`, `tabix`, `bgzip`, `htsfile`.
+Done: `ngless`, `SemiBin2` / `SemiBin`, `macrel`, `argnorm`; `samtools`, `bcftools`, `bedtools`, `tabix`, `bgzip`,
+`htsfile`; `bwa`, `bwa-mem2`, `bowtie2`, `hisat2`, `minimap2`, `STAR`, `kallisto`, `featureCounts`; BLAST+
+(`blastn` and the rest), `diamond`, `mmseqs`, HMMER. `completion-todo.md` has the tool versions they were checked
+against.
 
 ## Tests
 
@@ -37,5 +40,5 @@ UPDATE=1 tests/run.sh bio_hts   # write the .expected file (and read it before c
 ```
 
 They need luish (`LUISH`, default the one in `PATH`) and a checkout of its `luish-std-plugins` (`STD_PLUGINS`,
-default `../luish/luish-std-plugins`). Programs that completion runs (`samtools view -H`, `tabix -l`) are stood in
+default `../luish/luish-std-plugins`). Programs that completion runs (`samtools view -H`, `tabix -l`, `bcftools query -l`, `mmseqs -h`) are stood in
 for by the scripts in `tests/bin`.

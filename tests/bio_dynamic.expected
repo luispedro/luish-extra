@@ -1,0 +1,30 @@
+load 0
+=== mmseqs
+--- mmseqs 
+createdb 	Convert FASTA/Q file(s) to a sequence DB
+easy-cluster 	Slower, sensitive clustering
+easy-search 	Sensitive homology search
+--- mmseqs easy-
+easy-cluster 	Slower, sensitive clustering
+easy-search 	Sensitive homology search
+--- mmseqs createdb -
+--dbtype=	database type 0: auto, 1: amino acid 2: nucleotides
+--local-tmp=	path where some of the temporary files will be created
+--mask=	mask sequences in prefilter stage with tantan: 0: w/o low complexity masking, 1: with low complexity masking
+--shuffle=	shuffle input database
+--threads=	number of CPU-cores used (all by default)
+-v 	verbosity level: 0: quiet, 1: +errors, 2: +warnings, 3: +info
+--- mmseqs createdb --shuffle 
+0 
+1 
+--- mmseqs createdb --dbtype 
+--- mmseqs createdb --local-tmp 
+--- mmseqs createdb my
+mydb.fa 
+--- mmseqs easy-search -e
+-e 	list matches below this E-value (range 0.0-inf)
+--- mmseqs easy-search --add-self-matches 
+0 
+1 
+--- mmseqs nosuchmodule --
+--- mmseqs ../evil --

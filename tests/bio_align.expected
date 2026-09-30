@@ -1,0 +1,332 @@
+load 0
+=== bwa
+--- bwa 
+aln 	gapped/ungapped alignment
+bwasw 	BWA-SW for long queries (deprecated)
+bwt2sa 	generate SA from BWT and Occ
+bwtupdate 	update .bwt to the new format
+fa2pac 	convert FASTA to PAC format
+fastmap 	identify super-maximal exact matches
+index 	index sequences in the FASTA format
+mem 	BWA-MEM algorithm
+pac2bwt 	generate BWT from PAC
+pac2bwtgen 	alternative algorithm for generating BWT
+pemerge 	merge overlapping paired ends (experimental)
+sampe 	generate alignment (paired ended)
+samse 	generate alignment (single ended)
+shm 	manage indices in shared memory
+--- bwa me
+mem 	BWA-MEM algorithm
+--- bwa mem -
+-5 	for split alignment, take the alignment with the smallest query (not genomic) coordinate
+-A 	score for a sequence match, which scales options -TdBOELU unless overridden
+-B 	penalty for a mismatch
+-C 	append FASTA/FASTQ comment to SAM output
+-D 	drop chains shorter than FLOAT fraction of the longest overlapping chain
+-E 	gap extension penalty; a gap of size k cost '{-O} + {-E}*k'
+-H 	insert STR to header if it starts with @; or insert lines in FILE
+-I 	specify the mean, standard deviation (10% of the mean if absent), max
+-K 	process INT input bases in each batch regardless of nThreads (for reproducibility)
+-L 	penalty for 5'- and 3'-end clipping
+-M 	mark shorter split hits as secondary
+-O 	gap open penalties for deletions and insertions
+-P 	skip pairing; mate rescue performed unless -S also in use
+-R 	read group header line such as '@RG\tID:foo\tSM:bar'
+-S 	skip mate rescue
+-T 	minimum score to output
+-U 	penalty for an unpaired read pair
+-V 	output the reference FASTA header in the XR tag
+-W 	discard a chain if seeded bases shorter than INT
+-Y 	use soft clipping for supplementary alignments
+-a 	output all alignments for SE or unpaired PE
+-c 	skip seeds with more than INT occurrences
+-d 	off-diagonal X-dropoff
+-h 	if there are <INT hits with score >80.00% of the max score, output all in XA [5,200] A
+-j 	treat ALT contigs as part of the primary assembly
+-k 	minimum seed length
+-m 	perform at most INT rounds of mate rescues for each read
+-o 	sam file to output results to
+-p 	smart pairing (ignoring in2.fq)
+-q 	don't modify mapQ of supplementary alignments
+-r 	look for internal seeds inside a seed longer than {-k} * FLOAT
+-t 	number of threads
+-u 	output XB instead of XA; XB is XA with the alignment score and mapping quality added
+-v 	verbosity level: 1=error, 2=warning, 3=message, 4+=debugging
+-w 	band width for banded alignment
+-x 	read type
+-y 	seed occurrence for the 3rd round seeding
+-z 	the fraction of the max score to use with -h
+--- bwa mem -x 
+intractg 
+ont2d 
+pacbio 
+--- bwa mem data/
+data/reads.fa 
+data/ref.fa 
+data/sub/
+--- bwa mem data/ref.fa data/
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/reads.fa 
+data/ref.fa 
+data/sub/
+--- bwa index -a 
+bwtsw 
+is 
+rb2 
+--- bwa index data/
+data/reads.fa 
+data/ref.fa 
+data/sub/
+--- bwa aln -f data/
+data/a.bam 
+data/a.sai 
+data/genes.gtf 
+data/gx.1.ht2 
+data/idx.1.bt2 
+data/idx.2.bt2 
+data/idx.rev.1.bt2 
+data/notes.txt 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/reads.fa 
+data/ref.fa 
+data/ref.fa.amb 
+data/ref.fa.bwt 
+data/ref.mmi 
+data/sub/
+data/tx.idx 
+--- bwa samse data/ref.fa data/
+data/a.sai 
+data/sub/
+--- bwa sampe data/ref.fa data/a.sai data/
+data/a.sai 
+data/sub/
+--- bwa-mem2 
+index 	index sequences in the FASTA format
+mem 	BWA-MEM2 algorithm
+version 	show the version
+--- bwa-mem2 mem -o data/
+data/a.bam 
+data/a.sai 
+data/genes.gtf 
+data/gx.1.ht2 
+data/idx.1.bt2 
+data/idx.2.bt2 
+data/idx.rev.1.bt2 
+data/notes.txt 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/reads.fa 
+data/ref.fa 
+data/ref.fa.amb 
+data/ref.fa.bwt 
+data/ref.mmi 
+data/sub/
+data/tx.idx 
+=== bowtie2, hisat2
+--- bowtie2 -x data/
+data/idx 
+data/idx.rev 
+data/sub/
+--- bowtie2 -x data/idx -1 data/
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/reads.fa 
+data/ref.fa 
+data/sub/
+--- bowtie2 --very-
+--very-fast 	same as -D 5 -R 1 -N 0 -L 22 -i S,0,2.50
+--very-fast-local 	same as -D 5 -R 1 -N 0 -L 25 -i S,1,2.00
+--very-sensitive 	same as -D 20 -R 3 -N 0 -L 20 -i S,1,0.50
+--very-sensitive-local 	same as -D 20 -R 3 -N 0 -L 20 -i S,1,0.50
+--- bowtie2 -p
+-p 	number of alignment threads to launch (1)
+--- bowtie2 --phred
+--phred33 	qualities are Phred+33
+--phred64 	qualities are Phred+64
+--- bowtie2 --un-
+--un-conc=	write pairs that didn't align concordantly to <path>
+--un-gz=	like --un, gzip compressed (also --un-bz2, --un-lz4, and --al-*, --un-conc-*, --al-conc-*)
+--- bowtie2-build data/
+data/reads.fa 
+data/ref.fa 
+data/sub/
+--- bowtie2-build data/ref.fa data/
+data/idx 
+data/idx.rev 
+data/sub/
+--- hisat2 -x data/
+data/gx 
+data/sub/
+--- hisat2 --rna-strandness 
+F 
+FR 
+R 
+RF 
+--- hisat2 -U data/
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/reads.fa 
+data/ref.fa 
+data/sub/
+--- hisat2-build --s
+--seed=	seed for random number generator
+--snp=	SNP file name
+--ss=	splice site file name
+=== minimap2
+--- minimap2 -x 
+asm10 
+asm20 
+asm5 
+ava-ont 
+ava-pb 
+lr:hq 
+map-hifi 
+map-ont 
+map-pb 
+splice 
+splice:hq 
+splice:sr 
+sr 
+--- minimap2 -x map-ont data/
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/reads.fa 
+data/ref.fa 
+data/ref.mmi 
+data/sub/
+--- minimap2 -x map-ont data/ref.mmi data/
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/reads.fa 
+data/ref.fa 
+data/sub/
+--- minimap2 --secondary=
+--secondary=no 
+--secondary=yes 
+--- minimap2 -d data/
+data/a.bam 
+data/a.sai 
+data/genes.gtf 
+data/gx.1.ht2 
+data/idx.1.bt2 
+data/idx.2.bt2 
+data/idx.rev.1.bt2 
+data/notes.txt 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/reads.fa 
+data/ref.fa 
+data/ref.fa.amb 
+data/ref.fa.bwt 
+data/ref.mmi 
+data/sub/
+data/tx.idx 
+--- minimap2 --sam-
+--sam-hit-only 	in SAM, do not output unmapped reads
+=== STAR
+--- STAR --runMode 
+alignReads 	map reads
+genomeGenerate 	generate genome files
+inputAlignmentsFromBAM 	input alignments from BAM. Presently only works with --outWigType and...
+liftOver 	lift-over of GTF files (--sjdbGTFfile) between genome assemblies using chain file(s)...
+--- STAR --runMod
+--runMode 	type of the run
+--- STAR --genomeDir data/
+data/sub/
+--- STAR --readFilesIn data/
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/reads.fa 
+data/ref.fa 
+data/sub/
+--- STAR --sjdbGTFfile data/
+data/genes.gtf 
+data/sub/
+--- STAR --outSAMtype 
+BAM 	output BAM without sorting
+None 	no SAM/BAM output
+SAM 	output SAM without sorting
+SortedByCoordinate 	sorted by coordinate
+Unsorted 	standard unsorted
+--- STAR --outSAMstrandField 
+None 	not used
+intronMotif 	strand derived from the intron motif
+--- STAR --quantMode 
+- 	none
+GeneCounts 	count reads per gene
+TranscriptomeSAM 	output SAM/BAM alignments to transcriptome into a separate file
+--- STAR --genomeFastaFiles data/
+data/reads.fa 
+data/ref.fa 
+data/sub/
+=== kallisto, featureCounts
+--- kallisto 
+bus 	generate BUS files for single-cell data
+cite 	print citation information
+h5dump 	convert HDF5-formatted results to plaintext
+index 	build a kallisto index
+inspect 	inspect an index and give information about it
+quant 	run the quantification algorithm
+quant-tcc 	run quantification on transcript-compatibility counts
+version 	print version information
+--- kallisto index -i data/
+data/sub/
+data/tx.idx 
+--- kallisto index data/
+data/reads.fa 
+data/ref.fa 
+data/sub/
+--- kallisto quant -i data/
+data/sub/
+data/tx.idx 
+--- kallisto quant -g data/
+data/genes.gtf 
+data/sub/
+--- kallisto quant -o data/
+data/sub/
+--- kallisto quant --f
+--fr-stranded 	strand specific reads, first read forward
+--fragment-length=	estimated average fragment length
+--- kallisto bus -
+--aa 	align to index generated from a FASTA-file containing amino acid sequences
+--batch-barcodes 	records both batch and extracted barcode in BUS file
+--fr-stranded 	strand specific reads for UMI-tagged reads, first read forward
+--genomebam 	project pseudoalignments to genome sorted BAM file
+--inleaved 	specifies that input is an interleaved FASTQ file
+--long 	treat reads as long
+--paired 	treat reads as paired
+--rf-stranded 	strand specific reads for UMI-tagged reads, first read reverse
+--threshold 	threshold for rate of unmapped kmers per read
+--unstranded 	treat all read as non-strand-specific
+--verbose 	print out progress information every 1M proccessed reads
+-B 	process files listed in FILE
+-N 	maximum number of reads to process from supplied input
+-T 	5′ tag sequence to identify UMI reads for certain technologies
+-b 	input file is a BAM file
+-c 	tab separated file with chromosome names and lengths
+-g 	for transcriptome information (required for --genomebam)
+-i 	filename for the kallisto index to be used for pseudoalignment
+-l 	list all single-cell technologies supported
+-n 	output number of read in flag column (incompatible with --bam)
+-o 	directory to write output to
+-t 	number of threads to use
+-x 	single-cell technology used
+--- featureCounts -a data/
+data/genes.gtf 
+data/sub/
+--- featureCounts -F 
+GTF 
+SAF 
+--- featureCounts -s 
+0 
+1 
+2 
+--- featureCounts -o out.txt data/
+data/a.bam 
+data/sub/
+--- featureCounts -R 
+BAM 
+CORE 
+SAM 

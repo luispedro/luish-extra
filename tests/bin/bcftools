@@ -1,0 +1,12 @@
+#!/bin/sh
+# Stand-in for bcftools in the tests: `index -s FILE` lists two sequences and
+# `query -l FILE` two samples.
+if [ "$1" = index ] && [ "$2" = -s ]; then
+    printf 'chr1\t1000\t20\nchr2\t500\t10\n'
+    exit 0
+fi
+if [ "$1" = query ] && [ "$2" = -l ]; then
+    printf 'sampleA\nsampleB\n'
+    exit 0
+fi
+exit 1

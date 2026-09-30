@@ -1,0 +1,384 @@
+load 0
+=== blast
+--- blastn -qu
+-query 	input file name
+-query_loc 	location on the query sequence in 1-based offsets (Format: start-stop)
+--- blastn -query data/
+data/q.fa 
+data/sub/
+--- blastn -query data/q.fa -db data/
+data/nr 
+data/nt 
+data/sub/
+--- blastn -task 
+blastn 
+blastn-short 
+dc-megablast 
+megablast 
+rmblastn 
+--- blastn -strand 
+both 
+minus 
+plus 
+--- blastn -outfmt 
+0 	pairwise
+1 	query-anchored showing identities
+10 	comma-separated values
+11 	BLAST archive (ASN.1)
+12 	seqalign (JSON)
+13 	multiple-file BLAST JSON
+14 	multiple-file BLAST XML2
+15 	single-file BLAST JSON
+16 	single-file BLAST XML2
+17 	SAM
+18 	organism report
+19 	single-file BLAST tabular
+2 	query-anchored, no identities
+20 	comma-separated values with header lines
+3 	flat query-anchored showing identities
+4 	flat query-anchored, no identities
+5 	BLAST XML
+6 	tabular
+7 	tabular with comment lines
+8 	seqalign (text ASN.1)
+9 	seqalign (binary ASN.1)
+--- blastn -out data/
+data/list.txt 
+data/notes.txt 
+data/nr.00.pin 
+data/nr.01.pin 
+data/nr.pal 
+data/nt.nin 
+data/p.dmnd 
+data/q.fa 
+data/sub/
+--- blastn -use_index 
+false 
+true 
+--- blastp -matrix 
+BLOSUM45 
+BLOSUM50 
+BLOSUM62 
+BLOSUM80 
+BLOSUM90 
+PAM250 
+PAM30 
+PAM70 
+--- blastp -comp_based_stats 
+0 
+1 
+2 
+3 
+D 
+F 
+T 
+--- blastx -db data/
+data/nr 
+data/nt 
+data/sub/
+--- blastx -seg 
+--- tblastn -taxidlist data/
+data/list.txt 
+data/notes.txt 
+data/nr.00.pin 
+data/nr.01.pin 
+data/nr.pal 
+data/nt.nin 
+data/p.dmnd 
+data/q.fa 
+data/sub/
+--- psiblast -in_msa data/
+data/list.txt 
+data/notes.txt 
+data/nr.00.pin 
+data/nr.01.pin 
+data/nr.pal 
+data/nt.nin 
+data/p.dmnd 
+data/q.fa 
+data/sub/
+--- psiblast -out_pssm data/
+data/list.txt 
+data/notes.txt 
+data/nr.00.pin 
+data/nr.01.pin 
+data/nr.pal 
+data/nt.nin 
+data/p.dmnd 
+data/q.fa 
+data/sub/
+--- rpsblast -db data/
+data/nr 
+data/nt 
+data/sub/
+--- makeblastdb -dbtype 
+nucl 
+prot 
+--- makeblastdb -in data/
+data/q.fa 
+data/sub/
+--- makeblastdb -input_type 
+asn1_bin 
+asn1_txt 
+blastdb 
+fasta 
+--- makeblastdb -parse
+-parse_seqids 	option to parse seqid for FASTA input if set, for all other input types seqids are parsed
+--- blastdbcmd -db data/
+data/nr 
+data/nt 
+data/sub/
+--- blastdbcmd -entry_batch data/
+data/list.txt 
+data/notes.txt 
+data/nr.00.pin 
+data/nr.01.pin 
+data/nr.pal 
+data/nt.nin 
+data/p.dmnd 
+data/q.fa 
+data/sub/
+--- blastdbcmd -outfmt
+-outfmt 	output format, where the available format specifiers are: %f means sequence in FASTA
+--- blast_formatter -archive data/
+data/list.txt 
+data/notes.txt 
+data/nr.00.pin 
+data/nr.01.pin 
+data/nr.pal 
+data/nt.nin 
+data/p.dmnd 
+data/q.fa 
+data/sub/
+--- blastdb_aliastool -dbtype 
+nucl 
+prot 
+--- dustmasker -in data/
+data/q.fa 
+data/sub/
+--- update_blastdb.pl --source 
+aws 
+gcp 
+ncbi 
+--- update_blastdb.pl --showall=
+--showall=pretty 
+--showall=tsv 
+--- update_blastdb.pl --de
+--decompress 	decompress the archives and delete them after downloading
+=== diamond
+--- diamond 
+blastp 	align amino acid query sequences against a protein reference database
+blastx 	align DNA query sequences against a protein reference database
+cluster 	cluster protein sequences
+countdistinct 	count the distinct sequences in a FASTA file
+dbinfo 	print information about a DIAMOND database file
+getseq 	retrieve sequences from a DIAMOND database file
+greedy-vertex-cover 	compute a greedy vertex cover
+help 	produce a help message
+linclust 	cluster protein sequences in linear time
+makedb 	build a DIAMOND database from a FASTA file
+makeidx 	make a database index
+merge-daa 	merge DAA files
+realign 	realign clustered sequences against their centroids
+reassign 	reassign clustered sequences to the closest centroid
+recluster 	recompute the clustering to fix errors
+test 	run the regression tests
+version 	display the version information
+view 	view a DIAMOND alignment archive (DAA) file
+--- diamond blastp -
+--K=	k parameter for custom matrix
+--al=	file or aligned queries
+--alfmt=	format of aligned query file (fasta/fastq)
+--algo=	seed search algorithm (0=double-indexed/1=query-indexed/ctg=contiguous-seed)
+--approx-id=	minimum approx
+--band=	band for dynamic programming computation
+--bin=	number of query bins for seed search
+--cbs-angle=	matrix adjust threshold
+--comp-based-stats=	composition based statistics mode (0-6)
+--compress=	compression for output files (0=none, 1=gzip, zstd)
+--culling-overlap=	minimum range overlap with higher scoring hit to delete a hit
+--custom-matrix=	file containing custom scoring matrix
+--daa-build-version=	diamond build version to write to DAA file
+--daa=	DIAMOND alignment archive (DAA) file
+--dbsize=	effective database size (in letters)
+--double-hit-window=	window for double hits
+--ext-chunk-size=	chunk size for adaptive ranking
+--ext=	extension mode (banded-fast/banded-slow/full/global/none)
+--fast 	enable fast mode
+--faster 	enable faster mode
+--file-buffer-size=	file buffer size in bytes
+--fpu-compat 	floating point operations compatibility mode
+--freq-masking=	mask seeds based on frequency
+--freq-sd=	number of standard deviations for ignoring frequent seeds
+--gapextend=	gap extension penalty
+--gapopen=	gap open penalty
+--gapped-filter-evalue=	e-value threshold for gapped filter (auto)
+--gapped-xdrop=	xdrop for gapped alignment in bits
+--global-ranking=	number of targets for global ranking
+--header=	use header lines in tabular output format (0/simple/verbose)
+--hit-band=	band for hit verification
+--hit-membuf 	buffer intermediate hits in memory
+--hit-score=	minimum score to keep a tentative alignment
+--id2=	minimum number of identities for stage 1 hit
+--id=	minimum identity% to report an alignment
+--ignore-warnings 	ignore warnings
+--include-lineage 	include lineage in the taxonomic classification format
+--iterate=	iterated search with increasing sensitivity
+--keep-temp-files 	do not delete temporarary files
+--lambda=	lambda parameter for custom matrix
+--length-ratio-threshold=	matrix adjust threshold
+--lin-stage1 	only consider seed hits against longest query for identical seeds
+--linclust-20 	enable mode for linear search at 20% identity
+--linsearch 	only consider seed hits against longest target for identical seeds
+--load-threads=	number of CPU threads for file I/O
+--log 	enable debug log
+--long-reads 	short for --range-culling --top 10 -F 15
+--masking=	masking algorithm (none, seg, seg-all, tantan=default)
+--matrix=	score matrix for protein alignment
+--max-hsps=	maximum number of HSPs per target sequence to report for each query
+--mid-sensitive 	enable mid-sensitive mode
+--min-len-ratio=	sequence length ratio cutoff for mutual coverage
+--min-orf=	ignore translated sequences without an open reading frame of at least this length
+--min-query-len=	filter query sequences shorter than this length
+--min-score=	minimum bit score to report alignments (overrides e-value setting)
+--minichunk=	mini chunk size for file I/O
+--more-sensitive 	enable more sensitive mode
+--motif-masking=	softmask abundant motifs (0/1)
+--mp-init 	initialize multiprocessing run
+--mp-query-chunk=	process only a single query chunk as specified
+--mp-recover 	enable continuation of interrupted multiprocessing run
+--multiprocessing 	enable distributed-memory parallel processing
+--new-ext 	enable new extension pipeline
+--no-auto-append 	disable auto appending of DAA and DMND file extensions
+--no-mempool 	disable per-thread memory pool
+--no-parse-seqids 	print raw seqids without parsing
+--no-ranking 	disable ranking heuristic
+--no-reorder 	do not reorder alignment output
+--no-self-hits 	suppress reporting of identical self hits
+--no-unlink 	do not unlink temporary files
+--oid-output 	output OIDs instead of accessions (clustering)
+--parallel-tmpdir=	directory for temporary files used by multiprocessing
+--query-cover=	minimum query cover% to report an alignment
+--query-gencode=	genetic code to use to translate query (see user manual)
+--query-match-distance-threshold=	matrix adjust threshold
+--quiet 	disable console output
+--range-cover=	percentage of query range to be covered for range culling
+--range-culling 	restrict hit culling to overlapping query ranges
+--rank-ratio2=	include subjects within this ratio of last hit (stage 2)
+--rank-ratio=	include subjects within this ratio of last hit
+--relative-entropy-tolerance=	tolerance for matrix adjust relative entropy
+--reseek-diags 	recompute diagonals prior to chaining
+--reseek-xdrop=	xdrop for ungapped alignment (using --reseek-diags)
+--sallseqid 	include all subject ids in DAA file
+--salltitles 	include full subject titles in DAA file
+--sam-query-len 	add the query length to the SAM format (tag ZQ)
+--seed-cut=	cutoff for seed complexity
+--self 	enable self-alignment
+--sensitive 	enable sensitive mode
+--seqidlist=	filter the database by list of accessions
+--shape-mask=	seed shapes
+--shapes-30x10 	enable mode using 30 seed shapes of weight 10
+--shapes-6x10 	enable mode using 30 seed shapes of weight 10
+--shapes=	number of seed shapes
+--short-query-ungapped-bitscore=	bit score threshold for ungapped alignments for short queries
+--sketch-size=	subsample seeds based on minimizer sketch of the given size
+--skip-missing-seqids 	ignore accessions missing in the database
+--soft-masking=	soft masking (none=default, seg, tantan)
+--stop-match-score=	set the match score of stop codons against each other
+--strand=	query strands to search (both/minus/plus)
+--subject-cover=	minimum subject cover% to report an alignment
+--swipe 	exhaustive alignment against all database sequences
+--swipe-task-size=	task size for DP parallelism (100000000)
+--symmetrize-evalue 	symmetrize evalues over queries and targets
+--tantan-minMaskProb=	minimum repeat probability for masking
+--target-indexed 	enable target-indexed mode
+--taxdump=	directory containing NCBI taxdump files
+--taxon-exclude=	exclude list of taxon ids (comma-separated)
+--taxon-k=	maximum number of targets to report per species
+--taxonlist=	restrict search to list of taxon ids (comma-separated)
+--tile-size=	loop tiling size
+--top=	report alignments within this percentage range of top alignment score
+--ultra-sensitive 	enable ultra sensitive mode
+--un=	file for unaligned queries
+--unal=	report unaligned queries (0=no, 1=yes)
+--unfmt=	format of unaligned query file (fasta/fastq)
+--ungapped-evalue-short=	e-value threshold for ungapped filter (short reads) (auto)
+--ungapped-evalue=	e-value threshold for ungapped filter (auto)
+--ungapped-score=	minimum alignment score to continue local extension
+--very-sensitive 	enable very sensitive mode
+--window=	window size for local hit search
+--word-threshold=	word threshold in bits
+--xdrop=	xdrop for ungapped alignment
+--xml-blord-format 	use gnl|BL_ORD_ID| style format in XML output
+-F 	frame shift penalty
+-b 	sequence block size in billions of letters
+-c 	number of chunks for index processing
+-d 	database file
+-e 	maximum e-value to report alignments
+-f 	output format
+-k 	maximum number of target sequences to report alignments for
+-o 	output file
+-p 	number of CPU threads
+-q 	input query file
+-t 	directory for temporary files
+-v 	verbose console output
+--- diamond blastp --db data/
+data/p.dmnd 
+data/sub/
+--- diamond blastp -d data/
+data/p.dmnd 
+data/sub/
+--- diamond blastp --query data/
+data/q.fa 
+data/sub/
+--- diamond blastp --outfmt 
+0 	BLAST pairwise
+100 	DIAMOND alignment archive (DAA)
+101 	SAM
+102 	taxonomic classification
+103 	PAF
+104 	JSON (flat)
+5 	BLAST XML
+6 	BLAST tabular
+--- diamond blastp --strand=
+--strand=both 
+--strand=minus 
+--strand=plus 
+--- diamond blastp --matrix 
+BLOSUM45 
+BLOSUM50 
+BLOSUM62 
+BLOSUM80 
+BLOSUM90 
+PAM250 
+PAM30 
+PAM70 
+--- diamond blastp --unal 
+0 
+1 
+--- diamond blastp --very
+--very-sensitive 	enable very sensitive mode
+--- diamond makedb --in data/
+data/q.fa 
+data/sub/
+--- diamond makedb --db data/
+data/list.txt 
+data/notes.txt 
+data/nr.00.pin 
+data/nr.01.pin 
+data/nr.pal 
+data/nt.nin 
+data/p.dmnd 
+data/q.fa 
+data/sub/
+--- diamond view --daa data/
+data/list.txt 
+data/notes.txt 
+data/nr.00.pin 
+data/nr.01.pin 
+data/nr.pal 
+data/nt.nin 
+data/p.dmnd 
+data/q.fa 
+data/sub/
+--- diamond nosuchsub --

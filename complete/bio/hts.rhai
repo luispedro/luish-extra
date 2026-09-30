@@ -31,6 +31,51 @@ fn samtools_values() {
     }
 }
 
+// Pieces of the "standard options" block that many subcommands have, by key:
+// `in` --input-fmt-option, `out` -O/--output-fmt, `outlong` --output-fmt only,
+// `outopt` --output-fmt-option, `ref` --reference, `refT` -T/--reference,
+// `thr` -@/--threads, `wi` --write-index, `verb` --verbosity.
+fn st_opts(keys) {
+    let lines = #{
+        "in": "--input-fmt-option OPT[=VAL]   an input format option",
+        "out": "-O, --output-fmt FORMAT[,OPT[=VAL]]  the output format",
+        outlong: "--output-fmt FORMAT[,OPT[=VAL]]  the output format",
+        outopt: "--output-fmt-option OPT[=VAL]  an output format option",
+        ref: "--reference FILE   the reference FASTA",
+        refT: "-T, --reference FILE   the reference FASTA",
+        thr: "-@, --threads N   number of additional threads to use",
+        wi: "--write-index   automatically index the output files",
+        verb: "--verbosity N   set the level of verbosity",
+    };
+    let out = "\n";
+    for key in keys {
+        out += lines[key] + "\n";
+    }
+    out
+}
+
+// The values of those options, all of them (unused ones do no harm).
+fn st_values() {
+    #{
+        "--reference": k("fasta"), "-T": k("fasta"), "--threads": "none", "-@": "none", "--verbosity": "none",
+        "--input-fmt-option": "none", "--output-fmt-option": "none",
+        "--output-fmt": ["SAM", "BAM", "CRAM"], "-O": ["SAM", "BAM", "CRAM"], "--input-fmt": ["SAM", "BAM", "CRAM"],
+    }
+}
+
+// The lines of an option table except those that start with one of `prefixes`.
+fn without(table, prefixes) {
+    let out = "";
+    for l in table.split("\n") {
+        let t = l;
+        t.trim();
+        if !prefixes.some(|p| t.starts_with(p)) {
+            out += l + "\n";
+        }
+    }
+    out
+}
+
 fn samtools() {
     #{
         opts: `
@@ -411,19 +456,22 @@ fn samtools_sub(sub) {
                 -o, --output FILE      write to FILE
                 -s, --species STR      species
                 -u, --uri STR          URI
-                --alias                add AN tags with alternative names
+                -A, --alias, --alternative-name  add AN tags by adding or removing 'chr'
+                -l, --alt FILE         add AH:* tags to alternate locus sequences
             `,
-            values: #{"--output": "files", "-o": "files"},
+            values: #{"--output": "files", "-o": "files", "--alt": "files", "-l": "files"},
             args: [k("fasta")],
         },
         "quickcheck" => #{
             opts: `
-                -v, --verbose          verbose output
-                -q, --quiet            do not report failures
+                -v                     verbose output (repeat for more)
+                -q                     suppress warning messages
+                -u                     unmapped input (do not require targets in the header)
             `,
             args: [sam],
         },
-        "fastq" | "fasta" => #{
+        "fastq" | "fasta" => {
+            let spec = #{
             opts: `
                 -0 FILE                write reads with neither READ1 nor READ2 to FILE
                 -1 FILE                write READ1 reads to FILE
@@ -437,25 +485,486 @@ fn samtools_sub(sub) {
                 -T TAGLIST             copy arbitrary tags to the header line
                 -v N                   default quality for missing values
                 -f, --require-flags FLAG  only reads with all the FLAGs present
-                -F, --excl-flags FLAG  only reads with none of the FLAGs present
+                -F, --excl-flags, --exclude-flags FLAG  only reads with none of the FLAGs present
                 -G FLAG                exclude reads with all of the FLAGs present
                 -i                     add Illumina Casava 1.8 format entry to the header
                 -c N                   compression level
-                -@, --threads N        number of additional threads to use
-            `,
-            values: #{"-0": "files", "-1": "files", "-2": "files", "-o": "files", "-s": "files"},
+                -d, --tag TAG[:VAL]    only reads with tag TAG, optionally with value VAL
+                -D, --tag-file STR:FILE  only reads with tag STR whose value is listed in FILE
+                --rf, --incl-flags, --include-flags FLAG  only reads with some of the FLAGs present
+                --i1 FILE              write the first index reads to FILE
+                --i2 FILE              write the second index reads to FILE
+                --barcode-tag TAG      the barcode tag
+                --quality-tag TAG      the barcode quality tag
+                --index-format STR     how to parse the barcode and quality tags
+            ` + st_opts(["in", "ref", "thr", "verb"]),
+            values: st_values() + #{"-0": "files", "-1": "files", "-2": "files", "-o": "files", "-s": "files",
+                "--i1": "files", "--i2": "files"},
             args: [sam],
+            };
+            if sub == "fasta" {
+                // samtools fasta has no quality-related or index-read options.
+                spec.opts = without(spec.opts, ["-O ", "-v ", "-i ", "-c ", "--i1 ", "--i2 ", "--barcode-tag ", "--quality-tag ", "--index-format "]);
+            }
+            spec
         },
         "bedcov" => #{
             opts: `
-                -Q N                   mapping quality threshold
+                -Q, --min-MQ N         mapping quality threshold
                 -X                     use customized index files
                 -g FLAGS               remove these flags from the default filter-out list
                 -G FLAGS               add these flags to the filter-out list
                 -j                     do not include deletions in the coverage
                 -d N                   print the number of bases with depth at least N
-            `,
+                --max-depth N          maximum depth used in the mpileup algorithm
+                -c                     add a column with the read count
+                -H                     print a header line with the column information
+            ` + st_opts(["in", "ref", "verb"]),
+            values: st_values() + #{"-Q": "none", "--min-MQ": "none", "-g": "none", "-G": "none", "-d": "none", "--max-depth": "none"},
             args: [k("bed"), k("sam")],
+        },
+        "fqidx" => #{
+            opts: `
+                -o, --output FILE          write FASTQ to FILE
+                -n, --length N             length of the FASTQ sequence lines
+                -c, --continue             continue after trying to retrieve a missing region
+                -r, --region-file FILE     file of regions, one chr:from-to per line
+                -i, --reverse-complement   reverse complement the sequences
+                --mark-strand TYPE         add a strand indicator to the sequence name
+                --fai-idx FILE             name of the index file
+                --gzi-idx FILE             name of the compressed file index
+            ` + st_opts(["outopt", "thr", "wi"]),
+            values: #{
+                "--output": "files", "--length": "none", "--region-file": "files", "--fai-idx": "files",
+                "--gzi-idx": "files", "--output-fmt-option": "none", "--threads": "none", "-@": "none",
+                "--mark-strand": ["rc", "no", "sign", "custom,"],
+            },
+            args: [k("fastq"), k("regions")],
+        },
+        "calmd" => #{
+            opts: `
+                -e      change identical bases to '='
+                -u      uncompressed BAM output
+                -b      compressed BAM output
+                -S      ignored (the format is detected)
+                -A      modify the quality string
+                -Q      quiet mode
+                -r      compute the BQ tag (without -A) or cap baseQ by BAQ (with -A)
+                -E      extended BAQ for better sensitivity but lower specificity
+                --no-PG do not add a PG line
+            ` + st_opts(["in", "outlong", "outopt", "ref", "thr", "verb"]),
+            values: st_values(),
+            args: [sam, k("fasta")],
+        },
+        "fixmate" => #{
+            opts: `
+                -r                remove unmapped reads and secondary alignments
+                -p                disable the FR proper pair check
+                -c                add the template CIGAR ct tag
+                -m                add the mate score tag
+                -u                uncompressed output
+                -z, --sanitize FLAG[,FLAG]  sanitize alignment fields
+                -M                fix base modification tags (MM/ML/MN)
+                --no-PG           do not add a PG line
+            ` + st_opts(["in", "out", "outopt", "ref", "thr", "verb"]),
+            values: st_values() + #{"--sanitize": "none", "-z": "none"},
+            args: [sam, sam],
+        },
+        "reheader" => #{
+            opts: `
+                -P, --no-PG        do not add a PG line
+                -i, --in-place     modify the CRAM file directly, if possible
+                -c, --command CMD  pass the header in SAM format to the program CMD
+            `,
+            values: #{"--command": "none", "-c": "none"},
+            args: [k("sam_header"), sam],
+        },
+        "addreplacerg" => #{
+            opts: `
+                -m MODE          the mode: overwrite_all or orphan_only
+                -o FILE          write the output to FILE
+                -r STRING        @RG line text
+                -R STRING        ID of an @RG line of the existing header to use
+                -u               uncompressed output
+                -w               overwrite an existing @RG line
+                --no-PG          do not add a PG line
+                --input-fmt FORMAT[,OPT[=VAL]]  the input format
+            ` + st_opts(["in", "out", "outopt", "ref", "thr", "wi", "verb"]),
+            values: st_values() + #{
+                "-m": ["overwrite_all", "orphan_only"], "-o": "files", "-r": "none", "-R": "none",
+                "--input-fmt": ["SAM", "BAM", "CRAM"],
+            },
+            args: [sam],
+        },
+        "markdup" => #{
+            opts: `
+                -r                  remove duplicate reads
+                -l N                maximum read length
+                -S                  mark supplementary alignments of duplicates as duplicates (slower)
+                -s                  report stats
+                -f NAME             write the stats to file NAME (implies -s)
+                --json              write the stats as JSON (implies -s)
+                -T PREFIX           write temporary files to PREFIX.samtools.nnnn.nnnn.tmp
+                -d N                optical distance (marks with the dt tag)
+                -c                  clear previous duplicate settings and tags
+                -m, --mode TYPE     the duplicate decision method for paired reads (t or s)
+                -u                  uncompressed output
+                --include-fails     include reads that failed the quality check
+                --no-PG             do not add a PG line
+                --no-multi-dup      check less for duplicates of duplicates
+                --read-coords STR   regex for the coordinates in the read name
+                --coords-order STR  order of the regex elements
+                --barcode-tag STR   a barcode tag that duplicates must match
+                --barcode-name      use the UMI or barcode of the read name (its eighth colon-delimited part)
+                --barcode-rgx STR   regex for the barcode in the read name
+                --use-read-groups   use the read group tags in duplicate matching
+                -t                  mark primary duplicates with the name of the original in a 'do' tag
+                --duplicate-count   record the duplication count of the original in a 'dc' tag
+            ` + st_opts(["in", "out", "outopt", "ref", "thr", "wi", "verb"]),
+            values: st_values() + #{
+                "-f": "files", "-T": "none", "-l": "none", "-d": "none", "--mode": [
+                    #{value: "t", desc: "positions from the template start and end"},
+                    #{value: "s", desc: "positions from the sequence start"},
+                ],
+                "-m": [
+                    #{value: "t", desc: "positions from the template start and end"},
+                    #{value: "s", desc: "positions from the sequence start"},
+                ],
+                "--read-coords": "none", "--coords-order": "none", "--barcode-tag": "none",
+                "--barcode-rgx": "none",
+            },
+            args: [sam, sam],
+        },
+        "ampliconclip" => #{
+            opts: `
+                -b FILE               BED file of the regions (such as primers) to remove
+                -o FILE               write the output to FILE
+                -f FILE               write the stats to FILE
+                -u                    uncompressed output
+                --soft-clip           soft clip the primers from the reads (the default)
+                --hard-clip           hard clip the primers from the reads
+                --both-ends           clip on both the 5' and the 3' ends
+                --strand              use the strand of the BED file to match the read direction
+                --clipped             only output clipped reads
+                --fail                mark unclipped, mapped reads as QCFAIL
+                --filter-len N        do not output reads of N bases or shorter
+                --fail-len N          mark reads of N bases or shorter as QCFAIL
+                --unmap-len N         unmap reads of N bases or shorter
+                --no-excluded         do not write the excluded reads (unmapped or QCFAIL)
+                --rejects-file FILE   write the filtered reads to FILE
+                --primer-counts FILE  write the read counts per BED entry to FILE (bedGraph)
+                --original            add an OA tag with the original data to clipped entries
+                --keep-tag            keep the old NM and MD tags of clipped entries
+                --tolerance N         match a region within N bases
+                --no-PG               do not add a PG line
+            ` + st_opts(["in", "out", "outopt", "ref", "thr", "verb"]),
+            values: st_values() + #{
+                "-b": k("bed"), "-o": "files", "-f": "files", "--rejects-file": "files",
+                "--primer-counts": "files", "--filter-len": "none", "--fail-len": "none",
+                "--unmap-len": "none", "--tolerance": "none",
+            },
+            args: [sam],
+        },
+        "collate" => #{
+            opts: `
+                -O                output to standard output
+                -o FILE           output file name (the prefix is used if not set)
+                -u                uncompressed BAM output
+                -f                fast (only primary alignments)
+                -r N              working reads stored (with -f)
+                -l N              compression level
+                -n N              number of temporary files
+                -T PREFIX         write temporary files to PREFIX.nnnn.bam
+                --no-PG           do not add a PG line
+            ` + st_opts(["in", "outlong", "outopt", "ref", "thr", "verb"]),
+            values: st_values() + #{"-o": "files", "-r": "none", "-l": "none", "-n": "none", "-T": "none"},
+            args: [sam],
+        },
+        "cat" => #{
+            opts: `
+                -b FILE      list of the input BAM or CRAM files, one per line
+                -h FILE      copy the header from FILE
+                -o FILE      output BAM or CRAM
+                --no-PG      do not add a PG line
+                -r REG       (CRAM) filter to the region REG
+                -p N/M       (CRAM) part N of M
+                -f           (CRAM) fast mode: do not filter containers to exactly match the region
+                -q           (CRAM) query the total number of indexed containers
+            ` + st_opts(["outopt", "verb"]),
+            values: #{
+                "-b": "files", "-h": k("sam"), "-o": "files", "-r": "none", "-p": "none",
+                "--output-fmt-option": "none", "--verbosity": "none",
+            },
+            args: [sam],
+        },
+        "consensus" => #{
+            opts: `
+                -r, --region REG          limit the query to REG (requires an index)
+                -f, --format FMT          the output format
+                -l, --line-len N          wrap FASTA or FASTQ at line length N
+                -o, --output FILE         write the consensus to FILE
+                -m, --mode STR            the consensus mode
+                -a                        output all bases (start and end of the reference)
+                --rf, --incl-flags STR|INT  only include reads with any of these flag bits set
+                --ff, --excl-flags STR|INT  exclude reads with any of these flag bits set
+                --min-MQ N                exclude reads with mapping quality below N
+                --min-BQ N                exclude reads with base quality below N
+                --show-del yes/no         whether to show deletions as "*"
+                --show-ins yes/no         whether to show insertions
+                --mark-ins                add '+' before every inserted base or quality
+                -A, --ambig               enable IUPAC ambiguity codes
+                -d, --min-depth N         minimum depth
+                -Z, --block-size N        size of a chromosome block (bp) when threading
+                --ref-qual N              QUAL to use for reference bases
+                -q, --use-qual, --no-use-qual  (simple mode) use quality values in the calculation
+                -c, --call-fract FLOAT    (simple mode) portion of the bases that must agree
+                -H, --het-fract FLOAT     (simple mode) minimum fraction of the 2nd most common base to the most common
+                -C, --cutoff N            (Bayesian mode) consensus cutoff quality
+                --adj-qual, --no-adj-qual  (Bayesian mode) modify the quality with local minima
+                --use-MQ, --no-use-MQ     (Bayesian mode) use the mapping quality in the calculation
+                --adj-MQ, --no-adj-MQ     (Bayesian mode) modify the mapping quality by the local NM
+                --NM-halo N               (Bayesian mode) size of the window for the NM count in --adj-MQ
+                --scale-MQ FLOAT          (Bayesian mode) scale the mapping quality by FLOAT
+                --low-MQ N                (Bayesian mode) cap the minimum mapping quality
+                --high-MQ N               (Bayesian mode) cap the maximum mapping quality
+                --P-het FLOAT             (Bayesian mode) probability of a heterozygous site
+                --P-indel FLOAT           (Bayesian mode) probability of an indel site
+                --het-scale FLOAT         (Bayesian mode) heterozygous SNP probability multiplier
+                -p, --homopoly-fix        (Bayesian mode) spread low-quality bases to both ends of homopolymers
+                --homopoly-score FLOAT    (Bayesian mode) quality fraction adjustment for -p
+                -t, --qual-calibration FILE  (Bayesian mode) load a quality calibration file
+                -X, --config STR          use a pre-defined configuration set
+            ` + st_opts(["in", "refT", "thr", "verb"]),
+            values: st_values() + #{
+                "--region": k("regions"), "-r": k("regions"),
+                "--format": ["FASTA", "FASTQ", "PILEUP"], "-f": ["FASTA", "FASTQ", "PILEUP"],
+                "--mode": ["simple", "bayesian"], "-m": ["simple", "bayesian"],
+                "--output": "files", "-o": "files",
+                "--show-del": ["yes", "no"], "--show-ins": ["yes", "no"],
+                "--qual-calibration": "files", "-t": "files",
+                "--config": ["hiseq", "hifi", "r10.4_sup", "r10.4_dup", "ultima"],
+                "-X": ["hiseq", "hifi", "r10.4_sup", "r10.4_dup", "ultima"],
+                "--line-len": "none", "--incl-flags": "none", "--rf": "none", "--excl-flags": "none",
+                "--ff": "none", "--min-MQ": "none", "--min-BQ": "none", "--min-depth": "none", "-d": "none",
+                "--block-size": "none", "-Z": "none", "--ref-qual": "none", "--call-fract": "none", "-c": "none",
+                "--het-fract": "none", "-H": "none", "--cutoff": "none", "-C": "none", "--NM-halo": "none",
+                "--scale-MQ": "none", "--low-MQ": "none", "--high-MQ": "none", "--P-het": "none",
+                "--P-indel": "none", "--het-scale": "none", "--homopoly-score": "none",
+            },
+            args: [sam],
+        },
+        "split" => #{
+            opts: `
+                -f STRING          output file name format string
+                -u FILE            put the left-over reads in FILE
+                -h FILE            override the header with FILE (for the -u file only)
+                -d TAG             split by the value of TAG (a string)
+                -p N               zero-pad the numbers in file names to N digits
+                -M, --max-split N  limit the number of output files from -d to N
+                -v                 verbose output
+                --no-PG            do not add a PG line
+            ` + st_opts(["in", "outlong", "outopt", "ref", "thr", "wi", "verb"]),
+            values: st_values() + #{
+                "-f": "none", "-u": "files", "-h": k("sam"), "-d": "none", "-p": "none",
+                "--max-split": "none", "-M": "none",
+            },
+            args: [sam],
+        },
+        "import" => #{
+            opts: `
+                -s FILE            paired-end data from a single FILE
+                -0 FILE            single-end data from FILE
+                -1 FILE            read 1 from FILE
+                -2 FILE            read 2 from FILE
+                --i1 FILE          index 1 from FILE
+                --i2 FILE          index 2 from FILE
+                -i                 parse the CASAVA identifier
+                --barcode-tag TAG  the tag for the barcode sequences
+                --quality-tag TAG  the tag for the barcode qualities
+                -N, --name2        use the 2nd field as the read name (SRA format)
+                -r STRING          build up a complete @RG line
+                -R STRING          add a simple RG line "@RG\tID:STRING"
+                -T TAGLIST         parse tags in SAM format ('*' for all)
+                -o FILE            write to FILE instead of standard output
+                -u                 uncompressed output
+                --order TAG        store the Nth record count in TAG
+                --no-PG            do not add a PG line
+            ` + st_opts(["in", "out", "outopt", "thr"]),
+            values: st_values() + #{
+                "-s": k("fastq"), "-0": k("fastq"), "-1": k("fastq"), "-2": k("fastq"),
+                "--i1": k("fastq"), "--i2": k("fastq"), "-o": "files", "--barcode-tag": "none",
+                "--quality-tag": "none", "-r": "none", "-R": "none", "-T": "none", "--order": "none",
+            },
+            args: [k("fastq")],
+        },
+        "reference" => #{
+            opts: `
+                -@ N          number of additional threads to use
+                -r REGION     the region to output
+                -e            use = for bases that match the reference
+                -q            use quiet mode
+                -o FILE       write the output to FILE
+            `,
+            values: #{"-@": "none", "-r": "none", "-o": "files"},
+            args: [k("bam")],
+        },
+        "reset" => #{
+            opts: `
+                -o FILE               write the output to FILE
+                -x, --remove-tag STR  aux tags to remove
+                --keep-tag STR        aux tags to keep (like -x ^STR)
+                --reject-PG ID        remove the PG line with this ID and the ones after it
+                --no-RG               do not keep the RG lines
+                --no-PG               do not add a PG entry for the reset operation
+                --dupflag             keep the duplicate flag
+            ` + st_opts(["out", "thr"]),
+            values: #{
+                "-o": "files", "--remove-tag": "none", "-x": "none", "--keep-tag": "none",
+                "--reject-PG": "none", "--output-fmt": ["SAM", "BAM", "CRAM"], "-O": ["SAM", "BAM", "CRAM"],
+                "--threads": "none", "-@": "none",
+            },
+            args: [sam],
+        },
+        "phase" => #{
+            opts: `
+                -k N              block length
+                -b STR            prefix of the BAMs to output
+                -q N              minimum het phred-LOD
+                -Q, --min-BQ N    minimum base quality in het calling
+                -D N              maximum read depth
+                -F                do not attempt to fix chimeras
+                -A                drop reads with ambiguous phase
+                --no-PG           do not add a PG line
+            ` + st_opts(["in", "outlong", "outopt", "ref", "verb"]),
+            values: st_values() + #{"-k": "none", "-b": "none", "-q": "none", "--min-BQ": "none", "-Q": "none", "-D": "none"},
+            args: [sam],
+        },
+        "ampliconstats" => #{
+            opts: `
+                -f, --required-flag STR|INT   only reads with all of the flags present
+                -F, --filter-flag STR|INT     only reads with none of the flags present
+                -a, --max-amplicons N         the maximum number of amplicons permitted
+                -l, --max-amplicon-length N   the maximum length of an amplicon
+                -d, --min-depth N[,N]...      minimum base depth(s) to consider a position covered
+                -m, --pos-margin N            margin of error for matching primer positions
+                -o, --output FILE             write the output to FILE
+                -s, --use-sample-name         use the sample name of the first @RG header line
+                -t, --tlen-adjust N           add or subtract from TLEN (when clipping without fixmate)
+                -b, --tcoord-bin N            bin template start and end positions into multiples of N
+                -c, --tcoord-min-count N      minimum template start and end frequency to record
+                -D, --depth-bin FRACTION      merge FDP values within +/- FRACTION
+                -S, --single-ref              force the single-reference (<=1.12) output format
+                -I, --input-fmt FORMAT[,OPT[=VAL]]  the input format
+            ` + st_opts(["in", "ref", "thr"]),
+            values: st_values() + #{
+                "-f": "none", "--required-flag": "none", "-F": "none", "--filter-flag": "none",
+                "-a": "none", "--max-amplicons": "none", "-l": "none", "--max-amplicon-length": "none",
+                "-d": "none", "--min-depth": "none", "-m": "none", "--pos-margin": "none",
+                "-o": "files", "--output": "files", "-t": "none", "--tlen-adjust": "none",
+                "-b": "none", "--tcoord-bin": "none", "-c": "none", "--tcoord-min-count": "none",
+                "-D": "none", "--depth-bin": "none", "-I": ["SAM", "BAM", "CRAM"], "--input-fmt": ["SAM", "BAM", "CRAM"],
+            },
+            args: [k("bed"), k("sam")],
+        },
+        "checksum" => #{
+            opts: `
+                -F, --exclude-flags FLAG   filter if any FLAGs are present
+                -f, --require-flags FLAG   filter unless all FLAGs are present
+                -b, --flag-mask FLAG       BAM FLAGs to use in the checksums
+                -c, --no-rev-comp          do not reverse-complement the sequences
+                -t, --tags STR[,STR]       tags to checksum
+                -O, --in-order             use order-specific checksumming
+                -P, --check-pos            also checksum CHR and POS
+                -C, --check-cigar          also checksum MAPQ and CIGAR
+                -M, --check_mate           also checksum PNEXT, RNEXT and TLEN
+                -z, --sanitize FLAGS       sanity-check and fix records
+                -N, --count N              stop after N records
+                -o, --output FILE          write the report to FILE
+                -q, --show-qc              also show the QC pass and fail lines
+                -v, --verbose              show the lines with 0 counts
+                -a, --all                  check everything (-PCMOc -b 0xfff -f0 -F0 -z all,cigarx)
+                -T, --tabs                 tab-delimited output
+                -m, --merge FILE           merge the checksum output files
+                -B, --bamseqchksum         report in bamseqchksum format
+            ` + st_opts(["in", "thr"]),
+            values: st_values() + #{
+                "-F": "none", "--exclude-flags": "none", "-f": "none", "--require-flags": "none",
+                "-b": "none", "--flag-mask": "none", "-t": "none", "--tags": "none", "-z": "none",
+                "--sanitize": "none", "-N": "none", "--count": "none", "-o": "files", "--output": "files",
+                "-m": "files", "--merge": "files",
+            },
+            args: [sam],
+        },
+        "head" => #{
+            opts: `
+                -h, --headers N     display N header lines
+                -n, --records N     display N alignment record lines
+                -T, --reference FILE  the reference FASTA
+            ` + st_opts(["in", "thr", "verb"]),
+            values: st_values() + #{"--headers": "none", "-h": "none", "--records": "none", "-n": "none"},
+            args: [sam],
+        },
+        "tview" => #{
+            opts: `
+                -d display      output as (H)tml, (C)urses or (T)ext
+                -X              include a customized index file
+                -p chr:pos      go directly to this position
+                -s STR          display only reads from this sample or group
+                -w N            display width (with -d T only)
+                -i              hide inserts
+            ` + st_opts(["in", "ref", "verb"]),
+            values: st_values() + #{
+                "-d": [#{value: "H", desc: "html"}, #{value: "C", desc: "curses"}, #{value: "T", desc: "text"}],
+                "-p": k("regions"), "-s": "none", "-w": "none",
+            },
+            args: [k("bam"), k("fasta")],
+        },
+        "depad" => #{
+            opts: `
+                -s               output SAM (default: BAM)
+                -S               input is SAM (default: BAM)
+                -u               uncompressed BAM output (not with -s)
+                -1               fast compression BAM output (not with -s)
+                -T, --reference FILE  the padded reference sequence FASTA
+                -o FILE          write the output to FILE
+                --no-PG          do not add a PG line
+            ` + st_opts(["in", "outlong", "outopt", "wi", "verb"]),
+            values: st_values() + #{"-o": "files", "-T": k("fasta")},
+            args: [sam],
+        },
+        "samples" => #{
+            opts: `
+                -h              add the column header before printing the results
+                -i              test if the file is indexed
+                -T TAG          the sample tag name of the @RG line
+                -o FILE         write the output to FILE
+                -f FILE         add an indexed FASTA file to the collection of references (repeatable)
+                -F FILE         read a file of paths to indexed FASTA files, one per line
+                -X              use a custom index file
+            `,
+            values: #{"-T": "none", "-o": "files", "-f": k("fasta"), "-F": "files"},
+            args: [sam],
+        },
+        "targetcut" => #{
+            opts: `
+                -Q N              minimum quality
+                -i N              indel penalty
+                -0 N              em0 parameter
+                -1 N              em1 parameter
+                -2 N              em2 parameter
+                -f, --reference FILE  the reference FASTA
+            ` + st_opts(["in", "verb"]),
+            values: st_values() + #{"-Q": "none", "-i": "none", "-0": "none", "-1": "none", "-2": "none", "-f": k("fasta")},
+            args: [sam],
+        },
+        "cram-size" | "cram_size" => #{
+            opts: `
+                -v          verbose output
+                -e          also list the embedded reference
+                -o FILE     write the output to FILE
+            `,
+            values: #{"-o": "files"},
+            args: [k("bam")],
         },
         _ => #{args: [sam]},
     }
@@ -623,6 +1132,21 @@ fn bedtools_overlap() {
     `
 }
 
+// The overlap options of `bedtools_overlap` that do not include the I/O ones.
+fn bedtools_overlap_noio() {
+    `
+        -s                  require the same strand
+        -S                  require the opposite strand
+        -f FRACTION         minimum overlap required, as a fraction of A
+        -F FRACTION         minimum overlap required, as a fraction of B
+        -r                  require the overlap to be reciprocal for A and B
+        -e                  require the minimum fraction for A or for B
+        -split              treat split BAM or BED12 entries as distinct intervals
+        -g FILE             genome file, for a consistent chromosome order
+        -nonamecheck        do not fail if chromosome naming conventions differ
+    `
+}
+
 fn bedtools_values() {
     let v = #{
         "-a": k("intervals"), "-b": k("intervals"), "-i": k("intervals"), "-abam": k("bam"),
@@ -630,7 +1154,8 @@ fn bedtools_values() {
         "-excl": k("intervals"), "-incl": k("intervals"), "-faidx": "files",
     };
     // Options with a number, a text or a column list.
-    for o in ["-f", "-F", "-iobuf", "-names", "-c", "-o", "-d", "-w", "-l", "-r", "-n", "-s", "-p", "-m", "-k",
+    for o in ["-fq", "-fq2", "-files", "-bams", "-labels", "-cols", "-base", "-org", "-db", "-sess", "-path",
+              "-f", "-F", "-iobuf", "-names", "-c", "-o", "-d", "-w", "-l", "-r", "-n", "-s", "-p", "-m", "-k",
               "-mc", "-max", "-scale", "-fs", "-tag", "-color", "-pattern", "-prec", "-delim", "-grp", "-opCols",
               "-ops", "-seed", "-maxTries", "-trackopts", "-e"] {
         v[o] = "none";
@@ -918,6 +1443,249 @@ fn bedtools_sub(sub) {
                 -l N                length of the intervals
                 -n N                number of intervals
                 -seed N             seed for the shuffling
+            `,
+        },
+        "sample" => #{
+            opts: `
+                -i FILE             the input file
+                -n N                number of records to sample
+                -seed N             seed for the shuffling
+                -ubam               write uncompressed BAM output
+                -s                  require the same strand
+                -header             print the header of the input file first
+                -bed                write BED output for BAM input
+                -nobuf              disable buffered output
+                -iobuf SIZE         memory to use for the input buffer
+            `,
+        },
+        "spacing" => #{
+            opts: `
+                -i FILE             the input file
+                -bed                write BED output for BAM input
+                -header             print the header of the A file first
+                -nobuf              disable buffered output
+                -iobuf SIZE         memory to use for the input buffer
+            `,
+        },
+        "annotate" => #{
+            opts: `
+                -i FILE             the input file
+                -files FILE...      the files to annotate with
+                -names NAME...      a name for each file
+                -counts             report the count of overlapping features in each file
+                -both               report the counts followed by the percent coverage
+                -s                  require the same strand
+                -S                  require the opposite strand
+            `,
+            values: #{"-files": k("intervals")},
+        },
+        "multiinter" => #{
+            opts: `
+                -i FILE...          the files to combine
+                -cluster            invoke Ryan Layer's clustering algorithm
+                -header             print a header line
+                -names NAME...      a name for each file
+                -g FILE             genome file, to calculate the empty regions
+                -empty              report the empty regions (needs -g)
+                -filler TEXT        text for intervals with no value
+                -examples           show detailed usage examples
+            `,
+        },
+        "unionbedg" => #{
+            opts: `
+                -i FILE...          the bedGraph files to combine
+                -header             print a header line
+                -names NAME...      a name for each file
+                -g FILE             genome file, to calculate the empty regions
+                -empty              report the empty regions (needs -g)
+                -filler TEXT        text for intervals with no value
+                -examples           show detailed usage examples
+            `,
+        },
+        "pairtobed" => #{
+            opts: `
+                -a FILE             the A file (BEDPE)
+                -b FILE             the B file (BED, GFF or VCF)
+                -abam FILE          the A file is BAM, grouped or sorted by query (replaces -a)
+                -ubam               write uncompressed BAM output
+                -bedpe              write BEDPE output for BAM input
+                -ed                 use the BAM edit distance (NM tag) for the BEDPE score
+                -f FRACTION         minimum overlap required, as a fraction of A
+                -s                  require the same strand
+                -S                  require the opposite strand
+                -type TYPE          how overlaps between BEDPE and BED are reported
+            `,
+            values: #{
+                "-type": [
+                    #{value: "either", desc: "if either end of A overlaps B"},
+                    #{value: "neither", desc: "A if neither end overlaps B"},
+                    #{value: "both", desc: "if both ends of A overlap B"},
+                    #{value: "xor", desc: "if one and only one end overlaps B"},
+                    #{value: "notboth", desc: "if neither end or one and only one overlaps B"},
+                    #{value: "ispan", desc: "overlaps between [end1, start2] of A and B"},
+                    #{value: "ospan", desc: "overlaps between [start1, end2] of A and B"},
+                    #{value: "notispan", desc: "A if [end1, start2] does not overlap B"},
+                    #{value: "notospan", desc: "A if [start1, end2] does not overlap B"},
+                ],
+            },
+        },
+        "pairtopair" => #{
+            opts: `
+                -a FILE             the A file (BEDPE)
+                -b FILE             the B file (BEDPE)
+                -f FRACTION         minimum overlap required, as a fraction of A
+                -type TYPE          how overlaps between A and B are reported
+                -slop N             base pairs of slop added to each footprint of A
+                -ss                 add the slop based on the strand
+                -is                 ignore the strands when searching for overlaps
+                -rdn                require the hits to have different names
+            `,
+            values: #{"-type": ["neither", "either", "both", "notboth"]},
+        },
+        "bedtobam" => #{
+            opts: `
+                -i FILE             the input file
+                -g FILE             genome file
+                -mapq N             mapping quality of the BAM records
+                -bed12              the BED file is BED12 (the CIGAR is made from the blocks)
+                -ubam               write uncompressed BAM output
+            `,
+        },
+        "bamtofastq" => #{
+            opts: `
+                -i FILE             the input BAM file
+                -fq FILE            the FASTQ file
+                -fq2 FILE           the FASTQ file for the second end (paired-end data)
+                -tags               create the FASTQ from the mate information
+            `,
+            values: #{"-i": k("bam"), "-fq": "files", "-fq2": "files"},
+            args: [k("bam")],
+        },
+        "bedpetobam" => #{
+            opts: `
+                -i FILE             the input BEDPE file
+                -g FILE             genome file
+                -mapq N             mapping quality of the BAM records
+                -ubam               write uncompressed BAM output
+            `,
+        },
+        "bed12tobed6" => #{
+            opts: `
+                -i FILE             the input BED12 file
+                -n                  force the score to be the block number
+            `,
+        },
+        "multicov" => #{
+            opts: `
+                -bams FILE...       the BAM files
+                -bed FILE           the BED file
+                -split              treat split BAM or BED12 entries as distinct intervals
+                -s                  require the same strand
+                -S                  require the opposite strand
+                -f FRACTION         minimum overlap required, as a fraction of each -bed record
+                -r                  require the overlap to be reciprocal
+                -q N                minimum mapping quality
+                -D                  include duplicate reads
+                -F                  include reads that failed the QC
+                -p                  only count proper pairs
+            `,
+            values: #{"-bams": k("bam")},
+        },
+        "tag" => #{
+            opts: `
+                -i FILE             the input BAM file
+                -files FILE...      the annotation files
+                -labels LABEL...    a label for each annotation file
+                -s                  require overlaps on the same strand
+                -S                  require overlaps on the opposite strand
+                -f FRACTION         minimum overlap required, as a fraction of the alignment
+                -tag TAG            the tag to use (two characters)
+                -names              use the name field of the annotation files to populate the tags
+                -scores             use the score field of the annotation files to populate the tags
+                -intervals          use the full interval to populate the tags (needs -labels)
+            `,
+            values: #{"-i": k("bam"), "-files": k("intervals")},
+            args: [k("bam")],
+        },
+        "jaccard" => #{
+            opts: ab + `
+                -bed                write BED output for BAM input
+                -header             print the header of the A file first
+                -nobuf              disable buffered output
+                -iobuf SIZE         memory to use for the input buffer
+                -sorted             use the chromsweep algorithm for sorted input
+            ` + bedtools_overlap_noio(),
+        },
+        "fisher" => #{
+            opts: ab + `
+                -m                  merge overlapping intervals first
+                -bed                write BED output for BAM input
+                -header             print the header of the A file first
+                -nobuf              disable buffered output
+                -iobuf SIZE         memory to use for the input buffer
+                -sorted             use the chromsweep algorithm for sorted input
+            ` + bedtools_overlap_noio(),
+        },
+        "reldist" => #{
+            opts: ab + `
+                -detail             report the relative distance for each interval in A
+            `,
+        },
+        "overlap" => #{
+            opts: `
+                -i FILE             the input file
+                -cols COLS          the columns of start1,end1,start2,end2
+            `,
+        },
+        "igv" => #{
+            opts: `
+                -i FILE             the input file
+                -path DIR           where to write the IGV snapshots
+                -sess FILE          an IGV session file to load first
+                -sort TYPE          how to sort the BAM in each image
+                -clps               collapse the aligned reads
+                -name               use the name field for the file name of each image
+                -slop N             flanking base pairs on each side of the image
+                -img TYPE           the type of the image
+            `,
+            values: #{
+                "-path": "dirs", "-sess": "files", "-sort": ["base", "position", "strand", "quality", "sample", "readGroup"],
+                "-img": ["png", "eps", "svg"],
+            },
+        },
+        "links" => #{
+            opts: `
+                -i FILE             the input file
+                -base URL           the browser's base name
+                -org NAME           the organism
+                -db NAME            the genome build
+            `,
+        },
+        "expand" => #{
+            opts: `
+                -i FILE             the input file
+                -c COLS             the columns to expand
+            `,
+        },
+        "split" => #{
+            opts: `
+                -i, --input FILE    the BED file
+                -n, --number N      the number of files to make
+                -p, --prefix STR    the prefix of the output files
+                -a, --algorithm ALG the algorithm to split with
+            `,
+            values: #{
+                "--algorithm": [
+                    #{value: "size", desc: "about the same number of bases in each file"},
+                    #{value: "simple", desc: "about the same number of records in each file"},
+                ],
+                "-a": ["size", "simple"], "--input": k("bed"),
+            },
+        },
+        "summary" => #{
+            opts: `
+                -i FILE             the input file (BED, GFF, VCF or BAM)
+                -g FILE             genome file
             `,
         },
         _ => #{opts: ab + "-i FILE  the input file\n-g FILE  genome file\n-header  print the header first\n", values: #{}},

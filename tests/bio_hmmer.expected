@@ -1,0 +1,104 @@
+load 0
+=== hmmer
+--- hmmsearch --tb
+--tblout=	save parseable table of per-sequence hits to file <f>
+--- hmmsearch data/
+data/pfam.hmm 
+data/sub/
+--- hmmsearch data/pfam.hmm data/
+data/db.faa 
+data/q.fa 
+data/sub/
+--- hmmsearch --tblout data/
+data/aln.sto 
+data/aln.sto.gz 
+data/db.faa 
+data/notes.txt 
+data/pfam.hmm 
+data/q.fa 
+data/sub/
+--- hmmsearch --cut_
+--cut_ga 	use profile's GA gathering cutoffs to set all thresholding
+--cut_nc 	use profile's NC noise cutoffs to set all thresholding
+--cut_tc 	use profile's TC trusted cutoffs to set all thresholding
+--- hmmsearch -E
+-E 	report sequences <= this E-value threshold in output
+--- hmmscan --domtblout 
+bio_hmmer.sh 
+data/
+--- phmmer --mx 
+BLOSUM45 
+BLOSUM50 
+BLOSUM62 
+BLOSUM80 
+BLOSUM90 
+PAM120 
+PAM240 
+PAM30 
+PAM70 
+--- phmmer --tformat 
+daemon 
+ddbj 
+embl 
+fasta 
+genbank 
+hmmpgmd 
+ncbi 
+uniprot 
+--- jackhmmer -N
+-N 	set maximum number of iterations to <n>
+--- hmmbuild --inf
+--informat=	assert input alifile is in format <s> (no autodetect)
+--- hmmbuild --informat 
+a2m 
+afa 
+clustal 
+clustallike 
+pfam 
+phylip 
+phylips 
+psiblast 
+selex 
+stockholm 
+--- hmmbuild out.hmm data/
+data/aln.sto 
+data/aln.sto.gz 
+data/q.fa 
+data/sub/
+--- hmmbuild --amino
+--amino 	input alignment is protein sequence data
+--- hmmalign --outformat 
+a2m 
+afa 
+clustal 
+clustallike 
+pfam 
+phylip 
+phylips 
+psiblast 
+selex 
+stockholm 
+--- hmmalign data/
+data/pfam.hmm 
+data/sub/
+--- hmmpress data/
+data/pfam.hmm 
+data/sub/
+--- hmmemit -
+--glocal 	configure profile in multihit glocal mode
+--local 	configure profile in multihit local mode
+--minl=	show consensus as 'any' (X/N) unless >= this fraction
+--minu=	show consensus as upper case if >= this fraction
+--seed=	set RNG seed to <n>
+--uniglocal 	configure profile in unihit glocal mode
+--unilocal 	configure profile in unilocal mode
+-C 	emit fancier consensus sequence (req's --minl, --minu)
+-L 	set expected length from profile to <n>
+-N 	number of seqs to sample
+-a 	emit alignment
+-c 	emit simple majority-rule consensus sequence
+-h 	show brief help on version and usage
+-o 	send sequence output to file <f>, not stdout
+-p 	sample sequences from profile, not core model
+--- nhmmer --dna
+--dna 	input alignment is DNA sequence data

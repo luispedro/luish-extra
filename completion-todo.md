@@ -1,6 +1,22 @@
 # Completion TODO
 
-Tools to support, from `docs/completion.md`
+Tools to support, from `docs/completion.md`.
+
+A ticked tool has a spec and a test, and the version after it is the one its options were checked against, from
+the tool's own `--help`. Versions are Bioconda packages, run in a temporary pixi environment, so anyone can
+repeat the check:
+
+```sh
+scripts/optcheck.sh samtools=1.22.1 samtools sort view     # PACKAGE=VERSION PROG [SUB]...
+pixi exec -c conda-forge -c bioconda -s bcftools=1.24 -- bcftools --version
+```
+
+`scripts/optdiff.py` lists the options the help mentions that the spec lacks (`missing`) and the reverse
+(`extra`); what it prints for a ticked tool is only noise from the help text (option names in prose, `-Ou`
+in examples) or options the help leaves out on purpose. `scripts/help2opts.py` drafts an option table from a
+help text. The first ticks (samtools, bedtools, tabix, bgzip, htsfile, ngless, SemiBin2, macrel, argnorm) were
+made before versions were recorded: they were checked again on 2026-09-30, which found samtools and bedtools
+subcommands without options, fixed at the same time.
 
 
 ## `bio`: bioinformatics
@@ -8,12 +24,12 @@ Tools to support, from `docs/completion.md`
 
 ### Alignment files, variants and intervals
 
-- [x] `samtools`
-- [ ] `bcftools`
-- [x] `bedtools`
-- [x] `tabix`
-- [x] `bgzip`
-- [x] `htsfile`
+- [x] `samtools`: samtools 1.22.1 (htslib 1.22.1)
+- [x] `bcftools`: bcftools 1.24 (htslib 1.24)
+- [x] `bedtools`: bedtools 2.31.1
+- [x] `tabix`: htslib 1.22.1
+- [x] `bgzip`: htslib 1.22.1
+- [x] `htsfile`: htslib 1.22.1
 - [ ] `vcftools`
 - [ ] `bamtools`
 - [ ] `sambamba`
@@ -144,25 +160,25 @@ Tools to support, from `docs/completion.md`
 
 ### Mapping and quantification
 
-- [ ] `bwa`
-- [ ] `bwa-mem2`
+- [x] `bwa`: bwa 0.7.19
+- [x] `bwa-mem2`: bwa-mem2 2.2.1
 - [ ] `bowtie`
-- [ ] `bowtie2`
-- [ ] `bowtie2-build`
-- [ ] `minimap2`
-- [ ] `hisat2`
-- [ ] `hisat2-build`
-- [ ] `STAR`
+- [x] `bowtie2`: bowtie2 2.5.5
+- [x] `bowtie2-build`: bowtie2 2.5.5
+- [x] `minimap2`: minimap2 2.30
+- [x] `hisat2`: hisat2 2.2.3
+- [x] `hisat2-build`: hisat2 2.2.3
+- [x] `STAR`: star 2.7.11b
 - [ ] `gmap`
 - [ ] `lastal`
 - [ ] `lastdb`
 - [ ] `last-train`
-- [ ] `kallisto`
+- [x] `kallisto`: kallisto 0.52.0
 - [ ] `bustools`
 - [ ] `salmon`
 - [ ] `stringtie`
 - [ ] `htseq-count`
-- [ ] `featureCounts`
+- [x] `featureCounts`: subread 2.1.1
 - [ ] `rsem-calculate-expression`
 - [ ] `cufflinks`
 - [ ] `regtools`
@@ -207,16 +223,16 @@ Tools to support, from `docs/completion.md`
 
 ### Sequence search
 
-- [ ] `blastn`
-- [ ] `blastp`
-- [ ] `blastx`
-- [ ] `tblastn`
-- [ ] `tblastx`
-- [ ] `makeblastdb`
-- [ ] `blastdbcmd`
-- [ ] `rpsblast`
-- [ ] `diamond`
-- [ ] `mmseqs`
+- [x] `blastn`: blast 2.17.0
+- [x] `blastp`: blast 2.17.0
+- [x] `blastx`: blast 2.17.0
+- [x] `tblastn`: blast 2.17.0
+- [x] `tblastx`: blast 2.17.0
+- [x] `makeblastdb`: blast 2.17.0
+- [x] `blastdbcmd`: blast 2.17.0
+- [x] `rpsblast`: blast 2.17.0
+- [x] `diamond`: diamond 2.2.8
+- [x] `mmseqs`: mmseqs2 18.8cc5c (options read from the installed `mmseqs`)
 - [ ] `foldseek`
 - [ ] `hhblits`
 - [ ] `hhsearch`
@@ -231,15 +247,28 @@ Tools to support, from `docs/completion.md`
 - [ ] `interproscan.sh`
 - [ ] `kofamscan`
 - [ ] `usearch`
-- [ ] `psiblast`
-- [ ] `deltablast`
-- [ ] `dustmasker`
-- [ ] `segmasker`
-- [ ] `windowmasker`
-- [ ] `makeprofiledb`
-- [ ] `blastdb_aliastool`
-- [ ] `update_blastdb.pl`
+- [x] `psiblast`: blast 2.17.0
+- [x] `deltablast`: blast 2.17.0
+- [x] `dustmasker`: blast 2.17.0
+- [x] `segmasker`: blast 2.17.0
+- [x] `windowmasker`: blast 2.17.0
+- [x] `makeprofiledb`: blast 2.17.0
+- [x] `blastdb_aliastool`: blast 2.17.0
+- [x] `update_blastdb.pl`: blast 2.17.0
 - [ ] `cas-offinder`
+- [x] `hmmsearch`: hmmer 3.4
+- [x] `hmmscan`: hmmer 3.4
+- [x] `phmmer`: hmmer 3.4
+- [x] `jackhmmer`: hmmer 3.4
+- [x] `nhmmer`: hmmer 3.4
+- [x] `nhmmscan`: hmmer 3.4
+- [x] `hmmbuild`: hmmer 3.4
+- [x] `hmmalign`: hmmer 3.4
+- [x] `hmmpress`: hmmer 3.4
+- [x] `hmmfetch`: hmmer 3.4
+- [x] `hmmemit`: hmmer 3.4
+- [x] `hmmconvert`: hmmer 3.4
+- [x] `hmmstat`: hmmer 3.4
 
 ### Read QC, trimming and sequence utilities
 
@@ -710,11 +739,11 @@ Tools to support, from `docs/completion.md`
 
 ### Other
 
-- [x] `ngless`
-- [x] `SemiBin2`
-- [x] `SemiBin`
-- [x] `macrel`
-- [x] `argnorm`
+- [x] `ngless`: ngless 1.5.0
+- [x] `SemiBin2`: semibin 2.3.0 and 2.5.0
+- [x] `SemiBin`: no `SemiBin` executable in semibin 2.x: the spec is SemiBin2's (2.3.0, 2.5.0)
+- [x] `macrel`: macrel 1.6.0
+- [x] `argnorm`: argnorm 1.1.0
 - [ ] `gmsc-mapper`
 - [ ] `nextclade`
 - [ ] `pangolin`

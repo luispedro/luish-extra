@@ -141,16 +141,29 @@ data/peaks.bed
 data/peaks.bed.gz 
 data/sub/
 --- samtools fastq -
+--barcode-tag=	the barcode tag
+--i1=	write the first index reads to FILE
+--i2=	write the second index reads to FILE
+--incl-flags=	only reads with some of the FLAGs present
+--include-flags=	only reads with some of the FLAGs present
+--index-format=	how to parse the barcode and quality tags
+--input-fmt-option=	an input format option
+--quality-tag=	the barcode quality tag
+--reference=	the reference FASTA
+--rf=	only reads with some of the FLAGs present
+--verbosity=	set the level of verbosity
 -0 	write reads with neither READ1 nor READ2 to FILE
 -1 	write READ1 reads to FILE
 -2 	write READ2 reads to FILE
 -@ 	number of additional threads to use
+-D 	only reads with tag STR whose value is listed in FILE
 -F 	only reads with none of the FLAGs present
 -G 	exclude reads with all of the FLAGs present
 -N 	always append /1 and /2 to the read name
 -O 	use the quality values from OQ tags
 -T 	copy arbitrary tags to the header line
 -c 	compression level
+-d 	only reads with tag TAG, optionally with value VAL
 -f 	only reads with all the FLAGs present
 -i 	add Illumina Casava 1.8 format entry to the header
 -n 	do not append /1 and /2 to the read name
@@ -416,3 +429,102 @@ data/sub/
 -g 	genome file
 -header 	print the header first
 -i 	the input file
+=== more samtools and bedtools subcommands
+--- samtools markdup --mode 
+s 	positions from the sequence start
+t 	positions from the template start and end
+--- samtools markdup -f data/
+data/a.bam 
+data/a.bam.bai 
+data/b.sam 
+data/c.cram 
+data/calls.bcf 
+data/calls.vcf.gz 
+data/genes.gff3 
+data/genome.fa 
+data/genome.fa.fai 
+data/genome.fa.gz 
+data/notes.txt 
+data/peaks.bed 
+data/peaks.bed.gz 
+data/reads.fq 
+data/sizes.genome 
+data/sub/
+--- samtools consensus --format=
+--format=FASTA 
+--format=FASTQ 
+--format=PILEUP 
+--- samtools consensus -r 
+--- samtools consensus --config 
+hifi 
+hiseq 
+r10.4_dup 
+r10.4_sup 
+ultima 
+--- samtools ampliconclip -b data/
+data/peaks.bed 
+data/peaks.bed.gz 
+data/sub/
+--- samtools reheader data/
+data/b.sam 
+data/notes.txt 
+data/sub/
+--- samtools tview -d 
+C 	curses
+H 	html
+T 	text
+--- samtools addreplacerg -m 
+orphan_only 
+overwrite_all 
+--- samtools import -1 data/
+data/reads.fq 
+data/sub/
+--- samtools fasta --i
+--incl-flags=	only reads with some of the FLAGs present
+--include-flags=	only reads with some of the FLAGs present
+--input-fmt-option=	an input format option
+--- samtools ampliconstats data/
+data/peaks.bed 
+data/peaks.bed.gz 
+data/sub/
+--- bedtools pairtobed -type 
+both 	if both ends of A overlap B
+either 	if either end of A overlaps B
+ispan 	overlaps between [end1, start2] of A and B
+neither 	A if neither end overlaps B
+notboth 	if neither end or one and only one overlaps B
+notispan 	A if [end1, start2] does not overlap B
+notospan 	A if [start1, end2] does not overlap B
+ospan 	overlaps between [start1, end2] of A and B
+xor 	if one and only one end overlaps B
+--- bedtools split -a 
+simple 
+size 
+--- bedtools multicov -bams data/
+data/a.bam 
+data/c.cram 
+data/sub/
+--- bedtools igv -sort 
+base 
+position 
+quality 
+readGroup 
+sample 
+strand 
+--- bedtools jaccard -
+-F 	minimum overlap required, as a fraction of B
+-S 	require the opposite strand
+-a 	the A file (BED, GFF, VCF or BAM)
+-b 	the B file(s) (BED, GFF, VCF or BAM)
+-bed 	write BED output for BAM input
+-e 	require the minimum fraction for A or for B
+-f 	minimum overlap required, as a fraction of A
+-g 	genome file, for a consistent chromosome order
+-header 	print the header of the A file first
+-iobuf 	memory to use for the input buffer
+-nobuf 	disable buffered output
+-nonamecheck 	do not fail if chromosome naming conventions differ
+-r 	require the overlap to be reciprocal for A and B
+-s 	require the same strand
+-sorted 	use the chromsweep algorithm for sorted input
+-split 	treat split BAM or BED12 entries as distinct intervals

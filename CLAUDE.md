@@ -9,10 +9,28 @@ completion modules that don't belong in luish's standard library (`std`), in plu
 and `system`. Rhai (luish's scripting language) is the implementation language: `plugin.toml` + `extension.rhai` per
 plugin.
 
-Only `complete/bio` exists so far: `extension.rhai` (registers the completers), `kinds.rhai` (bio file kinds),
-`ours.rhai` (ngless, SemiBin2, macrel, argnorm) and `hts.rhai` (samtools, bedtools, tabix, bgzip, htsfile). The
-rest of `PLAN.md` ("Order", "Next steps") is still to do, as is `bcftools` (not installed here to check its options).
-Option tables are written from the tools' real `--help`; a new module needs a line in `extension.rhai`.
+Only `complete/bio` exists so far: `extension.rhai` (registers the completers, one function per module), `kinds.rhai`
+(bio file kinds: FASTA, BAM, index prefixes of aligners, reference names and samples of VCFs, ...) and, by family of
+tools, `ours.rhai` (ngless, SemiBin2, macrel, argnorm), `hts.rhai` (samtools, bedtools, tabix, bgzip, htsfile),
+`bcftools.rhai`, `align.rhai` (bwa, bwa-mem2, bowtie2, hisat2, minimap2, STAR, kallisto, featureCounts), `blast.rhai`
+(BLAST+), `diamond.rhai`, `hmmer.rhai` and `dynamic.rhai` (mmseqs: the options are read from the installed program's
+`-h` when Tab is pressed, through std's `help_spec`; use it for programs whose help has a regular format). The rest of
+`PLAN.md` ("Order", "Next steps") is still to do. A new module needs a line in `extension.rhai`.
+
+Option tables are written from the tools' real `--help`, and `completion-todo.md` records the version each ticked tool
+was checked against. To check or add one, use the scripts (all run the tool through `pixi exec`, a temporary
+environment with Bioconda, so nothing is installed):
+
+- `scripts/optcheck.sh PKG=VERSION PROG [SUB]...` compares a spec with the tool's `--help` (via `optdiff.py`; `HELP=-h`
+  for tools without `--help`). What it prints for a finished spec is only noise from prose in the help.
+- `scripts/help2opts.py` drafts `opts:` and `values:` from a help text on standard input; read a draft before using
+  it, since help formats differ in many small ways.
+- `align.rhai`, `blast.rhai`, `diamond.rhai` and `hmmer.rhai` are **generated** by `scripts/gen/mk_*.py` from the
+  `--help` of pinned versions (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`, cached in `$HELP_CACHE`), with the
+  corrections and value kinds written in the generators. Edit the generator and run it (`python3 scripts/gen/mk_align.py`),
+  not the `.rhai`; to move to a new version, change the pin, rerun, read the diff of the module and of the tests'
+  `.expected`, and update the version in `completion-todo.md`. The other modules are written by hand.
+- Never run a tool with its standard input on a terminal: `samtools sort` waits for it. Use `</dev/null`.
 
 Tests (`tests/run.sh`, cases `tests/bio_*.sh` with `.expected`) load std's `completion` plugin and this repo's
 plugin, then run `__luish_internal complete LINE`, as `../luish/tests/plugins/std_completion*.sh` do. Programs that
@@ -49,8 +67,11 @@ sphinx-build -W docs docs/_build
 - Commands that std's `completion` plugin already covers (`fd`, `rg`, `jq`, `uv`, `pixi`, `conda`, `docker`, …) are
   deliberately not repeated. Go/Cobra tools may work through std's `PROG __complete` bridge with no spec (prefer that
   where its completion is good).
-- Rhai gotchas met so far: `module` is a reserved word; an `import` can't be chosen at run time, so `extension.rhai` has one
+- Rhai gotchas met so far: `module` and `in` are reserved words (also as keys of a map literal: quote them); an `import` can't be chosen at run time, so `extension.rhai` has one
   completer function per module.
+- In an option table (std's format) a word after the names that starts with `-` is taken as another option name, so a
+  value called `-|LIST` or `-|+TYPE` makes the option a flag: write `LIST|-`. The table is inside a Rhai backtick
+  string, so it can't contain a backtick or `${`.
 - Modules import lazily, inside the completer, so each one is compiled on first Tab. Kinds and `sub_spec` are named
   as qualified strings (`"@extra-complete/bio/kinds:fasta"`) because closures made in a module fail in Rhai 1.26.1
   when `lib.rhai` calls them.

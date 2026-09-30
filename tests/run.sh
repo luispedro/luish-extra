@@ -11,7 +11,7 @@
 #   STD_PLUGINS  luish-std-plugins (default: ../luish/luish-std-plugins)
 #
 # The scripts get $STD_PLUGINS, $EXTRA (this repository) and $PATH with
-# tests/bin first: stand-in programs go there (none are needed yet).
+# tests/bin first: the programs that completion runs (samtools, tabix, bcftools, mmseqs) are stood in for there.
 here=$(cd "$(dirname "$0")" && pwd)
 EXTRA=$(dirname "$here")
 LUISH=${LUISH:-luish}

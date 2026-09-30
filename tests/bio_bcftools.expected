@@ -1,0 +1,422 @@
+load 0
+=== bcftools
+--- bcftools 
+annotate 	annotate and edit VCF/BCF files
+call 	SNP/indel calling
+cnv 	HMM CNV calling
+concat 	concatenate VCF/BCF files from the same set of samples
+consensus 	create a consensus sequence by applying VCF variants
+convert 	convert VCF/BCF files to different formats and back
+csq 	call variation consequences
+filter 	filter VCF/BCF files using fixed thresholds
+gtcheck 	check sample concordance, detect sample swaps and contamination
+head 	view VCF/BCF file headers
+help 	show help for a command
+index 	index VCF/BCF files
+isec 	intersections of VCF/BCF files
+merge 	merge VCF/BCF files from non-overlapping sample sets
+mpileup 	multi-way pileup producing genotype likelihoods
+norm 	left-align and normalize indels
+plugin 	user-defined plugins
+polysomy 	detect the number of chromosomal copies
+query 	transform VCF/BCF into user-defined formats
+reheader 	modify the VCF/BCF header, change sample names
+roh 	identify runs of autozygosity (HMM)
+sort 	sort a VCF/BCF file
+stats 	produce VCF/BCF stats
+view 	convert, view, subset and filter VCF/BCF files
+--- bcftools vie
+view 	convert, view, subset and filter VCF/BCF files
+--- bcftools view -
+--force-samples 	only warn about unknown subset samples
+--no-version 	do not append the version and command line to the header
+--regions-overlap=	include if POS is in the region (0), the record overlaps (1), the variant overlaps (2)
+--targets-overlap=	include if POS is in the region (0), the record overlaps (1), the variant overlaps (2)
+--threads=	use multithreading with INT worker threads
+--verbosity=	verbosity level
+--with-header 	print both the header and the records (the default)
+-A 	remove '<*>' or '<NON_REF>' at variant sites (-AA: at all sites)
+-C 	maximum count of the non-reference alleles
+-G 	drop the genotype information (after subsetting)
+-H 	suppress the header in VCF output
+-I 	do not recalculate the INFO fields for the subset
+-M 	maximum number of alleles listed in REF and ALT
+-O 	u/b: un/compressed BCF, v/z: un/compressed VCF (then 0-9: compression level)
+-P 	exclude sites where all samples are phased
+-Q 	maximum frequency of the non-reference alleles
+-R 	restrict to the regions listed in a file
+-S 	file of samples to include
+-T 	like -R but streams rather than jumps by the index
+-U 	exclude sites without a called genotype
+-V 	exclude variant types
+-W 	automatically index the output files
+-X 	exclude sites where the non-reference alleles are private to the subset
+-a 	trim the ALT alleles not seen in the genotypes
+-c 	minimum count of the non-reference alleles
+-e 	exclude sites for which the expression is true
+-f 	require at least one of the listed FILTER strings
+-g 	require hom, het or missing genotypes (or exclude with ^)
+-h 	print only the header in VCF output
+-i 	select sites for which the expression is true
+-k 	known sites only (ID is not '.')
+-l 	compression level, from 0 to 9
+-m 	minimum number of alleles listed in REF and ALT
+-n 	novel sites only (ID is '.')
+-o 	write the output to FILE
+-p 	sites where all samples are phased
+-q 	minimum frequency of the non-reference alleles
+-r 	restrict to a comma-separated list of regions
+-s 	comma-separated list of samples to include
+-t 	like -r but streams rather than jumps by the index
+-u 	sites without a called genotype
+-v 	select variant types: snps,indels,mnps,ref,bnd,other,overlap
+-x 	sites where the non-reference alleles are private to the subset samples
+--- bcftools view --
+--apply-filters=	require at least one of the listed FILTER strings
+--compression-level=	compression level, from 0 to 9
+--drop-genotypes 	drop the genotype information (after subsetting)
+--exclude-phased 	exclude sites where all samples are phased
+--exclude-private 	exclude sites where the non-reference alleles are private to the subset
+--exclude-types=	exclude variant types
+--exclude-uncalled 	exclude sites without a called genotype
+--exclude=	exclude sites for which the expression is true
+--force-samples 	only warn about unknown subset samples
+--genotype=	require hom, het or missing genotypes (or exclude with ^)
+--header-only 	print only the header in VCF output
+--include=	select sites for which the expression is true
+--known 	known sites only (ID is not '.')
+--max-ac=	maximum count of the non-reference alleles
+--max-af=	maximum frequency of the non-reference alleles
+--max-alleles=	maximum number of alleles listed in REF and ALT
+--min-ac=	minimum count of the non-reference alleles
+--min-af=	minimum frequency of the non-reference alleles
+--min-alleles=	minimum number of alleles listed in REF and ALT
+--no-header 	suppress the header in VCF output
+--no-update 	do not recalculate the INFO fields for the subset
+--no-version 	do not append the version and command line to the header
+--novel 	novel sites only (ID is '.')
+--output-type=	u/b: un/compressed BCF, v/z: un/compressed VCF (then 0-9: compression level)
+--output=	write the output to FILE
+--phased 	sites where all samples are phased
+--private 	sites where the non-reference alleles are private to the subset samples
+--regions-file=	restrict to the regions listed in a file
+--regions-overlap=	include if POS is in the region (0), the record overlaps (1), the variant overlaps (2)
+--regions=	restrict to a comma-separated list of regions
+--samples-file=	file of samples to include
+--samples=	comma-separated list of samples to include
+--targets-file=	like -R but streams rather than jumps by the index
+--targets-overlap=	include if POS is in the region (0), the record overlaps (1), the variant overlaps (2)
+--targets=	like -r but streams rather than jumps by the index
+--threads=	use multithreading with INT worker threads
+--trim-alt-alleles 	trim the ALT alleles not seen in the genotypes
+--trim-unseen-allele 	remove '<*>' or '<NON_REF>' at variant sites (-AA: at all sites)
+--types=	select variant types: snps,indels,mnps,ref,bnd,other,overlap
+--uncalled 	sites without a called genotype
+--verbosity=	verbosity level
+--with-header 	print both the header and the records (the default)
+--write-index	automatically index the output files
+--- bcftools view -O 
+b 	compressed BCF
+u 	uncompressed BCF
+v 	uncompressed VCF
+z 	compressed VCF
+--- bcftools view --output-type=
+--output-type=b 	compressed BCF
+--output-type=u 	uncompressed BCF
+--output-type=v 	uncompressed VCF
+--output-type=z 	compressed VCF
+--- bcftools view --regions-overlap 
+0 	POS is in the region
+1 	the record overlaps the region
+2 	the variant overlaps the region
+--- bcftools view -v 
+bnd 
+indels 
+mnps 
+other 
+overlap 
+ref 
+snps 
+--- bcftools view data/
+data/calls.bcf 
+data/calls.vcf.gz 
+--- bcftools view data/calls.vcf.gz 
+chr1 
+chr2 
+--- bcftools view -r 
+--- bcftools view data/calls.bcf -r c
+chr1 
+chr2 
+--- bcftools view -s 
+--- bcftools view data/calls.vcf.gz -s s
+sampleA 
+sampleB 
+--- bcftools view -R data/
+data/regions.bed 
+--- bcftools view -o out.vcf data/
+data/calls.bcf 
+data/calls.vcf.gz 
+--- bcftools view -W
+-W 	automatically index the output files
+--- bcftools view --write-index=
+--write-index=csi 
+--write-index=tbi 
+=== other subcommands
+--- bcftools index -
+--threads=	use multithreading with INT worker threads
+-a 	with --stats, print the stats of all contigs, even when zero
+-c 	generate a CSI index (the default)
+-f 	overwrite the index if it exists
+-m 	minimal interval size for CSI indices, 2^INT
+-n 	print the number of records, from the existing index
+-o 	the name of the index file
+-s 	print the per-contig stats, from the existing index
+-t 	generate a TBI index (VCF only)
+-v 	verbosity level
+--- bcftools index data/
+data/calls.bcf 
+data/calls.vcf.gz 
+--- bcftools annotate -a data/
+data/a.bam 
+data/calls.bcf 
+data/calls.vcf.gz 
+data/regions.bed 
+--- bcftools annotate --pair-logic 
+all 
+both 
+exact 
+id 
+indels 
+snps 
+some 
+--- bcftools concat -d 
+all 
+both 
+exact 
+indels 
+snps 
+--- bcftools concat -
+--ligate-force 	ligate even non-overlapping chunks, keep all sites
+--ligate-warn 	drop sites in imperfect overlaps
+--naive-force 	like --naive, without the header check (dangerous)
+--no-version 	do not append the version and command line to the header
+--regions-overlap=	include if POS is in the region (0), the record overlaps (1), the variant overlaps (2)
+--threads=	use multithreading with INT worker threads
+-D 	alias for -d exact
+-G 	drop the genotype information
+-O 	u/b: un/compressed BCF, v/z: un/compressed VCF (then 0-9: compression level)
+-R 	restrict to the regions listed in a file
+-W 	automatically index the output files
+-a 	the first coordinate of the next file may precede the last record of this one
+-c 	output the PS tag only at the start of a phase set block
+-d 	output duplicate records present in several files once
+-f 	read the list of files from a file
+-l 	ligate phased VCFs by matching the phase at overlapping haplotypes
+-n 	concatenate without recompression, with a header compatibility check
+-o 	write the output to FILE
+-q 	break the phase set if the phasing quality is lower than INT
+-r 	restrict to a comma-separated list of regions
+-v 	verbosity level
+--- bcftools isec -c 
+all 
+both 
+id 
+indels 
+none 
+snps 
+some 
+--- bcftools isec -p data/
+--- bcftools merge -m 
+\* 
+\*\* 
+all 
+both 
+exact 
+id 
+indels 
+none 
+snp-ins-del 
+snps 
+--- bcftools merge -F 
++ 
+x 
+--- bcftools norm -f data/
+data/genome.fa 
+--- bcftools norm -c 
+e 	exit
+s 	set bad sites
+w 	warn
+x 	exclude bad sites
+--- bcftools norm -m 
++ 	join biallelic sites
++any 
++both 
++indels 
++snps 
+- 	split multiallelic sites
+--- bcftools norm -S 
+chr_pos 
+lex 
+--- bcftools query -f 
+--- bcftools query -v data/
+data/a.bam 
+data/calls.bcf 
+data/calls.vcf.gz 
+data/calls.vcf.gz.tbi 
+data/genome.fa 
+data/list.txt 
+data/notes.txt 
+data/regions.bed 
+--- bcftools query -l data/calls.vcf.gz
+data/calls.vcf.gz 
+--- bcftools call --ploidy 
+1 
+2 
+GRCh37 
+GRCh38 
+X 
+Y 
+list 
+--- bcftools call -V 
+indels 
+snps 
+--- bcftools call -C 
+alleles 
+trio 
+--- bcftools consensus -f data/
+data/genome.fa 
+--- bcftools consensus -H 
+1 
+2 
+A 
+I 
+LA 
+LR 
+R 
+SA 
+SR 
+--- bcftools consensus -m data/
+data/regions.bed 
+--- bcftools csq -p 
+R 	create non-reference haplotypes
+a 	take GTs as is
+m 	merge all GTs into one haplotype
+r 	require phased GTs
+s 	skip unphased hets
+--- bcftools csq -O 
+b 
+t 
+u 
+v 
+z 
+--- bcftools filter -S 
+. 
+0 
+--- bcftools filter -m 
++ 
++x 
+x 
+--- bcftools gtcheck -g data/
+data/calls.bcf 
+data/calls.vcf.gz 
+--- bcftools mpileup -f data/
+data/genome.fa 
+--- bcftools mpileup -X 
+1.12 
+bgi 
+bgi-1.20 
+illumina 
+illumina-1.18 
+illumina-1.20 
+ont 
+ont-sup 
+ont-sup-1.20 
+pacbio-ccs 
+pacbio-ccs-1.20 
+--- bcftools mpileup data/
+data/a.bam 
+--- bcftools mpileup --ar 
+drop 
+incAD 
+incAD0 
+--- bcftools plugin 
+GTisec 
+GTsubset 
+ad-bias 
+add-variantkey 
+af-dist 
+allele-length 
+check-ploidy 
+check-sparsity 
+color-chrs 
+contrast 
+counts 
+dosage 
+fill-AN-AC 
+fill-from-fasta 
+fill-tags 
+fixploidy 
+fixref 
+frameshifts 
+guess-ploidy 
+gvcfz 
+impute-info 
+indel-stats 
+isecGT 
+mendelian2 
+missing2ref 
+parental-origin 
+prune 
+remove-overlaps 
+scatter 
+setGT 
+smpl-stats 
+split 
+split-vep 
+tag2tag 
+trio-dnm3 
+trio-stats 
+trio-switch-rate 
+variant-distance 
+variantkey-hex 
+vcf2table 
+vrfs 
+--- bcftools plugin fill
+fill-AN-AC 
+fill-from-fasta 
+fill-tags 
+--- bcftools plugin fill-tags data/
+data/calls.bcf 
+data/calls.vcf.gz 
+--- bcftools roh -O 
+r 
+s 
+sr 
+srz 
+z 
+--- bcftools stats -c 
+all 
+both 
+indels 
+none 
+snps 
+some 
+--- bcftools stats -F data/
+data/genome.fa 
+--- bcftools reheader -h data/
+data/a.bam 
+data/calls.bcf 
+data/calls.vcf.gz 
+data/calls.vcf.gz.tbi 
+data/genome.fa 
+data/list.txt 
+data/notes.txt 
+data/regions.bed 
+--- bcftools sort -T 
+data/
+--- bcftools head -
+-h 	display INT header lines
+-n 	display INT variant record lines
+-s 	display INT records starting with the #CHROM header line
+-v 	verbosity level
+--- bcftools nosuchsub -
