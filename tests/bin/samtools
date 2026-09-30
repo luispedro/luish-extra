@@ -1,0 +1,8 @@
+#!/bin/sh
+# Stand-in for samtools in the tests: `view -H FILE` prints a header with
+# two sequences.
+if [ "$1" = view ] && [ "$2" = -H ]; then
+    printf '@HD\tVN:1.6\n@SQ\tSN:chrA\tLN:1000\n@SQ\tSN:chrB\tLN:500\n'
+    exit 0
+fi
+exit 1

@@ -1,0 +1,418 @@
+load 0
+=== samtools
+--- samtools sor
+sort 	sort an alignment file
+--- samtools sort -
+--input-fmt-option=	an input format option
+--no-PG 	do not add a PG line
+--output-fmt-option=	an output format option
+--reference=	the reference FASTA
+--template-coordinate 	sort by template coordinate
+--verbosity=	set the level of verbosity
+--write-index 	automatically index the output files
+-@ 	number of additional threads to use
+-H 	squash homopolymers for the minimiser
+-I 	order minimisers by their position in FILE
+-K 	k-mer size for the minimiser
+-M 	use minimisers for clustering unaligned reads
+-N 	sort by read name (ASCII)
+-O 	the output format
+-R 	do not use the reverse strand (with -M)
+-T 	write temporary files to PREFIX.nnnn.bam
+-l 	compression level, from 0 to 9
+-m 	maximum memory per thread (K, M or G)
+-n 	sort by read name (natural)
+-o 	write output to FILE
+-t 	sort by the value of TAG
+-u 	uncompressed output
+-w 	window size for minimiser indexing
+--- samtools sort -O 
+BAM 
+CRAM 
+SAM 
+--- samtools sort --output-fmt=
+--output-fmt=BAM 
+--output-fmt=CRAM 
+--output-fmt=SAM 
+--- samtools sort -o out.bam data/
+data/a.bam 
+data/b.sam 
+data/c.cram 
+data/sub/
+--- samtools view -T data/
+data/genome.fa 
+data/genome.fa.gz 
+data/sub/
+--- samtools view --reference=data/
+--reference=data/genome.fa 
+--reference=data/genome.fa.gz 
+--reference=data/sub/
+--- samtools view -L data/
+data/peaks.bed 
+data/peaks.bed.gz 
+data/sub/
+--- samtools view -b data/
+data/a.bam 
+data/b.sam 
+data/c.cram 
+data/sub/
+--- samtools view --with-h
+--with-header 	include the header in SAM output
+--- samtools view data/a.bam 
+chrA 
+chrB 
+--- samtools view -T data/genome.fa data/a.bam c
+chrA 
+chrB 
+--- samtools view -r 
+--- samtools index data/
+data/a.bam 
+data/b.sam 
+data/c.cram 
+data/sub/
+--- samtools index -
+-@ 	number of additional threads to use
+-M 	interpret all arguments as files to index
+-b 	generate a BAI index (default)
+-c 	generate a CSI index
+-m 	minimum interval size for CSI indices, 2^N
+-o 	write the index to FILE
+--- samtools faidx data/
+data/genome.fa 
+data/genome.fa.gz 
+data/reads.fq 
+data/sub/
+--- samtools faidx data/genome.fa 
+chr1 
+chr2 
+--- samtools faidx --mark-strand 
+custom, 
+no 
+rc 
+sign 
+--- samtools flagstat -O 
+json 
+tsv 
+--- samtools flagstat data/
+data/a.bam 
+data/b.sam 
+data/c.cram 
+data/sub/
+--- samtools depth -b data/
+data/peaks.bed 
+data/peaks.bed.gz 
+data/sub/
+--- samtools depth -r chrA data/a.bam
+data/a.bam 
+--- samtools coverage --
+--ascii 	show only ASCII characters in the histogram
+--bam-list=	file listing the input alignment files
+--depth=	maximum coverage depth
+--ff=	filter flags
+--help 	show help
+--histogram 	show a histogram instead of a table
+--input-fmt-option=	an input format option
+--min-BQ=	base quality threshold
+--min-MQ=	mapping quality threshold
+--min-read-len=	ignore reads shorter than N bp
+--n-bins=	number of bins in the histogram
+--no-header 	no header in tabular mode
+--output=	write output to FILE
+--plot-depth 	plot depth instead of a table
+--reference=	the reference FASTA
+--region=	show this region
+--rf=	required flags
+--verbosity=	set the level of verbosity
+--- samtools mpileup -f data/
+data/genome.fa 
+data/genome.fa.gz 
+data/sub/
+--- samtools merge -h data/
+data/a.bam 
+data/b.sam 
+data/c.cram 
+data/sub/
+--- samtools stats -r data/
+data/genome.fa 
+data/genome.fa.gz 
+data/sub/
+--- samtools bedcov data/
+data/peaks.bed 
+data/peaks.bed.gz 
+data/sub/
+--- samtools fastq -
+-0 	write reads with neither READ1 nor READ2 to FILE
+-1 	write READ1 reads to FILE
+-2 	write READ2 reads to FILE
+-@ 	number of additional threads to use
+-F 	only reads with none of the FLAGs present
+-G 	exclude reads with all of the FLAGs present
+-N 	always append /1 and /2 to the read name
+-O 	use the quality values from OQ tags
+-T 	copy arbitrary tags to the header line
+-c 	compression level
+-f 	only reads with all the FLAGs present
+-i 	add Illumina Casava 1.8 format entry to the header
+-n 	do not append /1 and /2 to the read name
+-o 	write reads with READ1 or READ2 to FILE
+-s 	write singleton reads to FILE
+-t 	copy RG, BC and QT tags to the header line
+-v 	default quality for missing values
+--- samtools nosuchsub data/
+data/a.bam 
+data/b.sam 
+data/c.cram 
+data/sub/
+=== tabix, bgzip, htsfile
+--- tabix -p 
+bed 	BED
+gaf 	GAF
+gff 	GFF
+sam 	SAM
+vcf 	VCF
+--- tabix data/
+data/calls.vcf.gz 
+data/genome.fa.gz 
+data/peaks.bed.gz 
+data/sub/
+--- tabix -R data/
+data/peaks.bed 
+data/peaks.bed.gz 
+data/sub/
+--- tabix data/calls.vcf.gz 
+chr1 
+chr2 
+--- tabix --pre
+--preset=	the format preset
+--- bgzip -
+--binary 	do not align blocks with text lines
+-@ 	number of compression threads
+-I 	name of the BGZF index file
+-b 	decompress at this virtual file pointer
+-c 	write to standard output, keep the input files
+-d 	decompress
+-f 	overwrite files without asking
+-g 	use an index file to bgzip a file
+-h 	show help
+-i 	compress and create a BGZF index
+-k 	do not delete the input files
+-l 	compression level, from 0 to 9 (-1 for the default)
+-o 	write to FILE, keep the input files
+-r 	(re)index a compressed file
+-s 	decompress N bytes
+-t 	test the integrity of a compressed file
+--- bgzip -I data/
+data/a.bam 
+data/a.bam.bai 
+data/b.sam 
+data/c.cram 
+data/calls.bcf 
+data/calls.vcf.gz 
+data/genes.gff3 
+data/genome.fa 
+data/genome.fa.fai 
+data/genome.fa.gz 
+data/notes.txt 
+data/peaks.bed 
+data/peaks.bed.gz 
+data/reads.fq 
+data/sizes.genome 
+data/sub/
+--- htsfile -
+-C 	copy the exact contents of a file to another
+-H 	suppress the header in view mode
+-c 	write the textual form of the files to standard output
+-h 	display only headers in view mode
+-v 	increase the verbosity of warnings and diagnostics
+=== bedtools
+--- bedtools 
+annotate 	annotate coverage of features from multiple files
+bamtobed 	convert BAM alignments to BED and other formats
+bamtofastq 	convert BAM records to FASTQ records
+bed12tobed6 	break BED12 intervals into BED6 intervals
+bedpetobam 	convert BEDPE intervals to BAM records
+bedtobam 	convert intervals to BAM records
+closest 	find the closest, potentially non-overlapping interval
+cluster 	cluster (but do not merge) overlapping or nearby intervals
+complement 	extract intervals not represented by an interval file
+coverage 	compute the coverage over defined intervals
+expand 	replicate lines based on lists of values in columns
+fisher 	calculate the Fisher statistic between two feature files
+flank 	create new intervals from the flanks of existing intervals
+genomecov 	compute the coverage over an entire genome
+getfasta 	use intervals to extract sequences from a FASTA file
+groupby 	group by common columns and summarize the others
+igv 	create an IGV snapshot batch script
+intersect 	find overlapping intervals in various ways
+jaccard 	calculate the Jaccard statistic between two sets of intervals
+links 	create an HTML page of links to UCSC locations
+makewindows 	make interval windows across a genome
+map 	apply a function to a column for each overlapping interval
+maskfasta 	use intervals to mask sequences from a FASTA file
+merge 	combine overlapping or nearby intervals into a single interval
+multicov 	count coverage from multiple BAMs at intervals
+multiinter 	identify common intervals among multiple interval files
+nuc 	profile the nucleotide content of intervals in a FASTA file
+overlap 	compute the amount of overlap from two intervals
+pairtobed 	find pairs that overlap intervals in various ways
+pairtopair 	find pairs that overlap other pairs in various ways
+random 	generate random intervals in a genome
+reldist 	calculate the distribution of relative distances between two files
+sample 	sample random records from a file
+shift 	adjust the position of intervals
+shuffle 	randomly redistribute intervals in a genome
+slop 	adjust the size of intervals
+sort 	order the intervals in a file
+spacing 	report the gap lengths between intervals in a file
+split 	split a file into multiple files
+subtract 	remove intervals based on overlaps between two files
+summary 	statistical summary of intervals in a file
+tag 	tag BAM alignments based on overlaps with interval files
+unionbedg 	combine coverage intervals from multiple bedGraph files
+window 	find overlapping intervals within a window around an interval
+--- bedtools inter
+intersect 	find overlapping intervals in various ways
+--- bedtools intersect -
+-C 	report the number of overlaps with each B file separately
+-F 	minimum overlap required, as a fraction of B
+-S 	require the opposite strand
+-a 	the A file (BED, GFF, VCF or BAM)
+-b 	the B file(s) (BED, GFF, VCF or BAM)
+-bed 	write BED output for BAM input
+-c 	report the number of overlaps with B for each A entry
+-e 	require the minimum fraction for A or for B
+-f 	minimum overlap required, as a fraction of A
+-filenames 	show the complete filename for each database
+-g 	genome file, for a consistent chromosome order
+-header 	print the header from the A file first
+-iobuf 	memory to use for the input buffer
+-loj 	left outer join: report a null B feature if there is no overlap
+-names 	an alias for each database
+-nobuf 	disable buffered output
+-nonamecheck 	do not fail if chromosome naming conventions differ
+-r 	require the overlap to be reciprocal for A and B
+-s 	require the same strand
+-sorted 	use the chromsweep algorithm for sorted input
+-sortout 	sort the output database hits
+-split 	treat split BAM or BED12 entries as distinct intervals
+-u 	write the original A entry once if any overlap is found
+-ubam 	write uncompressed BAM output
+-v 	only report the entries in A that have no overlap with B
+-wa 	write the original entry in A for each overlap
+-wao 	like -wo, but also A features without overlap
+-wb 	write the original entry in B for each overlap
+-wo 	write A and B and the number of overlapping bases
+--- bedtools intersect -a data/
+data/a.bam 
+data/calls.bcf 
+data/calls.vcf.gz 
+data/genes.gff3 
+data/peaks.bed 
+data/peaks.bed.gz 
+data/sub/
+--- bedtools intersect -a data/peaks.bed -b data/
+data/a.bam 
+data/calls.bcf 
+data/calls.vcf.gz 
+data/genes.gff3 
+data/peaks.bed 
+data/peaks.bed.gz 
+data/sub/
+--- bedtools intersect -a data/peaks.bed -b data/genes.gff3 -w
+-wa 	write the original entry in A for each overlap
+-wao 	like -wo, but also A features without overlap
+-wb 	write the original entry in B for each overlap
+-wo 	write A and B and the number of overlapping bases
+--- bedtools intersect -g data/
+data/genome.fa.fai 
+data/notes.txt 
+data/sizes.genome 
+data/sub/
+--- bedtools closest -D 
+a 
+b 
+ref 
+--- bedtools closest -t 
+all 
+first 
+last 
+--- bedtools map -o 
+absmax 
+absmin 
+antimode 
+collapse 
+concat 
+count 
+count_distinct 
+distinct 
+distinct_sort_num 
+distinct_sort_num_desc 
+first 
+freq_asc 
+freq_desc 
+last 
+max 
+mean 
+median 
+min 
+mode 
+sstdev 
+stdev 
+sum 
+--- bedtools getfasta -fi data/
+data/genome.fa 
+data/genome.fa.gz 
+data/sub/
+--- bedtools getfasta -bed data/
+data/a.bam 
+data/calls.bcf 
+data/calls.vcf.gz 
+data/genes.gff3 
+data/peaks.bed 
+data/peaks.bed.gz 
+data/sub/
+--- bedtools genomecov -ibam data/
+data/a.bam 
+data/c.cram 
+data/sub/
+--- bedtools genomecov -strand 
++ 
+- 
+--- bedtools makewindows -i 
+src 
+srcwinnum 
+winnum 
+--- bedtools bamtobed -i data/
+data/a.bam 
+data/c.cram 
+data/sub/
+--- bedtools merge -i data/
+data/a.bam 
+data/calls.bcf 
+data/calls.vcf.gz 
+data/genes.gff3 
+data/peaks.bed 
+data/peaks.bed.gz 
+data/sub/
+--- bedtools sort -
+-chrThenScoreA 	sort by chromosome, then score ascending
+-chrThenScoreD 	sort by chromosome, then score descending
+-chrThenSizeA 	sort by chromosome, then feature size ascending
+-chrThenSizeD 	sort by chromosome, then feature size descending
+-faidx 	sort according to the chromosomes in a file of names
+-g 	sort according to the chromosomes in a genome file
+-header 	print the header first
+-i 	the input file (BED, GFF or VCF)
+-sizeA 	sort by feature size, ascending
+-sizeD 	sort by feature size, descending
+--- bedtools slop -g data/
+data/genome.fa.fai 
+data/notes.txt 
+data/sizes.genome 
+data/sub/
+--- bedtools nosuchsub -
+-a 	the A file (BED, GFF, VCF or BAM)
+-b 	the B file(s) (BED, GFF, VCF or BAM)
+-g 	genome file
+-header 	print the header first
+-i 	the input file

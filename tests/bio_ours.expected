@@ -1,0 +1,136 @@
+load 0
+completion
+bio
+=== ngless
+--- ngless --colo
+--color=	color settings
+--- ngless --color 
+auto 
+force 
+no 
+--- ngless --color=f
+--color=force 
+--- ngless --search-path data/
+data/sub/
+--- ngless data/
+data/pipeline.ngl 
+data/sub/
+--- ngless data/pipeline.ngl da
+data/
+--- ngless -j
+-j 	number of threads to use
+=== SemiBin2
+--- SemiBin2 
+bin 	group the contigs into bins
+bin_long 	group the contigs from long reads into bins
+check_install 	check whether required dependencies are present
+citation 	print citation information
+concatenate_fasta 	concatenate FASTA files for multi-sample binning
+download_GTDB 	[deprecated] download GTDB reference genomes
+generate_cannot_links 	[deprecated] annotate contigs with mmseqs and GTDB
+generate_sequence_features_multi 	generate k-mer and abundance features (multi-sample)
+generate_sequence_features_single 	generate k-mer and abundance features (single or co-assembly)
+install-skills 	install the bundled agent skills
+multi_easy_bin 	bin contigs (multi-sample) using one command
+single_easy_bin 	bin contigs (single or co-assembly) using one command
+split_contigs 	split contigs (strobealign-aemb pipeline)
+train_self 	train the model with self-supervised learning
+train_semi 	[deprecated] train the model with semi-supervised learning
+--- SemiBin2 sin
+single_easy_bin 	bin contigs (single or co-assembly) using one command
+--- SemiBin2 single_easy_bin --env
+--environment=	environment for the built-in model
+--- SemiBin2 single_easy_bin --environment 
+built_environment 
+cat_gut 
+chicken_caecum 
+dog_gut 
+global 
+human_gut 
+human_oral 
+mouse_gut 
+ocean 
+pig_gut 
+soil 
+wastewater 
+--- SemiBin2 single_easy_bin -i data/
+data/contigs.fna 
+data/contigs.fna.gz 
+data/sub/
+--- SemiBin2 single_easy_bin --input-bam data/
+data/a.bam 
+data/sub/
+--- SemiBin2 single_easy_bin --sequencing-type 
+hybrid 
+long_read 
+short_read 
+--- SemiBin2 multi_easy_bin --sep
+--separator=	separates sample name and contig name
+--- SemiBin2 bin --dat
+--data=	the data.csv file
+--- SemiBin2 bin_short --model 
+bio_ours.sh 
+data/
+--- SemiBin2 train_self --data-s
+--data-split=	the data_split.csv files
+--- SemiBin2 concatenate_fasta -i data/
+data/contigs.fna 
+data/contigs.fna.gz 
+data/sub/
+--- SemiBin2 citation --
+--bibtex 	print BibTeX-formatted citations
+--chicago 	print a Chicago-style citation
+--help 	show help
+--ris 	print RIS-formatted citations
+--- SemiBin2 check_install --
+--allow-missing-mmseqs2 	do not fail if mmseqs2 is missing
+--help 	show help
+--processes=	number of CPUs used (0 for all)
+--quiet 	quiet output
+--threads=	number of CPUs used (0 for all)
+--tmpdir=	temporary directory
+--verbose 	verbose output
+--- SemiBin2 install_skills --u
+--user 	install to the user-wide skills directory
+--- SemiBin2 nosuch --
+--- SemiBin single_easy_bin --orf-finder 
+fast-naive 
+fraggenescan 
+prodigal 
+=== macrel
+--- macrel --que
+--query-mode=	query mode for the AMPSphere
+--- macrel --query-mode=
+--query-mode=exact 
+--query-mode=hhm 
+--query-mode=mmseqs 
+--- macrel contigs --fasta data/
+data/contigs.fna 
+data/contigs.fna.gz 
+data/sub/
+--- macrel reads -1 data/
+data/reads.fq.gz 
+data/sub/
+=== argnorm
+--- argnorm --
+--db=	the database used with the annotation tool
+--hamronization_skip_unsupported_tool 	warn, do not fail, on unsupported tools in hamronization outputs
+--help 	show help
+--input=	the ARG annotation result to normalize
+--output=	where to write the results
+--version 	show the version
+--- argnorm deeparg -i data/
+data/a.bam 
+data/a.bam.bai 
+data/contigs.fna 
+data/contigs.fna.gz 
+data/notes.txt 
+data/pipeline.ngl 
+data/reads.fq.gz 
+data/sub/
+data/x.py 
+--- argnorm groot --db groot-c
+groot-card 
+groot-core-db 
+--- SemiBin2 install-skills --skills-dir data/
+data/sub/

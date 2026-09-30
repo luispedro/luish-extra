@@ -1,0 +1,7 @@
+#!/bin/sh
+# Stand-in for tabix in the tests: `-l FILE` lists two sequences.
+if [ "$1" = -l ]; then
+    printf 'chr1\nchr2\n'
+    exit 0
+fi
+exit 1

@@ -1,0 +1,4 @@
+description = "Completion for bioinformatics tools"
+
+[dependencies]
+std.completion = "*"

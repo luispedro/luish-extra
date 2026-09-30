@@ -8,12 +8,12 @@ Tools to support, from `docs/completion.md`
 
 ### Alignment files, variants and intervals
 
-- [ ] `samtools`
+- [x] `samtools`
 - [ ] `bcftools`
-- [ ] `bedtools`
-- [ ] `tabix`
-- [ ] `bgzip`
-- [ ] `htsfile`
+- [x] `bedtools`
+- [x] `tabix`
+- [x] `bgzip`
+- [x] `htsfile`
 - [ ] `vcftools`
 - [ ] `bamtools`
 - [ ] `sambamba`
@@ -710,11 +710,11 @@ Tools to support, from `docs/completion.md`
 
 ### Other
 
-- [ ] `ngless`
-- [ ] `SemiBin2`
-- [ ] `SemiBin`
-- [ ] `macrel`
-- [ ] `argnorm`
+- [x] `ngless`
+- [x] `SemiBin2`
+- [x] `SemiBin`
+- [x] `macrel`
+- [x] `argnorm`
 - [ ] `gmsc-mapper`
 - [ ] `nextclade`
 - [ ] `pangolin`
