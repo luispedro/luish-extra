@@ -754,7 +754,7 @@ them in the same way. A tick with `(Cobra)` means the program answers with its s
 
 ### Other
 
-- [x] `ngless`: ngless 1.5.0
+- [x] `ngless`: ngless 1.6.1
 - [x] `SemiBin2`: semibin 2.3.0 and 2.5.0
 - [x] `SemiBin`: no `SemiBin` executable in semibin 2.x: the spec is SemiBin2's (2.3.0, 2.5.0)
 - [x] `macrel`: macrel 1.6.0

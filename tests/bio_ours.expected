@@ -3,11 +3,12 @@ completion
 bio
 === ngless
 --- ngless --colo
---color=	color settings
+--color=	colour output
 --- ngless --color 
 auto 
 force 
 no 
+yes 
 --- ngless --color=f
 --color=force 
 --- ngless --search-path data/

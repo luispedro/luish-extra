@@ -9,55 +9,58 @@ fn bam() { "@extra-complete/bio/kinds:bam" }
 fn ngless() {
     #{
         opts: `
-            -V, --version                 print version and exit
-            --version-short               print just version string
-            --version-debug               print detailed version information
-            --date-short                  print just release date string
-            -h, --help                    show help
-            -e, --script SCRIPT           inline script to execute
-            --debug FLAG                  debug options
-            -n, --validate-only           only validate input, do not run script
-            -p, --print-last              print value of last line in script
+            -e, --script SCRIPT           run an inline script instead of a script file
+            -p, --print-last              print the value of the last expression to stdout
+            -n, --validate-only           only validate the script; do not run it
             -j, --jobs, --threads N       number of threads to use
-            --strict-threads              strictly respect the --threads option
+            --strict-threads              never use more threads than --jobs
             --no-strict-threads           opposite of --strict-threads
-            --create-report               create the report directory
-            --no-create-report            opposite of --create-report
-            -o, --html-report-directory DIR  name of output directory
-            -t, --temporary-directory DIR    where to store temporary files
-            --keep-temporary-files        keep temporary files
+            -t, --temporary-directory DIR  directory for temporary files
+            --keep-temporary-files        do not delete temporary files when done
             --no-keep-temporary-files     opposite of --keep-temporary-files
-            --config-file FILE            configuration file to parse
-            --no-header                   do not print copyright information
-            --subsample                   quickly test a pipeline on 1% of the input
-            --experimental-features       allow the use of experimental features
-            --export-json FILE            write a JSON representation of the script to FILE
-            --export-cwl FILE             write a CWL wrapper of the script to FILE
-            --check-deprecation           check if ngless or any used modules are deprecated
-            --search-dir DIR              deprecated, use --search-path
-            --search-path DIR             reference search directories
-            --index-path DIR              directory where indices are stored
-            --download-file               download a file
-            --download-url URL            the URL to download
-            --local-file FILE             where to save the download
-            --download-demo DEMO          download a demo
-            --install-reference-data REF  install a reference
-            --print-path EXEC             print the path of an executable
-            --check-install               check that ngless is correctly installed
-            -v, --verbosity LEVEL         verbosity level
-            -q, --quiet                   quiet mode
-            --color WHEN                  color settings
+            -c, --config-file FILE        configuration file to read
+            --search-path DIR             add a search path for references and indices
+            --index-path DIR              directory where mapper indices are stored
+            -o, --html-report-directory DIR  directory for the HTML run report
+            --create-report               write an HTML run report
+            --no-create-report            do not write an HTML run report
+            -v, --verbosity LEVEL         set verbosity level
+            -q, --quiet                   suppress informational output
             --trace                       highest verbosity mode
             --no-trace                    opposite of --trace
+            --no-header                   do not print the run header
+            --color WHEN                  colour output
+            --subsample                   process only a fraction of the data
+            --debug MODE                  enable debug output
+            --experimental-features       allow the use of experimental features
+            --export-json FILE            export the script as JSON
+            --export-cwl FILE             generate a CWL wrapper for the script
+            --install-reference-data NAME  download and install a builtin reference
+            --download-demo NAME          download a demo dataset
+            --download-file               download a file, with --download-url and --local-file
+            --download-url URL            the URL to download
+            --local-file FILE             where to save the download
+            --create-reference-pack       create a reference pack, with --output-name and --genome-url
+            --output-name NAME            name of the reference pack
+            --genome-url URL              URL of the genome of the reference pack
+            --gtf-url URL                 URL of the GTF file of the reference pack
+            --functional-map-url URL      URL of the functional map of the reference pack
+            -V, --version                 print version and exit
+            --version-short               print short version string and exit
+            --version-debug               print detailed version information and exit
+            --date-short                  print the release date and exit
+            --check-install               verify the installation and exit
+            --verbose                     with --check-install, print the paths of the external tools
+            --print-path EXEC             print the resolved path to an external tool and exit
+            -h, --help                    print this help message and exit
         `,
         values: #{
-            "--color": ["auto", "force", "no"],
-            "--verbosity": ["quiet", "info", "normal"],
+            "--color": ["auto", "no", "force", "yes"],
+            "--verbosity": ["quiet", "normal", "full"],
+            "--debug": ["ast"],
             "--script": "none",
-            "--debug": "none",
             "--jobs": "none",
             "--search-path": "dirs",
-            "--search-dir": "dirs",
             "--index-path": "dirs",
             "--html-report-directory": "dirs",
             "--temporary-directory": "dirs",
@@ -66,8 +69,12 @@ fn ngless() {
             "--export-cwl": "files",
             "--local-file": "files",
             "--download-url": "none",
-            "--download-demo": "none",
+            "--download-demo": ["gut-short", "ocean-short"],
             "--install-reference-data": "none",
+            "--output-name": "none",
+            "--genome-url": "none",
+            "--gtf-url": "none",
+            "--functional-map-url": "none",
             "--print-path": "none",
         },
         // SCRIPT [ARGUMENTS...]
