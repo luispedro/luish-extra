@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  # The luish to test against: it must be at c744056c3718f7f383f610c8ef07a526faccc0f2 or later.
+  LUISH_REF: main
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      # tests/run.sh needs a luish and its std plugins (for the `completion` plugin).
+      - uses: actions/checkout@v7
+        with:
+          repository: luispedro/luish
+          ref: ${{ env.LUISH_REF }}
+          path: luish
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: luish
+
+      - name: Build luish
+        run: cargo build --release --locked --manifest-path luish/Cargo.toml
+
+      - name: Test
+        env:
+          LUISH: ${{ github.workspace }}/luish/target/release/luish
+          STD_PLUGINS: ${{ github.workspace }}/luish/luish-std-plugins
+        run: tests/run.sh
+
+  docs:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: docs/requirements.txt
+
+      - name: Install requirements
+        run: pip install -r docs/requirements.txt
+
+      # As Read the Docs builds it (fail_on_warning).
+      - name: Build docs
+        run: sphinx-build -W docs docs/_build

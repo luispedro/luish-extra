@@ -19,6 +19,10 @@ plugin, then run `__luish_internal complete LINE`, as `../luish/tests/plugins/st
 completion itself runs are stood in for by scripts in `tests/bin`. Read the `.expected` before committing it: it is
 a snapshot, not a check.
 
+CI (`.github/workflows/ci.yml`) has two jobs: `test` builds luish from `luispedro/luish` (ref `LUISH_REF`, `main`) and
+runs `tests/run.sh` with `LUISH` and `STD_PLUGINS` pointing at that checkout; `docs` runs the Sphinx build below.
+`LUISH` must be an absolute path, because the runner `cd`s into a temp directory.
+
 The Read the Docs site (`.readthedocs.yaml`, Sphinx + MyST + furo, `fail_on_warning: true`) builds with:
 
 ```sh
