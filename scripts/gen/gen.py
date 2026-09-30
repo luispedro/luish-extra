@@ -42,18 +42,37 @@ def spec_body(pkg, cmd, values=None, args=None, extra="", indent=12, opts_extra=
     return h.emit(opts, indent, values, tail.rstrip("\n"))
 
 
-def argparse_dump(pkg, module, function, chan="-c conda-forge -c bioconda"):
-    """The options of a Python program's argparse parser (scripts/gen/argparse_dump.py), at a pinned version:
-    a list of dicts (names, metavar, nargs, choices, help, flag, positional), cached as helptext() is."""
-    key = hashlib.md5((pkg + "|argparse|" + module + ":" + function).encode()).hexdigest()
+def dump(pkg, script, args, chan="-c conda-forge -c bioconda", python=None):
+    """The JSON that scripts/gen/SCRIPT prints with ARGS, run in a temporary environment with the packages `pkg`
+    (separated by spaces), or with the interpreter `python` for a program that is not packaged (then `pkg` only names
+    the version, for the cache); cached as helptext() is."""
+    key = hashlib.md5((pkg + "|" + script + "|" + args).encode()).hexdigest()
     f = os.path.join(CACHE, key)
     if not os.path.exists(f):
-        r = subprocess.run(f"pixi exec {chan} -s '{pkg}' -- python {HERE}/argparse_dump.py {module} {function}",
-                           shell=True, capture_output=True, text=True, timeout=600, stdin=subprocess.DEVNULL)
+        specs = " ".join(f"-s '{p}'" for p in pkg.split())
+        run = python if python else f"pixi exec {chan} {specs} -- python"
+        # (PYTHONHASHSEED: choices that a program keeps in a set come out in the same order each time.)
+        r = subprocess.run(f"PYTHONHASHSEED=0 {run} {HERE}/{script} {args}", shell=True, capture_output=True,
+                           text=True, timeout=600, stdin=subprocess.DEVNULL)
         if r.returncode:
             sys.exit(r.stderr)
         open(f, "w").write(r.stdout)
     return json.load(open(f))
+
+
+def argparse_dump(pkg, module, function, chan="-c conda-forge -c bioconda", tree=False, python=None):
+    """The options of a Python program's argparse parser (scripts/gen/argparse_dump.py), at a pinned version:
+    a list of dicts (names, metavar, nargs, choices, help, flag, positional), cached as helptext() is. With `tree`,
+    {"actions": [...], "commands": [...]}, the subcommands with their own actions and subcommands. MODULE can be a
+    file of scripts/gen (`pytest_parser.py`)."""
+    if module.endswith(".py"):
+        module = os.path.join(HERE, module)
+    return dump(pkg, "argparse_dump.py", ("--tree " if tree else "") + f"{module} {function}", chan, python)
+
+
+def cleo_dump(pkg, module, cls, chan="-c conda-forge"):
+    """The commands of a program built with Cleo (scripts/gen/cleo_dump.py), at a pinned version."""
+    return dump(pkg, "cleo_dump.py", f"{module} {cls}", chan)
 
 
 def emit_argparse(actions, kind_of, indent=12, extra=""):

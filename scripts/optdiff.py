@@ -19,7 +19,7 @@ here = os.path.dirname(os.path.abspath(__file__))
 extra = os.path.dirname(here)
 luish = os.environ.get("LUISH", "luish")
 std = os.path.abspath(os.environ.get("STD_PLUGINS", os.path.join(extra, "..", "luish", "luish-std-plugins")))
-plugin = os.environ.get("PLUGIN", os.path.join(extra, "complete", "bio"))
+plugin = os.path.abspath(os.environ.get("PLUGIN", os.path.join(extra, "complete", "bio")))
 
 line = sys.argv[1]
 help_text = sys.stdin.read()

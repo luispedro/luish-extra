@@ -73,7 +73,7 @@ fn spec() {
             --cleanup-shadow                              cleanup old shadow directories which have not been deleted due to failures or power loss
             --skip-script-cleanup                         don't delete wrapper scripts used for execution
             --unlock                                      remove a lock on the working directory
-            --list-changes, --lc INPUT|CODE|PARAMS        list all output files for which the given items (code, input, params) have changed since
+            --list-changes, --lc INPUT|PARAMS|CODE        list all output files for which the given items (code, input, params) have changed since
             --list-input-changes, --li                    list all output files for which the defined input files have changed in the Snakefile
             --list-params-changes, --lp                   list all output files for which the defined params have changed in the Snakefile
             --list-untracked, --lu                        list all files in the working directory that are not used in the workflow
@@ -152,7 +152,7 @@ fn spec() {
             --use-envmodules                              if defined in the rule, run job within the given environment modules, loaded in the given
             --deploy-sources QUERY                        internal use only: Deploy sources archive from given storage provider query to the
             --target-jobs TARGET_JOBS                     internal use only: Target particular jobs by RULE:WILDCARD1=VALUE,WILDCARD2=VALUE,
-            --mode DEFAULT|SUBPROCESS|REMOTE              internal use only: Set execution mode of Snakemake
+            --mode DEFAULT|REMOTE|SUBPROCESS              internal use only: Set execution mode of Snakemake
             --scheduler-solver-path SCHEDULER_SOLVER_PATH  internal use only: Set the PATH to search for scheduler solver binaries
             --max-jobs-per-second MAX_JOBS_PER_SECOND     maximal number of job submissions/executions per second
             --report-html-path VALUE                      path to the report file (either .html or .zip)
@@ -199,7 +199,7 @@ fn spec() {
             "--lint": ["text", "json"], "--generate-unit-tests": "dirs",
             "--containerize": ["dockerfile", "apptainer"], "--export-cwl": "files", "--dag": ["dot", "mermaid-js"],
             "--rulegraph": ["dot", "mermaid-js"], "--archive": "files", "--cleanup-metadata": "files",
-            "--cm": "files", "--list-changes": ["input", "code", "params"], "--lc": ["input", "code", "params"],
+            "--cm": "files", "--list-changes": ["input", "params", "code"], "--lc": ["input", "params", "code"],
             "-q": ["all", "host", "progress", "reason", "rules"],
             "--quiet": ["all", "host", "progress", "reason", "rules"], "--max-inventory-time": "none",
             "--max-checksum-file-size": "none", "-w": "none", "--latency-wait": "none", "--output-wait": "none",
@@ -224,7 +224,7 @@ fn spec() {
             "--conda-prefix": "dirs", "--conda-cleanup-pkgs": ["tarballs", "cache"],
             "--conda-frontend": ["conda", "mamba"], "--apptainer-prefix": "dirs", "--singularity-prefix": "dirs",
             "--apptainer-args": "none", "--singularity-args": "none", "--deploy-sources": "none",
-            "--target-jobs": "none", "--mode": ["default", "subprocess", "remote"],
+            "--target-jobs": "none", "--mode": ["default", "remote", "subprocess"],
             "--scheduler-solver-path": "files", "--max-jobs-per-second": "none", "--report-html-path": "none",
             "--report-html-stylesheet-path": "none", "--scheduler-greedy-greediness": "none",
             "--scheduler-ilp-solver": ["COIN_CMD"], "--scheduler-ilp-solver-path": "files",
