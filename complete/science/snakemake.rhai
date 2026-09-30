@@ -73,7 +73,7 @@ fn spec() {
             --cleanup-shadow                              cleanup old shadow directories which have not been deleted due to failures or power loss
             --skip-script-cleanup                         don't delete wrapper scripts used for execution
             --unlock                                      remove a lock on the working directory
-            --list-changes, --lc INPUT|PARAMS|CODE        list all output files for which the given items (code, input, params) have changed since
+            --list-changes, --lc CODE|INPUT|PARAMS        list all output files for which the given items (code, input, params) have changed since
             --list-input-changes, --li                    list all output files for which the defined input files have changed in the Snakefile
             --list-params-changes, --lp                   list all output files for which the defined params have changed in the Snakefile
             --list-untracked, --lu                        list all files in the working directory that are not used in the workflow
@@ -199,7 +199,7 @@ fn spec() {
             "--lint": ["text", "json"], "--generate-unit-tests": "dirs",
             "--containerize": ["dockerfile", "apptainer"], "--export-cwl": "files", "--dag": ["dot", "mermaid-js"],
             "--rulegraph": ["dot", "mermaid-js"], "--archive": "files", "--cleanup-metadata": "files",
-            "--cm": "files", "--list-changes": ["input", "params", "code"], "--lc": ["input", "params", "code"],
+            "--cm": "files", "--list-changes": ["code", "input", "params"], "--lc": ["code", "input", "params"],
             "-q": ["all", "host", "progress", "reason", "rules"],
             "--quiet": ["all", "host", "progress", "reason", "rules"], "--max-inventory-time": "none",
             "--max-checksum-file-size": "none", "-w": "none", "--latency-wait": "none", "--output-wait": "none",

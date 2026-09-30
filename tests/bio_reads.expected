@@ -1,0 +1,397 @@
+load 0
+=== fastp
+--- fastp --in
+--in1=	read1 input file name
+--in2=	read2 input file name
+--include_unmerged 	in the merging mode, write the unmerged or unpaired reads to the file specified by --merge
+--interleaved_in 	indicate that <in1> is an interleaved FASTQ which contains both read1 and read2
+--- fastp -i data/
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/
+--- fastp -i data/r1.fq.gz -o 
+bio_reads.sh 
+data/
+--- fastp --adapter_fasta data/
+data/adapters.fasta 
+data/ref.fa 
+data/sub/
+--- fastp --umi_loc 
+index1 
+index2 
+per_index 
+per_read 
+read1 
+read2 
+--- fastp -?
+-? 	print this message
+=== fastqc, falco
+--- fastqc -f 
+bam 
+bam_mapped 
+fastq 
+sam 
+sam_mapped 
+--- fastqc --cont
+--contaminants=	specifies a non-default file which contains the list of contaminants to screen
+--- fastqc -o data/
+data/sub/
+--- fastqc data/
+data/a.bam 
+data/adapters.fasta 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/ref.fa 
+data/sub/
+data/u.bam 
+--- falco --stdin 
+fq 
+fq:4 
+fq:6 
+sam 
+sam:4 
+sam:6 
+--- falco --no-
+--no-adap 	toggle adapter analysis
+--no-dups 	toggle sequence duplication analysis
+--no-kmers 	toggle k-mer analysis
+--no-tiles 	toggle per-tile quality analysis
+=== cutadapt
+--- cutadapt -a 
+file:	adapters from a FASTA file
+--- cutadapt -a file:data/
+file:data/adapters.fasta 
+file:data/ref.fa 
+file:data/sub/
+--- cutadapt -G ^file:data/
+^file:data/adapters.fasta 
+^file:data/ref.fa 
+^file:data/sub/
+--- cutadapt --action 
+crop 
+lowercase 
+mask 
+none 
+retain 
+trim 
+--- cutadapt --pair-filter 
+any 
+both 
+first 
+--- cutadapt --discard
+--discard 	discard reads that contain an adapter
+--discard-casava 	discard reads that did not pass CASAVA filtering (header has :Y:)
+--discard-trimmed 	discard reads that contain an adapter
+--discard-untrimmed 	discard reads that do not contain an adapter
+--- cutadapt -o out.fq data/
+data/adapters.fasta 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/ref.fa 
+data/sub/
+=== trimmomatic
+--- trimmomatic 
+PE 	paired-end reads: two inputs, four outputs, then steps
+SE 	single-end reads: an input, an output, then steps
+--- trimmomatic PE -
+-basein 	the first input file, whose name gives the second's
+-baseout 	the base name of the four output files
+-phred33 	qualities are Phred+33
+-phred64 	qualities are Phred+64
+-quiet 	print only errors
+-summary 	summary of the statistics
+-threads 	number of threads
+-trimlog 	log of the trimming of each read
+-validatePairs 	check that the names of the pairs match
+-version 	print the version
+--- trimmomatic PE -phred33 data/
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/
+--- trimmomatic PE data/r1.fq.gz data/r2.fq.gz p1 u1 p2 u2 
+AVGQUAL:	drop reads whose mean quality is below QUALITY
+BASECOUNT:	drop reads by the count of some bases: BASES[:MIN[:MAX]]
+CROP:	cut the read to a length: LENGTH
+HEADCROP:	cut bases off the start: LENGTH
+ILLUMINACLIP:	cut adapters: FASTA:MISMATCHES:PALINDROME:SIMPLE[:MINLEN:KEEPBOTH]
+LEADING:	cut bases off the start below a quality: QUALITY
+MAXINFO:	adaptive quality trimming: LENGTH:STRICTNESS
+MAXLEN:	drop reads longer than LENGTH
+MINLEN:	drop reads shorter than LENGTH
+SLIDINGWINDOW:	cut once the mean quality of a window drops: SIZE:QUALITY
+TAILCROP:	cut bases off the end: LENGTH
+TOPHRED33 	convert the qualities to Phred+33
+TOPHRED64 	convert the qualities to Phred+64
+TRAILING:	cut bases off the end below a quality: QUALITY
+bio_reads.sh 
+data/
+--- trimmomatic PE data/r1.fq.gz data/r2.fq.gz p1 u1 p2 u2 SL
+SLIDINGWINDOW:	cut once the mean quality of a window drops: SIZE:QUALITY
+--- trimmomatic SE data/r1.fq.gz out.fq ILLUMINACLIP:
+ILLUMINACLIP:NexteraPE-PE.fa:	comes with Trimmomatic
+ILLUMINACLIP:TruSeq2-PE.fa:	comes with Trimmomatic
+ILLUMINACLIP:TruSeq2-SE.fa:	comes with Trimmomatic
+ILLUMINACLIP:TruSeq3-PE-2-GGGGG.fa:	comes with Trimmomatic
+ILLUMINACLIP:TruSeq3-PE-2.fa:	comes with Trimmomatic
+ILLUMINACLIP:TruSeq3-PE.fa:	comes with Trimmomatic
+ILLUMINACLIP:TruSeq3-SE-GGGGG.fa:	comes with Trimmomatic
+ILLUMINACLIP:TruSeq3-SE.fa:	comes with Trimmomatic
+ILLUMINACLIP:data/
+--- trimmomatic SE data/r1.fq.gz out.fq ILLUMINACLIP:Tru
+ILLUMINACLIP:TruSeq2-PE.fa:	comes with Trimmomatic
+ILLUMINACLIP:TruSeq2-SE.fa:	comes with Trimmomatic
+ILLUMINACLIP:TruSeq3-PE-2-GGGGG.fa:	comes with Trimmomatic
+ILLUMINACLIP:TruSeq3-PE-2.fa:	comes with Trimmomatic
+ILLUMINACLIP:TruSeq3-PE.fa:	comes with Trimmomatic
+ILLUMINACLIP:TruSeq3-SE-GGGGG.fa:	comes with Trimmomatic
+ILLUMINACLIP:TruSeq3-SE.fa:	comes with Trimmomatic
+--- trimmomatic SE data/r1.fq.gz out.fq ILLUMINACLIP:data/
+ILLUMINACLIP:data/adapters.fasta:
+ILLUMINACLIP:data/ref.fa:
+ILLUMINACLIP:data/sub/
+--- trimmomatic SE data/r1.fq.gz out.fq ILLUMINACLIP:data/adapters.fasta:2
+--- trimmomatic PE -basein data/
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/
+=== trim_galore, fastq_screen
+--- trim_galore --pa
+--paired 	paired-end mode
+--passthrough=	pass a third FASTQ file through unchanged but keep it in lockstep with R1/R2
+--- trim_galore --output-format 
+fastq 
+ubam 
+--- trim_galore -o data/
+data/sub/
+--- trim_galore --paired data/
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/
+--- fastq_screen --aligner 
+bowtie 
+bowtie2 
+bwa 
+minimap2 
+--- fastq_screen --min
+--minimap2=	specify extra parameters to be passed to minimap2
+=== seqtk
+--- seqtk 
+comp 	get the nucleotide composition of FASTA/Q
+cutN 	cut sequence at long N
+dropse 	drop unpaired from interleaved PE FASTA/Q
+famask 	apply a X-coded FASTA to a source FASTA
+fqchk 	fastq QC (base/quality summary)
+gap 	get the gap locations
+gc 	identify high- or low-GC regions
+hety 	regional heterozygosity
+hpc 	homopolyer-compressed sequence
+listhet 	extract the position of each het
+mergefa 	merge two FASTA/Q files
+mergepe 	interleave two PE FASTA/Q files
+mutfa 	point mutate FASTA at specified positions
+randbase 	choose a random base from hets
+rename 	rename sequence names
+sample 	subsample sequences
+seq 	common transformation of FASTA/Q
+size 	report the number sequences and bases
+split 	split one file into multiple smaller files
+subseq 	extract subsequences from FASTA/Q
+telo 	identify telomere repeats in asm or long reads
+trimfq 	trim FASTQ using the Phred algorithm
+--- seqtk s
+sample 	subsample sequences
+seq 	common transformation of FASTA/Q
+size 	report the number sequences and bases
+split 	split one file into multiple smaller files
+subseq 	extract subsequences from FASTA/Q
+--- seqtk seq -
+-1 	output the 2n-1 reads only
+-2 	output the 2n reads only
+-A 	force FASTA output (discard quality)
+-C 	drop comments at the header lines
+-F 	fake FASTQ quality
+-L 	drop sequences with length shorter than INT
+-M 	mask regions in BED or name list FILE
+-N 	drop sequences containing ambiguous bases
+-Q 	quality shift: ASCII-INT gives base quality
+-R 	output both forward and reverse complement
+-S 	strip of white spaces in sequences
+-U 	convert all bases to uppercases
+-V 	shift quality by '(-Q) - 33'
+-X 	mask bases with quality higher than INT
+-c 	mask complement region (effective with -M)
+-f 	sample FLOAT fraction of sequences
+-l 	number of residues per line; 0 for 2^32-1
+-n 	masked bases converted to CHAR; 0 for lowercase
+-q 	mask bases with quality lower than INT
+-r 	reverse complement
+-s 	random seed (effective with -f)
+-x 	convert all lowercases to -n
+--- seqtk seq -M data/
+data/a.bam 
+data/adapters.fasta 
+data/notes.txt 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/ref.fa 
+data/regions.bed 
+data/sub/
+data/u.bam 
+--- seqtk comp -r data/
+data/regions.bed 
+data/sub/
+--- seqtk subseq data/ref.fa data/
+data/a.bam 
+data/adapters.fasta 
+data/notes.txt 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/ref.fa 
+data/regions.bed 
+data/sub/
+data/u.bam 
+--- seqtk mergepe data/r1.fq.gz data/
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/
+--- seqtk gc data/
+data/adapters.fasta 
+data/ref.fa 
+data/sub/
+--- seqtk mergepe -
+=== long reads: filtlong, chopper, nanoq, porechop, NanoPlot, NanoFilt, NanoStat
+--- filtlong -a data/
+data/adapters.fasta 
+data/ref.fa 
+data/sub/
+--- filtlong --t
+--target_bases=	keep only the best reads up to this many total bases (unit suffixes: k, kb, m, mb, g, gb)
+--trim 	trim non-k-mer-matching bases from start/end of reads
+--- filtlong data/
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/
+--- chopper --trim-approach 
+best-read-segment 
+fixed-crop 
+split-by-low-quality 
+trim-by-quality 
+--- chopper -c data/
+data/adapters.fasta 
+data/ref.fa 
+data/sub/
+--- chopper data/
+--- nanoq -O 
+b 
+g 
+l 
+u 
+--- nanoq -i data/
+data/adapters.fasta 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/ref.fa 
+data/sub/
+--- porechop --format 
+auto 
+fasta 
+fasta.gz 
+fastq 
+fastq.gz 
+--- porechop -v 
+0 
+1 
+2 
+3 
+--- NanoPlot --fastq data/
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/
+--- NanoPlot --fastq data/ont.fastq data/
+data/a.bam 
+data/adapters.fasta 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/ref.fa 
+data/sub/
+data/u.bam 
+--- NanoPlot -f 
+eps 
+jpeg 
+jpg 
+json 
+pdf 
+png 
+svg 
+webp 
+--- NanoPlot --bam data/
+data/a.bam 
+data/sub/
+data/u.bam 
+--- NanoFilt --readtype 
+1D 
+1D2 
+2D 
+--- NanoStat --fasta data/
+data/adapters.fasta 
+data/ref.fa 
+data/sub/
+=== rasusa
+--- rasusa 
+aln 	randomly subsample alignments to a specified depth of coverage
+cite 	get a bibtex formatted citation for this package
+help 	print this message or the help of the given subcommand(s)
+reads 	randomly subsample reads (FASTA/Q, unaligned SAM/BAM/CRAM)
+--- rasusa reads -O 
+bam 
+cram 
+fasta 
+fastq 
+sam 
+--- rasusa reads -Z 
+b 
+g 
+l 
+u 
+x 
+z 
+--- rasusa reads data/
+data/a.bam 
+data/adapters.fasta 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/ref.fa 
+data/sub/
+data/u.bam 
+--- rasusa aln --strategy 
+fetch 
+stream 
+--- rasusa aln data/
+data/a.bam 
+data/sub/
+data/u.bam 
+--- rasusa help 
+aln 
+cite 
+reads 
+=== seqkit (Cobra)
+--- seqkit 
+amplicon 	extract amplicon (or specific region around it) via primer(s)
+seq 	transform sequences (extract ID, filter by length, remove gaps, reverse complement...)
+stats 	simple statistics of FASTA/Q files
+--- seqkit seq --rev
+--reverse 	reverse sequence

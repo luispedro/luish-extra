@@ -96,12 +96,38 @@ for cmd in ["hmmsearch", "hmmscan", "phmmer", "jackhmmer", "nhmmer", "nhmmscan",
     hmmer(cmd);
 }
 
+fn reads(cmd) {
+    sh::completer(cmd, |words, i| {
+        import "@std/completion/lib" as lib;
+        import "reads" as m;
+        lib::complete(m::spec(words[0]), words, i)
+    });
+}
+
+for cmd in ["fastp", "fastqc", "falco", "cutadapt", "trimmomatic", "trim_galore", "fastq_screen", "seqtk", "filtlong",
+            "chopper", "nanoq", "rasusa", "porechop", "NanoPlot", "NanoFilt", "NanoStat"] {
+    reads(cmd);
+}
+
 for cmd in ["ngless", "SemiBin2", "SemiBin", "macrel", "argnorm"] {
     ours(cmd);
 }
 
 for cmd in ["samtools", "tabix", "bgzip", "htsfile", "bedtools"] {
     hts(cmd);
+}
+
+// Go programs built with Cobra complete themselves too: std's Cobra bridge asks
+// them (`PROG __complete`, see `bridges::cobra`), in about 10 ms.
+fn cobra(cmd) {
+    sh::completer(cmd, |words, i| {
+        import "@std/completion/bridges" as bridges;
+        bridges::cobra(words, i)
+    });
+}
+
+for cmd in ["seqkit", "csvtk", "taxonkit"] {
+    cobra(cmd);
 }
 
 // Python programs built with Click complete themselves: std's Click bridge asks

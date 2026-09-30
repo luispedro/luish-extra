@@ -160,11 +160,81 @@ fn vcf_samples(words) {
     []
 }
 
+// Trimmomatic's steps (`SLIDINGWINDOW:4:20`), after its input and output
+// files: the steps and the files. After `ILLUMINACLIP:`, a FASTA of adapters
+// or one of those that come with Trimmomatic (which it finds by name), then
+// `:` for the step's numbers.
+fn trimmomatic_step(cur) {
+    let fasta = compressed([".fa", ".fasta", ".fna"]);
+    if cur.starts_with("ILLUMINACLIP:") {
+        let rest = cur.sub_string(13);
+        if rest.contains(":") {
+            return [];
+        }
+        let r = std_kinds::listing(rest, "ILLUMINACLIP:", false);
+        let out = [];
+        for c in r.candidates {
+            if type_of(c) == "map" {
+                out.push(c);
+            } else if fasta.some(|s| c.ends_with(s)) {
+                out.push(#{value: c, suffix: ":"});
+            }
+        }
+        if r.prefix == "ILLUMINACLIP:" {
+            for a in ["NexteraPE-PE.fa", "TruSeq2-PE.fa", "TruSeq2-SE.fa", "TruSeq3-PE.fa", "TruSeq3-PE-2.fa",
+                      "TruSeq3-PE-2-GGGGG.fa", "TruSeq3-SE.fa", "TruSeq3-SE-GGGGG.fa"] {
+                if !out.some(|c| c.value == a) {
+                    out.push(#{value: a, desc: "comes with Trimmomatic", suffix: ":"});
+                }
+            }
+        }
+        r.candidates = out;
+        return r;
+    }
+    let r = std_kinds::listing(cur, "", false);
+    if r.prefix == "" {
+        for s in [
+            ["ILLUMINACLIP:", "cut adapters: FASTA:MISMATCHES:PALINDROME:SIMPLE[:MINLEN:KEEPBOTH]"],
+            ["SLIDINGWINDOW:", "cut once the mean quality of a window drops: SIZE:QUALITY"],
+            ["MAXINFO:", "adaptive quality trimming: LENGTH:STRICTNESS"],
+            ["LEADING:", "cut bases off the start below a quality: QUALITY"],
+            ["TRAILING:", "cut bases off the end below a quality: QUALITY"],
+            ["CROP:", "cut the read to a length: LENGTH"],
+            ["HEADCROP:", "cut bases off the start: LENGTH"],
+            ["TAILCROP:", "cut bases off the end: LENGTH"],
+            ["MINLEN:", "drop reads shorter than LENGTH"],
+            ["MAXLEN:", "drop reads longer than LENGTH"],
+            ["AVGQUAL:", "drop reads whose mean quality is below QUALITY"],
+            ["BASECOUNT:", "drop reads by the count of some bases: BASES[:MIN[:MAX]]"],
+            ["TOPHRED33", "convert the qualities to Phred+33"],
+            ["TOPHRED64", "convert the qualities to Phred+64"],
+        ] {
+            r.candidates.push(if s[0].ends_with(":") { #{value: s[0], desc: s[1], suffix: ""} } else { #{value: s[0], desc: s[1]} });
+        }
+    }
+    r
+}
+
+// An adapter of cutadapt: a sequence to type, or `file:` and a FASTA of
+// adapters (also `file$:` and `^file:`, anchored).
+fn cutadapt_adapter(cur) {
+    for p in ["file:", "file$:", "^file:"] {
+        if cur.starts_with(p) {
+            let r = std_kinds::listing(cur.sub_string(p.len()), p, false);
+            let fasta = compressed([".fa", ".fasta", ".fna"]);
+            r.candidates = r.candidates.filter(|c| type_of(c) == "map" || fasta.some(|s| c.ends_with(s)));
+            return r;
+        }
+    }
+    [#{value: "file:", desc: "adapters from a FASTA file", suffix: ""}]
+}
+
 fn kind(name, cur, words) {
     switch name {
         "fasta" => with_suffix(cur, compressed([".fa", ".fna", ".fasta", ".faa", ".ffn", ".fas"])),
         "fastq" => with_suffix(cur, compressed([".fq", ".fastq"])),
         "sequences" => with_suffix(cur, compressed([".fa", ".fna", ".fasta", ".faa", ".ffn", ".fas", ".fq", ".fastq"])),
+        "reads" => with_suffix(cur, compressed([".fa", ".fna", ".fasta", ".fq", ".fastq"]) + [".sam", ".bam", ".cram"]),
         "sam" => with_suffix(cur, [".sam", ".bam", ".cram"]),
         "bam" => with_suffix(cur, [".bam", ".cram"]),
         "sam_header" => with_suffix(cur, [".sam", ".hdr", ".txt"]),
@@ -194,6 +264,8 @@ fn kind(name, cur, words) {
         "tabix_regions" => tabix_regions(words),
         "vcf_regions" => vcf_regions(words),
         "vcf_samples" => vcf_samples(words),
+        "trimmomatic_step" => trimmomatic_step(cur),
+        "cutadapt_adapter" => cutadapt_adapter(cur),
         _ => throw `unknown kind: ${name}`,
     }
 }

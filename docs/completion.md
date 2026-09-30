@@ -67,8 +67,9 @@ the rest of the `ucsc-*` packages
 `fastp`, `fastqc`, `falco`, `multiqc`, `cutadapt`, `trimmomatic`, `trim_galore`, `AdapterRemoval`, `atropos`,
 `flexbar`, `fastx_*` (fastx_toolkit), `bbduk.sh` and the other BBMap tools, `seqkit`, `seqtk`, `csvtk`, `seqfu`,
 `seqmagick`, `bioawk`, `filtlong`, `chopper`, `nanoq`, `rasusa`, `NanoPlot`, `NanoFilt`, `NanoStat`, `porechop`,
-`fastq-screen`, `fastq-dl`, `kmc`, `jellyfish`, `meryl`, `khmer`, `pear`, `flash`, `sickle`, `lighter`, `pigz`,
-`pixz`, `taxonkit`, `sga`, `kat`, `genomescope2`, `smudgeplot`, `nanocomp`, `pycoqc`, `toulligqc`, `pomoxis`
+`fastq_screen` (fastq-screen), `fastq-dl`, `kmc`, `jellyfish`, `meryl`, `khmer`, `pear`, `flash`, `sickle`,
+`lighter`, `pigz`, `pixz`, `taxonkit`, `sga`, `kat`, `genomescope2`, `smudgeplot`, `nanocomp`, `pycoqc`, `toulligqc`,
+`pomoxis`
 
 ### Assembly, annotation and polishing
 

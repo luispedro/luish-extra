@@ -30,6 +30,10 @@ are not registered, and stay unticked with their time. A user who accepts the de
 protocol. `nf-core` and `planemo` (Click, 0.1 and 1.4 s) belong to the `science` plugin (`nf-core` is registered there, see
 below), and `proksee` (Click, 0.3 s) to `gui`.
 
+Go programs built with Cobra answer `PROG __complete WORDS...`, and std's Cobra bridge (`bridges::cobra`) asks
+them in the same way. A tick with `(Cobra)` means the program answers with its subcommands and flags, in about
+10 ms (seqkit, csvtk, taxonkit).
+
 ## `bio`: bioinformatics
 
 
@@ -283,33 +287,33 @@ below), and `proksee` (Click, 0.3 s) to `gui`.
 
 ### Read QC, trimming and sequence utilities
 
-- [ ] `fastp`
-- [ ] `fastqc`
-- [ ] `falco`
+- [x] `fastp`: fastp 1.3.7
+- [x] `fastqc`: fastqc 0.12.1
+- [x] `falco`: falco 2.0.2
 - [x] `multiqc`: multiqc 1.35 (Click)
-- [ ] `cutadapt`
-- [ ] `trimmomatic`
-- [ ] `trim_galore`
+- [x] `cutadapt`: cutadapt 5.2
+- [x] `trimmomatic`: trimmomatic 0.41 (its usage, and the steps of its `TrimmerFactory`)
+- [x] `trim_galore`: trim-galore 2.3.0 (the Rust rewrite; 0.6.x's options are nearly the same)
 - [ ] `AdapterRemoval`
 - [ ] `atropos`
 - [ ] `flexbar`
 - [ ] `fastx_*`
 - [ ] `bbduk.sh`
-- [ ] `seqkit`
-- [ ] `seqtk`
-- [ ] `csvtk`
+- [x] `seqkit`: seqkit 2.14.0 (Cobra)
+- [x] `seqtk`: seqtk 1.5
+- [x] `csvtk`: csvtk 0.38.0 (Cobra)
 - [ ] `seqfu`
 - [ ] `seqmagick`
 - [ ] `bioawk`
-- [ ] `filtlong`
-- [ ] `chopper`
-- [ ] `nanoq`
-- [ ] `rasusa`
-- [ ] `NanoPlot`
-- [ ] `NanoFilt`
-- [ ] `NanoStat`
-- [ ] `porechop`
-- [ ] `fastq-screen`
+- [x] `filtlong`: filtlong 0.3.1
+- [x] `chopper`: chopper 0.14.1
+- [x] `nanoq`: nanoq 0.10.0
+- [x] `rasusa`: rasusa 5.1.0
+- [x] `NanoPlot`: nanoplot 1.48.0
+- [x] `NanoFilt`: nanofilt 2.8.0
+- [x] `NanoStat`: nanostat 1.6.0
+- [x] `porechop`: porechop 0.2.4
+- [x] `fastq_screen`: fastq-screen 0.16.0
 - [x] `fastq-dl`: fastq-dl 4.0.1 (Click)
 - [ ] `kmc`
 - [ ] `jellyfish`
@@ -321,7 +325,7 @@ below), and `proksee` (Click, 0.3 s) to `gui`.
 - [ ] `lighter`
 - [ ] `pigz`
 - [ ] `pixz`
-- [ ] `taxonkit`
+- [x] `taxonkit`: taxonkit 0.20.0 (Cobra)
 - [ ] `sga`
 - [ ] `kat`
 - [ ] `genomescope2`
