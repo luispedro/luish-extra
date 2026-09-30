@@ -6,7 +6,7 @@
 import "@std/completion/lib" as lib;
 
 // Whether `s` can be a subcommand name (the words come from the command
-// line and are passed to a shell).
+// line, and mmseqs is only asked about names).
 fn is_name(s) {
     if s == "" || s.starts_with("-") {
         return false;
@@ -22,7 +22,7 @@ fn is_name(s) {
 // MMseqs2: the modules are the lines `  NAME<TAB>description` of `mmseqs -h`.
 fn mmseqs() {
     let commands = "";
-    for line in sh::capture("mmseqs -h 2>&1").out.split("\n") {
+    for line in sh::capture(["mmseqs", "-h"], "merge").out.split("\n") {
         let tab = line.index_of("\t");
         if !line.starts_with("  ") || tab < 0 {
             continue;
@@ -48,7 +48,7 @@ fn mmseqs_sub(sub) {
     if !is_name(sub) {
         return ();
     }
-    let s = lib::help_spec(sh::capture("mmseqs " + sub + " -h 2>&1").out);
+    let s = lib::help_spec(sh::capture(["mmseqs", sub, "-h"], "merge").out);
     s.guess_values = true;
     // BOOL takes 0 or 1.
     for o in lib::parse(s.opts).opts {

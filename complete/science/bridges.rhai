@@ -8,7 +8,7 @@ fn aws(words, i) {
         line += words[j] + " ";
     }
     line += words[i];
-    let r = sh::capture("COMP_LINE=" + sh::quote(line) + " COMP_POINT=" + line.len() + " aws_completer 2>/dev/null");
+    let r = sh::capture(["env", "COMP_LINE=" + line, `COMP_POINT=${line.len()}`, "aws_completer"]);
     if r.status != 0 {
         return ();
     }

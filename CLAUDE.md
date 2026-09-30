@@ -99,7 +99,11 @@ sphinx-build -W docs docs/_build
 
 ## Design decisions to keep in mind
 
-- Requires luish at rev `c744056c3718f7f383f610c8ef07a526faccc0f2` or later.
+- Requires luish at rev `e76d3d2da43db37fd665dbad85ba6b17f9fdebaf` or later.
+- Run programs with `sh::capture(["prog", arg, ...])` (no shell parsing; stdin is /dev/null, stderr discarded unless
+  a second argument says `"merge"`, `"return"` or `"inherit"`; variables through `env`), not by building a shell
+  string. Find them with `sh::which(name)` and list them with `sh::commands(prefix)`, so that PATH is searched
+  as luish searches it; don't walk `PATH` in Rhai.
 - Plugin naming is `SOURCE.NAME`, one level only. These plugins form a collection `extra-complete` (`subdir =
   "complete"`) enabled as `extra-complete.bio`, and so on. Other kinds of plugin would be further collections.
 - Completion is by **command name, not Bioconda package name** (`star` → `STAR`, `subread` → `featureCounts`,

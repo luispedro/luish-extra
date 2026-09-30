@@ -12,7 +12,7 @@ concurrency:
 
 env:
   CARGO_TERM_COLOR: always
-  # The luish to test against: it must be at c744056c3718f7f383f610c8ef07a526faccc0f2 or later.
+  # The luish to test against: it must be at e76d3d2da43db37fd665dbad85ba6b17f9fdebaf or later.
   LUISH_REF: main
 
 jobs:

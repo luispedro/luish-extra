@@ -5,16 +5,7 @@ import "jupyter_specs" as specs;
 
 // The names X of the programs `jupyter-X` in PATH.
 fn jupyter_programs() {
-    let out = [];
-    for d in (sh::getvar("PATH") ?? "").split(":") {
-        for n in fs::list_dir(if d == "" { "." } else { d }) ?? [] {
-            if n.starts_with("jupyter-") && n.len() > 8 && !n.contains(".") && !out.contains(n.sub_string(8)) {
-                out.push(n.sub_string(8));
-            }
-        }
-    }
-    out.sort();
-    out
+    sh::commands("jupyter-").filter(|n| n.len() > 8 && !n.contains(".")).map(|n| n.sub_string(8))
 }
 
 fn jupyter() {

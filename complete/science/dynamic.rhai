@@ -4,7 +4,8 @@
 
 import "@std/completion/lib" as lib;
 
-// Whether `s` can be a subcommand name (the words come from the command line and are passed to a shell).
+// Whether `s` can be a subcommand name (the words come from the command line, and the program is only asked about
+// names).
 fn is_name(s) {
     if s == "" || s.starts_with("-") {
         return false;
@@ -46,7 +47,7 @@ fn qsv_commands(text) {
 fn csv_tool(prog) {
     let s = lib::help_spec(lib::help_of(prog));
     if prog == "qsv" {
-        s.commands = qsv_commands(sh::capture("qsv --list 2>/dev/null").out);
+        s.commands = qsv_commands(sh::capture(["qsv", "--list"]).out);
     }
     s.sub_spec = "@extra-complete/science/dynamic:" + prog;
     s

@@ -5,7 +5,7 @@ bioinformatics tools (`bio`), scientific computing (`science`), development (`de
 (`system`), and later desktop programs. The commands are listed in [`docs/completion.md`](docs/completion.md), and
 what is done so far in [`completion-todo.md`](completion-todo.md).
 
-Requires luish at rev `c744056c3718f7f383f610c8ef07a526faccc0f2` or later, and its `std.completion` plugin (the
+Requires luish at rev `e76d3d2da43db37fd665dbad85ba6b17f9fdebaf` or later, and its `std.completion` plugin (the
 plugin depends on it, so luish loads it first).
 
 ## Enabling
