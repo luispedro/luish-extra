@@ -2,26 +2,17 @@
 // `"@extra-complete/system/kinds:NAME"` in specs: `kind(name, cur, words)`.
 import "@std/completion/kinds" as std_kinds;
 
-// A field of /proc/mounts, with its escapes (`\040` for a space) decoded.
-fn unescape(s) {
-    for e in [["\\040", " "], ["\\011", "\t"], ["\\012", "\n"], ["\\134", "\\"]] {
-        s.replace(e[0], e[1]);
-    }
-    s
-}
-
 // The mount points of FUSE file systems (sshfs, borg mount, ...): for a word
 // that isn't a path yet, those under the current directory (relative to it),
 // and all of them, and for a relative path, those under the current directory.
 fn fuse_mounts(cur) {
     let pwd = sh::getvar("PWD") ?? "";
     let out = [];
-    for line in (fs::read_file("/proc/mounts") ?? "").split("\n") {
-        let f = line.split(" ");
-        if f.len() < 3 || !(f[2] == "fuse" || f[2].starts_with("fuse.") || f[2] == "fuseblk") {
+    for m in std_kinds::mount_table() {
+        if !(m.type == "fuse" || m.type.starts_with("fuse.") || m.type == "fuseblk") {
             continue;
         }
-        let p = unescape(f[1]);
+        let p = m.point;
         if pwd != "" && p.starts_with(pwd + "/") && !cur.starts_with("/") {
             out.push(p.sub_string(pwd.len() + 1));
         }
