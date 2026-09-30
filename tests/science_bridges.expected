@@ -1,0 +1,62 @@
+load 0
+=== apptainer
+--- apptainer 
+build 	Build an Apptainer image
+exec 	Run a command within a container
+run 	Run the user-defined default command within a container
+shell 	Run a shell within a container
+--- apptainer run --
+--app 	set an application to run inside a container
+--bind 	a user-bind path specification
+--- apptainer run --app 
+bin/
+reads.fq 
+results/
+science_bridges.sh 
+--- singularity instance 
+list 	List all running and named Apptainer instances
+start 	Start a named instance of the given container image
+--- singularity 
+build 	Build an Apptainer image
+exec 	Run a command within a container
+run 	Run the user-defined default command within a container
+shell 	Run a shell within a container
+=== nf-core
+--- nf-core 
+interface 	Launch the nf-core interface
+modules 	Commands to manage Nextflow DSL2 modules.
+pipelines 	Commands to manage nf-core pipelines.
+--- nf-core pipelines 
+create 	Create a new pipeline.
+lint 	Check pipeline code against nf-core guidelines.
+list 	List available nf-core pipelines.
+--- nf-core pipelines lint --
+--dir 	Pipeline directory.
+--help 	Show this message and exit.
+--release 	Execute additional checks for release-ready workflows.
+=== aws
+--- aws 
+ec2 
+lambda 
+s3 
+sts 
+--- aws s3 
+cp 
+ls 
+mv 
+rm 
+website 
+--- aws s3 cp --re
+--recursive 
+--region 
+--request-payer 
+--- aws s3 cp --region 
+eu-west-1 
+us-east-1 
+--- aws s3 cp re
+reads.fq 
+results/
+=== not installed: filenames
+--- nosuchcmd r
+reads.fq 
+results/

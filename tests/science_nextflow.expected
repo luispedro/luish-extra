@@ -1,0 +1,427 @@
+load 0
+=== commands and options
+--- nextflow 
+auth 	manage Seqera Platform authentication
+clean 	clean up project cache and work directories
+clone 	clone a project into a folder
+config 	print a project configuration
+console 	launch Nextflow interactive console
+drop 	delete the local copy of a project
+fs 	perform filesystem operations
+help 	print the usage help for a command
+info 	print project and system runtime information
+inspect 	inspect process settings in a pipeline project
+kuberun 	execute a workflow in a Kubernetes cluster (experimental)
+launch 	launch a workflow in Seqera Platform
+lineage 	explore workflows lineage metadata
+lint 	lint Nextflow scripts and config files
+list 	list all downloaded projects
+log 	print executions log and runtime info
+module 	manage Nextflow modules
+plugin 	execute plugin-specific commands
+pull 	download or update a project
+run 	execute a pipeline project
+secrets 	manage pipeline secrets
+self-update 	update nextflow runtime to the latest available version
+view 	view project script file(s)
+--- nextflow ru
+run 	execute a pipeline project
+--- nextflow -
+-C 	use the specified configuration file(s) overriding any defaults
+-D 	set JVM properties
+-bg 	execute nextflow in background
+-c 	add the specified file to configuration set
+-config 	add the specified file to configuration set
+-config-ignore-includes 	disable the parsing of config includes
+-h 	print help
+-log 	set nextflow log file path
+-q 	do not print information messages
+-quiet 	do not print information messages
+-remote-debug 	enable JVM interactive remote debugging
+-syslog 	send logs to a syslog server
+-trace 	enable trace level logging for the specified package name
+-v 	print the program version
+-version 	print the program version
+--- nextflow -c 
+custom.config 
+nextflow.config 
+nxf/
+pipe/
+results/
+--- nextflow -c c
+custom.config 
+--- nextflow run -
+-E 	export all current system environment
+-N 	send a notification email on workflow completion
+-ansi-log 	enable or disable ANSI console logging
+-bucket-dir 	remote bucket where intermediate result files are stored
+-cache 	enable or disable process caching
+-d 	create a shallow clone of the specified depth
+-deep 	create a shallow clone of the specified depth
+-disable-jobs-cancellation 	prevent the cancellation of child jobs on termination
+-dump-channels	dump channels for debugging purposes
+-dump-hashes 	dump task hash keys for debugging purposes
+-entry 	entry workflow name to be executed
+-h 	print the command usage
+-help 	print the command usage
+-hub 	service hub where the project is hosted
+-latest 	pull latest changes before run
+-lib 	library extension path
+-main-script 	the script file to be executed when launching a project
+-name 	assign a mnemonic name to the pipeline run
+-o 	directory where workflow outputs are stored
+-offline 	do not check for remote project updates
+-output-dir 	directory where workflow outputs are stored
+-output-format 	output format for printing workflow outputs
+-params-file 	load script parameters from a JSON/YAML file
+-plugins 	plugins to be applied for this run
+-preview 	run the workflow skipping the execution of all processes
+-profile 	choose a configuration profile
+-qs 	max number of processes executed in parallel by each executor
+-queue-size 	max number of processes executed in parallel by each executor
+-r 	revision of the project to run (branch, tag or commit)
+-resume	execute the script using the cached results
+-revision 	revision of the project to run (branch, tag or commit)
+-stub 	execute the workflow replacing process scripts with stubs
+-stub-run 	execute the workflow replacing process scripts with stubs
+-test 	test a script function with the name specified
+-user 	private repository user name
+-w 	directory where intermediate result files are stored
+-with-apptainer	enable process execution in an Apptainer container
+-with-charliecloud	enable process execution in a Charliecloud container
+-with-cloudcache	use an object storage bucket as storage for cache metadata
+-with-conda	use the specified Conda environment package or file
+-with-dag	create pipeline DAG file
+-with-docker	enable process execution in a Docker container
+-with-notification 	send a notification email on workflow completion
+-with-podman	enable process execution in a Podman container
+-with-report	create processes execution html report
+-with-singularity	enable process execution in a Singularity container
+-with-spack	use the specified Spack environment package or file
+-with-timeline	create processes execution timeline file
+-with-tower	monitor workflow execution with Seqera Platform
+-with-trace	create processes execution tracing file
+-with-weblog	send workflow status messages via HTTP to target URL
+-without-conda 	disable the use of Conda environments
+-without-docker 	disable process execution with Docker
+-without-podman 	disable process execution in a Podman container
+-without-spack 	disable the use of Spack environments
+-work-dir 	directory where intermediate result files are stored
+--- nextflow run -with-d
+-with-dag	create pipeline DAG file
+-with-docker	enable process execution in a Docker container
+--- nextflow run -with-docker=n
+--- nextflow run -hub 
+bitbucket 
+gitea 
+github 
+gitlab 
+--- nextflow run -ansi-log 
+false 
+true 
+--- nextflow run -output-format 
+json 
+none 
+text 
+--- nextflow run -w 
+nxf/
+pipe/
+results/
+--- nextflow run -params-file 
+nxf/
+params.json 
+params.yaml 
+pipe/
+results/
+=== pipelines
+--- nextflow run 
+main.nf 
+nextflow-io/hello 
+nf-core/rnaseq 
+nf-core/sarek 
+nxf/
+other.nf 
+pipe/
+results/
+--- nextflow run m
+main.nf 
+--- nextflow run n
+nextflow-io/hello 
+nf-core/rnaseq 
+nf-core/sarek 
+nxf/
+--- nextflow run nf-core/
+nf-core/rnaseq 
+nf-core/sarek 
+--- nextflow run nf-core/s
+nf-core/sarek 
+=== profiles
+--- nextflow run main.nf -profile 
+conda 
+debug 
+test_full 
+--- nextflow run main.nf -profile d
+debug 
+--- nextflow run main.nf -profile debug,
+debug,conda 
+debug,test_full 
+--- nextflow run main.nf -profile debug,c
+debug,conda 
+--- nextflow run pipe -profile 
+conda 
+debug 
+docker 
+singularity 
+test_full 
+--- nextflow run pipe/main.nf -profile s
+singularity 
+--- nextflow run main.nf -c pipe/nextflow.config -profile 
+conda 
+debug 
+docker 
+singularity 
+test_full 
+--- nextflow config -profile 
+conda 
+debug 
+test_full 
+--- nextflow inspect pipe -profile 
+conda 
+debug 
+docker 
+singularity 
+test_full 
+=== parameters of the pipeline
+--- nextflow run pipe --
+--aligner=	The aligner
+--email=	Email address
+--genome=	Genome name
+--input=	Path to the samplesheet
+--outdir=	The output directory
+--skip_qc 	Skip the QC
+--- nextflow run pipe --o
+--outdir=	The output directory
+--- nextflow run pipe --aligner 
+hisat2 
+star 
+--- nextflow run pipe --outdir 
+nxf/
+pipe/
+results/
+--- nextflow run pipe --input 
+custom.config 
+main.nf 
+nextflow.config 
+notes.txt 
+nxf/
+other.nf 
+params.json 
+params.yaml 
+pipe/
+results/
+science_nextflow.sh 
+--- nextflow run pipe --skip_qc 
+main.nf 
+nextflow-io/hello 
+nf-core/rnaseq 
+nf-core/sarek 
+nxf/
+other.nf 
+pipe/
+results/
+--- nextflow run main.nf --
+=== runs and projects
+--- nextflow log 
+nasty_lamarr 
+silly_darwin 
+--- nextflow log n
+nasty_lamarr 
+--- nextflow log -before 
+nasty_lamarr 
+silly_darwin 
+--- nextflow clean -but s
+silly_darwin 
+--- nextflow clean -
+-after 	clean up runs executed after the specified one
+-before 	clean up runs executed before the specified one
+-but 	clean up all runs except the specified one
+-dry-run 	print names of files to be removed without deleting them
+-f 	force clean command
+-force 	force clean command
+-h 	print the command usage
+-help 	print the command usage
+-k 	remove only temporary files, keeping log entries and metadata
+-keep-logs 	remove only temporary files, keeping log entries and metadata
+-n 	print names of files to be removed without deleting them
+-q 	do not print names of files removed
+-quiet 	do not print names of files removed
+--- nextflow pull 
+nextflow-io/hello 
+nf-core/rnaseq 
+nf-core/sarek 
+--- nextflow drop nf-core/r
+nf-core/rnaseq 
+--- nextflow info nextflow-io/
+nextflow-io/hello 
+--- nextflow view -
+-h 	print the command usage
+-help 	print the command usage
+-l 	list repository content
+-q 	hide header line
+-r 	revision of the project
+-revision 	revision of the project
+=== other subcommands
+--- nextflow fs 
+cat 	print a file to the standard output
+cp 	copy a file
+ls 	list the content of a folder
+mv 	move a file
+rm 	remove a file
+stat 	print file metadata
+--- nextflow module 
+create 	create a new module skeleton
+install 	install a module from the registry
+list 	list all installed modules
+publish 	publish a module to the registry
+remove 	remove an installed module
+run 	run a module directly from the registry
+search 	search for modules in the registry
+spec 	generate a meta.yml spec for a local module
+validate 	validate a module structure and metadata
+view 	show module information and usage template
+--- nextflow lineage v
+view 	print the description of a lineage ID
+--- nextflow secrets 
+delete 	delete a secret
+get 	print a secret
+list 	list the secrets
+set 	set a secret
+--- nextflow lint -o 
+concise 
+extended 
+full 
+json 
+markdown 
+--- nextflow lint 
+custom.config 
+main.nf 
+nextflow.config 
+notes.txt 
+nxf/
+other.nf 
+params.json 
+params.yaml 
+pipe/
+results/
+science_nextflow.sh 
+--- nextflow list -
+-h 	print the command usage
+-help 	print the command usage
+=== nf-test
+--- nf-test 
+clean 	remove the .nf-test directory
+coverage 	print the status of the tests
+generate 	generate tests for sources
+init 	initialize a project
+list 	list tests
+test 	run tests
+update-plugins 	update the plugins
+version 	show the version
+--- nf-test t
+test 	run tests
+--- nf-test test --
+--changed-since=	run tests related to the changes since a branch or commit hash
+--changed-until=	run tests related to the changes until a branch or commit hash
+--changedSince=	run tests related to the changes since a branch or commit hash
+--changedUntil=	run tests related to the changes until a branch or commit hash
+--ci 	CI mode: fail instead of storing a new snapshot
+--clean-snapshot 	remove all obsolete snapshots
+--cleanSnapshot 	remove all obsolete snapshots
+--config=	nf-test.config filename
+--coverage 	print simple coverage calculation
+--csv=	write test results in csv format
+--debug 	show debugging infos and dump channels
+--dry-run 	execute most of test discovery but stop before running any test case
+--dryRun 	execute most of test discovery but stop before running any test case
+--filter=	filter test cases by types (process, pipeline, workflow, function)
+--follow-dependencies 	follow all dependencies when related-tests is set
+--followDependencies 	follow all dependencies when related-tests is set
+--graph=	export dependency graph as dot file
+--junitxml=	write test results in Junit Xml format
+--lib=	library extension path
+--log=	filename for log file
+--only-changed 	run tests only for the files modified in the current git repository
+--onlyChanged 	run tests only for the files modified in the current git repository
+--plugins=	library extension path
+--profile=	profile to execute all tests
+--related-tests 	find and execute all related tests for the provided files
+--relatedTests 	find and execute all related tests for the provided files
+--shard-strategy=	strategy to build shards
+--shard=	split into chunks and execute the I-th of N
+--silent 	hide header and program version
+--smart-testing 	run in smart testing mode (--ci --changed-since HEAD^)
+--smartTesting 	run in smart testing mode (--ci --changed-since HEAD^)
+--stop-on-first-failure 	stop execution immediately after the first test failure
+--stopOnFirstFailure 	stop execution immediately after the first test failure
+--tag=	execute only tests with this tag
+--tap=	write test results to tap file
+--update-snapshot 	re-record every snapshot that fails during this test run
+--updateSnapshot 	re-record every snapshot that fails during this test run
+--verbose 	show Nextflow output
+--wipe-snapshot 	remove all obsolete snapshots
+--wipeSnapshot 	remove all obsolete snapshots
+--without-trace 	run nextflow tests without the trace parameter
+--- nf-test test --filter 
+function 
+pipeline 
+process 
+workflow 
+--- nf-test test --shard-strategy 
+none 
+round-robin 
+--- nf-test test --junitxml 
+custom.config 
+main.nf 
+nextflow.config 
+notes.txt 
+nxf/
+other.nf 
+params.json 
+params.yaml 
+pipe/
+results/
+science_nextflow.sh 
+tests/
+--- nf-test test tests/
+tests/main.nf.test 
+tests/modules.nf.test 
+--- nf-test test tests/m
+tests/main.nf.test 
+tests/modules.nf.test 
+--- nf-test generate 
+function 	generate tests for functions
+pipeline 	generate tests for pipelines
+process 	generate tests for processes
+workflow 	generate tests for workflows
+--- nf-test generate process 
+main.nf 
+nxf/
+other.nf 
+pipe/
+results/
+tests/
+--- nf-test list --
+--debug 	show debugging infos
+--format=	output format
+--log=	filename for log file
+--silent 	hide header and program version
+--tags 	show all available tags
+--- nf-test init --
+--log=	filename for log file
+--silent 	hide header and program version
+--- nf-test coverage --
+--config=	nf-test.config filename
+--csv=	write status results in csv format
+--html=	write status results in html format
+--log=	filename for log file
+--silent 	hide header and program version

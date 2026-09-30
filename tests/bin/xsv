@@ -1,0 +1,108 @@
+#!/bin/sh
+# Stand-in for xsv in the tests: its real help (version in completion-todo.md), cut short.
+case "$*" in
+"-h")
+    cat <<'HELP'
+Usage:
+    xsv <command> [<args>...]
+    xsv [options]
+
+Options:
+    --list        List all commands available.
+    -h, --help    Display this message
+    <command> -h  Display the command help message
+    --version     Print version info and exit
+
+Commands:
+    cat         Concatenate by row or column
+    count       Count records
+    fixlengths  Makes all records have same length
+    flatten     Show one field per line
+    fmt         Format CSV output (change field delimiter)
+    frequency   Show frequency tables
+    headers     Show header names
+    help        Show this usage message.
+    index       Create CSV index for faster access
+    input       Read CSV data with special quoting rules
+    join        Join CSV files
+    sample      Randomly sample CSV data
+    search      Search CSV data with regexes
+    select      Select columns from CSV
+    slice       Slice records from CSV
+    sort        Sort CSV data
+    split       Split CSV data into many files
+    stats       Compute basic statistics
+    table       Align CSV data into columns
+HELP
+    ;;
+"select -h")
+    cat <<'HELP'
+Select columns from CSV data efficiently.
+
+This command lets you manipulate the columns in CSV data. You can re-order
+them, duplicate them or drop them. Columns can be referenced by index or by
+name if there is a header row (duplicate column names can be disambiguated with
+more indexing). Finally, column ranges can be specified.
+
+  Select the first and fourth columns:
+  $ xsv select 1,4
+
+  Select the first 4 columns (by index and by name):
+  $ xsv select 1-4
+  $ xsv select Header1-Header4
+
+  Ignore the first 2 columns (by range and by omission):
+  $ xsv select 3-
+  $ xsv select '!1-2'
+
+  Select the third column named 'Foo':
+  $ xsv select 'Foo[2]'
+
+  Re-order and duplicate columns arbitrarily:
+  $ xsv select 3-1,Header3-Header1,Header1,Foo[2],Header1
+
+  Quote column names that conflict with selector syntax:
+  $ xsv select '"Date - Opening","Date - Actual Closing"'
+
+Usage:
+    xsv select [options] [--] <selection> [<input>]
+    xsv select --help
+
+Common options:
+    -h, --help             Display this message
+    -o, --output <file>    Write output to <file> instead of stdout.
+    -n, --no-headers       When set, the first row will not be interpreted
+                           as headers. (i.e., They are not searched, analyzed,
+                           sliced, etc.)
+    -d, --delimiter <arg>  The field delimiter for reading CSV data.
+                           Must be a single character. (default: ,)
+HELP
+    ;;
+"sort -h")
+    cat <<'HELP'
+Sorts CSV data lexicographically.
+
+Note that this requires reading all of the CSV data into memory.
+
+Usage:
+    xsv sort [options] [<input>]
+
+sort options:
+    -s, --select <arg>     Select a subset of columns to sort.
+                           See 'xsv select --help' for the format details.
+    -N, --numeric          Compare according to string numerical value
+    -R, --reverse          Reverse order
+
+Common options:
+    -h, --help             Display this message
+    -o, --output <file>    Write output to <file> instead of stdout.
+    -n, --no-headers       When set, the first row will not be interpreted
+                           as headers. Namely, it will be sorted with the rest
+                           of the rows. Otherwise, the first row will always
+                           appear as the header row in the output.
+    -d, --delimiter <arg>  The field delimiter for reading CSV data.
+                           Must be a single character. (default: ,)
+HELP
+    ;;
+*) exit 1 ;;
+esac

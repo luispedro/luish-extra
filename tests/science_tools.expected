@@ -1,0 +1,391 @@
+load 0
+=== duckdb
+--- duckdb -
+-ascii 	set output mode to 'ascii'
+-bail 	stop after hitting an error
+-batch 	force batch I/O
+-box 	set output mode to 'box'
+-c 	run COMMAND and exit
+-cmd 	run COMMAND before reading stdin
+-column 	set output mode to 'column'
+-csv 	set output mode to 'csv'
+-dark-mode 	use dark mode colors
+-echo 	print commands before execution
+-f 	read and process the named file and exit
+-h 	show help message
+-header 	turn headers on
+-help 	show help message
+-html 	set output mode to HTML
+-init 	read and process the named file
+-interactive 	force interactive I/O
+-json 	set output mode to 'json'
+-jsonlines 	set output mode to 'jsonlines'
+-light-mode 	use light mode colors
+-line 	set output mode to 'line'
+-list 	set output mode to 'list'
+-markdown 	set output mode to 'markdown'
+-newline 	set output row separator
+-no-init 	skip processing the init file
+-no-stdin 	exit after processing options instead of reading stdin
+-noheader 	turn headers off
+-nullvalue 	set text string for NULL values
+-quote 	set output mode to 'quote'
+-readonly 	open the database read-only
+-s 	run COMMAND and exit
+-safe 	enable safe-mode
+-separator 	set output column separator
+-storage-version 	database storage compatibility version to use
+-table 	set output mode to 'table'
+-ui 	launch a web interface using the ui extension
+-unredacted 	allow printing unredacted secrets
+-unsigned 	allow loading of unsigned extensions
+-version 	show DuckDB version
+--- duckdb -cs
+-csv 	set output mode to 'csv'
+--- duckdb -f 
+analysis.R 
+archive.tar 
+bin/
+data.tsv 
+list.meta4 
+model.duckdb 
+notes.txt 
+plot.gp 
+run.r 
+science_tools.sh 
+seeds.torrent 
+--- duckdb mo
+model.duckdb 
+=== datamash
+--- datamash 
+absmax 
+absmin 
+antimode 
+barename 
+base64 
+basename 
+bin 
+ceil 
+check 
+collapse 
+count 
+countunique 
+crosstab 
+cut 
+debase64 
+dirname 
+dotprod 
+dpo 
+extname 
+first 
+floor 
+frac 
+geomean 
+getnum 
+groupby 
+harmmean 
+iqr 
+jarque 
+last 
+mad 
+madraw 
+max 
+md5 
+mean 
+median 
+min 
+mode 
+ms 
+pcov 
+perc 
+pkurt 
+ppearson 
+pskew 
+pstdev 
+pvar 
+q1 
+q3 
+rand 
+range 
+reverse 
+rmdup 
+rms 
+round 
+scov 
+sha1 
+sha224 
+sha256 
+sha384 
+sha512 
+skurt 
+spearson 
+sskew 
+sstdev 
+strbin 
+sum 
+svar 
+transpose 
+trimmean 
+trunc 
+unique 
+--- datamash --
+--collapse-delimiter=	use X to separate elements in collapse and unique lists
+--field-separator=	use X instead of TAB as field delimiter
+--filler=	fill missing values with X
+--format=	print numeric values with printf style floating-point FORMAT
+--full 	print the entire input line before the operation results
+--group=	group by fields X,[Y,Z]; the same as the primary operation 'groupby'
+--header-in 	the first input line is column headers
+--header-out 	print column headers as the first line
+--headers 	the same as '--header-in --header-out'
+--help 	display the help and exit
+--ignore-case 	ignore upper/lower case when comparing text
+--narm 	skip NA/NaN values
+--no-strict 	allow lines with varying number of fields
+--output-delimiter=	use X instead as output field delimiter
+--round=	round numeric output to N decimal places
+--seed=	set a seed for operations that use randomization
+--skip-comments 	skip comment lines (starting with '#' or ';' and optional whitespace)
+--sort 	sort the input before grouping
+--sort-cmd=	alternative sort(1) to use
+--version 	output version information and exit
+--vnlog 	read and write data in the vnlog format
+--whitespace 	use whitespace (one or more spaces and/or tabs) for field delimiters
+--zero-terminated 	end lines with a 0 byte, not newline
+--- datamash -g 1 su
+sum 
+--- datamash --sort-cmd 
+analysis.R 
+archive.tar 
+bin/
+data.tsv 
+list.meta4 
+model.duckdb 
+notes.txt 
+plot.gp 
+run.r 
+science_tools.sh 
+seeds.torrent 
+--- datamash -t 
+=== pigz
+--- pigz -
+--best 	compression level 9
+--fast 	compression level 1
+-0 	compression level 0 (-1 to -9, -11 are the others)
+-A 	use NAME as the name for any --zip entry from stdin
+-C 	put TEXT in the gzip or zip header
+-F 	do iterations first, before block split for -11
+-H 	use only Huffman coding for compression
+-I 	number of iterations for -11 optimization
+-J 	maximum number of split blocks for -11
+-K 	compress to PKWare zip (.zip) single entry format
+-L 	display the pigz license and quit
+-M 	store or restore mod time
+-N 	store or restore file name and mod time
+-O 	do not split into smaller blocks for -11
+-R 	input-determined block locations for rsync
+-S 	use SUFFIX instead of .gz (for compression)
+-U 	use run-length encoding for compression
+-V 	show the version of pigz
+-Y 	force output file write to permanent storage
+-b 	set compression block size to KB kilobytes
+-c 	write all processed output to stdout (won't delete)
+-d 	decompress the compressed input
+-f 	force overwrite, compress .gz, links, and to terminal
+-h 	display a help screen and quit
+-i 	compress blocks independently for damage recovery
+-k 	do not delete original file after processing
+-l 	list the contents of the compressed input
+-m 	do not store or restore mod time
+-n 	do not store or restore file name or mod time
+-p 	allow up to N compression threads
+-q 	print no messages, even on error
+-r 	process the contents of all subdirectories
+-t 	test the integrity of the compressed input
+-v 	provide more verbose output
+-z 	compress to zlib (.zz) instead of gzip format
+--- pigz --su
+--suffix=	use SUFFIX instead of .gz (for compression)
+--- pigz -S 
+.gz 
+.zip 
+.zz 
+--- pigz arch
+archive.tar 
+=== gnuplot
+--- gnuplot -
+-V 	show the version
+-c 	run the script FILE, with its arguments ARG1 ARG2 ...
+-d 	ignore the initialization file
+-e 	run the commands
+-h 	show help
+-p 	keep the plot windows open after the script ends
+-s 	wait for the terminal to close before exiting
+--- gnuplot -c 
+bin/
+plot.gp 
+--- gnuplot pl
+plot.gp 
+=== R and Rscript
+--- Rscript 
+analysis.R 
+bin/
+run.r 
+--- Rscript --v
+--vanilla 	combine --no-save, --no-restore, --no-site-file, --no-init-file and --no-environ
+--verbose 	print information on progress
+--version 	print version and exit
+--- Rscript --no-
+--no-environ 	do not read the site and user environment files
+--no-init-file 	do not read the user R profile
+--no-restore 	do not restore anything
+--no-restore-data 	do not restore previously saved objects
+--no-restore-history 	do not restore the R history file
+--no-save 	do not save it
+--no-site-file 	do not read the site-wide Rprofile
+--- Rscript --vanilla an
+analysis.R 
+--- Rscript -e 
+--- Rscript analysis.R da
+data.tsv 
+--- Rscript -g 
+Tk 
+X11 
+--- R --
+--arch=	specify a sub-architecture
+--args 	skip the rest of the command line
+--debugger-args=	pass ARGS as arguments to the debugger
+--debugger=	run R through debugger NAME
+--encoding=	specify encoding to be used for stdin
+--file=	take input from FILE
+--gui=	use TYPE as GUI
+--help 	print short help message and exit
+--interactive 	force an interactive session
+--max-connections=	set max number of connections to N
+--max-ppsize=	set max size of protect stack to N
+--min-nsize=	set min number of fixed size objects to N
+--min-vsize=	set vector heap minimum to N bytes
+--no-echo 	make R run as quietly as possible
+--no-environ 	do not read the site and user environment files
+--no-init-file 	do not read the user R profile
+--no-restore 	do not restore anything
+--no-restore-data 	do not restore previously saved objects
+--no-restore-history 	do not restore the R history file
+--no-save 	do not save it
+--no-site-file 	do not read the site-wide Rprofile
+--quiet 	do not print startup message
+--restore 	do restore previously saved objects at startup
+--save 	do save workspace at the end of the session
+--silent 	the same as --quiet
+--vanilla 	combine --no-save, --no-restore, --no-site-file, --no-init-file and --no-environ
+--verbose 	print more information about progress
+--version 	print version info and exit
+--- R CM
+CMD 
+=== aria2c
+--- aria2c --file-allocation=
+--file-allocation=falloc 
+--file-allocation=none 
+--file-allocation=prealloc 
+--file-allocation=trunc 
+--- aria2c --file-allocation 
+falloc 
+none 
+prealloc 
+trunc 
+--- aria2c --log-level 
+debug 
+error 
+info 
+notice 
+warn 
+--- aria2c --dir 
+bin/
+--- aria2c -o 
+analysis.R 
+archive.tar 
+bin/
+data.tsv 
+list.meta4 
+model.duckdb 
+notes.txt 
+plot.gp 
+run.r 
+science_tools.sh 
+seeds.torrent 
+--- aria2c --max-overall
+--max-overall-download-limit=	set max overall download speed in bytes/sec
+--max-overall-upload-limit=	set max overall upload speed in bytes/sec
+--- aria2c --continue
+--continue	continue downloading a partially downloaded
+--- aria2c --continue=t
+--continue=true 
+--- aria2c --tor
+--torrent-file=	the path to the .torrent file
+--- aria2c -T 
+bin/
+seeds.torrent 
+--- aria2c -M 
+bin/
+list.meta4 
+--- aria2c se
+seeds.torrent 
+=== parallel
+--- parallel --jo
+--joblog=	log the jobs to FILE
+--jobs=	run N jobs in parallel
+--- parallel --joblog 
+analysis.R 
+archive.tar 
+bin/
+data.tsv 
+list.meta4 
+model.duckdb 
+notes.txt 
+plot.gp 
+run.r 
+science_tools.sh 
+seeds.torrent 
+--- parallel --halt 
+never 
+now,done=1 
+now,fail=1 
+soon,done=1 
+soon,fail=1 
+--- parallel --results 
+analysis.R 
+archive.tar 
+bin/
+data.tsv 
+list.meta4 
+model.duckdb 
+notes.txt 
+plot.gp 
+run.r 
+science_tools.sh 
+seeds.torrent 
+--- parallel --keeporder
+--- parallel --keep
+--keep-order 	keep the same order as the input
+--- parallel -j 4 zzc
+zzcmd 
+--- parallel echo :
+::: 
+:::+ 
+:::: 
+::::+ 
+--- parallel echo {} ::: a
+analysis.R 
+archive.tar 
+--- parallel echo {} :::: 
+analysis.R 
+archive.tar 
+bin/
+data.tsv 
+list.meta4 
+model.duckdb 
+notes.txt 
+plot.gp 
+run.r 
+science_tools.sh 
+seeds.torrent 

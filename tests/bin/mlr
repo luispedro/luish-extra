@@ -1,0 +1,6 @@
+#!/bin/sh
+# A stand-in for mlr: the list that completion asks for.
+case "$*" in
+"help list-separator-aliases") printf 'ascii_esc  = "\\x1b"\ncolon      = ":"\ncomma      = ","\nnewline    = "\\n"\nsemicolon  = ";"\nspace      = " "\ntab        = "\\t"\n' ;;
+*) exit 1 ;;
+esac

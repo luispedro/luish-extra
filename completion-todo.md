@@ -27,8 +27,8 @@ answers `_PROG_COMPLETE=fish_complete` and takes under a second to do it (`scrip
 [WORD]...` measures it, in a temporary pixi environment). Tab runs the program each time, so those that import
 too much at startup (cooltools, bigscape, iphop, genomad, pyprophet, easypqp, ms2rescore, velocyto: 1.4 to 5 s)
 are not registered, and stay unticked with their time. A user who accepts the delay can add one with `complete-click PROG`. Typer programs (binette, taxpasta, wisecondorx) don't answer the same
-protocol. `nf-core` and `planemo` (Click, 0.1 and 1.4 s) belong to the `science` plugin, and `proksee` (Click,
-0.3 s) to `gui`: they are for those plugins.
+protocol. `nf-core` and `planemo` (Click, 0.1 and 1.4 s) belong to the `science` plugin (`nf-core` is registered there, see
+below), and `proksee` (Click, 0.3 s) to `gui`.
 
 ## `bio`: bioinformatics
 
@@ -805,43 +805,49 @@ protocol. `nf-core` and `planemo` (Click, 0.1 and 1.4 s) belong to the `science`
 
 ## `science`: general scientific computing
 
-- [ ] `jug`
-- [ ] `snakemake`
-- [ ] `nextflow`
-- [ ] `nf-core`
-- [ ] `nf-test`
-- [ ] `cwltool`
+Versions are what the options were checked against. Those of the tools that `scripts/gen/mk_*.py` generate (snakemake,
+pandoc, aria2c, parallel, mlr, cwltool, ipython and jupyter) are pinned in the generator. `xsv` and `qsv` are read
+from the program's own help when Tab is pressed (`dynamic.rhai`), so the version is that of the real help the test
+stand-ins in `tests/bin` were cut from.
+
+- [x] `jug`: jug 2.5.0
+- [x] `snakemake`: snakemake 9.27.0 (rules and included files of the Snakefile as targets)
+- [x] `nextflow`: nextflow 26.04.6.12646 (profiles, runs and projects; parameters of an nf-core pipeline)
+- [x] `nf-core` (Click): nf-core 4.1.0, 0.1 s
+- [x] `nf-test`: nf-test 0.9.5
+- [x] `cwltool`: cwltool 3.3.20260925135507
 - [ ] `cromwell`
 - [ ] `toil`
-- [ ] `planemo`
-- [ ] `quarto`
-- [ ] `latexmk`
-- [ ] `pdflatex`
-- [ ] `xelatex`
-- [ ] `bibtex`
-- [ ] `biber`
-- [ ] `pandoc`
-- [ ] `ipython`
-- [ ] `jupyter`
-- [ ] `Rscript`
-- [ ] `gnuplot`
+- [ ] `planemo` (Click, 1.4 s: not registered, `complete-click planemo`)
+- [x] `quarto`: quarto 1.9.38 (`--to` formats, `publish` providers and `install` tools are from its documentation)
+- [x] `latexmk`: latexmk 4.87 (TeX Live 2026)
+- [x] `pdflatex`: pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026), also `pdftex`
+- [x] `xelatex`: XeTeX (TeX Live 2026), also `xetex`
+- [x] `bibtex`: TeX Live 2026
+- [ ] `biber` (not packaged in conda-forge or Bioconda: no help to check against)
+- [x] `pandoc`: pandoc 3.11 (descriptions from its man page; formats and extensions are asked of the installed pandoc)
+- [x] `ipython`: ipython 9.9.0
+- [x] `jupyter`: jupyterlab 4.5.2, notebook 7.5.2, nbconvert 7.16.6, jupyter_client 8.8.0, jupyter_server 2.17.0, jupyter_core 5.9.1
+  (`jupyter-lab`, `jupyter-nbconvert` and the other `jupyter-*` programs too)
+- [x] `Rscript`: R 4.6.1 (and `R`, which takes the same options)
+- [x] `gnuplot`: gnuplot 6.0 patchlevel 5
 - [ ] `glpk`
-- [ ] `datamash`
+- [x] `datamash`: datamash 1.9
 - [ ] `tsv-utils`
-- [ ] `mlr`
-- [ ] `xsv`
-- [ ] `qsv`
-- [ ] `duckdb`
+- [x] `mlr`: Miller 6.22.0
+- [x] `xsv`: xsv 0.13.0
+- [x] `qsv`: qsv 14.0.0
+- [x] `duckdb`: duckdb 1.5.6 (`duckdb-cli`)
 - [ ] `gromacs`
 - [ ] `autodock-vina`
 - [ ] `namd`
 - [ ] `lmp`
-- [ ] `parallel`
-- [ ] `aria2c`
-- [ ] `pigz`
-- [ ] `singularity`
-- [ ] `apptainer`
-- [ ] `awscli`
+- [x] `parallel`: GNU parallel 20260922
+- [x] `aria2c`: aria2 1.37.0
+- [x] `pigz`: pigz 2.8
+- [x] `apptainer` (Cobra): apptainer 1.5.4, 10 ms
+- [ ] `singularity` (Cobra): registered on the same bridge as `apptainer`, but not run: it is not in conda-forge
+- [x] `awscli`: AWS CLI 2.36.47, through its `aws_completer` (50 ms)
 
 ## `gui`: desktop programs
 

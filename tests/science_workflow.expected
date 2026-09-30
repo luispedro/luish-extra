@@ -1,0 +1,554 @@
+load 0
+=== jug
+--- jug 
+check 	return 0 if all tasks are finished, 1 otherwise
+cleanup 	remove result files that are not used
+count 	count tasks
+demo 	create a demo directory
+execute 	execute tasks
+graph 	produce a diagram of task dependencies
+install-skills 	install the bundled Jug skill into a skills directory
+invalidate 	invalidate the results of a task
+pack 	pack the results
+shell 	run a shell after initialization
+sleep-until 	wait until all tasks are done, then exit
+status 	print the status
+test-jug 	run the jug test suite
+webstatus 	start a web interface that displays the status
+--- jug ex
+execute 	execute tasks
+--- jug execute -
+--aggressive-unload 	unload data from memory aggressively
+--debug 	debug mode
+--jugdir=	directory in which to save intermediate files
+--keep-failed 	keep failed tasks locked
+--keep-going 	continue after errors
+--no-check-environment 	do not check the JUG_* variables and the stop file
+--nr-wait-cycles=	how many wait cycles to do
+--pdb 	drop to a PDB (debug) console on error
+--short 	short output
+--target=	restrict tasks to execute based on their name
+--verbose=	verbosity level
+--wait-cycle-time=	how long to wait in each cycle, in seconds
+--will-cite 	suppress the request for citation
+-h 	show help
+--- jug execute --
+--aggressive-unload 	unload data from memory aggressively
+--debug 	debug mode
+--help 	show help
+--jugdir=	directory in which to save intermediate files
+--keep-failed 	keep failed tasks locked
+--keep-going 	continue after errors
+--no-check-environment 	do not check the JUG_* variables and the stop file
+--nr-wait-cycles=	how many wait cycles to do
+--pdb 	drop to a PDB (debug) console on error
+--short 	short output
+--target=	restrict tasks to execute based on their name
+--verbose=	verbosity level
+--wait-cycle-time=	how long to wait in each cycle, in seconds
+--will-cite 	suppress the request for citation
+--- jug execute 
+analysis.py 
+jugfile.py 
+results/
+workflow/
+--- jug execute j
+jugfile.py 
+--- jug status --
+--aggressive-unload 	unload data from memory aggressively
+--cache 	use a cache for faster status
+--cache-file=	file to use for the status cache
+--clear 	remove the cache file
+--debug 	debug mode
+--help 	show help
+--jugdir=	directory in which to save intermediate files
+--pdb 	drop to a PDB (debug) console on error
+--short 	short output
+--verbose=	verbosity level
+--will-cite 	suppress the request for citation
+--- jug status --cache-file 
+Snakefile 
+analysis.py 
+config.yaml 
+jugfile.py 
+notes.txt 
+other.json 
+other.smk 
+results/
+science_workflow.sh 
+workflow/
+--- jug status jugfile.py --
+--aggressive-unload 	unload data from memory aggressively
+--cache 	use a cache for faster status
+--cache-file=	file to use for the status cache
+--clear 	remove the cache file
+--debug 	debug mode
+--help 	show help
+--jugdir=	directory in which to save intermediate files
+--pdb 	drop to a PDB (debug) console on error
+--short 	short output
+--verbose=	verbosity level
+--will-cite 	suppress the request for citation
+--- jug cleanup --
+--aggressive-unload 	unload data from memory aggressively
+--debug 	debug mode
+--failed-only 	clean up failed locks only
+--help 	show help
+--jugdir=	directory in which to save intermediate files
+--keep-locks 	clean up unused results, leaving locks untouched
+--locks-only 	clean up locks, leaving computed results untouched
+--pdb 	drop to a PDB (debug) console on error
+--short 	short output
+--verbose=	verbosity level
+--will-cite 	suppress the request for citation
+--- jug execute --verbose 
+debug 
+info 
+quiet 
+--- jug execute --jugdir 
+results/
+workflow/
+--- jug invalidate --t
+--target=	name of the task to invalidate
+--- jug graph --
+--aggressive-unload 	unload data from memory aggressively
+--debug 	debug mode
+--file-format 	set the format of the graph output file
+--help 	show help
+--jugdir=	directory in which to save intermediate files
+--no-status 	do not include status information
+--pdb 	drop to a PDB (debug) console on error
+--short 	short output
+--verbose=	verbosity level
+--will-cite 	suppress the request for citation
+=== snakemake
+--- snakemake -
+--all-temp 	mark all output files as temp files
+--allowed-rules=	only consider given rules
+--apptainer-args=	pass additional args to apptainer/singularity
+--apptainer-prefix=	specify a directory in which apptainer/singularity images will be stored.If not supplied
+--archive=	archive the workflow into the given tar archive FILE. The archive will be created such
+--attempt=	internal use only: define the initial value of the attempt parameter
+--batch=	only create the given BATCH of the input files of the given RULE. This can be used to
+--benchmark-extended 	write extended benchmarking metrics
+--cache=	store output files of given rules in a central cache given by the environment variable
+--cleanup-metadata=	cleanup the metadata of given files
+--cleanup-shadow 	cleanup old shadow directories which have not been deleted due to failures or power loss
+--cm=	cleanup the metadata of given files
+--conda-base-path=	path of conda base installation (home of conda, mamba, activate) (internal use only)
+--conda-cleanup-envs 	cleanup unused conda environments
+--conda-cleanup-pkgs	cleanup conda packages after creating environments
+--conda-create-envs-only 	if specified, only creates the job-specific conda environments then exits
+--conda-frontend=	choose the conda frontend for installing environments
+--conda-not-block-search-path-envvars 	do not block environment variables that modify the search path
+--conda-prefix=	specify a directory in which the 'conda' and 'conda-archive' directories are created
+--configfile=	specify or overwrite the config file of the workflow (see the docs)
+--configfiles=	specify or overwrite the config file of the workflow (see the docs)
+--consider-ancient=	consider given input items of given rules as ancient, i.e not triggering re-runs if they
+--container-cleanup-images 	remove unused containers
+--container-image=	docker image to use, e.g, when submitting jobs to kubernetes
+--containerize	print a container definition that provides an execution environment for the workflow
+--d3dag 	print the DAG in D3.js compatible JSON format
+--dag	do not execute anything and print the directed acyclic graph of jobs in the dot language
+--debug 	allow to debug rules with e.g PDB. This flag allows to set breakpoints in run blocks
+--debug-dag 	print candidate and selected jobs (including their wildcards) while inferring DAG. This
+--default-res=	define default values of resources for rules that do not define their own values
+--default-resources=	define default values of resources for rules that do not define their own values
+--default-storage-prefix=	specify prefix for default storage provider
+--default-storage-provider=	specify default storage provider to be used for all input and output files that don't yet
+--delete-all-output 	remove all files generated by the workflow
+--delete-temp-output 	remove all temporary files generated by the workflow
+--deploy-sources=	internal use only: Deploy sources archive from given storage provider query to the
+--deployment-method=	specify software environment deployment method
+--deployment=	specify software environment deployment method
+--draft-notebook=	draft a skeleton notebook for the rule used to generate the given target file
+--drop-metadata 	drop metadata file tracking information after job finishes
+--edit-notebook=	interactively edit the notebook associated with the rule used to generate the given
+--envvars=	environment variables to pass to cloud jobs
+--export-cwl=	compile workflow to CWL and store it in given FILE
+--filegraph 	do not execute anything and print the dependency graph of rules with their input and
+--force-use-threads 	force threads rather than processes
+--generate-unit-tests	automatically generate unit tests for each workflow rule
+--greediness=	set the greediness of scheduling
+--group-components=	set the number of connected components a group is allowed to span
+--groups=	assign rules to groups (this overwrites any group definitions from the workflow)
+--ignore-incomplete 	do not check for incomplete output files
+--ii 	do not check for incomplete output files
+--immediate-submit 	immediately submit all jobs to the cluster instead of waiting for present input files
+--is 	immediately submit all jobs to the cluster instead of waiting for present input files
+--jn=	provide a custom name for the jobscript that is submitted to the cluster (see '--cluster')
+--job-deploy-sources 	whether the workflow sources shall be deployed before a remote job is started
+--jobname=	provide a custom name for the jobscript that is submitted to the cluster (see '--cluster')
+--jobscript=	provide a custom job script for submission to the cluster
+--js=	provide a custom job script for submission to the cluster
+--keep-incomplete 	do not remove incomplete output files by failed jobs
+--keep-storage-local-copies 	keep local copies of remote input and output files
+--lc=	list all output files for which the given items (code, input, params) have changed since
+--li 	list all output files for which the defined input files have changed in the Snakefile
+--lint	perform linting on the given workflow
+--list-changes=	list all output files for which the given items (code, input, params) have changed since
+--list-conda-envs 	list all conda environments and their location on disk
+--list-input-changes 	list all output files for which the defined input files have changed in the Snakefile
+--list-params-changes 	list all output files for which the defined params have changed in the Snakefile
+--list-target-rules 	show available target rules in given Snakefile
+--list-untracked 	list all files in the working directory that are not used in the workflow
+--local-cores=	in cluster/cloud mode, use at most N cores of the host machine in parallel
+--local-groupid=	internal use only: Name for local groupid
+--local-storage-prefix=	specify prefix for storing local copies of storage files and folders
+--logger=	specify one or more custom loggers, available via logger plugins
+--lp 	list all output files for which the defined params have changed in the Snakefile
+--lt 	show available target rules in given Snakefile
+--lu 	list all files in the working directory that are not used in the workflow
+--max-checksum-file-size=	compute the checksum during DAG computation and job postprocessing only for files that
+--max-inventory-time=	spend at most SECONDS seconds to create a file inventory for the working directory
+--max-jobs-per-second=	maximal number of job submissions/executions per second
+--max-jobs-per-timespan=	maximal number of job submissions/executions per timespan
+--max-status-checks-per-second=	maximal number of job status checks per second; fractions allowed
+--max-threads=	define a global maximum number of threads available to any rule
+--mode=	internal use only: Set execution mode of Snakemake
+--no-hooks 	do not invoke onstart, onsuccess or onerror hooks after execution
+--no-subworkflows 	do not evaluate or execute subworkflows
+--no-temp 	ignore temp() declarations
+--nocolor 	do not use a colored output
+--nolock 	do not lock the working directory
+--nosw 	do not evaluate or execute subworkflows
+--not-retrieve-storage 	do not retrieve remote files
+--notebook-listen=	the IP address and PORT the notebook server used for editing the notebook
+--notemp 	ignore temp() declarations
+--nt 	ignore temp() declarations
+--omit-flags=	omit the given input and output file flags (e.g pipe)
+--persistence-backend-db-url=	the database URL to use for the 'db' persistence backend
+--persistence-backend=	the backend to use for Snakemake's metadata persistence
+--precommand=	only used in case of remote execution
+--preemptible-retries=	number of retries that shall be made in order to finish a job from of rule that has been
+--preemptible-rules=	define which rules shall use a preemptible machine which can be prematurely killed by e.g
+--print-compilation 	print the python representation of the workflow
+--profile=	profile to use for configuring the Snakemake run with settings regarding the compute
+--queue-input-wait-time=	set the interval in seconds to check for new input in rules that use from_queue to obtain
+--remote-job-local-storage-prefix=	specify prefix for storing local copies of storage files and folders
+--replace-workflow-config 	config files provided via command line do not update and extend the config dictionary of
+--report	create a self-contained HTML report with default statistics, provenance information and
+--report-after-run 	after finishing the workflow, directly create the report
+--report-html-path=	path to the report file (either .html or .zip)
+--report-html-stylesheet-path=	path to a custom stylesheet for the report
+--report-metadata=	custom metadata to use for the landing page of the report
+--report-stylesheet=	custom stylesheet to use for report
+--reporter=	specify a custom report plugin
+--rerun-incomplete 	re-run all jobs the output of which is recognized as incomplete
+--rerun-triggers=	define what triggers the rerunning of a job
+--res=	define additional resources that shall constrain the scheduling analogously to '--cores'
+--resources=	define additional resources that shall constrain the scheduling analogously to '--cores'
+--ri 	re-run all jobs the output of which is recognized as incomplete
+--rulegraph	do not execute anything and print the dependency graph of rules in the dot language or in
+--runtime-profile=	profile Snakemake and write the output to FILE. This requires yappi to be installed
+--runtime-source-cache-path=	path to the runtime source cache directory
+--scheduler	specifies the scheduling plugin to use
+--scheduler-greediness=	set the greediness of scheduling
+--scheduler-greedy-greediness=	set the greediness of scheduling
+--scheduler-greedy-omit-prioritize-by-temp-and-input 	if set, jobs with larger temporary or input files are not prioritized
+--scheduler-ilp-solver-path=	set the PATH to search for scheduler solver binaries
+--scheduler-ilp-solver=	set MILP solver to use
+--scheduler-solver-path=	internal use only: Set the PATH to search for scheduler solver binaries
+--scheduler-subsample=	set the number of jobs to be considered for scheduling
+--sdm=	specify software environment deployment method
+--seconds-between-status-checks=	number of seconds to wait between two rounds of status checks
+--set-resource-scopes=	overwrite resource scopes
+--set-resources=	overwrite resource usage of rules
+--set-scatter=	overwrite number of scatter items of scattergather processes
+--set-threads=	overwrite thread usage of rules
+--shadow-prefix=	specify a directory in which the 'shadow' directory is created
+--shared-fs-usage=	set assumptions on shared filesystem for non-local workflow execution
+--show-failed-logs 	automatically display logs of failed jobs
+--singularity-args=	pass additional args to apptainer/singularity
+--singularity-prefix=	specify a directory in which apptainer/singularity images will be stored.If not supplied
+--skip-script-cleanup 	don't delete wrapper scripts used for execution
+--software-deployment-method=	specify software environment deployment method
+--strict-dag-evaluation=	strict evaluation of rules' correctness even when not required to produce the output files
+--target-files-omit-workdir-adjustment 	do not adjust the paths of given target files relative to the working directory
+--target-jobs=	internal use only: Target particular jobs by RULE:WILDCARD1=VALUE,WILDCARD2=VALUE,
+--trust-io-cache 	tell Snakemake to assume that all input and output file existence and modification time
+--unlock 	remove a lock on the working directory
+--unneeded-temp-files=	given files will not be uploaded to storage and immediately deleted after job or group
+--use-apptainer 	if defined in the rule, run job within a apptainer/singularity container
+--use-conda 	if defined in the rule, run job in a conda environment
+--use-envmodules 	if defined in the rule, run job within the given environment modules, loaded in the given
+--use-singularity 	if defined in the rule, run job within a apptainer/singularity container
+--verbose 	print debugging output
+--wait-for-files-file=	same behaviour as '--wait-for-files', but file list is stored in file instead of being
+--wait-for-files=	wait '--latency-wait' seconds for these files to be present before executing the workflow
+--wait-for-free-local-storage=	wait for given timespan for enough free local storage when downloading remote storage
+--workflow-profile=	profile to use for configuring this Snakemake run with parameters specific for this
+--wrapper-prefix=	URL prefix for wrapper directive
+-C 	set or overwrite values in the workflow config object
+-D 	print a summary of all files created by the workflow
+-F 	force the execution of the selected (or the first) rule and all rules it is dependent on
+-O 	prevent the execution or creation of the given rules or files as well as any rules or
+-P 	tell the scheduler to assign creation of given targets (and all their dependencies)
+-R 	force the re-execution or creation of the given rules or files
+-S 	print a summary of all files created by the workflow
+-T 	number of times to restart failing jobs
+-U 	runs the pipeline until it reaches the specified rules or files
+-a 	don't check for ambiguous rules and simply use the first if several can produce the same
+-c 	use at most N CPU cores/jobs in parallel
+-d 	specify working directory (relative paths in the snakefile will use this as their origin)
+-e 	specify a custom executor, available via an executor plugin: snakemake_executor_<name>
+-f 	force the execution of the selected target or the first rule regardless of already
+-h 	show this help message and exit
+-j 	use at most N CPU cluster/cloud jobs in parallel
+-k 	go on with independent jobs if a job fails during execution
+-l 	show available rules in given Snakefile
+-n 	do not execute anything, and display what would be done
+-p 	print out the shell commands that will be executed
+-q 	do not output certain information
+-s 	the workflow definition in form of a snakefile
+-t 	touch output files (mark them up to date without really changing them) instead of running
+-v 	show program's version number and exit
+-w 	wait given seconds if an output file of a job is not present after the job finished
+--- snakemake --de
+--debug 	allow to debug rules with e.g PDB. This flag allows to set breakpoints in run blocks
+--debug-dag 	print candidate and selected jobs (including their wildcards) while inferring DAG. This
+--default-res=	define default values of resources for rules that do not define their own values
+--default-resources=	define default values of resources for rules that do not define their own values
+--default-storage-prefix=	specify prefix for default storage provider
+--default-storage-provider=	specify default storage provider to be used for all input and output files that don't yet
+--delete-all-output 	remove all files generated by the workflow
+--delete-temp-output 	remove all temporary files generated by the workflow
+--deploy-sources=	internal use only: Deploy sources archive from given storage provider query to the
+--deployment-method=	specify software environment deployment method
+--deployment=	specify software environment deployment method
+--detailed-summary 	print a summary of all files created by the workflow
+--- snakemake --cores 
+all 
+--- snakemake --executor 
+aws-batch 
+azure-batch 
+cluster-generic 
+cluster-sync 
+drmaa 
+dryrun 
+flux 
+googlebatch 
+htcondor 
+kubernetes 
+local 
+lsf 
+slurm 
+slurm-jobstep 
+tes 
+touch 
+--- snakemake --executor s
+slurm 
+slurm-jobstep 
+--- snakemake --rerun-triggers 
+code 
+input 
+mtime 
+params 
+software-env 
+--- snakemake --dag
+--dag	do not execute anything and print the directed acyclic graph of jobs in the dot language
+--- snakemake -s 
+Snakefile 
+other.smk 
+results/
+workflow/
+--- snakemake -s other
+other.smk 
+--- snakemake --configfile 
+config.yaml 
+other.json 
+results/
+workflow/
+--- snakemake --profile 
+results/
+workflow/
+--- snakemake -d 
+results/
+workflow/
+--- snakemake 
+Snakefile 
+all 
+analysis.py 
+config.yaml 
+count_reads 
+jugfile.py 
+map_reads 
+notes.txt 
+other.json 
+other.smk 
+results/
+science_workflow.sh 
+split 
+workflow/
+--- snakemake a
+all 
+analysis.py 
+--- snakemake -R 
+all 
+count_reads 
+map_reads 
+split 
+--- snakemake --until c
+count_reads 
+--- snakemake -s other.smk 
+Snakefile 
+analysis.py 
+config.yaml 
+jugfile.py 
+notes.txt 
+other.json 
+other.smk 
+other_rule 
+results/
+science_workflow.sh 
+workflow/
+--- snakemake -sother.smk 
+Snakefile 
+analysis.py 
+config.yaml 
+jugfile.py 
+notes.txt 
+other.json 
+other.smk 
+other_rule 
+results/
+science_workflow.sh 
+workflow/
+--- snakemake --snakefile=other.smk 
+Snakefile 
+analysis.py 
+config.yaml 
+jugfile.py 
+notes.txt 
+other.json 
+other.smk 
+other_rule 
+results/
+science_workflow.sh 
+workflow/
+--- snakemake -j 4 res
+results/
+--- snakemake --list-changes 
+code 
+input 
+params 
+=== cwltool
+--- cwltool --
+--add-ga4gh-tool-registry=	add a GA4GH TRS endpoint to use for resolution, default ['https://dockstore.org/api']
+--basedir=	
+--beta-conda-dependencies 	short cut to use Conda to resolve 'SoftwareRequirement' packages
+--beta-dependencies-directory=	default root directory used by dependency resolvers configuration
+--beta-dependency-resolvers-configuration=	dependency resolver configuration file describing how to adapt 'SoftwareRequirement'
+--beta-use-biocontainers 	use biocontainers for tools without an explicitly annotated Docker container
+--cachedir=	directory to cache intermediate workflow outputs to avoid recomputing steps
+--cidfile-dir=	store the software container ID into a file in the specified directory
+--cidfile-prefix=	specify a prefix to the software container ID filename
+--compute-checksum 	compute checksum of contents while collecting outputs
+--copy-outputs 	copy output files to the workflow output directory and don't delete intermediate output
+--custom-net=	passed to 'docker run' as the '--net' parameter when NetworkAccess is true, which is its
+--debug 	print even more logging
+--default-container=	specify a default software container to use for any CommandLineTool without a
+--disable-color 	disable colored logging
+--disable-ga4gh-tool-registry 	disable tool resolution using GA4GH TRS API
+--disable-host-provenance 	do not record host info in --provenance
+--disable-js-validation 	disable javascript validation
+--disable-pull 	do not try to pull Docker images
+--disable-user-provenance 	do not record user account info in --provenance
+--doc-cache 	enable disk cache for documents loaded over HTTP
+--enable-color 	enable logging color
+--enable-dev 	enable loading and running unofficial development versions of the CWL standards
+--enable-ext 	enable loading and running 'cwltool:' extensions to the CWL standards
+--enable-ga4gh-tool-registry 	enable tool resolution using GA4GH TRS API
+--enable-host-provenance 	record host info as part of --provenance
+--enable-pull 	try to pull Docker images
+--enable-user-provenance 	record user account info as part of --provenance
+--eval-timeout=	time to wait for a Javascript expression to evaluate before giving an error, default 60s
+--force-docker-pull 	pull latest software container image even if it is locally present
+--full-name=	record full name of user as part of --provenance, e.g 'Josiah Carberry'. You may need to
+--help 	show this help message and exit
+--js-console 	enable javascript console output
+--js-hint-options-file=	file of options to pass to jshint
+--leave-container 	do not delete Docker container used by jobs after they exit
+--leave-outputs 	leave output files in intermediate output directories
+--leave-tmpdir 	do not delete intermediate temporary directories
+--log-dir=	log your tools stdout/stderr to this location outside of container This will only log
+--make-template 	generate a template input object
+--move-outputs 	move output files to the workflow output directory and delete intermediate output
+--mpi-config-file=	platform specific configuration for MPI (parallel launcher, its flag etc). See README
+--no-compute-checksum 	do not compute checksum of contents while collecting outputs
+--no-container 	do not execute jobs in a Docker container, even when 'DockerRequirement' is specified
+--no-doc-cache 	disable disk cache for documents loaded over HTTP
+--no-match-user 	disable passing the current uid to 'docker run --user'
+--no-read-only 	do not set root directory in the container as read-only
+--no-warnings 	only print errors
+--non-strict 	lenient validation (ignore unrecognized fields)
+--on-error=	desired workflow behavior when a step fails
+--orcid=	record user ORCID identifier as part of --provenance, e.g
+--outdir=	output directory
+--overrides=	read process requirement overrides from file
+--pack 	combine components into single document and print
+--parallel 	run jobs in parallel
+--parallel-max=	maximum number of jobs to run in parallel
+--podman 	use Podman runtime for running containers
+--preserve-entire-environment 	preserve all environment variables when running CommandLineTools without a software
+--preserve-environment=	preserve specific environment variable when running CommandLineTools
+--print-deps 	print CWL document dependencies
+--print-dot 	print workflow visualization in graphviz format and exit
+--print-input-deps 	print input object document dependencies
+--print-pre 	print CWL document after preprocessing
+--print-rdf 	print corresponding RDF graph for workflow and exit
+--print-subgraph 	print workflow subgraph that will execute
+--print-supported-versions 	print supported CWL specs
+--print-targets 	print targets (output parameters)
+--provenance=	save provenance to specified folder as a Research Object that captures and aggregates
+--quiet 	only print warnings and errors
+--rdf-serializer=	output RDF serialization format used by --print-rdf (one of turtle (default), n3, nt, xml)
+--relative-deps=	when using --print-deps, print paths relative to primary file or current working directory
+--relax-path-checks 	relax requirements on path names to permit spaces and hash characters
+--rm-container 	delete Docker container used by jobs after they exit
+--rm-tmpdir 	delete intermediate temporary directories
+--single-process=	only executes the underlying Process (CommandLineTool, ExpressionTool, or sub-Workflow)
+--single-step=	only executes a single step in a workflow
+--singularity 	use Singularity or Apptainer runtime for running containers
+--singularity-sandbox-path=	singularity/Apptainer sandbox image base path
+--skip-schemas 	skip loading of schemas
+--strict 	strict validation (unrecognized or out of place fields are errors)
+--strict-cpu-limit 	when running with software containers and the Docker engine, pass either the calculated
+--strict-memory-limit 	when running with software containers and the Docker engine, pass either the calculated
+--target=	only execute steps that contribute to listed targets (can be provided more than once)
+--timestamps 	add timestamps to the errors, warnings, and notifications
+--tmp-outdir-prefix=	path prefix for intermediate output directories
+--tmpdir-prefix=	path prefix for temporary directories
+--tool-help 	print command line help for tool
+--udocker 	use the udocker runtime for running containers
+--user-space-docker-cmd=	specify the path to udocker
+--validate 	validate CWL document only
+--verbose 	default logging
+--version 	print version and exit
+--write-summary=	path to write the final output JSON object to
+--- cwltool --on-error 
+continue 
+stop 
+--- cwltool --outdir 
+results/
+workflow/
+--- cwltool --relative-deps 
+cwd 
+primary 
+--- cwltool --overrides 
+Snakefile 
+analysis.py 
+config.yaml 
+inputs.yml 
+jugfile.py 
+notes.txt 
+other.json 
+other.smk 
+results/
+science_workflow.sh 
+tool.cwl 
+workflow/
+--- cwltool t
+tool.cwl 
+--- cwltool tool.cwl i
+inputs.yml 

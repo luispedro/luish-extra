@@ -1,0 +1,160 @@
+load 0
+=== xsv
+--- xsv 
+cat 	concatenate by row or column
+count 	count records
+fixlengths 	makes all records have same length
+flatten 	show one field per line
+fmt 	format CSV output (change field delimiter)
+frequency 	show frequency tables
+headers 	show header names
+help 	show this usage message
+index 	create CSV index for faster access
+input 	read CSV data with special quoting rules
+join 	join CSV files
+sample 	randomly sample CSV data
+search 	search CSV data with regexes
+select 	select columns from CSV
+slice 	slice records from CSV
+sort 	sort CSV data
+split 	split CSV data into many files
+stats 	compute basic statistics
+table 	align CSV data into columns
+--- xsv se
+search 	search CSV data with regexes
+select 	select columns from CSV
+--- xsv -
+--list 	list all commands available
+--version 	print version info and exit
+-h 	display this message
+--- xsv select -
+-d 	the field delimiter for reading CSV data
+-h 	display this message
+-n 	when set, the first row will not be interpreted
+-o 	write output to <file> instead of stdout
+--- xsv select --
+--delimiter=	the field delimiter for reading CSV data
+--help 	display this message
+--no-headers 	when set, the first row will not be interpreted
+--output=	write output to <file> instead of stdout
+--- xsv select -o 
+data.csv 
+notes.txt 
+other.tsv 
+science_tabular.sh 
+--- xsv select --output 
+data.csv 
+notes.txt 
+other.tsv 
+science_tabular.sh 
+--- xsv select -d 
+--- xsv sort -
+-N 	compare according to string numerical value
+-R 	reverse order
+-d 	the field delimiter for reading CSV data
+-h 	display this message
+-n 	when set, the first row will not be interpreted
+-o 	write output to <file> instead of stdout
+-s 	select a subset of columns to sort
+--- xsv sort -s 
+--- xsv sort data.csv 
+data.csv 
+notes.txt 
+other.tsv 
+science_tabular.sh 
+--- xsv nosuch -
+=== qsv
+--- qsv 
+apply 	apply series of transformations to a column
+behead 	drop header from CSV file
+cat 	concatenate by row or column
+clipboard 	provide input from clipboard or output to clipboard
+count 	count records
+datefmt 	format date/datetime strings
+dedup 	remove redundant rows
+describegpt 	infer extended metadata or chat with your data using a LLM
+diff 	find the difference between two CSVs
+edit 	replace a cell's value specified by row and column
+enum 	add a new column enumerating CSV lines
+select 	select, re-order, duplicate or drop columns
+sort 	sort CSV data in alphabetical, numerical, reverse or random order
+--- qsv des
+describegpt 	infer extended metadata or chat with your data using a LLM
+--- qsv --
+--envlist 	list all qsv-relevant environment variables
+--help 	display this message
+--list 	list all commands available
+--update 	update qsv to the latest release from GitHub
+--update-mcp-skills 	regenerate MCP skills JSON files for Claude Desktop
+--updatenow 	update qsv to the latest release from GitHub without confirming
+--version 	print version info, mem allocator, features installed,
+--- qsv select --
+--delimiter=	the field delimiter for reading CSV data
+--help 	display this message
+--no-headers 	when set, the first row will not be interpreted
+--output=	write output to <file> instead of stdout
+--random 	randomly shuffle the columns in the selection
+--seed=	seed for the random number generator
+--sort 	sort the selected columns lexicographically,
+--- qsv select -S -o 
+data.csv 
+notes.txt 
+other.tsv 
+science_tabular.sh 
+--- qsv select --seed 
+--- qsv select 1,2 da
+data.csv 
+=== mlr
+--- mlr --icsv --op
+--opprint 	use PPRINT format for output data
+--ops 	specify PS for output
+--- mlr --ifs 
+ascii_esc 
+colon 
+comma 
+newline 
+semicolon 
+space 
+tab 
+--- mlr --ifs s
+semicolon 
+space 
+--- mlr --from 
+data.csv 
+notes.txt 
+other.tsv 
+science_tabular.sh 
+--- mlr --icsv --opprint so
+sort 	sorts records primarily by the first specified field, secondarily by the second
+sort-within-records 	outputs records sorted lexically ascending by keys
+--- mlr --icsv --opprint sort -
+-b 	move sort fields to start of record, as in reorder -b
+-c 	case-folded lexical ascending sort on the specified field names
+-cr 	case-folded lexical descending sort on the specified field names
+-f 	lexical ascending sort on the specified field names
+-n 	numerical ascending sort on the specified field names; nulls sort last
+-nf 	same as -n
+-nr 	numerical descending sort on the specified field names; nulls sort first
+-r 	lexical descending sort on the specified field names
+-rt 	natural descending sort on the specified field names
+-t 	natural ascending sort on the specified field names
+-tr 	natural descending sort on the specified field names
+--- mlr sort -f a -nr x da
+data.csv 
+--- mlr --icsv head -
+-g 	optional group-by-field names for head counts, e.g
+-n 	head-count to print
+--- mlr cut --
+--complement 	exclude, rather than include, the field names specified by -f
+--- mlr split -
+--folder 	output directory
+--prefix 	output filename prefix
+--suffix 	output filename suffix
+-a 	append to existing files rather than overwriting
+-e 	do NOT URL-escape names of output files
+-g 	write separate files with records having distinct values for the specified field names
+-j 	string used to join filename parts
+-m 	produce M files, round-robining records among them
+-n 	cap output file sizes at N records
+-v 	send records downstream as well as splitting to files
+--- mlr nosuchverb -

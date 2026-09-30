@@ -1,0 +1,81 @@
+# Writing: pandoc (its formats and extensions are asked of the installed pandoc, stood in for by tests/bin/pandoc).
+__luish_internal plugin load "$EXTRA/complete/science"
+echo "load $?"
+c() {
+    echo "--- $1"
+    __luish_internal complete "$1"
+}
+mkdir -p styles
+touch paper.md refs.bib apa.csl filter.lua defaults.yaml notes.txt styles/mine.theme
+echo "=== pandoc"
+c 'pandoc --to'
+c 'pandoc --from '
+c 'pandoc -f m'
+c 'pandoc -f markdown+'
+c 'pandoc -f markdown+smart-r'
+c 'pandoc -t '
+c 'pandoc -t ht'
+c 'pandoc --to=l'
+c 'pandoc --wrap '
+c 'pandoc --bibliography '
+c 'pandoc --csl '
+c 'pandoc -L '
+c 'pandoc -d '
+c 'pandoc --pdf-engine '
+c 'pandoc --pdf-engine=x'
+c 'pandoc --highlight-style '
+c 'pandoc --syntax-highlighting '
+c 'pandoc --syntax-highlighting t'
+c 'pandoc -o out.pdf pa'
+c 'pandoc --number-'
+c 'pandoc --toc'
+c 'pandoc --list-extensions=m'
+c 'pandoc --extract-media '
+c 'pandoc --citeproc --tr'
+echo "=== TeX"
+touch thesis.tex chapter.ltx thesis.aux thesis.pdf
+mkdir -p build
+c 'pdflatex -'
+c 'pdflatex -interaction='
+c 'pdflatex -interaction=n'
+c 'pdflatex -output-directory '
+c 'pdflatex -output-format='
+c 'pdflatex --'
+c 'pdflatex th'
+c 'pdflatex -shell-escape th'
+c 'pdflatex -src-'
+c 'xelatex -no-'
+c 'xelatex -output-'
+c 'lualatex -lua '
+c 'lualatex -s'
+c 'lualatex -interaction=b'
+c 'bibtex -'
+c 'bibtex th'
+c 'latexmk -pd'
+c 'latexmk -outdir '
+c 'latexmk -view='
+c 'latexmk -print=p'
+c 'latexmk -pdf th'
+c 'latexmk -pdf -pvc '
+c 'latexmk -r '
+c 'latexmk -C'
+echo "=== quarto"
+touch report.qmd notebook.ipynb script.R
+c 'quarto '
+c 'quarto re'
+c 'quarto render '
+c 'quarto render report.qmd --'
+c 'quarto render report.qmd --to '
+c 'quarto render report.qmd --to p'
+c 'quarto render --log-level '
+c 'quarto preview --render '
+c 'quarto create '
+c 'quarto create --open '
+c 'quarto install '
+c 'quarto publish '
+c 'quarto publish g'
+c 'quarto convert '
+c 'quarto use '
+c 'quarto pandoc --to='
+c 'quarto pandoc -t '
+c 'quarto run '

@@ -1,0 +1,4 @@
+description = "Completion for scientific computing tools"
+
+[dependencies]
+std.completion = "*"

@@ -159,7 +159,7 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
 - **Workflows**: `jug` (subcommands, and jugfiles `*.py` as arguments), `snakemake` (rules from the Snakefile as
   targets), `nextflow`, `nf-core`, `nf-test`, `cwltool`, `cromwell`, `toil`, `planemo`
 - **Writing**: `quarto`, `latexmk`, `pdflatex`, `xelatex`, `bibtex`, `biber`, `pandoc`
-- **Interactive Python and R**: `ipython`, `jupyter`, `Rscript`
+- **Interactive Python and R**: `ipython`, `jupyter`, `Rscript`, `R`
 - **Plotting and numerics**: `gnuplot`, `glpk` (`glpsol`), `datamash`, `tsv-utils`
 - **Tabular data**: `mlr` (Miller), `xsv` / `qsv`, `duckdb`
 - **Chemistry and molecular modelling**: `gromacs` (`gmx`), `autodock-vina`, AmberTools (`tleap`, `cpptraj`, `pmemd`), `namd`, `lmp`

@@ -1,0 +1,8 @@
+#!/bin/sh
+# A stand-in for pandoc: the lists that completion asks for.
+case "$1" in
+--list-input-formats) printf 'commonmark\ndocx\nhtml\nlatex\nmarkdown\nmarkdown_strict\n' ;;
+--list-output-formats) printf 'docx\nhtml\nhtml5\nlatex\nmarkdown\nodt\npdf\n' ;;
+--list-extensions=markdown) printf -- '+smart\n-raw_html\n+raw_tex\n-hard_line_breaks\n+yaml_metadata_block\n' ;;
+--list-highlight-styles) printf 'pygments\ntango\nkate\nzenburn\n' ;;
+esac

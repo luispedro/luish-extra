@@ -1,0 +1,191 @@
+load 0
+=== jupyter
+--- jupyter 
+execute 	jupyter execute
+kernelspec 	jupyter kernelspec
+lab 	jupyter lab
+nbconvert 	jupyter nbconvert
+notebook 	jupyter notebook
+--- jupyter n
+nbconvert 	jupyter nbconvert
+notebook 	jupyter notebook
+--- jupyter -
+--config-dir 	show Jupyter config dir
+--data-dir 	show Jupyter data dir
+--debug 	output debug information about paths
+--json 	output paths as machine-readable json
+--paths 	show all Jupyter paths
+--runtime-dir 	show Jupyter runtime dir
+--version 	show the versions of core jupyter packages and exit
+-h 	show help
+--- jupyter nbconvert --to 
+asciidoc 
+custom 
+html 
+latex 
+markdown 
+notebook 
+pdf 
+python 
+qtpdf 
+qtpng 
+rst 
+script 
+slides 
+webpdf 
+--- jupyter nbconvert --to p
+pdf 
+python 
+--- jupyter nbconvert --
+--allow-chromium-download 	whether to allow downloading chromium if no suitable version is found on the system
+--allow-errors 	continue notebook execution even if one of the cells throws an error and include the
+--clear-output 	clear output of current file and save in place
+--coalesce-streams 	coalesce consecutive stdout and stderr outputs into one stream (within each cell)
+--config=	full path of a config file
+--debug 	set log level to logging.DEBUG (maximize logging output)
+--disable-chromium-sandbox 	disable chromium security sandbox when converting to PDF
+--embed-images 	embed the images as base64 dataurls in the output
+--execute 	execute the notebook prior to export
+--generate-config 	generate default config file
+--inplace 	run nbconvert in place, overwriting the existing notebook
+--log-level=	set the log level by value or name
+--nbformat=	the nbformat version to write
+--no-input 	exclude input cells and output prompts from converted document
+--no-prompt 	exclude input and output prompts from converted document
+--output-dir=	directory to write output(s) to
+--output=	overwrite base name use for output files
+--post=	postProcessor class used to write the results of the conversion
+--reveal-prefix=	the URL prefix for reveal.js (version 3.x)
+--sanitize-html 	whether the HTML in Markdown cells and cell outputs should be sanitized
+--sanitize_html=	whether the HTML in Markdown cells and cell outputs should be sanitized.This
+--show-config 	show the application's configuration (human-readable format)
+--show-config-json 	show the application's configuration (json format)
+--show-input 	shows code input
+--stdin 	read a single notebook file from stdin
+--stdout 	write notebook output to stdout instead of files
+--template-file=	name of the template file to use
+--template=	name of the template to use
+--theme=	template specific theme
+--to=	the export format to be used, either one of the built-in formats
+--writer=	writer class used to write the results of the conversion
+--- jupyter nbconvert --output-dir 
+bin/
+work/
+--- jupyter nbconvert --log-level 
+0 
+10 
+20 
+30 
+40 
+50 
+CRITICAL 
+DEBUG 
+ERROR 
+INFO 
+WARN 
+--- jupyter nbconvert 
+analysis.ipynb 
+bin/
+work/
+--- jupyter lab --no-
+--no-browser 	prevent the opening of the default url in the browser
+--no-script 	DEPRECATED, IGNORED
+--- jupyter lab --notebook-dir 
+bin/
+work/
+--- jupyter lab --port 
+--- jupyter kernelspec 
+install 	install a kernel specification directory
+install-self 	install the IPython kernel spec directory for this Python (deprecated)
+list 	list installed kernel specifications
+provisioners 	list available provisioners for use in kernel specifications
+remove 	remove one or more Jupyter kernelspecs by name
+uninstall 	alias for remove
+--- jupyter kernelspec l
+list 	list installed kernel specifications
+--- jupyter execute --
+--allow-errors 	errors are ignored and execution is continued until the end of the notebook
+--inplace 	overwrite input notebook with executed results
+--kernel_name=	name of kernel to use to execute the cells
+--output=	write executed notebook to this file base name
+--startup_timeout=	the time to wait (in seconds) for the kernel to start
+--timeout=	the time to wait (in seconds) for output from executions
+--- jupyter-nbconvert --to l
+latex 
+--- jupyter-lab --config 
+analysis.ipynb 
+bin/
+model.py 
+notes.txt 
+report.html 
+science_python.sh 
+setup.ipy 
+work/
+=== ipython
+--- ipython 
+analysis.ipynb 
+bin/
+history 
+kernel 
+locate 
+model.py 
+profile 
+setup.ipy 
+work/
+--- ipython pro
+profile 
+--- ipython profile 
+create 
+list 
+locate 
+--- ipython history 
+clear 
+trim 
+--- ipython --col
+--color-info 	IPython can display information about objects via a set of functions
+--colors=	set the color scheme (nocolor, neutral, linux, lightbg)
+--- ipython --colors 
+lightbg 
+linux 
+neutral 
+nocolor 
+--- ipython --profile-dir 
+bin/
+work/
+--- ipython --no-
+--no-autoedit-syntax 	turn off auto editing of files with syntax errors
+--no-autoindent 	turn off autoindenting
+--no-automagic 	turn off the auto calling of magic commands
+--no-banner 	don't display a banner upon starting IPython
+--no-color-info 	disable using colors for info related things
+--no-confirm-exit 	don't prompt the user when exiting
+--no-ignore-cwd 	include the current working directory in sys.path
+--no-pdb 	disable auto calling the pdb debugger after every exception
+--no-pprint 	disable auto pretty printing of results
+--no-simple-prompt 	use a rich interactive prompt with prompt_toolkit
+--no-term-title 	disable auto setting the terminal title
+--no-tip 	don't show tip when IPython starts
+--- ipython -i mo
+model.py 
+--- ipython --matplotlib 
+agg 
+auto 
+gtk 
+gtk3 
+gtk4 
+inline 
+ipympl 
+nbagg 
+notebook 
+osx 
+pdf 
+ps 
+qt 
+qt4 
+qt5 
+qt6 
+svg 
+tk 
+webagg 
+widget 
+wx 

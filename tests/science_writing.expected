@@ -1,0 +1,450 @@
+load 0
+=== pandoc
+--- pandoc --to
+--to=	specify output format
+--toc 	include an automatically generated table of contents
+--toc-depth=	specify the number of section levels to include in the table of contents
+--top-level-division=	treat top-level headings as the given division type in LaTeX, ConTeXt
+--- pandoc --from 
+commonmark 
+docx 
+html 
+latex 
+markdown 
+markdown_strict 
+--- pandoc -f m
+markdown 
+markdown_strict 
+--- pandoc -f markdown+
+markdown+hard_line_breaks 
+markdown+raw_html 
+markdown+raw_tex 
+markdown+smart 
+markdown+yaml_metadata_block 
+--- pandoc -f markdown+smart-r
+markdown+smart-raw_html 
+markdown+smart-raw_tex 
+--- pandoc -t 
+docx 
+html 
+html5 
+latex 
+markdown 
+odt 
+pdf 
+--- pandoc -t ht
+html 
+html5 
+--- pandoc --to=l
+--to=latex 
+--- pandoc --wrap 
+auto 
+none 
+preserve 
+--- pandoc --bibliography 
+defaults.yaml 
+refs.bib 
+styles/
+--- pandoc --csl 
+apa.csl 
+styles/
+--- pandoc -L 
+filter.lua 
+styles/
+--- pandoc -d 
+defaults.yaml 
+styles/
+--- pandoc --pdf-engine 
+context 
+latexmk 
+lualatex 
+pagedjs-cli 
+pdflatex 
+pdfroff 
+prince 
+tectonic 
+typst 
+weasyprint 
+wkhtmltopdf 
+xelatex 
+--- pandoc --pdf-engine=x
+--pdf-engine=xelatex 
+--- pandoc --highlight-style 
+kate 
+pygments 
+styles/
+tango 
+zenburn 
+--- pandoc --syntax-highlighting 
+default 
+idiomatic 
+kate 
+none 
+pygments 
+styles/
+tango 
+zenburn 
+--- pandoc --syntax-highlighting t
+tango 
+--- pandoc -o out.pdf pa
+paper.md 
+--- pandoc --number-
+--number-offset=	offsets for section heading numbers
+--number-sections 	number section headings in LaTeX, ConTeXt, HTML, Docx, ms, or EPUB
+--- pandoc --toc
+--toc 	include an automatically generated table of contents
+--toc-depth=	specify the number of section levels to include in the table of contents
+--- pandoc --list-extensions=m
+--list-extensions=markdown 
+--- pandoc --extract-media 
+styles/
+--- pandoc --citeproc --tr
+--trace 	print diagnostic output tracing parser progress to stderr
+--track-changes=	specifies what to do with insertions, deletions, and comments produced
+=== TeX
+--- pdflatex -
+-8bit 	make all characters printable
+-cnf-line=	parse STRING as a configuration file line
+-draftmode 	switch on draft mode (generates no output PDF)
+-enc 	enable encTeX extensions
+-etex 	enable e-TeX extensions
+-file-line-error 	enable file:line:error style messages
+-fmt=	use FMTNAME instead of program name or a %& line
+-halt-on-error 	stop processing at the first error
+-help 	display the help and exit
+-ini 	be an initex, for dumping formats
+-interaction=	set interaction mode
+-jobname=	set the job name to STRING
+-kpathsea-debug=	set path searching debugging flags according to the bits of NUMBER
+-mktex=	enable mktexFMT generation
+-mltex 	enable MLTeX extensions
+-no-file-line-error 	disable file:line:error style messages
+-no-mktex=	disable mktexFMT generation
+-no-parse-first-line 	disable parsing of the first line of the input file
+-no-shell-escape 	disable the write18 shell escape
+-output-comment=	use STRING for the file comment instead of the date
+-output-directory=	use existing DIR as the directory to write files in
+-output-format=	use FORMAT for job output (dvi or pdf)
+-parse-first-line 	enable parsing of the first line of the input file
+-progname=	set program (and fmt) name to STRING
+-recorder 	enable filename recorder
+-shell-escape 	enable the write18 shell escape
+-shell-restricted 	enable restricted write18
+-src-specials	insert source specials into the output file, in certain places
+-synctex=	generate SyncTeX data for previewers according to bits of NUMBER
+-translate-file=	use the TCX file TCXNAME
+-version 	output version information and exit
+--- pdflatex -interaction=
+-interaction=batchmode 
+-interaction=errorstopmode 
+-interaction=nonstopmode 
+-interaction=scrollmode 
+--- pdflatex -interaction=n
+-interaction=nonstopmode 
+--- pdflatex -output-directory 
+build/
+styles/
+--- pdflatex -output-format=
+-output-format=dvi 
+-output-format=pdf 
+--- pdflatex --
+--- pdflatex th
+thesis.tex 
+--- pdflatex -shell-escape th
+thesis.tex 
+--- pdflatex -src-
+-src-specials	insert source specials into the output file, in certain places
+--- xelatex -no-
+-no-file-line-error 	disable file:line:error style messages
+-no-mktex=	disable mktexFMT generation
+-no-parse-first-line 	disable parsing of the first line of the input file
+-no-pdf 	generate XDV (extended DVI) output rather than PDF
+-no-shell-escape 	disable the write18 shell escape
+--- xelatex -output-
+-output-comment=	use STRING for the file comment instead of the date
+-output-directory=	use existing DIR as the directory to write files in
+-output-driver=	use CMD as the XDV-to-PDF driver instead of xdvipdfmx
+--- lualatex -lua 
+apa.csl 
+build/
+chapter.ltx 
+defaults.yaml 
+filter.lua 
+notes.txt 
+paper.md 
+refs.bib 
+science_writing.sh 
+styles/
+thesis.aux 
+thesis.pdf 
+thesis.tex 
+--- lualatex -s
+-safer 	disable easily exploitable lua commands
+-shell-escape 	enable system commands
+-shell-restricted 	restrict system commands to a list of commands given in texmf.cnf
+-socket 	enable the lua socket library
+-synctex=	enable synctex
+--- lualatex -interaction=b
+-interaction=batchmode 
+--- bibtex -
+-help 	display this help and exit
+-min-crossrefs=	include item after NUMBER cross-refs
+-terse 	do not print progress reports
+-version 	output version information and exit
+--- bibtex th
+thesis.aux 
+--- latexmk -pd
+-pdf 	generate pdf by pdflatex
+-pdf- 	turn off pdf
+-pdfdvi 	generate pdf by latex + dvipdf
+-pdflatex=	set program used for pdflatex
+-pdflua 	generate pdf by lualatex
+-pdflualatex=	set program used for lualatex
+-pdfps 	generate pdf by latex + dvips + ps2pdf
+-pdfxe 	generate pdf by xelatex
+-pdfxelatex=	set program used for xelatex
+--- latexmk -outdir 
+build/
+styles/
+--- latexmk -view=
+-view=default 
+-view=dvi 
+-view=hnt 
+-view=none 
+-view=pdf 
+-view=ps 
+--- latexmk -print=p
+-print=pdf 
+-print=ps 
+--- latexmk -pdf th
+thesis.tex 
+--- latexmk -pdf -pvc 
+build/
+chapter.ltx 
+styles/
+thesis.tex 
+--- latexmk -r 
+apa.csl 
+build/
+chapter.ltx 
+defaults.yaml 
+filter.lua 
+notes.txt 
+paper.md 
+refs.bib 
+science_writing.sh 
+styles/
+thesis.aux 
+thesis.pdf 
+thesis.tex 
+--- latexmk -C
+-C 	clean up all nonessential files, including dvi, ps and pdf files
+-CA 	clean up all nonessential files (same as -C)
+-CF 	remove the file database before doing other actions
+=== quarto
+--- quarto 
+add 	add an extension to this folder or project
+call 	access functions of Quarto subsystems such as its rendering engines
+check 	verify correct functioning of the Quarto installation
+convert 	convert documents to alternate representations
+create 	create a Quarto project or extension
+help 	show the help of a command
+inspect 	inspect a document or project
+install 	install a global dependency
+list 	list an extension or global dependency
+pandoc 	run the version of Pandoc embedded within Quarto
+preview 	render and preview a document or website project
+publish 	publish a document or project to a provider
+remove 	remove an extension
+render 	render files or projects to various document types
+run 	run a TypeScript, R, Python, or Lua script
+serve 	serve a Shiny interactive document
+tools 	display the status of Quarto installed dependencies
+typst 	run the version of Typst embedded within Quarto
+uninstall 	uninstall a global dependency
+update 	update an extension or global dependency
+use 	automate document or project setup tasks
+--- quarto re
+remove 	remove an extension
+render 	render files or projects to various document types
+--- quarto render 
+build/
+notebook.ipynb 
+paper.md 
+report.qmd 
+styles/
+--- quarto render report.qmd --
+--cache 	cache execution output
+--cache-refresh 	force refresh of execution cache
+--debug 	leave intermediate files in place after render
+--execute 	execute code
+--execute-daemon-restart 	restart keepalive Jupyter kernel before render
+--execute-daemon=	keep Jupyter kernel alive
+--execute-debug 	show debug output when executing computations
+--execute-dir=	working directory for code execution
+--execute-param=	execution parameter
+--execute-params=	YAML file with execution parameters
+--log-format=	log format
+--log-level=	log level
+--log=	path to log file
+--metadata=	metadata value
+--no-cache 	prevent caching of execution output
+--no-clean 	do not clean project output-dir prior to render
+--no-execute 	skip code execution
+--output-dir=	write output to DIR (path is input/project relative)
+--output=	write output to FILE (use '--output -' for stdout)
+--profile=	active project profile(s)
+--quiet 	suppress console output
+--site-url=	override site-url for website or book output
+--to=	specify output format(s)
+--use-freezer 	force use of frozen computations for an incremental file render
+--- quarto render report.qmd --to 
+all 
+asciidoc 
+beamer 
+chunkedhtml 
+commonmark 
+context 
+docbook 
+docx 
+dokuwiki 
+dzslides 
+epub 
+gfm 
+html 
+icml 
+ipynb 
+jats 
+jira 
+json 
+latex 
+man 
+markdown 
+mediawiki 
+ms 
+muse 
+native 
+odt 
+opml 
+org 
+pdf 
+plain 
+pptx 
+revealjs 
+rst 
+rtf 
+s5 
+slideous 
+slidy 
+tei 
+texinfo 
+textile 
+typst 
+xwiki 
+zimwiki 
+--- quarto render report.qmd --to p
+pdf 
+plain 
+pptx 
+--- quarto render --log-level 
+critical 
+debug 
+error 
+info 
+warning 
+--- quarto preview --render 
+all 
+asciidoc 
+beamer 
+chunkedhtml 
+commonmark 
+context 
+docbook 
+docx 
+dokuwiki 
+dzslides 
+epub 
+gfm 
+html 
+icml 
+ipynb 
+jats 
+jira 
+json 
+latex 
+man 
+markdown 
+mediawiki 
+ms 
+muse 
+native 
+odt 
+opml 
+org 
+pdf 
+plain 
+pptx 
+revealjs 
+rst 
+rtf 
+s5 
+slideous 
+slidy 
+tei 
+texinfo 
+textile 
+typst 
+xwiki 
+zimwiki 
+--- quarto create 
+extension 
+project 
+--- quarto create --open 
+positron 
+rstudio 
+vscode 
+--- quarto install 
+chrome-headless-shell 
+chromium 
+tinytex 
+verapdf 
+--- quarto publish 
+confluence 
+gh-pages 
+huggingface 
+netlify 
+posit-cloud 
+posit-connect 
+quarto-pub 
+--- quarto publish g
+gh-pages 
+--- quarto convert 
+build/
+notebook.ipynb 
+report.qmd 
+styles/
+--- quarto use 
+binder 	configure the current project with Binder support
+brand 	use a brand for this project
+template 	use a Quarto template for this directory or project
+--- quarto pandoc --to=
+--to=docx 
+--to=html 
+--to=html5 
+--to=latex 
+--to=markdown 
+--to=odt 
+--to=pdf 
+--- quarto pandoc -t 
+docx 
+html 
+html5 
+latex 
+markdown 
+odt 
+pdf 
+--- quarto run 
+build/
+filter.lua 
+script.R 
+styles/
