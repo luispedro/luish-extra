@@ -55,7 +55,7 @@ a subcommand), and `help::commands(text)` takes a list of commands under any hea
 gives the help flag, `stderr` (`"merge"` for mmseqs), the `sub_spec` module and clap's `help` command. They are imported
 as `import "@extra-complete/extra-lib/files" as lib_files;`, `lib_text` and `help`, and a plugin that does so lists
 `extra-lib = "*"` in its `[dependencies]` (now `bio`, `science`, `dev` and `gui`). A helper that a second plugin needs
-goes there, not into a copy; `std-candidates.md` notes which may later move to std.
+goes there, not into a copy.
 
 Option tables are written from the tools' real `--help`, and `completion-todo.md` records the version each ticked tool
 was checked against. To check or add one, use the scripts (all run the tool through `pixi exec`, a temporary
