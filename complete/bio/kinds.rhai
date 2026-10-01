@@ -1,26 +1,7 @@
 // What the arguments and option values of bio commands complete to, named
 // `"@extra-complete/bio/kinds:NAME"` in specs: `kind(name, cur, words)`.
 import "@std/completion/kinds" as std_kinds;
-
-// Compressions a bio file may have.
-fn compressed(suffixes) {
-    let out = [];
-    for s in suffixes {
-        out.push(s);
-        for z in [".gz", ".bz2", ".xz", ".zst"] {
-            out.push(s + z);
-        }
-    }
-    out
-}
-
-// The files of the directory of `cur` whose names end in one of `suffixes`,
-// and the directories.
-fn with_suffix(cur, suffixes) {
-    let r = std_kinds::listing(cur, "", false);
-    r.candidates = r.candidates.filter(|c| type_of(c) == "map" || suffixes.some(|s| c.ends_with(s)));
-    r
-}
+import "@extra-complete/extra-lib/files" as lib_files;
 
 // The names of the directory of `cur` without the first of `suffixes` that
 // they end with, for files that make up a whole (the index of an aligner
@@ -76,7 +57,7 @@ fn union(a, b) {
 }
 
 fn is_fasta(name) {
-    compressed([".fa", ".fna", ".fasta", ".faa", ".ffn", ".fas"]).some(|s| name.ends_with(s))
+    lib_files::compressed([".fa", ".fna", ".fasta", ".faa", ".ffn", ".fas"]).some(|s| name.ends_with(s))
 }
 
 fn is_alignment(name) {
@@ -129,7 +110,7 @@ fn tabix_regions(words) {
 }
 
 fn is_vcf(name) {
-    compressed([".vcf"]).some(|s| name.ends_with(s)) || name.ends_with(".bcf")
+    lib_files::compressed([".vcf"]).some(|s| name.ends_with(s)) || name.ends_with(".bcf")
 }
 
 // The sequences of the first VCF/BCF in the line: from its index
@@ -165,7 +146,7 @@ fn vcf_samples(words) {
 // or one of those that come with Trimmomatic (which it finds by name), then
 // `:` for the step's numbers.
 fn trimmomatic_step(cur) {
-    let fasta = compressed([".fa", ".fasta", ".fna"]);
+    let fasta = lib_files::compressed([".fa", ".fasta", ".fna"]);
     if cur.starts_with("ILLUMINACLIP:") {
         let rest = cur.sub_string(13);
         if rest.contains(":") {
@@ -221,7 +202,7 @@ fn cutadapt_adapter(cur) {
     for p in ["file:", "file$:", "^file:"] {
         if cur.starts_with(p) {
             let r = std_kinds::listing(cur.sub_string(p.len()), p, false);
-            let fasta = compressed([".fa", ".fasta", ".fna"]);
+            let fasta = lib_files::compressed([".fa", ".fasta", ".fna"]);
             r.candidates = r.candidates.filter(|c| type_of(c) == "map" || fasta.some(|s| c.ends_with(s)));
             return r;
         }
@@ -231,35 +212,56 @@ fn cutadapt_adapter(cur) {
 
 fn kind(name, cur, words) {
     switch name {
-        "fasta" => with_suffix(cur, compressed([".fa", ".fna", ".fasta", ".faa", ".ffn", ".fas"])),
-        "fastq" => with_suffix(cur, compressed([".fq", ".fastq"])),
-        "sequences" => with_suffix(cur, compressed([".fa", ".fna", ".fasta", ".faa", ".ffn", ".fas", ".fq", ".fastq"])),
-        "reads" => with_suffix(cur, compressed([".fa", ".fna", ".fasta", ".fq", ".fastq"]) + [".sam", ".bam", ".cram"]),
-        "sam" => with_suffix(cur, [".sam", ".bam", ".cram"]),
-        "bam" => with_suffix(cur, [".bam", ".cram"]),
-        "sam_header" => with_suffix(cur, [".sam", ".hdr", ".txt"]),
-        "bam_index" => with_suffix(cur, [".bai", ".csi", ".crai"]),
-        "vcf" => with_suffix(cur, compressed([".vcf"]) + [".bcf"]),
-        "bed" => with_suffix(cur, compressed([".bed", ".bedgraph", ".bdg", ".narrowPeak", ".broadPeak", ".bedpe"])),
-        "gff" => with_suffix(cur, compressed([".gff", ".gff3", ".gtf"])),
-        "intervals" => with_suffix(
+        "fasta" => lib_files::with_suffix(
             cur,
-            compressed([".bed", ".bedgraph", ".bdg", ".gff", ".gff3", ".gtf", ".vcf", ".bedpe"]) + [".bam", ".bcf"]
+            lib_files::compressed([".fa", ".fna", ".fasta", ".faa", ".ffn", ".fas"])
         ),
-        "bwa_index" => union(prefixes(cur, [".bwt", ".bwt.2bit.64"]), with_suffix(cur, compressed([".fa", ".fna", ".fasta"]))),
+        "fastq" => lib_files::with_suffix(cur, lib_files::compressed([".fq", ".fastq"])),
+        "sequences" => lib_files::with_suffix(
+            cur,
+            lib_files::compressed([".fa", ".fna", ".fasta", ".faa", ".ffn", ".fas", ".fq", ".fastq"])
+        ),
+        "reads" => lib_files::with_suffix(
+            cur,
+            lib_files::compressed([".fa", ".fna", ".fasta", ".fq", ".fastq"]) + [".sam", ".bam", ".cram"]
+        ),
+        "sam" => lib_files::with_suffix(cur, [".sam", ".bam", ".cram"]),
+        "bam" => lib_files::with_suffix(cur, [".bam", ".cram"]),
+        "sam_header" => lib_files::with_suffix(cur, [".sam", ".hdr", ".txt"]),
+        "bam_index" => lib_files::with_suffix(cur, [".bai", ".csi", ".crai"]),
+        "vcf" => lib_files::with_suffix(cur, lib_files::compressed([".vcf"]) + [".bcf"]),
+        "bed" => lib_files::with_suffix(
+            cur,
+            lib_files::compressed([".bed", ".bedgraph", ".bdg", ".narrowPeak", ".broadPeak", ".bedpe"])
+        ),
+        "gff" => lib_files::with_suffix(cur, lib_files::compressed([".gff", ".gff3", ".gtf"])),
+        "intervals" => lib_files::with_suffix(
+            cur,
+            lib_files::compressed([".bed", ".bedgraph", ".bdg", ".gff", ".gff3", ".gtf", ".vcf", ".bedpe"]) + [".bam", ".bcf"]
+        ),
+        "bwa_index" => union(
+            prefixes(cur, [".bwt", ".bwt.2bit.64"]),
+            lib_files::with_suffix(cur, lib_files::compressed([".fa", ".fna", ".fasta"]))
+        ),
         "bowtie_index" => prefixes(cur, [".1.ebwt", ".1.ebwtl"]),
         "bowtie2_index" => prefixes(cur, [".1.bt2", ".1.bt2l"]),
         "hisat2_index" => prefixes(cur, [".1.ht2", ".1.ht2l"]),
-        "minimap2_ref" => with_suffix(cur, compressed([".fa", ".fna", ".fasta", ".fq", ".fastq"]) + [".mmi"]),
-        "kallisto_index" => with_suffix(cur, [".idx", ".kidx"]),
+        "minimap2_ref" => lib_files::with_suffix(
+            cur,
+            lib_files::compressed([".fa", ".fna", ".fasta", ".fq", ".fastq"]) + [".mmi"]
+        ),
+        "kallisto_index" => lib_files::with_suffix(cur, [".idx", ".kidx"]),
         "blast_db" => blast_db(cur),
-        "diamond_db" => with_suffix(cur, [".dmnd"]),
-        "sai" => with_suffix(cur, [".sai"]),
-        "msa" => with_suffix(cur, compressed([".sto", ".stk", ".sth", ".aln", ".a2m", ".afa", ".pfam", ".phy", ".fa", ".fasta"])),
-        "hmm" => with_suffix(cur, compressed([".hmm"])),
-        "ngless" => with_suffix(cur, [".ngl"]),
-        "genome" => with_suffix(cur, [".genome", ".sizes", ".fai", ".len", ".txt"]),
-        "bgzipped" => with_suffix(cur, [".gz", ".bgz"]),
+        "diamond_db" => lib_files::with_suffix(cur, [".dmnd"]),
+        "sai" => lib_files::with_suffix(cur, [".sai"]),
+        "msa" => lib_files::with_suffix(
+            cur,
+            lib_files::compressed([".sto", ".stk", ".sth", ".aln", ".a2m", ".afa", ".pfam", ".phy", ".fa", ".fasta"])
+        ),
+        "hmm" => lib_files::with_suffix(cur, lib_files::compressed([".hmm"])),
+        "ngless" => lib_files::with_suffix(cur, [".ngl"]),
+        "genome" => lib_files::with_suffix(cur, [".genome", ".sizes", ".fai", ".len", ".txt"]),
+        "bgzipped" => lib_files::with_suffix(cur, [".gz", ".bgz"]),
         "regions" => regions(words),
         "tabix_regions" => tabix_regions(words),
         "vcf_regions" => vcf_regions(words),

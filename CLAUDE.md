@@ -40,6 +40,14 @@ files of its registry, found by following the `soffice` link in `PATH`; CUPS's p
 (libreoffice, soffice); the rest of its commands are to do. svn, netlify and adb (`dev`) are still to do, and the rest
 of `PLAN.md` ("Order", "Next steps"). A new module needs a line in `extension.rhai`.
 
+`complete/extra-lib` is a library plugin (`library = true` in its `plugin.toml`, which is its only entry point;
+`plugin list-available` leaves it out) of helpers the others share: `files.rhai` (`with_suffix(cur, suffixes)`, and
+with a third argument, directories to leave out; `compressed(suffixes)`) and `text.rhai` (`is_name`, `last_of`,
+`last_index`, `indent`, `ident`). They are imported as `import "@extra-complete/extra-lib/files" as lib_files;` and
+`lib_text`, and a plugin that does so lists `extra-lib = "*"` in its `[dependencies]` (now `bio`, `science` and `dev`).
+A helper that a second plugin needs goes there, not into a copy; `std-candidates.md` notes which may later move to
+std.
+
 Option tables are written from the tools' real `--help`, and `completion-todo.md` records the version each ticked tool
 was checked against. To check or add one, use the scripts (all run the tool through `pixi exec`, a temporary
 environment with Bioconda, so nothing is installed):
@@ -101,7 +109,7 @@ sphinx-build -W docs docs/_build
 
 ## Design decisions to keep in mind
 
-- Requires luish at rev `e76d3d2da43db37fd665dbad85ba6b17f9fdebaf` or later.
+- Requires luish at rev `9e3a39bf7dcbb4c472c3712bc4cf74cfb784c6cd` or later (library plugins).
 - Run programs with `sh::capture(["prog", arg, ...])` (no shell parsing; stdin is /dev/null, stderr discarded unless
   a second argument says `"merge"`, `"return"` or `"inherit"`; variables through `env`), not by building a shell
   string. Find them with `sh::which(name)` and list them with `sh::commands(prefix)`, so that PATH is searched

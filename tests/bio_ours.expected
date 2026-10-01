@@ -1,5 +1,6 @@
 load 0
 completion
+extra-lib
 bio
 === ngless
 --- ngless --colo

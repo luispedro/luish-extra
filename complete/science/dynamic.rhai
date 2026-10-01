@@ -3,20 +3,7 @@
 // It is for programs whose help has a regular format (xsv and qsv: docopt).
 
 import "@std/completion/lib" as lib;
-
-// Whether `s` can be a subcommand name (the words come from the command line, and the program is only asked about
-// names).
-fn is_name(s) {
-    if s == "" || s.starts_with("-") {
-        return false;
-    }
-    for c in s.chars() {
-        if !(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' || c == '-' || c == '_' || c == '.') {
-            return false;
-        }
-    }
-    true
-}
+import "@extra-complete/extra-lib/text" as lib_text;
 
 // The commands in the output of `qsv --list`: lines `    NAME description` (the longest name has one space
 // only, which `help_spec` doesn't take as a table).
@@ -35,7 +22,7 @@ fn qsv_commands(text) {
         let name = t.sub_string(0, gap);
         let desc = t.sub_string(gap);
         desc.trim();
-        if is_name(name) {
+        if lib_text::is_name(name) {
             out += name + "  " + (if desc.len() > 1 && desc[1] >= 'a' && desc[1] <= 'z' { desc[0].to_lower() + desc.sub_string(1) } else { desc }) + "\n";
         }
     }
@@ -54,7 +41,7 @@ fn csv_tool(prog) {
 }
 
 fn csv_tool_sub(prog, sub) {
-    if !is_name(sub) {
+    if !lib_text::is_name(sub) {
         return ();
     }
     let s = lib::help_spec(lib::help_of(prog + " " + sub));

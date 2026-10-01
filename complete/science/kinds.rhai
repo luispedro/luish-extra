@@ -1,14 +1,8 @@
 // What the arguments and option values of science commands complete to, named
 // `"@extra-complete/science/kinds:NAME"` in specs: `kind(name, cur, words)`.
 import "@std/completion/kinds" as std_kinds;
-
-// The files of the directory of `cur` whose names end in one of `suffixes`,
-// and the directories.
-fn with_suffix(cur, suffixes) {
-    let r = std_kinds::listing(cur, "", false);
-    r.candidates = r.candidates.filter(|c| type_of(c) == "map" || suffixes.some(|s| c.ends_with(s)));
-    r
-}
+import "@extra-complete/extra-lib/files" as lib_files;
+import "@extra-complete/extra-lib/text" as lib_text;
 
 // The word after `keyword ` in a line of a workflow file (`rule NAME:`), or ().
 fn declared(line, keyword) {
@@ -109,7 +103,7 @@ fn nextflow_projects() {
 
 // The pipeline: `.nf` scripts, directories, and downloaded projects.
 fn nextflow_pipeline(cur) {
-    let r = with_suffix(cur, [".nf"]);
+    let r = lib_files::with_suffix(cur, [".nf"]);
     if !cur.starts_with(".") && !cur.starts_with("/") && !cur.starts_with("~") {
         for p in nextflow_projects() {
             if p.starts_with(cur) {
@@ -281,19 +275,6 @@ fn nextflow_params(words) {
     #{opts: opts, values: values}
 }
 
-// Whether `s` is a name to pass to a program (a word of letters, digits, `_`, `-` and `.`).
-fn is_name(s) {
-    if s == "" {
-        return false;
-    }
-    for c in s.chars() {
-        if !(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' || c == '-' || c == '_' || c == '.') {
-            return false;
-        }
-    }
-    true
-}
-
 // pandoc's input or output formats (`direction` is "input" or "output"), or, after a `+` or `-`, the extensions
 // of the format before it (`markdown+smart-raw_html`), all asked of the installed pandoc.
 fn pandoc_formats(cur, direction) {
@@ -313,7 +294,7 @@ fn pandoc_formats(cur, direction) {
         return sh::capture(["pandoc", "--list-" + direction + "-formats"]).out.split("\n").filter(|l| l != "");
     }
     let base = cur.sub_string(0, cut);
-    if !is_name(base) {
+    if !lib_text::is_name(base) {
         return [];
     }
     let out = [];
@@ -328,7 +309,7 @@ fn pandoc_formats(cur, direction) {
 
 // A highlight style: one of pandoc's (`--list-highlight-styles`, and `extra`), or a `.theme` file.
 fn pandoc_highlight_style(cur, extra) {
-    let r = with_suffix(cur, [".theme"]);
+    let r = lib_files::with_suffix(cur, [".theme"]);
     if !cur.contains("/") {
         for n in extra + sh::capture(["pandoc", "--list-highlight-styles"]).out.split("\n") {
             if n != "" && n.starts_with(cur) && !r.candidates.contains(n) {
@@ -353,7 +334,7 @@ fn ipython_args(cur, words) {
     if positional.len() == 1 && positional[0] == "history" {
         return ["trim", "clear"];
     }
-    let r = with_suffix(cur, [".py", ".ipy", ".ipynb"]);
+    let r = lib_files::with_suffix(cur, [".py", ".ipy", ".ipynb"]);
     if positional.is_empty() && !cur.contains("/") {
         for n in ["profile", "kernel", "locate", "history"] {
             if n.starts_with(cur) {
@@ -400,49 +381,49 @@ fn miller_separator() {
 
 fn kind(name, cur, words) {
     switch name {
-        "snakefile" => with_suffix(cur, [".smk", "Snakefile", "snakefile"]),
-        "config" => with_suffix(cur, [".yaml", ".yml", ".json"]),
+        "snakefile" => lib_files::with_suffix(cur, [".smk", "Snakefile", "snakefile"]),
+        "config" => lib_files::with_suffix(cur, [".yaml", ".yml", ".json"]),
         "snakemake_rules" => snakemake_rules(words),
         "snakemake_targets" => snakemake_targets(cur, words),
-        "jugfile" => with_suffix(cur, [".py"]),
+        "jugfile" => lib_files::with_suffix(cur, [".py"]),
         "nextflow_pipeline" => nextflow_pipeline(cur),
         "nextflow_project" => nextflow_projects(),
-        "nextflow_config" => with_suffix(cur, [".config"]),
+        "nextflow_config" => lib_files::with_suffix(cur, [".config"]),
         "nextflow_profiles" => nextflow_profiles(cur, words),
         "nextflow_runs" => nextflow_history(2),
-        "params_file" => with_suffix(cur, [".json", ".yaml", ".yml"]),
+        "params_file" => lib_files::with_suffix(cur, [".json", ".yaml", ".yml"]),
         "pandoc_input_format" => pandoc_formats(cur, "input"),
         "pandoc_output_format" => pandoc_formats(cur, "output"),
-        "pandoc_defaults" => with_suffix(cur, [".yaml", ".yml"]),
+        "pandoc_defaults" => lib_files::with_suffix(cur, [".yaml", ".yml"]),
         "pandoc_highlight_style" => pandoc_highlight_style(cur, []),
         "pandoc_syntax_highlighting" => pandoc_highlight_style(cur, ["none", "default", "idiomatic"]),
         "pdf_engine" => [
             "pdflatex", "lualatex", "xelatex", "latexmk", "tectonic", "wkhtmltopdf", "weasyprint", "pagedjs-cli",
             "prince", "context", "pdfroff", "typst",
         ],
-        "tex" => with_suffix(cur, [".tex", ".ltx", ".latex", ".dtx"]),
-        "aux" => with_suffix(cur, [".aux"]),
-        "quarto_source" => with_suffix(cur, [".qmd", ".ipynb", ".md", ".Rmd", ".rmd", ".jl"]),
-        "quarto_convertible" => with_suffix(cur, [".qmd", ".ipynb"]),
-        "quarto_script" => with_suffix(cur, [".ts", ".R", ".py", ".lua"]),
-        "notebook" => with_suffix(cur, [".ipynb"]),
+        "tex" => lib_files::with_suffix(cur, [".tex", ".ltx", ".latex", ".dtx"]),
+        "aux" => lib_files::with_suffix(cur, [".aux"]),
+        "quarto_source" => lib_files::with_suffix(cur, [".qmd", ".ipynb", ".md", ".Rmd", ".rmd", ".jl"]),
+        "quarto_convertible" => lib_files::with_suffix(cur, [".qmd", ".ipynb"]),
+        "quarto_script" => lib_files::with_suffix(cur, [".ts", ".R", ".py", ".lua"]),
+        "notebook" => lib_files::with_suffix(cur, [".ipynb"]),
         "ipython_args" => ipython_args(cur, words),
-        "python_script" => with_suffix(cur, [".py", ".ipy", ".ipynb"]),
-        "aria2_input" => with_suffix(cur, [".torrent", ".metalink", ".meta4"]),
-        "torrent" => with_suffix(cur, [".torrent"]),
-        "metalink" => with_suffix(cur, [".metalink", ".meta4"]),
+        "python_script" => lib_files::with_suffix(cur, [".py", ".ipy", ".ipynb"]),
+        "aria2_input" => lib_files::with_suffix(cur, [".torrent", ".metalink", ".meta4"]),
+        "torrent" => lib_files::with_suffix(cur, [".torrent"]),
+        "metalink" => lib_files::with_suffix(cur, [".metalink", ".meta4"]),
         "datamash_operations" => datamash_operations(),
         "parallel_args" => parallel_args(cur),
-        "duckdb_database" => with_suffix(cur, [".duckdb", ".db", ".ddb", ".wal"]),
-        "gnuplot_script" => with_suffix(cur, [".gp", ".gnuplot", ".plt", ".gpi"]),
-        "r_script" => with_suffix(cur, [".R", ".r"]),
-        "nftest" => with_suffix(cur, [".nf.test", ".nf"]),
-        "nextflow_script" => with_suffix(cur, [".nf"]),
+        "duckdb_database" => lib_files::with_suffix(cur, [".duckdb", ".db", ".ddb", ".wal"]),
+        "gnuplot_script" => lib_files::with_suffix(cur, [".gp", ".gnuplot", ".plt", ".gpi"]),
+        "r_script" => lib_files::with_suffix(cur, [".R", ".r"]),
+        "nftest" => lib_files::with_suffix(cur, [".nf.test", ".nf"]),
+        "nextflow_script" => lib_files::with_suffix(cur, [".nf"]),
         "miller_separator" => miller_separator(),
-        "cwl" => with_suffix(cur, [".cwl", ".yaml", ".yml", ".json"]),
-        "lua" => with_suffix(cur, [".lua"]),
-        "bibliography" => with_suffix(cur, [".bib", ".bibtex", ".biblatex", ".json", ".yaml", ".yml", ".ris", ".xml", ".enl"]),
-        "csl" => with_suffix(cur, [".csl"]),
+        "cwl" => lib_files::with_suffix(cur, [".cwl", ".yaml", ".yml", ".json"]),
+        "lua" => lib_files::with_suffix(cur, [".lua"]),
+        "bibliography" => lib_files::with_suffix(cur, [".bib", ".bibtex", ".biblatex", ".json", ".yaml", ".yml", ".ris", ".xml", ".enl"]),
+        "csl" => lib_files::with_suffix(cur, [".csl"]),
         _ => throw `unknown kind: ${name}`,
     }
 }

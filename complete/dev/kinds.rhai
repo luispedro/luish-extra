@@ -1,61 +1,8 @@
 // What the arguments and option values of development tools complete to, named
 // `"@extra-complete/dev/kinds:NAME"` in specs: `kind(name, cur, words)`.
 import "@std/completion/kinds" as std_kinds;
-
-// The files of the directory of `cur` whose names end in one of `suffixes`,
-// and the directories (but not `__pycache__`).
-fn with_suffix(cur, suffixes) {
-    let r = std_kinds::listing(cur, "", false);
-    let out = [];
-    for c in r.candidates {
-        if type_of(c) == "map" {
-            if c.value != "__pycache__/" {
-                out.push(c);
-            }
-        } else if suffixes.some(|s| c.ends_with(s)) {
-            out.push(c);
-        }
-    }
-    r.candidates = out;
-    r
-}
-
-// The index of the last of the characters `chars` in `s`, or -1.
-fn last_of(s, chars) {
-    let k = -1;
-    let j = 0;
-    for c in s.chars() {
-        if chars.contains(c) {
-            k = j;
-        }
-        j += 1;
-    }
-    k
-}
-
-// The number of spaces and tabs a line starts with.
-fn indent(line) {
-    let n = 0;
-    for c in line.chars() {
-        if c != ' ' && c != '\t' {
-            break;
-        }
-        n += 1;
-    }
-    n
-}
-
-// The identifier `s` starts with (letters, digits and `_`).
-fn ident(s) {
-    let n = 0;
-    for c in s.chars() {
-        if !(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' || c == '_') {
-            break;
-        }
-        n += 1;
-    }
-    s.sub_string(0, n)
-}
+import "@extra-complete/extra-lib/files" as lib_files;
+import "@extra-complete/extra-lib/text" as lib_text;
 
 // The name a line of Python defines, as `[kind, name]` (kind: "def" or
 // "class"), or ().
@@ -70,21 +17,10 @@ fn defined(line) {
         if t.starts_with(kw) {
             let rest = t.sub_string(kw.len());
             rest.trim();
-            return [kw.sub_string(0, kw.len() - 1), ident(rest)];
+            return [kw.sub_string(0, kw.len() - 1), lib_text::ident(rest)];
         }
     }
     ()
-}
-
-// The index of the last `sep` in `s`, or -1.
-fn last_index(s, sep) {
-    let k = -1;
-    let j = s.index_of(sep);
-    while j >= 0 {
-        k = j;
-        j = s.index_of(sep, j + 1);
-    }
-    k
 }
 
 // The tests of a Python file (the text `text`) that pytest collects by
@@ -103,7 +39,7 @@ fn tests_in(text, class) {
         if t == "" || t.starts_with("#") {
             continue;
         }
-        let n = indent(line);
+        let n = lib_text::indent(line);
         while depth > 0 && n <= levels[depth - 1] {
             depth -= 1;
             levels.pop();
@@ -141,7 +77,7 @@ fn tests_in(text, class) {
 fn pytest_tests(cur, all_py) {
     let k = cur.index_of("::");
     if k < 0 {
-        let r = with_suffix(cur, [".py"]);
+        let r = lib_files::with_suffix(cur, [".py"], ["__pycache__"]);
         if !all_py {
             r.candidates = r.candidates.filter(|c| type_of(c) == "map" || c.starts_with("test_") || c.ends_with("_test.py"));
         }
@@ -153,7 +89,7 @@ fn pytest_tests(cur, all_py) {
     if text == () {
         return [];
     }
-    let j = last_index(rest, "::");
+    let j = lib_text::last_index(rest, "::");
     let class = if j < 0 { "" } else { rest.sub_string(0, j) };
     #{prefix: if class == "" { path + "::" } else { path + "::" + class + "::" }, candidates: tests_in(text, class)}
 }
@@ -185,7 +121,7 @@ fn markers_of(line, toml, out) {
     }
     for e in entries {
         e.trim();
-        let name = ident(e);
+        let name = lib_text::ident(e);
         if name != "" && !out.contains(name) {
             out.push(name);
         }
@@ -223,7 +159,7 @@ fn markers_in(text, out) {
             let end = t.index_of("]");
             out = markers_of(if end < 0 { t } else { t.sub_string(0, end) }, true, out);
             on = end < 0;
-        } else if t != "" && indent(line) == 0 {
+        } else if t != "" && lib_text::indent(line) == 0 {
             on = false;
         } else if t != "" && !t.starts_with("#") {
             out = markers_of(t, false, out);
@@ -243,7 +179,7 @@ fn pytest_markers(cur) {
             out = markers_in(fs::read_file(p) ?? "", out);
         }
     }
-    let k = last_of(cur, [' ', '(']);
+    let k = lib_text::last_of(cur, [' ', '(']);
     #{prefix: cur.sub_string(0, k + 1), candidates: out + ["not", "and", "or"]}
 }
 
@@ -376,7 +312,7 @@ fn pypirc() {
 // linters (and categories, `E`, `PLC`), and, once a digit is typed, the
 // rules whose codes start with the word, all asked of the installed ruff.
 fn ruff_rules(cur) {
-    let k = last_of(cur, [',']);
+    let k = lib_text::last_of(cur, [',']);
     let w = cur.sub_string(k + 1);
     let out = [#{value: "ALL", desc: "all rules"}];
     let r = sh::capture(["ruff", "linter", "--output-format", "json"]);
@@ -410,21 +346,11 @@ fn ruff_rules(cur) {
     #{prefix: cur.sub_string(0, k + 1), candidates: out}
 }
 
-// Whether `s` is a name to pass to a program (letters, digits, `_`, `-` and `.`).
-fn is_name(s) {
-    for c in s.chars() {
-        if !(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' || c == '-' || c == '_' || c == '.') {
-            return false;
-        }
-    }
-    true
-}
-
 // ruff's settings (`ruff config`), and after `SECTION.`, those of the section.
 fn ruff_config_keys(cur) {
-    let k = last_of(cur, ['.']);
+    let k = lib_text::last_of(cur, ['.']);
     let section = if k < 0 { "" } else { cur.sub_string(0, k) };
-    if !is_name(section) {
+    if section != "" && !lib_text::is_name(section) {
         return [];
     }
     let out = [];
@@ -432,7 +358,7 @@ fn ruff_config_keys(cur) {
         let t = line;
         t.replace(" (deprecated)", "");
         t.trim();
-        if t != "" && is_name(t) {
+        if t != "" && lib_text::is_name(t) {
             out.push(t);
         }
     }
@@ -456,7 +382,7 @@ fn bat_languages(words) {
         let name = line.sub_string(0, colon);
         out.push(#{value: name, desc: "language"});
         for e in line.sub_string(colon + 1).split(",") {
-            if e != "" && is_name(e) && !e.starts_with(".") {
+            if e != "" && lib_text::is_name(e) && !e.starts_with(".") {
                 out.push(#{value: e, desc: name});
             }
         }
@@ -490,9 +416,9 @@ fn kind(name, cur, words) {
         "pytest_tests" => pytest_tests(cur, false),
         "pytest_modules" => pytest_tests(cur, true),
         "pytest_markers" => pytest_markers(cur),
-        "python_files" => with_suffix(cur, [".py", ".pyi"]),
-        "ruff_files" => with_suffix(cur, [".py", ".pyi", ".ipynb"]),
-        "python_dists" => with_suffix(cur, [".whl", ".tar.gz", ".zip", ".asc"]),
+        "python_files" => lib_files::with_suffix(cur, [".py", ".pyi"], ["__pycache__"]),
+        "ruff_files" => lib_files::with_suffix(cur, [".py", ".pyi", ".ipynb"], ["__pycache__"]),
+        "python_dists" => lib_files::with_suffix(cur, [".whl", ".tar.gz", ".zip", ".asc"], ["__pycache__"]),
         "pythons" => pythons(cur),
         "poetry_groups" => poetry_groups(),
         "poetry_extras" => poetry_extras(),

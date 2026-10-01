@@ -1,0 +1,5 @@
+description = "Helpers shared by the extra-complete plugins"
+library = true
+
+[dependencies]
+std.completion = "*"

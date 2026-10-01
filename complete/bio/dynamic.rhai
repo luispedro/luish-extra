@@ -4,20 +4,7 @@
 // help has a regular format, so that no table has to follow every release.
 
 import "@std/completion/lib" as lib;
-
-// Whether `s` can be a subcommand name (the words come from the command
-// line, and mmseqs is only asked about names).
-fn is_name(s) {
-    if s == "" || s.starts_with("-") {
-        return false;
-    }
-    for c in s.chars() {
-        if !(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' || c == '-' || c == '_' || c == '.') {
-            return false;
-        }
-    }
-    true
-}
+import "@extra-complete/extra-lib/text" as lib_text;
 
 // MMseqs2: the modules are the lines `  NAME<TAB>description` of `mmseqs -h`.
 fn mmseqs() {
@@ -31,7 +18,7 @@ fn mmseqs() {
         name.trim();
         let desc = line.sub_string(tab);
         desc.trim();
-        if is_name(name) {
+        if lib_text::is_name(name) {
             commands += name + "  " + desc + "\n";
         }
     }
@@ -45,7 +32,7 @@ fn mmseqs() {
 }
 
 fn mmseqs_sub(sub) {
-    if !is_name(sub) {
+    if !lib_text::is_name(sub) {
         return ();
     }
     let s = lib::help_spec(sh::capture(["mmseqs", sub, "-h"], "merge").out);

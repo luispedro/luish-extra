@@ -2,3 +2,4 @@ description = "Completion for development tools"
 
 [dependencies]
 std.completion = "*"
+extra-lib = "*"
