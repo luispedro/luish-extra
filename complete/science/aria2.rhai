@@ -1,6 +1,6 @@
 // aria2c 1.37.0, from `aria2c --help=#all`. The arguments are URIs, or torrent and metalink files.
 
-fn spec() {
+fn spec(cmd) {
     #{
         opts: `
             -v, --version                                 print the version number and exit

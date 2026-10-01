@@ -142,7 +142,7 @@ fn sub_spec(name, sub) {
             values: values(),
             args: [k("quarto_convertible")],
         },
-        "pandoc" => pandoc::spec(),
+        "pandoc" => pandoc::spec("pandoc"),
         "add" | "update" | "remove" => #{
             opts: `
                 --no-prompt               do not prompt to confirm actions

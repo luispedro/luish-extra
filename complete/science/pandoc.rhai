@@ -1,7 +1,7 @@
 // pandoc 3.11, from `pandoc --help`, with the descriptions of its man page. The formats are asked of the
 // installed pandoc (`--list-input-formats`), so that they follow the version in use.
 
-fn spec() {
+fn spec(cmd) {
     #{
         opts: `
             -f, -r, --from, --read FORMAT        specify input format

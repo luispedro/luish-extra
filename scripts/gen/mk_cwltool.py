@@ -31,7 +31,7 @@ body = gen.emit_argparse(actions, kind_of, 12, f"        args: [{K('cwl')}, {K('
 open(gen.REPO + "/complete/science/cwltool.rhai", "w").write(f"""// cwltool 3.3.20260925135507, from its argparse parser (`cwltool --help`). The arguments are the CWL document and,
 // after it, the file of inputs.
 
-fn spec() {{
+fn spec(cmd) {{
     #{{
 {body}
     }}

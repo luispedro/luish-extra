@@ -34,11 +34,13 @@ apptainer and singularity (Cobra bridge) and nf-core (Click bridge).
 packages, scripts and sources from `pyproject.toml` and `poetry.lock`; `~/.pypirc`; ruff's rules and settings; bat's
 languages and themes), `python.rhai` (twine), `tools.rhai` (fzf, bat and batcat), `dynamic.rhai` (ruff, from its `-h`
 like mmseqs) and the generated `pytest.rhai`, `mypy.rhai`, `poetry.rhai`. `complete/system`: `kinds.rhai` (borg
-locations and compression specs, FUSE mount points from `/proc/mounts`), `tools.rhai` (fusermount, fusermount3) and
-the generated `borg.rhai`. `complete/gui`: `kinds.rhai` (LibreOffice's filters and file types, read from the `.xcd`
-files of its registry, found by following the `soffice` link in `PATH`; CUPS's printers) and `documents.rhai`
-(libreoffice, soffice); the rest of its commands are to do. svn, netlify and adb (`dev`) are still to do, and the rest
-of `PLAN.md` ("Order", "Next steps"). A new module needs a line in `extension.rhai`.
+locations and compression specs, FUSE mount points from `/proc/mounts`), `tools.rhai` (fusermount, fusermount3) and the
+generated `borg.rhai`. `complete/gui`: `kinds.rhai` (LibreOffice's filters and file types, read from the `.xcd` files of
+its registry, found by following the `soffice` link in `PATH`; CUPS's printers) and `documents.rhai` (libreoffice,
+soffice); the rest of its commands are to do. svn, netlify and adb (`dev`) are still to do, and the rest of `PLAN.md`
+("Order", "Next steps"). Every module has `fn spec(cmd)` (the generated ones too, ignoring `cmd`), and `extension.rhai`
+maps each command to its module (`module_of`), so a new module needs an entry there; nextflow, whose spec depends on the
+line, has a completer of its own.
 
 `complete/extra-lib` is a library plugin (`library = true` in its `plugin.toml`, which is its only entry point;
 `plugin list-available` leaves it out) of helpers the others share: `files.rhai` (`with_suffix(cur, suffixes)`, and
@@ -125,8 +127,9 @@ sphinx-build -W docs docs/_build
   `String::replace`, `trim` and `sort` change the value in place and return `()`; a `switch` case with several values is
   `"a" | "b" =>`; a closure kept in a variable can't be called as `f(x)` (use a named `fn`); a backtick string keeps
   `\n` as two characters; `module` and `in` are reserved words (also as keys of a map literal: quote them); `parse_json`
-  takes only an object, so a JSON array is read as ``parse_json(`{"a": ${out}}`).a``; an `import` can't be chosen at run
-  time, so `extension.rhai` has one completer function per module.
+  takes only an object, so a JSON array is read as ``parse_json(`{"a": ${out}}`).a``; `go` is a reserved word. An
+  `import` can name a variable (`let m = module_of[words[0]]; import m as specs;`), which is how each
+  `extension.rhai` imports a command's module.
 - For a program whose long options take their value as the next word and have a single dash or two (`mlr`: `single_dash: true`
   and `strict_eq: true`, else the engine completes `--name=`; `nextflow` and `latexmk` have `single_dash` only). The `sub_spec`
   of a spec is `"@extra-complete/science/MODULE:NAME"`, and the engine calls `MODULE::sub_spec(NAME, SUBCOMMAND)`

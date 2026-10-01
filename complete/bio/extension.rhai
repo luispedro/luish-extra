@@ -9,125 +9,46 @@
 // spec's `sub_spec` is `"@extra-complete/bio/MODULE:CMD"`, that is
 // `MODULE::sub_spec(CMD, SUBCOMMAND)`.
 
-// One function per module, since an import can't be chosen at run time.
-fn ours(cmd) {
+// The module of each command.
+let module_of = #{};
+for m in [
+    ["ours", ["ngless", "SemiBin2", "SemiBin", "macrel", "argnorm"]],
+    ["hts", ["samtools", "tabix", "bgzip", "htsfile", "bedtools"]],
+    ["bcftools", ["bcftools"]],
+    ["align", ["bwa", "bwa-mem2", "bowtie2", "bowtie2-build", "hisat2", "hisat2-build", "minimap2", "STAR", "kallisto",
+               "featureCounts"]],
+    ["blast", ["blastn", "blastp", "blastx", "tblastn", "tblastx", "psiblast", "rpsblast", "rpstblastn", "deltablast",
+               "makeblastdb", "blastdbcmd", "blast_formatter", "blastdb_aliastool", "dustmasker", "segmasker",
+               "windowmasker", "makeprofiledb", "blastdbcheck", "update_blastdb.pl"]],
+    ["diamond", ["diamond"]],
+    // Programs whose help is read when Tab is pressed (mmseqs).
+    ["dynamic", ["mmseqs"]],
+    ["hmmer", ["hmmsearch", "hmmscan", "phmmer", "jackhmmer", "nhmmer", "nhmmscan", "hmmbuild", "hmmalign", "hmmpress",
+               "hmmfetch", "hmmemit", "hmmconvert", "hmmstat"]],
+    ["reads", ["fastp", "fastqc", "falco", "cutadapt", "trimmomatic", "trim_galore", "fastq_screen", "seqtk",
+               "filtlong", "chopper", "nanoq", "rasusa", "porechop", "NanoPlot", "NanoFilt", "NanoStat"]],
+] {
+    for cmd in m[1] {
+        module_of[cmd] = m[0];
+    }
+}
+
+for cmd in module_of.keys() {
     sh::completer(cmd, |words, i| {
         import "@std/completion/lib" as lib;
-        import "ours" as m;
-        lib::complete(m::spec(words[0]), words, i)
+        let m = module_of[words[0]];
+        import m as specs;
+        lib::complete(specs::spec(words[0]), words, i)
     });
-}
-
-fn hts(cmd) {
-    sh::completer(cmd, |words, i| {
-        import "@std/completion/lib" as lib;
-        import "hts" as m;
-        lib::complete(m::spec(words[0]), words, i)
-    });
-}
-
-fn bcftools(cmd) {
-    sh::completer(cmd, |words, i| {
-        import "@std/completion/lib" as lib;
-        import "bcftools" as m;
-        lib::complete(m::spec(words[0]), words, i)
-    });
-}
-
-bcftools("bcftools");
-
-fn align(cmd) {
-    sh::completer(cmd, |words, i| {
-        import "@std/completion/lib" as lib;
-        import "align" as m;
-        lib::complete(m::spec(words[0]), words, i)
-    });
-}
-
-for cmd in ["bwa", "bwa-mem2", "bowtie2", "bowtie2-build", "hisat2", "hisat2-build", "minimap2", "STAR", "kallisto",
-            "featureCounts"] {
-    align(cmd);
-}
-
-fn blast(cmd) {
-    sh::completer(cmd, |words, i| {
-        import "@std/completion/lib" as lib;
-        import "blast" as m;
-        lib::complete(m::spec(words[0]), words, i)
-    });
-}
-
-for cmd in ["blastn", "blastp", "blastx", "tblastn", "tblastx", "psiblast", "rpsblast", "rpstblastn", "deltablast",
-            "makeblastdb", "blastdbcmd", "blast_formatter", "blastdb_aliastool", "dustmasker", "segmasker",
-            "windowmasker", "makeprofiledb", "blastdbcheck", "update_blastdb.pl"] {
-    blast(cmd);
-}
-
-fn diamond(cmd) {
-    sh::completer(cmd, |words, i| {
-        import "@std/completion/lib" as lib;
-        import "diamond" as m;
-        lib::complete(m::spec(words[0]), words, i)
-    });
-}
-
-diamond("diamond");
-
-fn dynamic(cmd) {
-    sh::completer(cmd, |words, i| {
-        import "@std/completion/lib" as lib;
-        import "dynamic" as m;
-        lib::complete(m::spec(words[0]), words, i)
-    });
-}
-
-dynamic("mmseqs");
-
-fn hmmer(cmd) {
-    sh::completer(cmd, |words, i| {
-        import "@std/completion/lib" as lib;
-        import "hmmer" as m;
-        lib::complete(m::spec(words[0]), words, i)
-    });
-}
-
-for cmd in ["hmmsearch", "hmmscan", "phmmer", "jackhmmer", "nhmmer", "nhmmscan", "hmmbuild", "hmmalign", "hmmpress",
-            "hmmfetch", "hmmemit", "hmmconvert", "hmmstat"] {
-    hmmer(cmd);
-}
-
-fn reads(cmd) {
-    sh::completer(cmd, |words, i| {
-        import "@std/completion/lib" as lib;
-        import "reads" as m;
-        lib::complete(m::spec(words[0]), words, i)
-    });
-}
-
-for cmd in ["fastp", "fastqc", "falco", "cutadapt", "trimmomatic", "trim_galore", "fastq_screen", "seqtk", "filtlong",
-            "chopper", "nanoq", "rasusa", "porechop", "NanoPlot", "NanoFilt", "NanoStat"] {
-    reads(cmd);
-}
-
-for cmd in ["ngless", "SemiBin2", "SemiBin", "macrel", "argnorm"] {
-    ours(cmd);
-}
-
-for cmd in ["samtools", "tabix", "bgzip", "htsfile", "bedtools"] {
-    hts(cmd);
 }
 
 // Go programs built with Cobra complete themselves too: std's Cobra bridge asks
 // them (`PROG __complete`, see `bridges::cobra`), in about 10 ms.
-fn cobra(cmd) {
+for cmd in ["seqkit", "csvtk", "taxonkit"] {
     sh::completer(cmd, |words, i| {
         import "@std/completion/bridges" as bridges;
         bridges::cobra(words, i)
     });
-}
-
-for cmd in ["seqkit", "csvtk", "taxonkit"] {
-    cobra(cmd);
 }
 
 // Python programs built with Click complete themselves: std's Click bridge asks
@@ -138,14 +59,10 @@ for cmd in ["seqkit", "csvtk", "taxonkit"] {
 // pyprophet, easypqp, ms2rescore, velocyto) can be added by the user with
 // `complete-click PROG`. A program that isn't installed, or that doesn't
 // answer, gets filenames.
-fn click(cmd) {
+for cmd in ["multiqc", "peddy", "genmod", "plassembler", "cooler", "pairtools", "checkv", "virsorter", "metacoag",
+            "harpy", "defense-finder", "dnaapler", "genomepy", "freyja", "fastq-dl", "biom"] {
     sh::completer(cmd, |words, i| {
         import "@std/completion/bridges" as bridges;
         bridges::click(words, i)
     });
-}
-
-for cmd in ["multiqc", "peddy", "genmod", "plassembler", "cooler", "pairtools", "checkv", "virsorter", "metacoag",
-            "harpy", "defense-finder", "dnaapler", "genomepy", "freyja", "fastq-dl", "biom"] {
-    click(cmd);
 }

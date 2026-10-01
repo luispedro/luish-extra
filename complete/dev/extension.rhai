@@ -3,72 +3,31 @@
 // engine (`@std/completion/lib`). The modules are imported by the completer,
 // so that they are compiled on the first Tab for one of their commands. luish
 // calls a completer with the command's name as the first word. Every module
-// has `fn spec(cmd)` (or `fn spec()` for a module of one command), and, for
-// commands whose subcommands are read when needed, the spec's `sub_spec` is
-// `"@extra-complete/dev/MODULE:NAME"`, that is `MODULE::sub_spec(NAME, SUBCOMMAND)`.
+// has `fn spec(cmd)`, and, for commands whose subcommands are read when
+// needed, the spec's `sub_spec` is `"@extra-complete/dev/MODULE:NAME"`, that
+// is `MODULE::sub_spec(NAME, SUBCOMMAND)`.
 
-// One function per module, since an import can't be chosen at run time.
-fn pytest(cmd) {
+// The module of each command.
+let module_of = #{};
+for m in [
+    ["pytest", ["pytest", "py.test"]],
+    ["mypy", ["mypy"]],
+    ["poetry", ["poetry"]],
+    ["python", ["twine"]],
+    // Programs whose help is read when Tab is pressed (ruff: clap).
+    ["dynamic", ["ruff"]],
+    ["tools", ["fzf", "bat", "batcat"]],
+] {
+    for cmd in m[1] {
+        module_of[cmd] = m[0];
+    }
+}
+
+for cmd in module_of.keys() {
     sh::completer(cmd, |words, i| {
         import "@std/completion/lib" as lib;
-        import "pytest" as m;
-        lib::complete(m::spec(), words, i)
+        let m = module_of[words[0]];
+        import m as specs;
+        lib::complete(specs::spec(words[0]), words, i)
     });
-}
-
-for cmd in ["pytest", "py.test"] {
-    pytest(cmd);
-}
-
-fn mypy(cmd) {
-    sh::completer(cmd, |words, i| {
-        import "@std/completion/lib" as lib;
-        import "mypy" as m;
-        lib::complete(m::spec(), words, i)
-    });
-}
-
-mypy("mypy");
-
-fn poetry(cmd) {
-    sh::completer(cmd, |words, i| {
-        import "@std/completion/lib" as lib;
-        import "poetry" as m;
-        lib::complete(m::spec(), words, i)
-    });
-}
-
-poetry("poetry");
-
-fn python(cmd) {
-    sh::completer(cmd, |words, i| {
-        import "@std/completion/lib" as lib;
-        import "python" as m;
-        lib::complete(m::spec(words[0]), words, i)
-    });
-}
-
-python("twine");
-
-// Programs whose help is read when Tab is pressed (ruff: clap).
-fn dynamic(cmd) {
-    sh::completer(cmd, |words, i| {
-        import "@std/completion/lib" as lib;
-        import "dynamic" as m;
-        lib::complete(m::spec(words[0]), words, i)
-    });
-}
-
-dynamic("ruff");
-
-fn tools(cmd) {
-    sh::completer(cmd, |words, i| {
-        import "@std/completion/lib" as lib;
-        import "tools" as m;
-        lib::complete(m::spec(words[0]), words, i)
-    });
-}
-
-for cmd in ["fzf", "bat", "batcat"] {
-    tools(cmd);
 }

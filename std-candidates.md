@@ -39,13 +39,11 @@ subcommand) is in `complete/bio/dynamic.rhai` (mmseqs), `complete/science/dynami
     std's Rhai reimplementation `kinds::glob_match` (ssh_config `Host` patterns) and make name checks one line
     (`!sh::matches("*[!A-Za-z0-9._-]*", s)`). Not yet checked how the matcher is exposed inside luish. [DONE]
 10. **An `env` option for `sh::capture`**: optional; `["env", ...]` works but costs an extra exec per call.
-11. **Runtime `import`**: this repo's CLAUDE.md says "an `import` can't be chosen at run time, so `extension.rhai` has
-    one completer function per module", yet std's `extension.rhai` does `let m = module_of[words[0]]; import m as
-    specs;` inside the completer. Check which is true here; if the std pattern works, a helper such as
-    `lib::register(commands, module)` would replace the wrapper functions (`ours`, `hts`, `align`, ...) in each
-    `extension.rhai`. Checked (2026-10-01): an `import` of a name in a variable works, in a function of
-    `extension.rhai` as in std's completer, so the CLAUDE.md note is out of date. Related: the "closures made in a
-    module fail in Rhai 1.26.1" note is a Rhai/luish issue to fix upstream, not code to move.
+11. **Runtime `import`** [DONE in luish-extra]: an `import` can name a variable, as std's completer does (`let m =
+    module_of[words[0]]; import m as specs;`), so each `extension.rhai` now has a `module_of` map instead of a
+    function per module. The loop that registers the map stays in each `extension.rhai`: in a helper module, a
+    relative `import m` would resolve against the helper's directory. Related: the "closures made in a module fail in
+    Rhai 1.26.1" note is a Rhai/luish issue to fix upstream, not code to move.
 
 ## Possible follow-ups inside luish
 

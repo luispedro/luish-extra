@@ -83,7 +83,7 @@ for name, body in verb_text.items():
 out = [f"""// Miller 6.22.0, from `mlr help flags`, `mlr help list-verbs` and `mlr VERB --help`: the main flags before the verb,
 // and the flags of each verb. The values of the separator flags are asked of the installed mlr.
 
-fn spec() {{
+fn spec(cmd) {{
     #{{
         single_dash: true,
         strict_eq: true,

@@ -2,17 +2,24 @@
 // described by a spec in one of the modules below, and completed by std's
 // engine (`@std/completion/lib`). The modules are imported by the completer,
 // so that they are compiled on the first Tab for one of their commands. luish
-// calls a completer with the command's name as the first word.
+// calls a completer with the command's name as the first word. Every module
+// has `fn spec(cmd)`.
 
-// One function per module, since an import can't be chosen at run time.
-fn documents(cmd) {
-    sh::completer(cmd, |words, i| {
-        import "@std/completion/lib" as lib;
-        import "documents" as m;
-        lib::complete(m::spec(words[0]), words, i)
-    });
+// The module of each command.
+let module_of = #{};
+for m in [
+    ["documents", ["libreoffice", "soffice"]],
+] {
+    for cmd in m[1] {
+        module_of[cmd] = m[0];
+    }
 }
 
-for cmd in ["libreoffice", "soffice"] {
-    documents(cmd);
+for cmd in module_of.keys() {
+    sh::completer(cmd, |words, i| {
+        import "@std/completion/lib" as lib;
+        let m = module_of[words[0]];
+        import m as specs;
+        lib::complete(specs::spec(words[0]), words, i)
+    });
 }

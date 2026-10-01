@@ -1,7 +1,7 @@
 // cwltool 3.3.20260925135507, from its argparse parser (`cwltool --help`). The arguments are the CWL document and,
 // after it, the file of inputs.
 
-fn spec() {
+fn spec(cmd) {
     #{
         opts: `
             -h, --help                                    show this help message and exit

@@ -42,7 +42,7 @@ body = gen.emit_argparse(actions, kind_of, 12, "        args: [" + K("snakemake_
 open(gen.REPO + "/complete/science/snakemake.rhai", "w").write(f"""// snakemake 9.27.0, from its argparse parser (`snakemake --help`). The targets are the rules of the
 // Snakefile, and the files of the directory.
 
-fn spec() {{
+fn spec(cmd) {{
     #{{
 {body}
     }}

@@ -2,7 +2,7 @@
 // are only spelled differently: `--keeporder`), with the descriptions and values of the common ones. The command
 // is completed as a command, and after it come the arguments (`:::`, `::::`) and files.
 
-fn spec() {
+fn spec(cmd) {
     #{
         opts: `
             --debug
