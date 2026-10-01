@@ -15,10 +15,10 @@ FASTA, BAM, index prefixes of aligners, reference names and samples of VCFs, ...
 (ngless, SemiBin2, macrel, argnorm), `hts.rhai` (samtools, bedtools, tabix, bgzip, htsfile), `bcftools.rhai`,
 `align.rhai` (bwa, bwa-mem2, bowtie2, hisat2, minimap2, STAR, kallisto, featureCounts), `blast.rhai` (BLAST+),
 `diamond.rhai`, `hmmer.rhai`, `reads.rhai` (read QC, trimming and filtering: fastp, fastqc, falco, cutadapt,
-trimmomatic, trim_galore, fastq_screen, seqtk, filtlong, chopper, nanoq, rasusa, porechop, NanoPlot, NanoFilt,
-NanoStat) and `dynamic.rhai` (mmseqs: the options are read from the installed program's `-h` when Tab is pressed,
-through std's `help_spec`; use it for programs whose help has a regular format). Python programs built with Click
-(multiqc, genmod, cooler, ...) have no module: `extension.rhai` registers them with std's Click bridge
+trimmomatic, trim_galore, fastq_screen, seqtk, filtlong, chopper, nanoq, rasusa, porechop, NanoPlot, NanoFilt, NanoStat)
+and `dynamic.rhai` (mmseqs: the options are read from the installed program's `-h` when Tab is pressed, through
+extra-lib's `help`; use it for programs whose help has a regular format). Python programs built with Click (multiqc,
+genmod, cooler, ...) have no module: `extension.rhai` registers them with std's Click bridge
 (`@std/completion/bridges`), only if they answer in under a second. Go programs built with Cobra (seqkit, csvtk,
 taxonkit) are registered with std's Cobra bridge in the same way.
 
@@ -42,13 +42,16 @@ soffice); the rest of its commands are to do. svn, netlify and adb (`dev`) are s
 maps each command to its module (`module_of`), so a new module needs an entry there; nextflow, whose spec depends on the
 line, has a completer of its own.
 
-`complete/extra-lib` is a library plugin (`library = true` in its `plugin.toml`, which is its only entry point;
-`plugin list-available` leaves it out) of helpers the others share: `files.rhai` (`with_suffix(cur, suffixes)`, and
-with a third argument, directories to leave out; `compressed(suffixes)`) and `text.rhai` (`is_name`, `last_of`,
-`last_index`, `indent`, `ident`). They are imported as `import "@extra-complete/extra-lib/files" as lib_files;` and
-`lib_text`, and a plugin that does so lists `extra-lib = "*"` in its `[dependencies]` (now `bio`, `science` and `dev`).
-A helper that a second plugin needs goes there, not into a copy; `std-candidates.md` notes which may later move to
-std.
+`complete/extra-lib` is a library plugin (`library = true` in its `plugin.toml`, which is its only entry point; `plugin
+list-available` leaves it out) of helpers the others share: `files.rhai` (`with_suffix(cur, suffixes)`, and with a third
+argument, directories to leave out; `compressed(suffixes)`), `text.rhai` (`is_name`, `last_of`, `last_index`, `indent`,
+`ident`) and `help.rhai`, which the `dynamic.rhai` modules use: `help::spec(PATH, how)` reads a spec from the `-h` of a
+command PATH (`PROG SUB ...`), `help::sub(PATH, SUB, how)` is the usual body of a `sub_spec` (`()` for a word that isn't
+a subcommand), and `help::commands(text)` takes a list of commands under any heading, with any gap after the name; `how`
+gives the help flag, `stderr` (`"merge"` for mmseqs), the `sub_spec` module and clap's `help` command. They are imported
+as `import "@extra-complete/extra-lib/files" as lib_files;`, `lib_text` and `help`, and a plugin that does so lists
+`extra-lib = "*"` in its `[dependencies]` (now `bio`, `science` and `dev`). A helper that a second plugin needs goes
+there, not into a copy; `std-candidates.md` notes which may later move to std.
 
 Option tables are written from the tools' real `--help`, and `completion-todo.md` records the version each ticked tool
 was checked against. To check or add one, use the scripts (all run the tool through `pixi exec`, a temporary

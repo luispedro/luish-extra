@@ -1,12 +1,12 @@
 load 0
 === mmseqs
 --- mmseqs 
-createdb 	Convert FASTA/Q file(s) to a sequence DB
-easy-cluster 	Slower, sensitive clustering
-easy-search 	Sensitive homology search
+createdb 	convert FASTA/Q file(s) to a sequence DB
+easy-cluster 	slower, sensitive clustering
+easy-search 	sensitive homology search
 --- mmseqs easy-
-easy-cluster 	Slower, sensitive clustering
-easy-search 	Sensitive homology search
+easy-cluster 	slower, sensitive clustering
+easy-search 	sensitive homology search
 --- mmseqs createdb -
 --dbtype=	database type 0: auto, 1: amino acid 2: nucleotides
 --local-tmp=	path where some of the temporary files will be created

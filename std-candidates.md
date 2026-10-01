@@ -20,18 +20,22 @@ release of luish takes std from its own tag.
 4. **`compressed(suffixes)`**: in `extra-lib/files.rhai`.
 5. **String helpers** (`last_of`, `last_index`, `indent`, `ident`): in `extra-lib/text.rhai`.
 
-## To do: reading options from `-h` generically
+## Reading options from `-h` generically: now in `extra-lib`
 
 The same pattern (`help_spec(help_of(prog))`, `guess_values`, a `sub_spec` that re-reads `PROG SUB -h`, clap's `help`
-subcommand) is in `complete/bio/dynamic.rhai` (mmseqs), `complete/science/dynamic.rhai` (xsv, qsv),
-`complete/dev/dynamic.rhai` (ruff), and std's cargo, rustup (`dev.rhai`), uv and pixi (`langs.rhai`).
+subcommand) was in `complete/bio/dynamic.rhai` (mmseqs), `complete/science/dynamic.rhai` (xsv, qsv) and
+`complete/dev/dynamic.rhai` (ruff), and is in std's cargo, rustup (`dev.rhai`), uv and pixi (`langs.rhai`). The three
+modules of luish-extra now use `extra-lib/help.rhai`; nothing moves to std for now (2026-10-01).
 
-6. A generic `sub_spec` in std (e.g. `"@std/completion/lib:help"`) that re-reads `-h` for the growing command path,
-   so that each tool gives only its overrides (values, argument kinds).
-7. `help_spec` should take a tab as a column gap: mmseqs lists `  NAME<TAB>desc`, which is why it has its own parser.
-   (qsv's `--list` has a single space before the longest name's description; see `qsv_commands`.)
-8. `help_of` should take `sh::capture`'s stderr argument (and perhaps the help flag): mmseqs needs `"merge"`, so it
-   calls `sh::capture` itself.
+6. A generic `sub_spec`: `help::sub(PATH, SUB, how)` reads `PATH SUB -h` (`()` if SUB isn't a command, no `sub_spec`
+   if it has no commands of its own, clap's `help` with `how.help_command`), and `help::spec(PATH, how)` points
+   `sub_spec` at `how.sub_spec + ":" + PATH`, so each tool's `sub_spec` calls it and adds its overrides (values,
+   argument kinds, mmseqs's `BOOL`).
+7. Tabs and single spaces as a column gap: `help::commands(text)` takes the indented lines `NAME DESC` under any
+   heading, with any whitespace after the name (mmseqs's `NAME<TAB>desc`, `qsv --list`), and gives them to
+   `help_spec`, so their descriptions are shortened as std's are. std's `help_spec` is unchanged.
+8. `help::text(PATH, how)` takes the help flag (`how.flag`: `qsv --list`) and `sh::capture`'s stderr argument
+   (`how.stderr`: `"merge"` for mmseqs).
 
 ## To decide
 

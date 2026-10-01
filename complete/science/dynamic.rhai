@@ -1,51 +1,20 @@
 // Commands whose help is read when Tab is pressed, not written out here: their options come from the
-// installed program's own `-h`, through std's `help_spec`, so that no table has to follow every release.
+// installed program's own `-h`, through extra-lib's `help`, so that no table has to follow every release.
 // It is for programs whose help has a regular format (xsv and qsv: docopt).
 
-import "@std/completion/lib" as lib;
-import "@extra-complete/extra-lib/text" as lib_text;
+import "@extra-complete/extra-lib/help" as help;
 
-// The commands in the output of `qsv --list`: lines `    NAME description` (the longest name has one space
-// only, which `help_spec` doesn't take as a table).
-fn qsv_commands(text) {
-    let out = "";
-    for line in text.split("\n") {
-        if !line.starts_with("    ") {
-            continue;
-        }
-        let t = line;
-        t.trim();
-        let gap = t.index_of(" ");
-        if gap <= 0 {
-            continue;
-        }
-        let name = t.sub_string(0, gap);
-        let desc = t.sub_string(gap);
-        desc.trim();
-        if lib_text::is_name(name) {
-            out += name + "  " + (if desc.len() > 1 && desc[1] >= 'a' && desc[1] <= 'z' { desc[0].to_lower() + desc.sub_string(1) } else { desc }) + "\n";
-        }
-    }
-    out
+fn how() {
+    #{sub_spec: "@extra-complete/science/dynamic"}
 }
 
 // xsv and qsv: the commands are those of `PROG -h` (xsv), or `qsv --list`, and the options those of
 // `PROG COMMAND -h`.
 fn csv_tool(prog) {
-    let s = lib::help_spec(lib::help_of(prog));
+    let s = help::spec(prog, how());
     if prog == "qsv" {
-        s.commands = qsv_commands(sh::capture(["qsv", "--list"]).out);
+        s.commands = help::commands(help::text("qsv", #{flag: "--list"}));
     }
-    s.sub_spec = "@extra-complete/science/dynamic:" + prog;
-    s
-}
-
-fn csv_tool_sub(prog, sub) {
-    if !lib_text::is_name(sub) {
-        return ();
-    }
-    let s = lib::help_spec(lib::help_of(prog + " " + sub));
-    s.guess_values = true;
     s
 }
 
@@ -58,7 +27,7 @@ fn spec(cmd) {
 
 fn sub_spec(name, sub) {
     switch name {
-        "xsv" | "qsv" => csv_tool_sub(name, sub),
+        "xsv" | "qsv" => help::sub(name, sub, how()),
         _ => (),
     }
 }

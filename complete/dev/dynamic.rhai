@@ -1,8 +1,8 @@
 // Commands whose help is read when Tab is pressed, not written out here: their options come from the
-// installed program's own `-h`, through std's `help_spec`, so that no table has to follow every release.
+// installed program's own `-h`, through extra-lib's `help`, so that no table has to follow every release.
 // It is for fast programs whose help has a regular format (ruff: clap, a few milliseconds).
 
-import "@std/completion/lib" as lib;
+import "@extra-complete/extra-lib/help" as help;
 
 fn k(name) { "@extra-complete/dev/kinds:" + name }
 
@@ -17,27 +17,24 @@ fn ruff_values() {
     }
 }
 
-// ruff (or one of its commands, `path`, such as `ruff analyze`).
-fn ruff(path) {
-    let s = lib::help_spec(lib::help_of(path));
-    s.guess_values = true;
+// ruff is built with clap, whose `help` takes the names of the commands.
+fn how() {
+    #{sub_spec: "@extra-complete/dev/dynamic", help_command: true}
+}
+
+fn ruff() {
+    let s = help::spec("ruff", how());
     s.values.mixin(ruff_values());
-    s.sub_spec = "@extra-complete/dev/dynamic:" + path;
     s
 }
 
+// A command of ruff (or of one of its commands, `path`, such as `ruff analyze`).
 fn ruff_sub(path, sub) {
-    if sub == "help" {
-        // (clap's `help` has no `-h` of its own.)
-        return #{args: [lib::parse_commands(lib::help_spec(lib::help_of(path)).commands ?? "").map(|c| c.names[0])]};
+    let s = help::sub(path, sub, how());
+    if s == () || sub == "help" {
+        return s;
     }
-    let s = ruff(path + " " + sub);
-    if s.opts == "" {
-        return ();    // not one of ruff's commands
-    }
-    if s.commands == () {
-        s.remove("sub_spec");
-    }
+    s.values.mixin(ruff_values());
     if path == "ruff" {
         s.args = switch sub {
             "check" | "format" => [k("ruff_files")],
@@ -54,7 +51,7 @@ fn ruff_sub(path, sub) {
 
 fn spec(cmd) {
     switch cmd {
-        "ruff" => ruff("ruff"),
+        "ruff" => ruff(),
         _ => #{},
     }
 }

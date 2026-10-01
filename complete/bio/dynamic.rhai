@@ -1,42 +1,33 @@
 // Commands whose help is read when Tab is pressed, not written out here:
-// their options come from the installed program's own `-h`, through std's
-// `help_spec` (as std does for cargo and rustup). It is for programs whose
-// help has a regular format, so that no table has to follow every release.
+// their options come from the installed program's own `-h`, through
+// extra-lib's `help` (as std does for cargo and rustup). It is for programs
+// whose help has a regular format, so that no table has to follow every
+// release.
 
 import "@std/completion/lib" as lib;
-import "@extra-complete/extra-lib/text" as lib_text;
+import "@extra-complete/extra-lib/help" as help;
 
-// MMseqs2: the modules are the lines `  NAME<TAB>description` of `mmseqs -h`.
+// MMseqs2 prints its help on standard error. Its modules are the lines
+// `  NAME<TAB>description` of `mmseqs -h`, under headings by purpose.
+fn how() {
+    #{stderr: "merge", sub_spec: "@extra-complete/bio/dynamic"}
+}
+
 fn mmseqs() {
-    let commands = "";
-    for line in sh::capture(["mmseqs", "-h"], "merge").out.split("\n") {
-        let tab = line.index_of("\t");
-        if !line.starts_with("  ") || tab < 0 {
-            continue;
-        }
-        let name = line.sub_string(0, tab);
-        name.trim();
-        let desc = line.sub_string(tab);
-        desc.trim();
-        if lib_text::is_name(name) {
-            commands += name + "  " + desc + "\n";
-        }
-    }
     #{
         opts: `
             -h, --help  show help
         `,
-        commands: commands,
+        commands: help::commands(help::text("mmseqs", how())),
         sub_spec: "@extra-complete/bio/dynamic:mmseqs",
     }
 }
 
 fn mmseqs_sub(sub) {
-    if !lib_text::is_name(sub) {
+    let s = help::sub("mmseqs", sub, how());
+    if s == () {
         return ();
     }
-    let s = lib::help_spec(sh::capture(["mmseqs", sub, "-h"], "merge").out);
-    s.guess_values = true;
     // BOOL takes 0 or 1.
     for o in lib::parse(s.opts).opts {
         if o.argname == "BOOL" {
