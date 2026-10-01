@@ -1,8 +1,8 @@
-# libreoffice and soffice. The formats of --convert-to and the filters of --infilter come from the registry of the
-# LibreOffice that PATH has, found by following its `soffice` link: here a small one, with the shapes of the real
-# one's (a filter whose name has spaces, a self-closing property, a translated name, a character reference, a type
-# whose extensions are a pattern, and a section of another package). PATH is set after the files are made, since
-# the machine's may have a LibreOffice.
+# libreoffice and soffice, okular and xdg-open. The formats of --convert-to and the filters of --infilter come from
+# the registry of the LibreOffice that PATH has, found by following its `soffice` link: here a small one, with the
+# shapes of the real one's (a filter whose name has spaces, a self-closing property, a translated name, a character
+# reference, a type whose extensions are a pattern, and a section of another package). PATH is set after the files are
+# made, since the machine's may have a LibreOffice.
 __luish_internal plugin load "$EXTRA/complete/gui"
 echo "load $?"
 c() {
@@ -149,3 +149,13 @@ PATH=$PWD/nobin
 c 'soffice --convert-to '
 c 'soffice --convert-to pdf:'
 c 'soffice --infilter='
+echo "=== okular"
+c 'okular --p'
+c 'okular -p '
+c 'okular --platform '
+c 'okular --page 3 r'
+c 'okular --qwindowicon '
+echo "=== xdg-open"
+c 'xdg-open -'
+c 'xdg-open r'
+c 'xdg-open report.odt '

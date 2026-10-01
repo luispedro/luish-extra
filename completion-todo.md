@@ -863,23 +863,26 @@ stand-ins in `tests/bin` were cut from.
   filter registry)
 - [x] `soffice`: LibreOffice 24.2.7.2 (the same program as `libreoffice`)
 - [ ] `evince`
-- [ ] `okular`
+- [x] `okular`: okular 23.08.5 (Ubuntu's; with Qt 5's and KDE's own options)
 - [ ] `zathura`
-- [ ] `xdg-open`
+- [x] `xdg-open`: xdg-utils 1.1.3
 - [ ] `code`
 - [ ] `meld`
 - [ ] `gedit`
-- [ ] `kate`
+- [x] `kate`: kate 23.08.5 (Ubuntu's; sessions from `~/.local/share/kate/sessions`)
 - [ ] `vlc`
-- [ ] `mpv`
-- [ ] `gimp`
-- [ ] `inkscape`
+- [x] `mpv`: read from the installed mpv's `--list-options` (0.37.0 and 0.41.0 checked; the tests' stand-in is
+  0.41.0's)
+- [x] `gimp`: GIMP 3.0.4 (from its source, `app/main.c`), and 2.10.36 (Ubuntu's), which lacks `--quit`
+- [x] `inkscape`: Inkscape 1.4.2 (from its source and manual page; 1.2.2, Ubuntu's, has `--pdf-page` where 1.4 has
+  `--pages`); actions from `inkscape --action-list`
 - [ ] `krita`
 - [ ] `blender`
-- [ ] `obs`
-- [ ] `audacity`
+- [x] `obs`: OBS Studio 32.2.2 (from its source, `frontend/obs-main.cpp`: not in conda-forge)
+- [x] `audacity`: Audacity 4.0.1 (from its source, `src/app/commandlineparser.cpp`), and the options of 3.7.5 that
+  4 dropped (`-b`, `-j`, `-t`)
 - [ ] `eog`
-- [ ] `cytoscape`
+- [x] `cytoscape`: Cytoscape 3.10.4 (Bioconda's `cytoscape.sh`; also `Cytoscape`, the installer's launcher)
 - [ ] `jalview`
 - [ ] `artemis`
 - [ ] `tablet`

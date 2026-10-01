@@ -1,4 +1,6 @@
-// Documents: libreoffice and soffice (LibreOffice 24.2.7.2; soffice is the same program).
+// Documents: libreoffice and soffice (LibreOffice 24.2.7.2; soffice is the same program), okular (23.08.5) and
+// xdg-open (xdg-utils 1.1.3).
+import "qt" as qt;
 
 fn k(name) { "@extra-complete/gui/kinds:" + name }
 
@@ -77,9 +79,40 @@ fn libreoffice() {
     }
 }
 
+// okular [OPTIONS] [FILES]: a file `-` is standard input.
+fn okular() {
+    qt::with_kde(#{
+        opts: `
+            -p, --page NUMBER       the page to show
+            --presentation          start in presentation mode
+            --print                 start with the print dialog
+            --print-and-exit        start with the print dialog and quit after printing
+            --unique                open in the running okular, if there is one
+            --noraise               don't raise the window
+            --find STRING           find a string in the text
+            --editor-cmd STRING     the external editor command
+        `,
+        values: #{"--page": "none", "--find": "none", "--editor-cmd": "none"},
+    })
+}
+
+// xdg-open {FILE | URL}: the options only alone.
+fn xdg_open() {
+    #{
+        opts: `
+            --help                  show the help
+            --manual                show the manual
+            --version               show the version
+        `,
+        args: ["files", "none"],
+    }
+}
+
 fn spec(cmd) {
     switch cmd {
         "libreoffice" | "soffice" => libreoffice(),
+        "okular" => okular(),
+        "xdg-open" => xdg_open(),
         _ => #{},
     }
 }

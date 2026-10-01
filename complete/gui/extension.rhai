@@ -8,7 +8,10 @@
 // The module of each command.
 let module_of = #{};
 for m in [
-    ["documents", ["libreoffice", "soffice"]],
+    ["documents", ["libreoffice", "soffice", "okular", "xdg-open"]],
+    ["editors", ["kate"]],
+    ["media", ["gimp", "inkscape", "obs", "audacity"]],
+    ["viewers", ["cytoscape", "Cytoscape", "cytoscape.sh"]],
 ] {
     for cmd in m[1] {
         module_of[cmd] = m[0];
@@ -23,3 +26,11 @@ for cmd in module_of.keys() {
         lib::complete(specs::spec(words[0]), words, i)
     });
 }
+
+// mpv's options are read from the installed mpv's `--list-options`, and
+// those offered depend on the word (`--no-` for the negations of flags), so
+// it has a completer of its own.
+sh::completer("mpv", |words, i| {
+    import "mpv" as m;
+    m::complete(words, i)
+});

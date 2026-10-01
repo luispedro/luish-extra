@@ -56,9 +56,15 @@ Done: `jug`, `snakemake`, `nextflow`, `nf-core`, `nf-test`, `cwltool`; `quarto`,
 
 Desktop programs. It reads the installed LibreOffice's filter registry (found from the `soffice` in `PATH`): the
 formats of `--convert-to` (`pdf`, `docx`, ...) and, after `EXT:`, the filters that write them (`pdf:writer_pdf_Export`),
-and the input filters of `--infilter=`; and CUPS's printers (`lpstat -e`) for `--pt` and `--printer-name`.
+and the input filters of `--infilter=`; and CUPS's printers (`lpstat -e`) for `--pt` and `--printer-name`. mpv's
+options are read from the installed mpv (`--list-options`), with the values of its choices and the video outputs,
+filters, profiles and audio devices it lists; and Inkscape's actions (`--actions`) from `inkscape --action-list`, and
+the object IDs of `--export-id`, `--query-id` and `--select` from the SVG files on the command line. It also reads
+kate's sessions, GIMP's session files, and OBS's profiles, scene collections and scenes (of the collection given or the
+current one).
 
-Done: `libreoffice` and `soffice`.
+Done: `libreoffice` and `soffice`, `okular`, `xdg-open`; `kate`; `mpv`, `gimp`, `inkscape`, `obs`, `audacity`;
+`cytoscape` (and `Cytoscape`, `cytoscape.sh`).
 
 ## `dev`
 
@@ -84,9 +90,9 @@ tests/run.sh bio_hts         # one
 UPDATE=1 tests/run.sh bio_hts   # write the .expected file (and read it before committing it)
 ```
 
-They need luish (`LUISH`, default the one in `PATH`) and a checkout of its `luish-std-plugins` (`STD_PLUGINS`,
-default `../luish/luish-std-plugins`). Programs that completion runs (`samtools view -H`, `tabix -l`, `bcftools query
--l`, `mmseqs -h`, `pandoc --list-output-formats`, `xsv -h`, `qsv --list`, `mlr help list-separator-aliases`, `ruff -h`,
-`bat --list-languages`, `lpstat -e`) are stood in for by the scripts in `tests/bin`. A test that lists a directory of
-`PATH` (`jupyter-*`) or the commands in it sets `PATH` itself, as does one that finds a program's files from it
-(LibreOffice's registry).
+They need luish (`LUISH`, default the one in `PATH`) and a checkout of its `luish-std-plugins` (`STD_PLUGINS`, default
+`../luish/luish-std-plugins`). Programs that completion runs (`samtools view -H`, `tabix -l`, `bcftools query -l`,
+`mmseqs -h`, `pandoc --list-output-formats`, `xsv -h`, `qsv --list`, `mlr help list-separator-aliases`, `ruff -h`, `mpv
+--list-options`, `inkscape --action-list`, `bat --list-languages`, `lpstat -e`) are stood in for by the scripts in
+`tests/bin`. A test that lists a directory of `PATH` (`jupyter-*`) or the commands in it sets `PATH` itself, as does one
+that finds a program's files from it (LibreOffice's registry).

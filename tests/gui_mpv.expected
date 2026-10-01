@@ -1,0 +1,146 @@
+load 0
+=== options
+--- mpv --
+--alang=	string list (default: )
+--audio-device=	string (default: auto)
+--display-fps-override=	double (0 to any) (default: 0)
+--fs 	alias for --fullscreen
+--fullscreen 	flag (default: no)
+--help 	print the help (--help=FILTER: the options that match FILTER)
+--hwdec=	string list (default: no)
+--list-protocols 	print it and quit
+--loop-file=	choices: no inf yes (or an integer) (0 to 10000) (default: no)
+--loop=	alias for --loop-file
+--profile=	string list (default: )
+--screenshot-dir=	string (default: )
+--screenshot-format=	choices: jpg jpeg png webp jxl avif (default: jpg)
+--start=	relative time or percent position (default: none)
+--sub-file-paths=	string list (default: )
+--sub-file=	alias for --sub-files-append: append an item
+--sub-files=	string list (default: )
+--vf=	object settings list (default: )
+--vo=	object settings list (default: )
+--volume=	float (-1 to 1000) (default: 100)
+--watch-later-dir=	string (default: )
+--watch-later-directory=	alias for --watch-later-dir
+--- mpv --f
+--fs 	alias for --fullscreen
+--fullscreen 	flag (default: no)
+--- mpv --no-f
+--no-fs 	alias for --fullscreen
+--no-fullscreen 	flag (default: no)
+--- mpv --alang-
+--alang-add=	append an item (--alang)
+--alang-append=	append an item (--alang)
+--alang-clr 	clear the list (--alang)
+--alang-del=	remove the items at these indexes (--alang)
+--alang-pre=	prepend an item (--alang)
+--alang-remove=	remove an item (--alang)
+--alang-set=	set the whole list (--alang)
+--alang-toggle=	append an item, or remove it if it is there (--alang)
+--- mpv --sub-file
+--sub-file-paths=	string list (default: )
+--sub-file=	alias for --sub-files-append: append an item
+--sub-files=	string list (default: )
+--- mpv --sub-files-
+--sub-files-add=	append an item (--sub-files)
+--sub-files-append=	append an item (--sub-files)
+--sub-files-clr 	clear the list (--sub-files)
+--sub-files-del=	remove the items at these indexes (--sub-files)
+--sub-files-pre=	prepend an item (--sub-files)
+--sub-files-remove=	remove an item (--sub-files)
+--sub-files-set=	set the whole list (--sub-files)
+--sub-files-toggle=	append an item, or remove it if it is there (--sub-files)
+--- mpv --gam
+--- mpv --override
+=== values
+--- mpv --screenshot-format=
+--screenshot-format=avif 
+--screenshot-format=jpeg 
+--screenshot-format=jpg 
+--screenshot-format=jxl 
+--screenshot-format=png 
+--screenshot-format=webp 
+--- mpv --loop=
+--loop=inf 
+--loop=no 
+--loop=yes 
+--- mpv --loop-file 
+inf 
+no 
+yes 
+--- mpv --fs=
+--- mpv --start=
+--- mpv --start 10 m
+movie.mkv 
+movie.srt 
+--- mpv --alang-add en m
+movie.mkv 
+movie.srt 
+--- mpv --screenshot-dir 
+shots/
+--- mpv --sub-file movie.mkv --sub-file=
+--sub-file=gui_mpv.sh 
+--sub-file=movie.mkv 
+--sub-file=movie.srt 
+--sub-file=shots/
+--- mpv --vo=
+--vo=gpu 	Shader-based GPU Renderer
+--vo=gpu-next 	Video output based on libplacebo
+--vo=image 	Write video frames to image files
+--vo=kitty 	Kitty terminal graphics protocol
+--vo=libmpv 	render API for libmpv
+--vo=null 	Null video output
+--vo=tct 	true-color terminals
+--- mpv --vo=gpu-next,g
+--vo=gpu-next,gpu 	Shader-based GPU Renderer
+--vo=gpu-next,gpu-next 	Video output based on libplacebo
+--- mpv --vf=
+--vf=format 	
+--vf=fps 	Force constant framerate.
+--vf=gpu 	vo_gpu as filter
+--vf=lavfi 	libavfilter bridge
+--vf=scale 	Scale the input video size and/or convert the image format.
+--vf=sub 	Render subtitles
+--- mpv --vf=scale=w=1280,f
+--vf=scale=w=1280,format 	
+--vf=scale=w=1280,fps 	Force constant framerate.
+--- mpv --vf=scale=w=
+--- mpv --hwdec=
+--hwdec=auto 	
+--hwdec=auto-copy 	
+--hwdec=auto-copy-safe 	
+--hwdec=auto-safe 	
+--hwdec=no 	
+--hwdec=vaapi 	
+--hwdec=vaapi-copy 	
+--- mpv --profile=fast,
+--profile=fast,box 	
+--profile=fast,builtin-pseudo-gui 	
+--profile=fast,default 	
+--profile=fast,encoding 	
+--profile=fast,fast 	
+--profile=fast,gpu-hq 	
+--profile=fast,high-quality 	
+--profile=fast,libmpv 	
+--profile=fast,low-latency 	
+--profile=fast,osd-box 	
+--profile=fast,pseudo-gui 	
+--profile=fast,sub-box 	
+--profile=fast,sw-fast 	
+--- mpv --audio-device=
+--audio-device=alsa 	Default (alsa)
+--audio-device=alsa/default:CARD=PCH 	HDA Intel PCH, ALC3246 Analog/Default Audio Device
+--audio-device=auto 	Autoselect device
+--audio-device=pipewire 	Default (pipewire)
+--audio-device=pipewire/alsa_output.pci-0000_00_1f.3.analog-stereo 	Built-in Audio Analog Stereo
+=== arguments
+--- mpv m
+movie.mkv 
+movie.srt 
+--- mpv --fs -- --
+=== without mpv
+--- mpv --
+--- mpv m
+movie.mkv 
+movie.srt 

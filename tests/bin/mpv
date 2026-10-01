@@ -1,0 +1,173 @@
+#!/bin/sh
+# Stand-in for mpv in the tests: what mpv 0.41.0 prints for --list-options and for --NAME=help, cut short (the
+# audio devices are made up).
+case "$*" in
+"--list-options")
+    cat <<'OUT'
+Options:
+
+ --alang                          String list (default: )
+    --alang-add
+    --alang-append
+    --alang-clr
+    --alang-del
+    --alang-pre
+    --alang-set
+    --alang-toggle
+    --alang-remove
+ --audio-device                   String (default: auto)
+ --display-fps-override           Double (0 to any) (default: 0)
+ --fs                             alias for fullscreen
+ --fullscreen                     Flag (default: no)
+ --gamma-auto                     Flag (default: no) [deprecated]
+ --gamut-clipping                 removed [deprecated]
+ --h                              String (default: ) [not in config files]
+ --help                           String (default: ) [not in config files]
+ --hwdec                          String list (default: no)
+    --hwdec-add
+    --hwdec-append
+    --hwdec-clr
+    --hwdec-del
+    --hwdec-pre
+    --hwdec-set
+    --hwdec-toggle
+    --hwdec-remove
+ --list-protocols                 Print [not in config files]
+ --loop                           alias for loop-file
+ --loop-file                      Choices: no inf yes (or an integer) (0 to 10000) (default: no)
+ --override-display-fps           alias [deprecated] for display-fps-override
+ --profile                        String list (default: )
+    --profile-add
+    --profile-append
+    --profile-clr
+    --profile-del
+    --profile-pre
+    --profile-set
+    --profile-toggle
+    --profile-remove
+ --screenshot-dir                 String (default: ) [file]
+ --screenshot-format              Choices: jpg jpeg png webp jxl avif (default: jpg)
+ --start                          Relative time or percent position (default: none)
+ --sub-file                       alias for --sub-files-append (CLI/config files only)
+ --sub-file-paths                 String list (default: ) [file]
+    --sub-file-paths-add
+    --sub-file-paths-append
+    --sub-file-paths-clr
+    --sub-file-paths-del
+    --sub-file-paths-pre
+    --sub-file-paths-set
+    --sub-file-paths-toggle
+    --sub-file-paths-remove
+ --sub-files                      String list (default: ) [file]
+    --sub-files-add
+    --sub-files-append
+    --sub-files-clr
+    --sub-files-del
+    --sub-files-pre
+    --sub-files-set
+    --sub-files-toggle
+    --sub-files-remove
+ --vf                             Object settings list (default: )
+    --vf-add
+    --vf-append
+    --vf-clr
+    --vf-help
+    --vf-pre
+    --vf-set
+    --vf-toggle
+    --vf-remove
+ --vo                             Object settings list (default: )
+    --vo-add
+    --vo-append
+    --vo-clr
+    --vo-help
+    --vo-pre
+    --vo-set
+    --vo-toggle
+    --vo-remove
+ --volume                         Float (-1 to 1000) (default: 100)
+ --watch-later-dir                String (default: ) [file]
+ --watch-later-directory          alias for watch-later-dir
+ --{                              Flag [not in config files]
+ --}                              Flag [not in config files]
+
+Total: 1174 options
+OUT
+    ;;
+"--vo=help")
+    cat <<'OUT'
+Available video outputs:
+  gpu-next         Video output based on libplacebo
+  gpu              Shader-based GPU Renderer
+  libmpv           render API for libmpv
+  null             Null video output
+  image            Write video frames to image files
+  tct              true-color terminals
+  kitty            Kitty terminal graphics protocol
+OUT
+    ;;
+"--vf=help")
+    cat <<'OUT'
+Available video filters:
+  format           force output format
+  lavfi            libavfilter bridge
+  sub              Render subtitles
+  gpu              vo_gpu as filter
+
+Available libavfilter filters:
+  format           Convert the input video to one of the specified pixel formats.
+  fps              Force constant framerate.
+  scale            Scale the input video size and/or convert the image format.
+
+If libavfilter filters clash with builtin mpv filters,
+prefix them with lavfi- to select the libavfilter one.
+
+Get help on individual entries via: --vf=entry=help
+OUT
+    ;;
+"--hwdec=help")
+    cat <<'OUT'
+Valid values (with alternative full names):
+  vaapi (h264-vaapi)
+  vaapi (hevc-vaapi)
+  vaapi-copy (h264-vaapi-copy)
+  vaapi-copy (hevc-vaapi-copy)
+  auto (yes '')
+  no
+  auto-safe
+  auto-copy
+  auto-copy-safe
+OUT
+    ;;
+"--profile=help")
+    cat <<'OUT'
+Available profiles:
+	box	
+	sub-box	
+	osd-box	
+	sw-fast	
+	low-latency	
+	gpu-hq	
+	high-quality	
+	fast	
+	encoding	
+	libmpv	
+	builtin-pseudo-gui	
+	pseudo-gui	
+	default	
+OUT
+    ;;
+"--audio-device=help")
+    cat <<'OUT'
+List of detected audio devices:
+  'auto' (Autoselect device)
+  'pipewire' (Default (pipewire))
+  'pipewire/alsa_output.pci-0000_00_1f.3.analog-stereo' (Built-in Audio Analog Stereo)
+  'alsa' (Default (alsa))
+  'alsa/default:CARD=PCH' (HDA Intel PCH, ALC3246 Analog/Default Audio Device)
+OUT
+    ;;
+*)
+    exit 1
+    ;;
+esac

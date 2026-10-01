@@ -134,3 +134,42 @@ xls
 xlsx 
 --- soffice --convert-to pdf:
 --- soffice --infilter=
+=== okular
+--- okular --p
+--page=	the page to show
+--platform=	the QPA plugin (NAME[:OPTIONS])
+--platformpluginpath=	path to the platform plugins
+--platformtheme=	platform theme
+--plugin=	additional plugin to load
+--presentation 	start in presentation mode
+--print 	start with the print dialog
+--print-and-exit 	start with the print dialog and quit after printing
+--- okular -p 
+--- okular --platform 
+eglfs 
+linuxfb 
+minimal 
+offscreen 
+vkkhrdisplay 
+vnc 
+wayland 
+wayland-egl 
+xcb 
+--- okular --page 3 r
+report.odt 
+--- okular --qwindowicon 
+bin/
+gui_documents.sh 
+lo/
+nobin/
+out/
+report.odt 
+sheet.ods 
+=== xdg-open
+--- xdg-open -
+--help 	show the help
+--manual 	show the manual
+--version 	show the version
+--- xdg-open r
+report.odt 
+--- xdg-open report.odt 

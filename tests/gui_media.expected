@@ -1,0 +1,286 @@
+load 0
+=== gimp
+--- gimp --s
+--session=	use an alternate sessionrc file (sessionrc.NAME)
+--show-playground 	show a preferences page with experimental features
+--stack-trace-mode=	debug in case of a crash
+--system-gimprc=	use an alternate system gimprc file
+--- gimp -
+--batch-interpreter=	the procedure to run batch commands with
+--debug-handlers 	enable non-fatal debugging signal handlers
+--display=	the X display to use
+--dump-gimprc 	print a gimprc file with the default settings
+--g-fatal-warnings 	make all warnings fatal
+--gegl-cache-size=	how much memory to use for caching imagery
+--gegl-chunk-size=	the number of pixels to compute at once
+--gegl-disable-opencl 	disable OpenCL
+--gegl-quality=	the quality of rendering (0.0 fast to 1.0 reference)
+--gegl-swap-compression=	compression of the data in the swap
+--gegl-swap=	where GEGL stores its swap
+--gegl-threads=	the number of processing threads
+--gegl-tile-size=	default size of tiles in GeglBuffers
+--help-all 	show all the help
+--help-gegl 	show GEGL's options
+--help-gtk 	show GTK's options
+--license 	show the license
+--no-cpu-accel 	don't use special CPU acceleration functions
+--no-shm 	don't use shared memory between GIMP and plug-ins
+--pdb-compat-mode=	PDB compatibility mode
+--quit 	quit after performing the requested actions
+--session=	use an alternate sessionrc file (sessionrc.NAME)
+--show-playground 	show a preferences page with experimental features
+--stack-trace-mode=	debug in case of a crash
+--system-gimprc=	use an alternate system gimprc file
+--verbose 	be more verbose
+-a 	open images as new
+-b 	batch command to run (- for standard input)
+-c 	send messages to the console instead of a dialog
+-d 	don't load brushes, gradients, patterns, ...
+-f 	don't load any fonts
+-g 	use an alternate user gimprc file
+-h 	show the help
+-i 	run without a user interface
+-n 	start a new GIMP
+-s 	don't show a splash screen
+-v 	show the version
+--- gimp --session 
+batch 
+photo 
+--- gimp --session=b
+--session=batch 
+--- gimp --batch-interpreter 
+plug-in-script-fu-eval 
+python-fu-eval 
+--- gimp --stack-trace-mode=
+--stack-trace-mode=always 
+--stack-trace-mode=never 
+--stack-trace-mode=query 
+--- gimp -i -b - p
+photo.jpg 
+--- gimp --gegl-swap-compression 
+balanced 
+best 
+fast 
+none 
+=== inkscape
+--- inkscape --export-
+--export-area-drawing 	export the whole drawing (ignoring the page size)
+--export-area-page 	export the page
+--export-area-snap 	snap the bitmap export area outwards to whole pixels
+--export-area=	the area to export, in SVG user units
+--export-background-opacity=	background opacity of bitmaps (0.0 to 1.0, or 1 to 255)
+--export-background=	background color of bitmaps (an SVG color)
+--export-dpi=	resolution of bitmaps and rasterized filters (96)
+--export-extension=	the extension to export with
+--export-filename=	the output file (- for standard output)
+--export-height=	bitmap height in pixels (overrides --export-dpi)
+--export-id-only 	hide all objects but those of --export-id
+--export-id=	the objects to export
+--export-ignore-filters 	render objects without filters instead of rasterizing (PS/EPS/PDF)
+--export-latex 	export text separately to a LaTeX file (PS/EPS/PDF)
+--export-margin=	margin around the export area (page units for SVG, mm for PS/PDF)
+--export-overwrite 	overwrite the input file
+--export-page=	the pages to export (all|n[,a-b])
+--export-pdf-version=	PDF version (1.5)
+--export-plain-svg 	remove Inkscape's own SVG attributes and properties
+--export-png-antialias=	PNG antialias level (0 to 3, 2)
+--export-png-color-mode=	bit depth and color type of bitmaps
+--export-png-compression=	PNG compression level (0 to 9, 6)
+--export-png-use-dithering=	force dithering or disable it
+--export-ps-level=	PostScript level (3)
+--export-text-to-path 	convert text to paths (PS/EPS/PDF/SVG)
+--export-type=	the file types to export
+--export-use-hints 	use the stored file name and DPI hints of the --export-id object
+--export-width=	bitmap width in pixels (overrides --export-dpi)
+--- inkscape -h 100 -
+--action-list 	list the actions
+--actions-file=	read the actions from a file
+--actions=	the actions to run
+--app-id-tag=	a unique instance, with the application ID org.inkscape.Inkscape.TAG
+--batch-process 	close the GUI after running the actions
+--convert-dpi-method=	how to convert the dpi of a pre-0.92 document
+--debug-info 	print debugging information
+--display=	the X display to use
+--export-area-snap 	snap the bitmap export area outwards to whole pixels
+--export-extension=	the extension to export with
+--export-ignore-filters 	render objects without filters instead of rasterizing (PS/EPS/PDF)
+--export-latex 	export text separately to a LaTeX file (PS/EPS/PDF)
+--export-margin=	margin around the export area (page units for SVG, mm for PS/PDF)
+--export-overwrite 	overwrite the input file
+--export-page=	the pages to export (all|n[,a-b])
+--export-pdf-version=	PDF version (1.5)
+--export-png-antialias=	PNG antialias level (0 to 3, 2)
+--export-png-color-mode=	bit depth and color type of bitmaps
+--export-png-compression=	PNG compression level (0 to 9, 6)
+--export-png-use-dithering=	force dithering or disable it
+--export-ps-level=	PostScript level (3)
+--export-type=	the file types to export
+--help-all 	show all the help
+--help-gapplication 	show GApplication's options
+--help-gtk 	show GTK's options
+--list-input-types 	list the extensions of the files it can open
+--no-convert-text-baseline-spacing 	don't fix the text baseline spacing of a pre-0.92 document
+--pdf-font-strategy=	how the internal PDF importer handles fonts
+--pdf-poppler 	import PDF with poppler
+--select=	select objects
+--shell 	start an interactive shell
+--system-data-directory 	print the system data directory
+--user-data-directory 	print the user data directory
+--vacuum-defs 	remove unused definitions from <defs>
+-C 	export the page
+-D 	export the whole drawing (ignoring the page size)
+-H 	height of the drawing or of the --query-id object
+-I 	the objects to query
+-S 	print the bounding boxes of all objects
+-T 	convert text to paths (PS/EPS/PDF/SVG)
+-V 	print the version
+-W 	width of the drawing or of the --query-id object
+-X 	X coordinate of the drawing or of the --query-id object
+-Y 	Y coordinate of the drawing or of the --query-id object
+-\? 	show the help
+-a 	the area to export, in SVG user units
+-b 	background color of bitmaps (an SVG color)
+-d 	resolution of bitmaps and rasterized filters (96)
+-g 	with the graphical interface (some actions need it)
+-h 	bitmap height in pixels (overrides --export-dpi)
+-i 	the objects to export
+-j 	hide all objects but those of --export-id
+-l 	remove Inkscape's own SVG attributes and properties
+-n 	the pages to import from a multi-page document (PDF)
+-o 	the output file (- for standard output)
+-p 	read the input file from standard input
+-q 	use the active window from the command line
+-t 	use the stored file name and DPI hints of the --export-id object
+-w 	bitmap width in pixels (overrides --export-dpi)
+-y 	background opacity of bitmaps (0.0 to 1.0, or 1 to 255)
+--- inkscape --export-type=
+--export-type=emf 
+--export-type=eps 
+--export-type=pdf 
+--export-type=png 
+--export-type=ps 
+--export-type=svg 
+--export-type=wmf 
+--export-type=xaml 
+--- inkscape --export-type=png,p
+--export-type=png,pdf 
+--export-type=png,png 
+--export-type=png,ps 
+--- inkscape --export-type pdf --export-filename 
+drawing.png 
+figure.svg 
+gui_media.sh 
+out/
+photo.jpg 
+--- inkscape --export-filename=out/ 
+drawing.png 
+figure.svg 
+gui_media.sh 
+out/
+photo.jpg 
+--- inkscape figure.svg --export-id=
+--export-id=arrow\&1 	path
+--export-id=layer1 	g: Layer 1
+--export-id=panel-a 	rect
+--export-id=svg1 	svg
+--- inkscape figure.svg --export-id="layer1;p
+--export-id="layer1;panel-a" 	rect
+--- inkscape figure.svg --query-id panel-a,a
+panel-a,arrow\&1 	path
+--- inkscape --query-id=
+--- inkscape figure.svg --select 
+arrow\&1 	path
+layer1 	g: Layer 1
+panel-a 	rect
+svg1 	svg
+--- inkscape --actions=
+--actions=clone-unlink-recursively 	Unlink all clones in the selection, even if they are in groups.
+--actions=com.kaioa.lorem-ipsum 	Lorem ipsum
+--actions=export-do 	Do export
+--actions=export-filename 	Set export file name
+--actions=export-id 	Export selected ID(s)
+--actions=export-type 	Set export file type
+--actions=object-to-path 	Convert shapes to paths
+--actions=select-by-id 	Select by ID
+--- inkscape --actions="export-type:png;export-
+--actions="export-type:png;export-do" 	Do export
+--actions="export-type:png;export-filename" 	Set export file name
+--actions="export-type:png;export-id" 	Export selected ID(s)
+--actions="export-type:png;export-type" 	Set export file type
+--- inkscape --actions=export-type:p
+--- inkscape --convert-dpi-method 
+none 
+scale-document 
+scale-viewbox 
+--- inkscape --export-png-color-mode=RGB
+--export-png-color-mode=RGBA_16 
+--export-png-color-mode=RGBA_8 
+--export-png-color-mode=RGB_16 
+--export-png-color-mode=RGB_8 
+=== obs
+--- obs --
+--allow-opengl 	allow the OpenGL renderer (Windows)
+--always-on-top 	start in 'always on top' mode
+--collection=	use this scene collection
+--disable-missing-files-check 	disable the missing files dialog at startup
+--disable-updater 	disable the built-in updater (Windows and macOS)
+--help 	show the help
+--minimize-to-tray 	minimize to the system tray
+--multi 	don't warn when launching several instances
+--only-bundled-plugins 	load only the bundled plugins
+--portable 	use portable mode
+--profile=	use this profile
+--safe-mode 	run without third-party plugins, scripting and WebSockets
+--scene=	start with this scene
+--startrecording 	start recording
+--startreplaybuffer 	start the replay buffer
+--startstreaming 	start streaming
+--startvirtualcam 	start the virtual camera
+--studio-mode 	enable studio mode
+--unfiltered_log 	make the log unfiltered
+--verbose 	make the log more verbose
+--version 	show the version
+--- obs --profile 
+Conference\ talks 
+Untitled 
+--- obs --collection 
+Lectures 
+Untitled 
+--- obs --scene 
+Camera 
+Slides 
+--- obs --collection Untitled --scene 
+Be\ right\ back 
+Main 
+--- obs --collection=Untitled --scene=
+--scene=Be\ right\ back 
+--scene=Main 
+--- obs --startrecording 
+=== audacity
+--- audacity -
+--long-version 	show detailed version information (4)
+--plugin-registration-self-test 	check that plugin registration works (4)
+--register-audio-plugin-out=	the file to write the plugin check's result to (4)
+--register-audio-plugin=	check an audio plugin and register it (4)
+--session-type=	start with this session type (4)
+-D 	the monitor's resolution (4)
+-F 	use factory settings (4)
+-\? 	show the help
+-b 	the largest disk block size (3)
+-d 	debug mode (4)
+-h 	show the help
+-j 	replay a journal file (3)
+-t 	run self diagnostics (3)
+-u 	open an audacity:// URL
+-v 	show the version
+--- audacity --session-type 
+continue-last 
+start-empty 
+start-with-file 
+start-with-new 
+--- audacity -d p
+photo.jpg 
+=== without configuration
+--- gimp --session 
+--- obs --profile 
+--- obs --scene 

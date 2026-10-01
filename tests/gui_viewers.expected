@@ -1,0 +1,26 @@
+load 0
+--- cytoscape -
+-N 	load a network file (any format)
+-P 	load a properties file, or a property (NAME=VALUE)
+-R 	start a REST service
+-S 	run the commands of a script file
+-V 	load a VizMap properties file
+-h 	show the help
+-s 	load a session (.cys) file
+-v 	show the version
+--- Cytoscape --s
+--script=	run the commands of a script file
+--session=	load a session (.cys) file
+--- cytoscape.sh -s 
+sessions/
+--- cytoscape --session sessions/
+sessions/ppi.cys 
+--- cytoscape -N 
+gui_viewers.sh 
+net.sif 
+old.cys.bak 
+script.txt 
+sessions/
+style.xml 
+--- cytoscape -R 
+--- cytoscape -S script.txt 

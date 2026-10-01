@@ -1,0 +1,76 @@
+load 0
+=== options
+--- kate -
+--author 	show the authors
+--desktopfile=	the base name of the program's desktop entry
+--display=	the X display, instead of $DISPLAY
+--dograb 	grab the mouse, even in a debugger
+--geometry=	geometry of the main window (100x100+50+50)
+--help-all 	show the help, with Qt's options
+--icon=	default window icon
+--license 	show the license
+--name=	instance name (ICCCM 4.1.2.5)
+--nograb 	never grab the mouse
+--platform=	the QPA plugin (NAME[:OPTIONS])
+--platformpluginpath=	path to the platform plugins
+--platformtheme=	platform theme
+--plugin=	additional plugin to load
+--qmljsdebugger=	activate the QML/JS debugger (port:1234[,block])
+--qwindowgeometry=	geometry of the main window (100x100+50+50)
+--qwindowicon=	default window icon
+--qwindowtitle=	title of the first window
+--reverse 	lay out right to left
+--session=	restore the program from an earlier session
+--startanon 	start with a new anonymous session (implies -n)
+--tempfile 	delete the files after use
+--title=	title of the first window
+--visual=	ID of the X11 visual to use
+-b 	wait for the running kate to close the files
+-c 	go to this column
+-e 	the encoding of the files to open
+-h 	show the help
+-i 	read the contents of standard input
+-l 	go to this line
+-n 	start a new kate, even if one is running
+-p 	reuse only the kate with this pid
+-s 	start with a session
+-v 	show the version
+--- kate --s
+--session=	restore the program from an earlier session
+--start=	start with a session
+--startanon 	start with a new anonymous session (implies -n)
+--stdin 	read the contents of standard input
+--- kate -n
+-n 	start a new kate, even if one is running
+=== values
+--- kate -s 
+my\ notes 
+work 
+--- kate --start w
+work 
+--- kate -e 
+Big5 
+EUC-JP 
+EUC-KR 
+GB18030 
+ISO-8859-1 
+ISO-8859-15 
+KOI8-R 
+Shift_JIS 
+UTF-16 
+UTF-16BE 
+UTF-16LE 
+UTF-32 
+UTF-8 
+windows-1251 
+windows-1252 
+--- kate --encoding=ISO
+--encoding=ISO-8859-1 
+--encoding=ISO-8859-15 
+--- kate -l 10 -c 3 n
+notes.txt 
+--- kate --platform w
+wayland 
+wayland-egl 
+--- kate -s 
+other 

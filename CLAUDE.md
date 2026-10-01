@@ -36,11 +36,15 @@ languages and themes), `python.rhai` (twine), `tools.rhai` (fzf, bat and batcat)
 like mmseqs) and the generated `pytest.rhai`, `mypy.rhai`, `poetry.rhai`. `complete/system`: `kinds.rhai` (borg
 locations and compression specs, FUSE mount points from `/proc/mounts`), `tools.rhai` (fusermount, fusermount3) and the
 generated `borg.rhai`. `complete/gui`: `kinds.rhai` (LibreOffice's filters and file types, read from the `.xcd` files of
-its registry, found by following the `soffice` link in `PATH`; CUPS's printers) and `documents.rhai` (libreoffice,
-soffice); the rest of its commands are to do. svn, netlify and adb (`dev`) are still to do, and the rest of `PLAN.md`
-("Order", "Next steps"). Every module has `fn spec(cmd)` (the generated ones too, ignoring `cmd`), and `extension.rhai`
-maps each command to its module (`module_of`), so a new module needs an entry there; nextflow, whose spec depends on the
-line, has a completer of its own.
+its registry, found by following the `soffice` link in `PATH`; CUPS's printers; kate's sessions; GIMP's session files;
+the object IDs of the SVG files on the line and the actions of `inkscape --action-list`; OBS's profiles, scene
+collections and scenes), `qt.rhai` (the options of every KDE program, from QCommandLineParser and Qt), `documents.rhai`
+(libreoffice, soffice, okular, xdg-open), `editors.rhai` (kate), `media.rhai` (gimp, inkscape, obs, audacity),
+`viewers.rhai` (cytoscape, Cytoscape, cytoscape.sh) and `mpv.rhai` (its options read from the installed mpv's
+`--list-options` when Tab is pressed, with a completer of its own, as nextflow has); the rest of its commands are to do.
+svn, netlify and adb (`dev`) are still to do, and the rest of `PLAN.md` ("Order", "Next steps"). Every module has `fn
+spec(cmd)` (the generated ones too, ignoring `cmd`), and `extension.rhai` maps each command to its module (`module_of`),
+so a new module needs an entry there; nextflow, whose spec depends on the line, and mpv have completers of their own.
 
 `complete/extra-lib` is a library plugin (`library = true` in its `plugin.toml`, which is its only entry point; `plugin
 list-available` leaves it out) of helpers the others share: `files.rhai` (`with_suffix(cur, suffixes)`, and with a third
@@ -50,8 +54,8 @@ command PATH (`PROG SUB ...`), `help::sub(PATH, SUB, how)` is the usual body of 
 a subcommand), and `help::commands(text)` takes a list of commands under any heading, with any gap after the name; `how`
 gives the help flag, `stderr` (`"merge"` for mmseqs), the `sub_spec` module and clap's `help` command. They are imported
 as `import "@extra-complete/extra-lib/files" as lib_files;`, `lib_text` and `help`, and a plugin that does so lists
-`extra-lib = "*"` in its `[dependencies]` (now `bio`, `science` and `dev`). A helper that a second plugin needs goes
-there, not into a copy; `std-candidates.md` notes which may later move to std.
+`extra-lib = "*"` in its `[dependencies]` (now `bio`, `science`, `dev` and `gui`). A helper that a second plugin needs
+goes there, not into a copy; `std-candidates.md` notes which may later move to std.
 
 Option tables are written from the tools' real `--help`, and `completion-todo.md` records the version each ticked tool
 was checked against. To check or add one, use the scripts (all run the tool through `pixi exec`, a temporary

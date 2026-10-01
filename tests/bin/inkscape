@@ -1,0 +1,19 @@
+#!/bin/sh
+# Stand-in for inkscape in the tests: what Inkscape 1.2.2 prints for --action-list, cut short.
+case "$*" in
+"--action-list")
+    cat <<'OUT'
+clone-unlink-recursively:  Unlink all clones in the selection, even if they are in groups.
+com.kaioa.lorem-ipsum:  Lorem ipsum
+export-do           :  Do export
+export-filename     :  Set export file name
+export-id           :  Export selected ID(s)
+export-type         :  Set export file type
+object-to-path      :  Convert shapes to paths
+select-by-id        :  Select by ID
+OUT
+    ;;
+*)
+    exit 1
+    ;;
+esac
