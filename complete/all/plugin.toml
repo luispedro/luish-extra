@@ -1,0 +1,8 @@
+description = "All the extra-complete plugins: bio, science, gui, dev and system"
+
+[dependencies]
+bio = "*"
+science = "*"
+gui = "*"
+dev = "*"
+system = "*"

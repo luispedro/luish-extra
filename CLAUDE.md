@@ -141,7 +141,11 @@ sphinx-build -W docs docs/_build
   string. Find them with `sh::which(name)` and list them with `sh::commands(prefix)`, so that PATH is searched
   as luish searches it; don't walk `PATH` in Rhai.
 - Plugin naming is `SOURCE.NAME`, one level only. These plugins form a collection `extra-complete` (`subdir =
-  "complete"`) enabled as `extra-complete.bio`, and so on. Other kinds of plugin would be further collections.
+  "complete"`) enabled as `extra-complete.bio`, and so on, or all at once as `extra-complete.all`: `complete/all` is
+  only a `plugin.toml` that depends on the others (a new user-facing plugin goes in its `[dependencies]`, and in the
+  `all_load` test). `complete/` itself must not get a `plugin.toml` or any other entry point: luish would then take
+  it as one plugin, not a collection, and both `extra-complete.bio` and the plain-name dependencies (`extra-lib =
+  "*"`) would stop resolving. Other kinds of plugin would be further collections.
 - Completion is by **command name, not Bioconda package name** (`star` → `STAR`, `subread` → `featureCounts`,
   `entrez-direct` → `esearch`/`efetch`). Check the real executables.
 - Commands that std's `completion` plugin already covers (`fd`, `rg`, `jq`, `uv`, `pixi`, `conda`, `docker`, …) are

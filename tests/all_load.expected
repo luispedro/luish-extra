@@ -1,0 +1,24 @@
+load 0
+completion
+extra-lib
+bio
+science
+gui
+dev
+system
+all
+--- samtools so
+sort 	sort an alignment file
+--- pdflatex -inter
+-interaction=	set interaction mode
+--- evince --pres
+--presentation 	start in presentation mode
+--- twine up
+upload 	upload distribution files to a package index
+--- fusermount -
+-V 	print version
+-h 	print help
+-o 	mount options (comma-separated)
+-q 	quiet
+-u 	unmount
+-z 	lazy unmount

@@ -57,15 +57,18 @@ Or, by hand, in `config.toml` (then run `plugin sync`):
 extra-complete = { gh = "luispedro/luish-extra", subdir = "complete" }
 
 [plugins.enabled]
-extra-complete.bio = "*"
-extra-complete.science = "*"
-extra-complete.gui = "*"
-extra-complete.dev = "*"
-extra-complete.system = "*"
+extra-complete.all = "*"
 ```
 
-Leave out the lines of the plugins you don't want. A plugin costs little until it is used: each module is compiled the
-first time Tab is pressed for one of its commands.
+`all` loads `bio`, `science`, `gui`, `dev` and `system`. To have only some of them, enable them one by one instead:
+
+```toml
+[plugins.enabled]
+extra-complete.bio = "*"
+extra-complete.science = "*"
+```
+
+A plugin costs little until it is used: each module is compiled the first time Tab is pressed for one of its commands.
 
 ## Programs that complete themselves
 
