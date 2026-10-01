@@ -1,8 +1,8 @@
 # luish-extra
 
 Plugins for [luish](https://github.com/luispedro/luish) that don't belong in its standard library: completion for
-bioinformatics tools (`bio`), scientific computing (`science`), development (`dev`) and system administration
-(`system`), and later desktop programs. The commands are listed in [`docs/completion.md`](docs/completion.md), and
+bioinformatics tools (`bio`), scientific computing (`science`), desktop programs (`gui`), development (`dev`) and
+system administration (`system`). The commands are listed in [`docs/completion.md`](docs/completion.md), and
 what is done so far in [`completion-todo.md`](completion-todo.md).
 
 Requires luish at rev `e76d3d2da43db37fd665dbad85ba6b17f9fdebaf` or later, and its `std.completion` plugin (the
@@ -19,6 +19,7 @@ extra-complete = { gh = "luispedro/luish-extra", subdir = "complete" }
 [plugins.enabled]
 extra-complete.bio = "*"
 extra-complete.science = "*"
+extra-complete.gui = "*"
 extra-complete.dev = "*"
 extra-complete.system = "*"
 ```
@@ -49,6 +50,14 @@ Done: `jug`, `snakemake`, `nextflow`, `nf-core`, `nf-test`, `cwltool`; `quarto`,
 `duckdb`; `parallel`, `aria2c`, `pigz`, `apptainer` (Cobra; `singularity` is registered the same way, but was not run),
 `aws`.
 
+## `gui`
+
+Desktop programs. It reads the installed LibreOffice's filter registry (found from the `soffice` in `PATH`): the
+formats of `--convert-to` (`pdf`, `docx`, ...) and, after `EXT:`, the filters that write them (`pdf:writer_pdf_Export`),
+and the input filters of `--infilter=`; and CUPS's printers (`lpstat -e`) for `--pt` and `--printer-name`.
+
+Done: `libreoffice` and `soffice`.
+
 ## `dev`
 
 Python tooling and command-line utilities, beyond what std's `completion` plugin covers. It reads the project: the tests
@@ -76,5 +85,6 @@ UPDATE=1 tests/run.sh bio_hts   # write the .expected file (and read it before c
 They need luish (`LUISH`, default the one in `PATH`) and a checkout of its `luish-std-plugins` (`STD_PLUGINS`,
 default `../luish/luish-std-plugins`). Programs that completion runs (`samtools view -H`, `tabix -l`, `bcftools query
 -l`, `mmseqs -h`, `pandoc --list-output-formats`, `xsv -h`, `qsv --list`, `mlr help list-separator-aliases`, `ruff -h`,
-`bat --list-languages`) are stood in for by the scripts in `tests/bin`. A test that lists a directory of `PATH`
-(`jupyter-*`) or the commands in it sets `PATH` itself.
+`bat --list-languages`, `lpstat -e`) are stood in for by the scripts in `tests/bin`. A test that lists a directory of
+`PATH` (`jupyter-*`) or the commands in it sets `PATH` itself, as does one that finds a program's files from it
+(LibreOffice's registry).

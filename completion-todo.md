@@ -859,8 +859,9 @@ stand-ins in `tests/bin` were cut from.
 - [ ] `chromium`
 - [ ] `google-chrome`
 - [ ] `thunderbird`
-- [ ] `libreoffice`
-- [ ] `soffice`
+- [x] `libreoffice`: LibreOffice 24.2.7.2 (Ubuntu's; the formats of `--convert-to` are read from the installation's
+  filter registry)
+- [x] `soffice`: LibreOffice 24.2.7.2 (the same program as `libreoffice`)
 - [ ] `evince`
 - [ ] `okular`
 - [ ] `zathura`

@@ -1,0 +1,136 @@
+load 0
+=== options
+--- soffice --conv
+--convert-images-to 	filter format for all images written (--convert-to)
+--convert-to 	convert files (implies --headless)
+--- soffice --he
+--headless 	start without a GUI
+--help 	show this help and quit
+--helpbase 	open the help on Base
+--helpbasic 	open the help on Basic scripting
+--helpcalc 	open the help on Calc
+--helpdraw 	open the help on Draw
+--helpimpress 	open the help on Impress
+--helpmath 	open the help on Math
+--helpwriter 	open the help on Writer
+--- soffice --quick
+--quickstart	activate (deactivate) the quickstarter service
+--- soffice --inf
+--infilter=	force an input filter type
+--- soffice -
+--accept=	create a UNO acceptor
+--base 	create a new database
+--calc 	create an empty Calc document
+--cat 	dump the text content of the files (implies --headless)
+--convert-images-to 	filter format for all images written (--convert-to)
+--convert-to 	convert files (implies --headless)
+--display 	set the DISPLAY environment variable
+--draw 	create an empty Draw document
+--eventtesting 	exit after loading documents
+--global 	create an empty Writer master document
+--headless 	start without a GUI
+--helpbase 	open the help on Base
+--helpbasic 	open the help on Basic scripting
+--helpcalc 	open the help on Calc
+--helpdraw 	open the help on Draw
+--helpimpress 	open the help on Impress
+--helpmath 	open the help on Math
+--helpwriter 	open the help on Writer
+--impress 	create an empty Impress document
+--infilter=	force an input filter type
+--invisible 	start in invisible mode
+--language=	the UI's language (an IETF language tag)
+--math 	create an empty Math document
+--minimized 	start minimized
+--nodefault 	start without displaying anything except the splash screen
+--nolockcheck 	disable the check for remote instances using the installation
+--nologo 	disable the splash screen
+--norestore 	disable restart and file recovery after a crash
+--outdir 	output directory (--convert-to, --print-to-file)
+--pidfile=	store the pid of soffice.bin in FILE
+--print-to-file 	print files to files
+--printer-name 	printer (--print-to-file)
+--pt 	print the following files to PRINTER
+--quickstart	activate (deactivate) the quickstarter service
+--safe-mode 	start with a fresh user profile, temporarily
+--script-cat 	dump the text content of the files' scripts (implies --headless)
+--show 	open and start the following presentations
+--terminate_after_init 	exit after initialization (no documents loaded)
+--unaccept=	close a UNO acceptor (all: all of them)
+--version 	show the version and quit
+--view 	open the following files read-only
+--web 	create an empty HTML document
+--writer 	create an empty Writer document
+-\? 	show this help and quit
+-h 	show this help and quit
+-n 	treat the following files as templates for new documents
+-o 	open the following files for editing
+-p 	print the following files to the default printer
+=== values
+--- soffice --convert-to 
+csv 	Text (encoded) & more
+doc 	Word 97–2003
+pdf 	PDF - Portable Document Format
+txt 	Text (encoded) & more
+wps 	Word 97–2003
+--- soffice --convert-to p
+pdf 	PDF - Portable Document Format
+--- soffice --convert-to txt:
+txt:Text\ \(encoded\) 	
+--- libreoffice --convert-to doc:MS
+doc:MS\ Word\ 97 	Word 97–2003
+--- soffice --convert-to txt:Text (encoded):
+--- soffice --convert-to pdf --outdir 
+bin/
+lo/
+nobin/
+out/
+--- soffice --convert-to pdf --outdir out 
+bin/
+gui_documents.sh 
+lo/
+nobin/
+out/
+report.odt 
+sheet.ods 
+--- soffice --infilter=
+--infilter=MS\ Word\ 97 	Word 97–2003
+--infilter=Text\ \(encoded\) 	
+--infilter=UOF\ text 	
+--- soffice --pt 
+Office_Laser 
+Photo_Inkjet 
+--- soffice --print-to-file --printer-name P
+Photo_Inkjet 
+--- soffice --accept=
+--accept=pipe,name=	a named pipe (then ;urp)
+--accept=socket,host=localhost,port=	a TCP socket (then ;urp)
+--- soffice --unaccept=
+--unaccept=all 
+--- soffice -env:
+-env:UserInstallation=	the user profile, as a URL (file:///...)
+--- soffice -env:UserInstallation=file:///tmp/x --headless r
+report.odt 
+=== without a registry
+--- soffice --convert-to 
+csv 
+doc 
+docx 
+epub 
+html 
+jpg 
+odg 
+odp 
+ods 
+odt 
+pdf 
+png 
+ppt 
+pptx 
+rtf 
+svg 
+txt 
+xls 
+xlsx 
+--- soffice --convert-to pdf:
+--- soffice --infilter=

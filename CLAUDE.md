@@ -9,7 +9,7 @@ completion modules that don't belong in luish's standard library (`std`), in plu
 and `system`. Rhai (luish's scripting language) is the implementation language: `plugin.toml` + `extension.rhai` per
 plugin.
 
-`complete/bio`, `complete/science`, `complete/dev` and `complete/system` exist so far (`gui` doesn't yet).
+`complete/bio`, `complete/science`, `complete/gui`, `complete/dev` and `complete/system` exist so far.
 `complete/bio`: `extension.rhai` (registers the completers, one function per module), `kinds.rhai` (bio file kinds:
 FASTA, BAM, index prefixes of aligners, reference names and samples of VCFs, ...) and, by family of tools, `ours.rhai`
 (ngless, SemiBin2, macrel, argnorm), `hts.rhai` (samtools, bedtools, tabix, bgzip, htsfile), `bcftools.rhai`,
@@ -35,8 +35,10 @@ packages, scripts and sources from `pyproject.toml` and `poetry.lock`; `~/.pypir
 languages and themes), `python.rhai` (twine), `tools.rhai` (fzf, bat and batcat), `dynamic.rhai` (ruff, from its `-h`
 like mmseqs) and the generated `pytest.rhai`, `mypy.rhai`, `poetry.rhai`. `complete/system`: `kinds.rhai` (borg
 locations and compression specs, FUSE mount points from `/proc/mounts`), `tools.rhai` (fusermount, fusermount3) and
-the generated `borg.rhai`. svn, netlify and adb (`dev`) are still to do, and the rest of `PLAN.md` ("Order", "Next
-steps"). A new module needs a line in `extension.rhai`.
+the generated `borg.rhai`. `complete/gui`: `kinds.rhai` (LibreOffice's filters and file types, read from the `.xcd`
+files of its registry, found by following the `soffice` link in `PATH`; CUPS's printers) and `documents.rhai`
+(libreoffice, soffice); the rest of its commands are to do. svn, netlify and adb (`dev`) are still to do, and the rest
+of `PLAN.md` ("Order", "Next steps"). A new module needs a line in `extension.rhai`.
 
 Option tables are written from the tools' real `--help`, and `completion-todo.md` records the version each ticked tool
 was checked against. To check or add one, use the scripts (all run the tool through `pixi exec`, a temporary
@@ -121,8 +123,9 @@ sphinx-build -W docs docs/_build
   and `strict_eq: true`, else the engine completes `--name=`; `nextflow` and `latexmk` have `single_dash` only). The `sub_spec`
   of a spec is `"@extra-complete/science/MODULE:NAME"`, and the engine calls `MODULE::sub_spec(NAME, SUBCOMMAND)`
   (`NAME` is what is after the colon, not the command).
-- A test that depends on what is in `PATH` (the `jupyter-*` programs, the commands starting with a prefix) must set
-  `PATH` itself, after making its files (the `PATH` of `run.sh` is the machine's, after `tests/bin`).
+- A test that depends on what is in `PATH` (the `jupyter-*` programs, the commands starting with a prefix, the
+  LibreOffice whose registry is read) must set `PATH` itself, after making its files (the `PATH` of `run.sh` is the
+  machine's, after `tests/bin`).
 - In an option table (std's format) a word after the names that starts with `-` is taken as another option name, so a
   value called `-|LIST` or `-|+TYPE` makes the option a flag: write `LIST|-`. The table is inside a Rhai backtick
   string, so it can't contain a backtick or `${`.

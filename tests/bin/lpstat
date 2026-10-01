@@ -1,0 +1,7 @@
+#!/bin/sh
+# Stand-in for lpstat in the tests: `-e` lists two printers.
+if [ "$1" = -e ]; then
+    printf 'Office_Laser\nPhoto_Inkjet\n'
+    exit 0
+fi
+exit 1

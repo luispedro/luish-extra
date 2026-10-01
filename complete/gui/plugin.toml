@@ -1,0 +1,4 @@
+description = "Completion for desktop programs"
+
+[dependencies]
+std.completion = "*"
