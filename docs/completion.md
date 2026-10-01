@@ -110,18 +110,24 @@ the rest of the `ucsc-*` packages
 
 ### Metagenomics and microbial genomics
 
-`kraken2`, `bracken`, `krakenuniq`, `centrifuge`, `kaiju`, `metaphlan`, `humann`, `motus`, `checkm`, `checkm2`,
-`checkv`, `gunc`, `singlem`, `gtdbtk`, `metabat2`, `concoct`, `maxbin`, `das_tool`, `drep`, `coverm`, `vamb`, `genomad`,
-`emapper.py`, `mothur`, `qiime`, `picrust2`, `humann`, `krona`, `abricate`, `amrfinder`, `rgi`, `mlst`, `snippy`,
-`roary`, `panaroo`, `ppanggolin`, `gubbins`, `prokka`, `srst2`, `sistr`, `ectyper`, `seqsero2`, `kleborate`,
-`ariba`, `staramr`, `mykrobe`, `tb-profiler`, `bactopia`, `anvi-*` (anvio), `phispy`, `antismash`, `metawrap`,
-`phyloflash`, `graftm`, `dram`, `vibrant`, `virsorter`, `vcontact2`, `iphop`, `phabox`, `instrain`, `binsanity`,
-`comebin`, `metacoag`, `binette`, `kmcp`, `ganon`, `metacache`, `krakentools`, `kraken-biom`, `taxpasta`, `metaeuk`,
-`insilicoseq`, `unifrac`, `deblur`, `gneiss`, `emperor`, `lefse`, `maaslin2`, `thapbi-pict`, `harpy`, `resfinder`,
-`plasmidfinder`, `mob_suite`, `hamronization`, `defense-finder`, `macsyfinder`, `integron_finder`, `islandpath`,
-`bigscape`, `deepbgc`, `gecco`, `kaptive`, `pyani`, `parsnp`, `mashtree`, `poppunk`, `pyseer`, `scoary`, `pirate`,
-`chewbbaca`, `ska2`, `mentalist`, `ntm-profiler`, `nullarbor`, `dnaapler`, `pyrodigal`, `phanotate`, `minced`,
-`platon`, `plasmidid`
+`kraken2` (`kraken2-build`, `kraken2-inspect`, `k2`), `bracken` (`bracken-build`, `combine_bracken_outputs.py`),
+`krakenuniq` (`krakenuniq-build`, `krakenuniq-report`, `krakenuniq-download`), `centrifuge` (`centrifuge-build`,
+`centrifuge-inspect`, `centrifuge-kreport`), `kaiju` (`kaiju-multi`, `kaiju2table`, `kaiju2krona`,
+`kaiju-addTaxonNames`, `kaiju-mergeOutputs`, `kaiju-makedb`, `kaiju-mkbwt`, `kaiju-mkfmi`), `metaphlan`
+(`merge_metaphlan_tables.py`, `strainphlan`, `sample2markers.py`, `extract_markers.py`), `humann` (`humann_databases`,
+`humann_config`, `humann_join_tables`, `humann_renorm_table`, `humann_regroup_table`, `humann_split_stratified_table`,
+`humann_rename_table`, `humann_split_table`, `humann_reduce_table`, `humann_unpack_pathways`, `humann_barplot`),
+`motus`, `checkm`, `checkm2`, `checkv`, `gunc`, `singlem`, `gtdbtk`, `metabat2`, `concoct`, `maxbin`, `das_tool`,
+`drep`, `coverm`, `vamb`, `genomad`, `emapper.py`, `mothur`, `qiime`, `picrust2`, `humann`, `krona`, `abricate`,
+`amrfinder`, `rgi`, `mlst`, `snippy`, `roary`, `panaroo`, `ppanggolin`, `gubbins`, `prokka`, `srst2`, `sistr`,
+`ectyper`, `seqsero2`, `kleborate`, `ariba`, `staramr`, `mykrobe`, `tb-profiler`, `bactopia`, `anvi-*` (anvio),
+`phispy`, `antismash`, `metawrap`, `phyloflash`, `graftm`, `dram`, `vibrant`, `virsorter`, `vcontact2`, `iphop`,
+`phabox`, `instrain`, `binsanity`, `comebin`, `metacoag`, `binette`, `kmcp`, `ganon`, `metacache`, `krakentools`,
+`kraken-biom`, `taxpasta`, `metaeuk`, `insilicoseq`, `unifrac`, `deblur`, `gneiss`, `emperor`, `lefse`, `maaslin2`,
+`thapbi-pict`, `harpy`, `resfinder`, `plasmidfinder`, `mob_suite`, `hamronization`, `defense-finder`, `macsyfinder`,
+`integron_finder`, `islandpath`, `bigscape`, `deepbgc`, `gecco`, `kaptive`, `pyani`, `parsnp`, `mashtree`, `poppunk`,
+`pyseer`, `scoary`, `pirate`, `chewbbaca`, `ska2`, `mentalist`, `ntm-profiler`, `nullarbor`, `dnaapler`, `pyrodigal`,
+`phanotate`, `minced`, `platon`, `plasmidid`
 
 ### Data access
 

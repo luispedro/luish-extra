@@ -5,13 +5,15 @@
 For a program that builds its parser in a function (snakemake.cli:get_argument_parser), or that builds it and
 parses the command line in the same function (porechop.porechop:get_arguments): the parser is taken where
 `parse_args` is called. MODULE can also be the path of a `.py` file, for a program whose parser needs a few lines to
-get at (pytest_parser.py). If FUNCTION returns a tuple, the parser is its first element (mypy.main:define_options).
+get at (pytest_parser.py), or `bin/PROG`, a Python script among the environment's programs (bin/k2). A FUNCTION with
+a required parameter (metaphlan.metaphlan:read_params(args)) is given the command line, `[FUNCTION]`. If FUNCTION
+returns a tuple, the parser is its first element (mypy.main:define_options).
 Prints a list with, for each action, its option strings, metavar, nargs, choices, help and whether it is a flag.
 
 With `--tree`, for a program with subcommands (borg), prints {"actions": [...], "commands": [...]}, where each command
 has its name, aliases, help and the same map for its own actions and subcommands.
 """
-import argparse, importlib, importlib.util, json, sys
+import argparse, importlib, importlib.machinery, importlib.util, inspect, json, shutil, sys
 
 
 class Caught(Exception):
@@ -30,13 +32,18 @@ mod, fn = args[:2]
 sys.argv = [fn]
 argparse.ArgumentParser.parse_args = argparse.ArgumentParser.parse_known_args = catch
 try:
-    if mod.endswith(".py"):
-        spec = importlib.util.spec_from_file_location("parser_helper", mod)
+    if mod.endswith(".py") or mod.startswith("bin/"):
+        path = shutil.which(mod[4:]) if mod.startswith("bin/") else mod
+        # (a script without `.py` has no loader of its own)
+        spec = importlib.util.spec_from_loader("parser_helper", importlib.machinery.SourceFileLoader("parser_helper", path))
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
     else:
         module = importlib.import_module(mod)
-    parser = getattr(module, fn)()
+    f = getattr(module, fn)
+    required = [p for p in inspect.signature(f).parameters.values()
+                if p.default is p.empty and p.kind in (p.POSITIONAL_ONLY, p.POSITIONAL_OR_KEYWORD)]
+    parser = f(sys.argv) if required else f()
 except Caught as e:
     parser = e.args[0]
 if isinstance(parser, tuple):

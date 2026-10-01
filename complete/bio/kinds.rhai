@@ -293,6 +293,9 @@ fn kind(name, cur, words) {
         "kallisto_index" => lib_files::with_suffix(cur, [".idx", ".kidx"]),
         "blast_db" => blast_db(cur),
         "diamond_db" => lib_files::with_suffix(cur, [".dmnd"]),
+        "centrifuge_index" => prefixes(cur, [".1.cf"]),
+        "kaiju_db" => lib_files::with_suffix(cur, [".fmi"]),
+        "taxdump" => lib_files::with_suffix(cur, [".dmp"]),
         "sai" => lib_files::with_suffix(cur, [".sai"]),
         "msa" => lib_files::with_suffix(
             cur,

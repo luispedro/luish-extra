@@ -31,6 +31,15 @@ for m in [
     ["asm", ["spades.py", "metaspades.py", "megahit", "flye", "quast", "quast.py", "metaquast", "metaquast.py",
              "busco", "prodigal", "prokka", "bakta", "barrnap"]],
     ["meta", ["rgi"]],
+    ["profile", ["kraken2", "kraken2-build", "kraken2-inspect", "k2", "bracken", "bracken-build",
+                "combine_bracken_outputs.py", "krakenuniq", "krakenuniq-build", "krakenuniq-report",
+                "krakenuniq-download", "centrifuge", "centrifuge-build", "centrifuge-inspect", "centrifuge-kreport",
+                "kaiju", "kaiju-multi", "kaiju2table", "kaiju2krona", "kaiju-addTaxonNames", "kaiju-mergeOutputs",
+                "kaiju-makedb", "kaiju-mkbwt", "kaiju-mkfmi", "metaphlan", "merge_metaphlan_tables.py", "strainphlan",
+                "sample2markers.py", "extract_markers.py", "humann", "humann_databases", "humann_config",
+                "humann_join_tables", "humann_renorm_table", "humann_regroup_table", "humann_split_stratified_table",
+                "humann_rename_table", "humann_split_table", "humann_reduce_table", "humann_unpack_pathways",
+                "humann_barplot", "motus"]],
 ] {
     for cmd in m[1] {
         module_of[cmd] = m[0];

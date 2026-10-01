@@ -1,0 +1,456 @@
+load 0
+=== kraken2
+--- kraken2 --re
+--report-minimizer-data 	with --report, report minimizer and distinct minimizer counts too
+--report-zero-counts 	with --report, report counts for ALL taxa, even if counts are zero
+--report=	print a report with aggregate counts/clade to file
+--- kraken2 --db data/
+data/cfdb/
+data/k2db/
+--- kraken2 --paired data/
+data/cfdb/
+data/genomes.fna 
+data/k2db/
+data/reads_1.fq.gz 
+data/reads_2.fq.gz 
+--- kraken2-build --download-library 
+UniVec 
+UniVec_Core 
+archaea 
+bacteria 
+fungi 
+human 
+nr 
+nt 
+plant 
+plasmid 
+protozoa 
+viral 
+--- kraken2-build --add-to-library data/
+data/cfdb/
+data/genomes.fna 
+data/k2db/
+--- kraken2-inspect --
+--db=	name for Kraken 2 DB
+--help 	print this message
+--report-zero-counts 	report counts for ALL taxa, even if counts are zero
+--skip-counts 	only print database summary statistics
+--threads=	number of threads to use
+--use-mpa-style 	format output like Kraken 1's kraken-mpa-report
+--version 	print version information
+--- k2 
+add-to-library 	add file(s) to library
+build 	build a database from library
+classify 	classify a set of sequences
+clean 	removes unwanted files from database
+download-library 	download and build a special database
+download-taxonomy 	download NCBI taxonomic information
+inspect 	inspect Kraken 2 database(s)
+merge-classifications 	merge classification results for different databases
+--- k2 download --library 
+UniVec 
+UniVec_Core 
+archaea 
+bacteria 
+fungi 
+human 
+invertebrate 
+mitochondrion 
+nr 
+nt 
+plant 
+plasmid 
+plastid 
+protozoa 
+vertebrate_mammalian 
+vertebrate_other 
+viral 
+--- k2 build --special 
+greengenes 
+gtdb 
+rdp 
+silva 
+--- k2 classify --merge-policy 
+first-classified 
+last-classified 
+resolve-lca 
+--- k2 classify data/r
+data/reads_1.fq.gz 
+data/reads_2.fq.gz 
+=== bracken
+--- bracken -
+-d 	location of Kraken database
+-i 	Kraken report file to use for abundance estimation
+-l 	level to estimate abundance at: D, P, C, O, F, G, S, S1, ...
+-o 	file name for Bracken default output
+-r 	read length to get all classifications for
+-t 	number of reads required prior to abundance estimation to reestimate
+-v 	echoes the current software version and exits
+-w 	new Kraken report with Bracken's read estimates
+--- bracken -l 
+C 
+C1 
+D 
+D1 
+F 
+F1 
+G 
+G1 
+O 
+O1 
+P 
+P1 
+S 
+S1 
+--- bracken-build -y 
+kraken 
+kraken2 
+krakenuniq 
+--- combine_bracken_outputs.py --
+--files=	bracken output files to combine
+--help 	show this help message and exit
+--names=	names of the input files, comma-separated, for the column headers
+--output=	name of output file with combined Bracken results
+=== krakenuniq
+--- krakenuniq --report
+--report-file=	write the report (with unique k-mer counts) to filename
+--- krakenuniq-build --download-library 
+refseq/archaea 
+refseq/bacteria 
+refseq/viral 
+--- krakenuniq-build --lca
+--lca-database 	build a LCA database
+--lca-order=	set the LCAs from this directory of the library first (once per directory, in order)
+--- krakenuniq-download 
+contaminants 
+genbank/archaea 
+genbank/bacteria 
+genbank/fungi 
+genbank/invertebrate 
+genbank/plant 
+genbank/protozoa 
+genbank/vertebrate_mammalian 
+genbank/vertebrate_other 
+genbank/viral 
+microbial-nt 
+nt 
+nucleotide 
+refseq/archaea 
+refseq/bacteria 
+refseq/fungi 
+refseq/invertebrate 
+refseq/plant 
+refseq/protozoa 
+refseq/vertebrate_mammalian 
+refseq/vertebrate_other 
+refseq/viral 
+taxonomy 
+viral-neighbors 
+--- krakenuniq-download -
+--ac=	accessions of the nucleotide database to download, comma-separated (instead of --search)
+--db=	download to DIRECTORY/{library,taxonomy} (instead of -o)
+--exclude-environmental-taxa 	exclude taxa that are named 'environmental samples'
+--fna=	sequence types, comma-separated: genomic, rna, rna_from_genomic, cds_from_genomic
+--mapping-file=	map accessions with these files: nucl_est, nucl_gb, nucl_gss, nucl_wgs
+--min-seq-len=	filter all sequences from the FASTA files that have less than X bp
+--overwrite 	redownload and overwrite files with the same name
+--retmode=	return mode: text, asn.1, xml
+--rettype=	return type: fasta, gb, gbc, native, ...
+--search=	download all sequences returned from a NCBI nucleotide search
+--taxa=	taxa to keep from nt, comma-separated: taxIDXXXX or a division (bacteria, viral, ...)
+--threads=	number of processes when downloading
+--verbose 	be verbose
+-D 	mask low-complexity regions using dustmasker
+-R 	download using rsync
+-o 	folder to which the files are downloaded
+-u 	filter unplaced sequences
+--- krakenuniq-report --
+--db=	Kraken DB directory
+--show-zeros 	show full taxonomy table
+--taxon-counts 	the input files are 'TAXID<tab>COUNT' instead of Kraken output
+--taxon-list 	the input files are lists of taxon IDs instead of Kraken output
+=== centrifuge
+--- centrifuge -x data/cfdb/
+data/cfdb/p_compressed 
+--- centrifuge --out-fmt 
+sam 
+tab 
+--- centrifuge --un-c
+--un-conc-bz2=	like --un-conc, bzip2 compressed
+--un-conc-gz=	like --un-conc, gzip compressed
+--un-conc=	write pairs that didn't align concordantly to PATH
+--- centrifuge-build -
+--bmax=	maximum bucket size for the blockwise suffix-array builder
+--bmaxdivn=	maximum bucket size as a divisor of the reference length
+--conversion-table=	a table that converts any id to a taxonomy id
+--dcv=	diff-cover period for blockwise
+--kmer-count=	k size for counting the number of distinct k-mer
+--name-table=	names corresponding to taxonomic IDs
+--nodc 	disable diff-cover (algorithm becomes quadratic)
+--seed=	seed for random number generator
+--size-table=	table of contig (or genome) sizes
+--taxonomy-tree=	taxonomy tree
+--usage 	print this usage message
+--version 	print version information and quit
+-3 	just build the .3/.4 (packed reference) portion
+-a 	disable automatic -p/--bmax/--dcv memory-fitting
+-c 	the reference sequences are given on the command line, not files
+-h 	print detailed description of tool and its options
+-o 	sample the SA every 2^offrate BWT characters
+-p 	number of alignment threads to launch
+-q 	quiet output
+-r 	don't build the .3/.4 (packed reference) portion
+-t 	number of characters consumed in the initial lookup
+--- centrifuge-build --taxonomy-tree data/
+data/cfdb/
+data/k2db/
+data/names.dmp 
+data/nodes.dmp 
+--- centrifuge-build data/genomes.fna data/cfdb/
+data/cfdb/p_compressed 
+--- centrifuge-inspect data/cfdb/
+data/cfdb/p_compressed 
+--- centrifuge-kreport -x data/cfdb/
+data/cfdb/p_compressed 
+=== kaiju
+--- kaiju -t data/
+data/cfdb/
+data/k2db/
+data/names.dmp 
+data/nodes.dmp 
+--- kaiju -f data/
+data/cfdb/
+data/k2db/
+data/kaiju_db_nr.fmi 
+--- kaiju -a 
+greedy 
+mem 
+--- kaiju-multi -f data/
+data/cfdb/
+data/k2db/
+data/kaiju_db_nr.fmi 
+--- kaiju2table -r 
+class 
+family 
+genus 
+order 
+phylum 
+species 
+--- kaiju2table -n data/
+data/cfdb/
+data/k2db/
+data/names.dmp 
+data/nodes.dmp 
+--- kaiju-mergeOutputs -c 
+1 
+2 
+lca 
+lowest 
+--- kaiju-makedb -s 
+fungi 
+nr 
+nr_euk 
+plasmids 
+progenomes 
+refseq 
+refseq_nr 
+refseq_ref 
+rvdb 
+viruses 
+--- kaiju-mkbwt -
+-a 	alphabet, ending with the terminator, or DNA, RNA or protein
+-c 	the sequence is read case sensitive
+-e 	exponent for suffix array checkpoints (one every 2^e points)
+-h 	print a summary of the options and arguments
+-l 	length of the sequence in millions of letters, when reading from stdin
+-n 	number of threads
+-o 	name of the output (several files with different extensions; default: the input's name)
+-r 	reverse complement sequence
+-s 	the termination symbols sort as reverse sequences (more compressible BWT)
+-t 	terminating symbol (only used for debugging)
+--- kaiju-mkbwt -a 
+DNA 
+RNA 
+protein 
+=== metaphlan
+--- metaphlan --input_type 
+fasta 
+fastq 
+mapout 
+sam 
+--- metaphlan --tax_lev 
+a 
+c 
+f 
+g 
+k 
+o 
+p 
+s 
+t 
+--- metaphlan --stat 
+avg_g 
+avg_l 
+med 
+npos_lr 
+nreads_lr 
+tavg_g 
+tavg_l 
+wavg_g 
+wavg_l 
+--- metaphlan data/
+data/cfdb/
+data/genomes.fna 
+data/k2db/
+data/reads_1.fq.gz 
+data/reads_2.fq.gz 
+data/sample.bam 
+--- merge_metaphlan_tables.py -
+--gtdb_profiles 	to specify when running the script with GTDB-based profiles
+--overwrite 	overwrite output file if exists
+-h 	show this help message and exit
+-l 	name of file containing the paths to the files to combine
+-o 	name of output file in which joined tables are saved
+--- strainphlan --phylophlan_mode 
+accurate 
+fast 
+--- strainphlan -s data/
+data/cfdb/
+data/genomes.fna 
+data/k2db/
+data/kaiju_db_nr.fmi 
+data/names.dmp 
+data/nodes.dmp 
+data/notes.md 
+data/reads_1.fq.gz 
+data/reads_2.fq.gz 
+data/report.txt 
+data/sample.bam 
+data/sample.json.bz2 
+--- sample2markers.py -i data/
+data/cfdb/
+data/k2db/
+data/sample.bam 
+--- sample2markers.py -f 
+bam 
+bz2 
+sam 
+=== humann
+--- humann --input-format 
+bam 
+biom 
+blastm8 
+fasta 
+fasta.gz 
+fastq 
+fastq.gz 
+genetable 
+sam 
+--- humann --pathways 
+metacyc 
+unipathway 
+--- humann --o
+--o-log=	log file
+--output-basename=	the basename for the output files
+--output-format=	the format of the output files
+--output-max-decimals=	the number of decimals to output
+--output=	directory to write output files
+--- humann_databases --download 
+chocophlan 
+uniref 
+utility_mapping 
+--- humann_renorm_table -u 
+cpm 
+relab 
+--- humann_regroup_table -g 
+uniref50_rxn 
+uniref90_rxn 
+--- humann_rename_table -n 
+ec 
+eggnog 
+go 
+infogo1000 
+kegg-module 
+kegg-orthology 
+kegg-pathway 
+metacyc-pwy 
+metacyc-rxn 
+pfam 
+uniref50 
+--- humann_split_table --taxonomy_level 
+Class 
+Family 
+Genus 
+Kingdom 
+Order 
+Phylum 
+Species 
+--- humann_barplot --sort 
+braycurtis 
+braycurtis_w 
+dominant 
+file 
+metadata 
+none 
+sum 
+--- humann_join_tables -i data/
+data/cfdb/
+data/k2db/
+=== motus
+--- motus 
+calc_mgc 	calculate marker gene cluster (MGC) abundance
+calc_motu 	summarize MGC abundances into a mOTU profile
+classify 	classify user genomes into mOTUs
+download 	download sequence files from mOTUs-db
+downloadMGDB 	download the mOTUs marker gene database
+genomes 	search the mOTUs-db by keyword (taxonomic, functional)
+map_tax 	map reads to the marker gene database
+merge 	merge multiple taxonomic profiling results into one table
+prep_long 	prepare long reads to be profiled by mOTUs
+profile 	perform taxonomic profiling (map_tax + calc_mgc + calc_motu) in a single step
+--- motus profile -
+--skip-pair-check 	skip validation that forward and reverse read headers match
+-db 	alternative path for the mOTUs marker gene database
+-f 	input file(s) for reads in forward orientation, fastQ/A(.gz)-formatted
+-g 	number of marker genes for a mOTU to be present: 1 higher recall, 6 precision, 10 maximum
+-h 	show the help of the command
+-l 	minimum length of the alignment (bp)
+-n 	sample name
+-o 	output file name
+-r 	input file(s) for reads in reverse orientation, fastQ/A(.gz)-formatted
+-s 	input file(s) for unpaired reads, fastQ/A(.gz)-formatted
+-t 	number of threads
+-y 	which scale the abundances are reported in
+--- motus profile -f data/
+data/cfdb/
+data/genomes.fna 
+data/k2db/
+data/reads_1.fq.gz 
+data/reads_2.fq.gz 
+--- motus profile -y 
+BASE_NORM 
+BASE_RAW 
+INSERT_NORM 
+INSERT_RAW 
+INSERT_SCALED 
+--- motus calc_mgc -i data/
+data/cfdb/
+data/k2db/
+data/sample.bam 
+--- motus genomes -d 
+EGGNOG 
+KEGG 
+PFAM 
+TAXONOMY 
+--- motus download -t 
+antismash 
+eggnog 
+gene_faa 
+gene_fna 
+gene_gff 
+genome 
+kegg 
+pfam 
+rrna 
+trna 
+--- motus downloadMGDB -f 

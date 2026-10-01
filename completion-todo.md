@@ -546,14 +546,48 @@ them in the same way. A tick with `(Cobra)` means the program answers with its s
 
 ### Metagenomics and microbial genomics
 
-- [ ] `kraken2`
-- [ ] `bracken`
-- [ ] `krakenuniq`
-- [ ] `centrifuge`
-- [ ] `kaiju`
-- [ ] `metaphlan`
-- [ ] `humann`
-- [ ] `motus`
+- [x] `kraken2`: kraken2 2.17.2
+- [x] `kraken2-build`: kraken2 2.17.2
+- [x] `kraken2-inspect`: kraken2 2.17.2
+- [x] `k2`: kraken2 2.17.2
+- [x] `bracken`: bracken 3.1
+- [x] `bracken-build`: bracken 3.1
+- [x] `combine_bracken_outputs.py`: bracken 3.1
+- [x] `krakenuniq`: krakenuniq 1.0.4
+- [x] `krakenuniq-build`: krakenuniq 1.0.4
+- [x] `krakenuniq-report`: krakenuniq 1.0.4
+- [x] `krakenuniq-download`: krakenuniq 1.0.4
+- [x] `centrifuge`: centrifuge 1.0.4.2
+- [x] `centrifuge-build`: centrifuge 1.0.4.2
+- [x] `centrifuge-inspect`: centrifuge 1.0.4.2
+- [x] `centrifuge-kreport`: centrifuge 1.0.4.2
+- [x] `kaiju`: kaiju 1.10.3
+- [x] `kaiju-multi`: kaiju 1.10.3
+- [x] `kaiju2table`: kaiju 1.10.3
+- [x] `kaiju2krona`: kaiju 1.10.3
+- [x] `kaiju-addTaxonNames`: kaiju 1.10.3
+- [x] `kaiju-mergeOutputs`: kaiju 1.10.3
+- [x] `kaiju-makedb`: kaiju 1.10.3
+- [x] `kaiju-mkbwt`: kaiju 1.10.3
+- [x] `kaiju-mkfmi`: kaiju 1.10.3
+- [x] `metaphlan`: metaphlan 4.2.6
+- [x] `merge_metaphlan_tables.py`: metaphlan 4.2.6
+- [x] `strainphlan`: metaphlan 4.2.6
+- [x] `sample2markers.py`: metaphlan 4.2.6
+- [x] `extract_markers.py`: metaphlan 4.2.6
+- [x] `humann`: humann 3.9
+- [x] `humann_databases`: humann 3.9
+- [x] `humann_config`: humann 3.9
+- [x] `humann_join_tables`: humann 3.9
+- [x] `humann_renorm_table`: humann 3.9
+- [x] `humann_regroup_table`: humann 3.9
+- [x] `humann_split_stratified_table`: humann 3.9
+- [x] `humann_rename_table`: humann 3.9
+- [x] `humann_split_table`: humann 3.9
+- [x] `humann_reduce_table`: humann 3.9
+- [x] `humann_unpack_pathways`: humann 3.9
+- [x] `humann_barplot`: humann 3.9
+- [x] `motus`: motus 4.1.0
 - [ ] `checkm`
 - [ ] `checkm2`
 - [x] `checkv`: checkv 1.1.1 (Click)

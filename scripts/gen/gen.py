@@ -64,8 +64,8 @@ def argparse_dump(pkg, module, function, chan="-c conda-forge -c bioconda", tree
     """The options of a Python program's argparse parser (scripts/gen/argparse_dump.py), at a pinned version:
     a list of dicts (names, metavar, nargs, choices, help, flag, positional), cached as helptext() is. With `tree`,
     {"actions": [...], "commands": [...]}, the subcommands with their own actions and subcommands. MODULE can be a
-    file of scripts/gen (`pytest_parser.py`)."""
-    if module.endswith(".py"):
+    file of scripts/gen (`pytest_parser.py`), or `bin/PROG`, a Python script of the environment (`bin/k2`)."""
+    if module.endswith(".py") and not module.startswith("bin/"):
         module = os.path.join(HERE, module)
     return dump(pkg, "argparse_dump.py", ("--tree " if tree else "") + f"{module} {function}", chan, python)
 

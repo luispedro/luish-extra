@@ -133,7 +133,7 @@ def emit(opts, indent=12, values=None, tail=""):
         out.append(pad[:-4] + "values: #{")
         line = pad
         for v in vals:
-            if len(line) + len(v) + 2 > 116:
+            if len(line) + len(v) + 2 > 116 and line.strip():
                 out.append(line.rstrip())
                 line = pad
             line += v + ", "
