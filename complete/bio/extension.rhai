@@ -30,6 +30,7 @@ for m in [
                "filtlong", "chopper", "nanoq", "rasusa", "porechop", "NanoPlot", "NanoFilt", "NanoStat"]],
     ["asm", ["spades.py", "metaspades.py", "megahit", "flye", "quast", "quast.py", "metaquast", "metaquast.py",
              "busco", "prodigal", "prokka", "bakta", "barrnap"]],
+    ["meta", ["rgi"]],
 ] {
     for cmd in m[1] {
         module_of[cmd] = m[0];

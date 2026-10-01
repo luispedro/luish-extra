@@ -17,7 +17,8 @@ FASTA, BAM, index prefixes of aligners, reference names and samples of VCFs, ...
 STAR, kallisto, featureCounts), `blast.rhai` (BLAST+), `diamond.rhai`, `hmmer.rhai`, `reads.rhai` (read QC, trimming and
 filtering: fastp, fastqc, falco, cutadapt, trimmomatic, trim_galore, fastq_screen, seqtk, filtlong, chopper, nanoq,
 rasusa, porechop, NanoPlot, NanoFilt, NanoStat), `asm.rhai` (assembly and annotation: spades.py, metaspades.py, megahit,
-flye, quast, metaquast, busco, prodigal, prokka, bakta, barrnap) and `dynamic.rhai` (mmseqs: the options are read from
+flye, quast, metaquast, busco, prodigal, prokka, bakta, barrnap), `meta.rhai` (metagenomics and microbial genomics:
+rgi, so far) and `dynamic.rhai` (mmseqs: the options are read from
 the installed program's `-h` when Tab is pressed, through extra-lib's `help`; use it for programs whose help has a
 regular format). Python programs built with Click (multiqc, genmod, cooler, ...) have no module: `extension.rhai`
 registers them with std's Click bridge (`@std/completion/bridges`), only if they answer in under a second. Go programs

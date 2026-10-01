@@ -575,7 +575,7 @@ them in the same way. A tick with `(Cobra)` means the program answers with its s
 - [ ] `krona`
 - [ ] `abricate`
 - [ ] `amrfinder`
-- [ ] `rgi`
+- [x] `rgi`: rgi 6.0.8
 - [ ] `mlst`
 - [ ] `snippy`
 - [ ] `roary`

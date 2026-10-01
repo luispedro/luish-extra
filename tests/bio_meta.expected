@@ -1,0 +1,121 @@
+load 0
+=== rgi
+--- rgi 
+auto_load 	automatically load the CARD database, annotations and k-mer database
+baits_annotation 	create FASTA files with annotations from baits
+bwt 	align reads to CARD and in silico predicted allelic variants
+card_annotation 	create FASTA files with annotations from card.json
+clean 	remove BLAST databases and temporary files
+database 	information on the installed CARD database
+galaxy 	Galaxy project wrapper
+heatmap 	heatmap for multiple RGI results
+kmer_build 	build the k-mer sets for CARD*kmers
+kmer_query 	test sequences using CARD*kmers
+load 	load the CARD database, annotations and k-mer database
+main 	run RGI to predict a resistome from a FASTA or gzip file
+parser 	create categorical JSON files for the RGI wheel visualization
+remove_duplicates 	remove duplicate sequences from an annotated FASTA file
+tab 	create a tab-delimited file from an RGI results JSON file
+tm 	baits melting temperature
+wildcard_annotation 	create FASTA files with annotations from variants
+--- rgi ma
+main 	run RGI to predict a resistome from a FASTA or gzip file
+--- rgi main -
+--clean 	remove temporary files
+--debug 	debug mode
+--include_loose 	include loose hits in addition to strict and perfect hits
+--include_nudge 	include hits nudged from loose to strict hits
+--keep 	keep Prodigal CDS when used with --clean
+--local 	use local database
+--low_quality 	use for short contigs to predict partial genes
+-a 	specify alignment tool
+-d 	specify a data-type
+-g 	specify ORF finding tool
+-h 	show this help message and exit
+-i 	input FASTA (contig or protein), or gzip
+-n 	number of threads (CPUs) to use in the BLAST search
+-o 	output folder and base filename
+-t 	specify data input type
+-v 	print software version number
+--- rgi main -i data/
+data/contigs.fna 
+data/sub/
+--- rgi main -t 
+contig 
+protein 
+--- rgi main -a 
+BLAST 
+DIAMOND 
+--- rgi main -d 
+NA 
+chromosome 
+plasmid 
+wgs 
+--- rgi main -g 
+PRODIGAL 
+PYRODIGAL 
+--- rgi tab -i data/
+data/card.json 
+data/contigs.fna 
+data/notes.txt 
+data/reads_1.fq.gz 
+data/reads_2.fq.gz 
+data/sub/
+--- rgi bwt -1 data/
+data/reads_1.fq.gz 
+data/reads_2.fq.gz 
+data/sub/
+--- rgi bwt -a 
+bowtie2 
+bwa 
+kma 
+--- rgi load --card_annotation data/
+data/contigs.fna 
+data/sub/
+--- rgi load --wildcard_index data/
+data/card.json 
+data/contigs.fna 
+data/notes.txt 
+data/reads_1.fq.gz 
+data/reads_2.fq.gz 
+data/sub/
+--- rgi wildcard_annotation -i data/
+data/sub/
+--- rgi heatmap -cat 
+drug_class 
+gene_family 
+resistance_mechanism 
+--- rgi heatmap -clus 
+both 
+genes 
+samples 
+--- rgi heatmap -d 
+fill 
+plain 
+text 
+--- rgi kmer_query --
+--bwt 	the input file is a BAM file generated from RGI*BWT
+--debug 	debug mode
+--fasta 	the input file is a FASTA file of sequences
+--help 	show this help message and exit
+--input=	a BAM file from RGI*BWT, a JSON file of RGI results, or a FASTA file
+--kmer_size=	length of k
+--local 	use local database
+--minimum=	minimum number of kmers in the called category for the classification
+--output=	output file name
+--rgi 	the input file is an RGI results JSON file
+--threads=	number of threads (CPUs) to use
+--- rgi kmer_build -c data/
+data/contigs.fna 
+data/sub/
+--- rgi database -
+--all 	data version number used for 'rgi bwt' and 'rgi main'
+--local 	use local database
+-h 	show this help message and exit
+-v 	print data version number
+--- rgi auto_load --
+--canonical 	load only CARD canonical data
+--clean 	remove temporary files
+--debug 	debug mode
+--help 	show this help message and exit
+--local 	use local database
