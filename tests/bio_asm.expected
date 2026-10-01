@@ -1,0 +1,250 @@
+load 0
+=== spades.py, metaspades.py
+--- spades.py --pe-
+--pe-12=	file with interlaced reads for paired-end library number N
+--pe-1=	file with forward reads for paired-end library number N
+--pe-2=	file with reverse reads for paired-end library number N
+--pe-m=	file with merged reads for paired-end library number N
+--pe-or=	orientation of reads for paired-end library number N
+--pe-s=	file with unpaired reads for paired-end library number N
+--- spades.py -1 data/
+data/a.bam 
+data/contigs.fa 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/
+--- spades.py --pe-1 1 data/
+data/a.bam 
+data/contigs.fa 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/
+--- spades.py --trusted-contigs data/
+data/contigs.fa 
+data/sub/
+--- spades.py --restart-from 
+as 
+ec 
+last 
+mc 
+--- spades.py -o data/
+data/sub/
+--- metaspades.py --
+--12=	file with interlaced forward and reverse paired-end reads
+--checkpoints=	save intermediate check-points ('last', 'all')
+--continue 	continue run from the last available check-point (only -o should be specified)
+--custom-hmms=	directory with custom hmms that replace default ones
+--dataset=	file with dataset description in YAML format
+--disable-gzip-output 	forces error correction not to compress the corrected reads
+--disable-rr 	disables repeat resolution stage of assembling
+--frugal 	be memory frugal (at the expense of the possible assembly quality)
+--gfa11 	use GFA v1.1 format for assembly graph
+--grid-engine=	run under grid control ('slurm', 'local', 'mpi', save_yaml')
+--grid-extra=	any extra commands
+--grid-nnodes=	specifies the number of processors
+--grid-queue=	submits the jobs to one of the specified queues
+--grid-time=	time limit
+--grid-wait 	wait for job finish
+--help 	prints this usage message
+--iontorrent 	this flag is required for IonTorrent data
+--memory=	RAM limit for SPAdes in Gb (terminates if exceeded)
+--merged=	file with merged forward and reverse paired-end reads
+--nanopore=	file with Nanopore reads
+--only-assembler 	runs only assembling (without read error correction)
+--only-error-correction 	runs only read error correction (without assembling)
+--pacbio=	file with PacBio reads
+--pe-12=	file with interlaced reads for paired-end library number N
+--pe-1=	file with forward reads for paired-end library number N
+--pe-2=	file with reverse reads for paired-end library number N
+--pe-m=	file with merged reads for paired-end library number N
+--pe-or=	orientation of reads for paired-end library number N
+--pe-s=	file with unpaired reads for paired-end library number N
+--phred-offset=	PHRED quality offset in the input reads (33 or 64)
+--restart-from=	restart run with updated options and from the specified check-point
+--s=	file with unpaired reads for single reads library number N
+--test 	runs SPAdes on toy dataset
+--threads=	number of threads
+--tmp-dir=	directory for temporary files
+--version 	prints version
+=== megahit
+--- megahit --presets 
+meta-large 
+meta-sensitive 
+--- megahit -r data/
+data/a.bam 
+data/contigs.fa 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/
+--- megahit --k-
+--k-list=	comma-separated list of k-mer sizes (odd, 15-255, steps <= 28)
+--k-max=	maximum kmer size (<= 255), must be odd number
+--k-min=	minimum kmer size (<= 255), must be odd number
+--k-step=	increment of kmer size of each iteration (<= 28), must be even number
+=== flye
+--- flye --nano
+--nano-corr=	ONT reads that were corrected with other methods
+--nano-hq=	ONT R10 reads, aka Q20
+--nano-raw=	ONT reads with older chemistries, pre R9 Guppy5 (10-20% error)
+--- flye --nano-hq data/
+data/a.bam 
+data/contigs.fa 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/
+--- flye --nano-hq data/ont.fastq data/
+data/a.bam 
+data/contigs.fa 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/
+--- flye --stop-after 
+assembly 
+configure 
+consensus 
+contigger 
+finalize 
+polishing 
+repeat 
+--- flye --polish-target data/
+data/contigs.fa 
+data/sub/
+=== quast, metaquast
+--- quast -a 
+all 
+none 
+one 
+--- quast.py --plots-format 
+emf 
+eps 
+pdf 
+png 
+ps 
+raw 
+rgba 
+svg 
+svgz 
+--- quast -r data/
+data/contigs.fa 
+data/sub/
+--- quast --ref-bam data/
+data/a.bam 
+data/sub/
+--- quast data/
+data/contigs.fa 
+data/sub/
+--- metaquast --max
+--max-ref-number=	maximum number of references (per each assembly) to download after looking in SILVA
+=== busco
+--- busco -m 
+geno 
+genome 
+prot 
+proteins 
+tran 
+transcriptome 
+--- busco -i data/
+data/contigs.fa 
+data/sub/
+--- busco --datasets_version 
+odb10 
+odb12 
+odb12.2 
+--- busco -l 
+data/
+--- busco -l bac
+bacteria_odb12 	Prokaryota, downloaded
+bacteroidales_odb12 	Prokaryota
+--- busco -l m
+mine_odb12 	downloaded
+--- busco -l busco_downloads/lineages/
+busco_downloads/lineages/bacteria_odb12/
+busco_downloads/lineages/mine_odb12/
+--- busco --download_path dl -l 
+archaea_odb12 	downloaded
+busco_downloads/
+data/
+dl/
+--- busco --download 
+all 	group of datasets
+bacteria_odb12 	Prokaryota, downloaded
+bacteroidales_odb12 	Prokaryota
+eukaryota 	group of datasets
+mine_odb12 	downloaded
+prokaryota 	group of datasets
+virus 	group of datasets
+=== prodigal, prokka, bakta, barrnap
+--- prodigal -
+-a 	write protein translations to the selected file
+-c 	closed ends: don't let genes run off the edges
+-d 	write nucleotide sequences of genes to the selected file
+-f 	select output format (gbk, gff, or sco)
+-g 	specify a translation table to use
+-h 	print help menu and exit
+-i 	specify FASTA/Genbank input file
+-m 	treat runs of N as masked sequence; don't build genes across them
+-n 	bypass Shine-Dalgarno trainer and force a full motif scan
+-o 	specify output file
+-p 	select procedure (single or meta)
+-q 	run quietly (suppress normal stderr output)
+-s 	write all potential genes (with scores) to the selected file
+-t 	write a training file, or read it if it exists
+-v 	print version number and exit
+--- prodigal -p 
+meta 
+single 
+--- prodigal -i data/
+data/contigs.fa 
+data/sub/
+--- prokka --kingdom 
+Archaea 
+Bacteria 
+Mitochondria 
+Viruses 
+--- prokka --hmms data/
+data/models.hmm 
+data/sub/
+--- prokka data/
+data/contigs.fa 
+data/sub/
+--- bakta --gram 
++ 
+- 
+\? 
+--- bakta --skip-
+--skip-cds 	skip CDS detection & annotation
+--skip-crispr 	skip CRISPR array detection & annotation
+--skip-filter 	skip feature overlap filters
+--skip-gap 	skip gap detection & annotation
+--skip-ncrna 	skip ncRNA detection & annotation
+--skip-ncrna-region 	skip ncRNA region detection & annotation
+--skip-ori 	skip oriC/oriT detection & annotation
+--skip-plot 	skip generation of circular genome plots
+--skip-pseudo 	skip pseudogene detection & annotation
+--skip-rrna 	skip rRNA detection & annotation
+--skip-sorf 	skip sORF detection & annotation
+--skip-tmrna 	skip tmRNA detection & annotation
+--skip-trna 	skip tRNA detection & annotation
+--- bakta data/
+data/contigs.fa 
+data/sub/
+--- barrnap --kingdom 
+arc 
+bac 
+fun 
+--- barrnap --no-
+--no-mrna 	don't find mRNA
+--no-ncrna 	don't find ncRNA
+--no-rrna 	don't find rRNA
+--no-trna 	don't find tRNA
+--- barrnap data/
+data/contigs.fa 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/

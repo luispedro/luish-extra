@@ -337,16 +337,16 @@ them in the same way. A tick with `(Cobra)` means the program answers with its s
 
 ### Assembly, annotation and polishing
 
-- [ ] `spades.py`
-- [ ] `metaspades.py`
-- [ ] `megahit`
+- [x] `spades.py`: spades 4.3.0
+- [x] `metaspades.py`: spades 4.3.0
+- [x] `megahit`: megahit 1.2.9
 - [ ] `abyss-pe`
 - [ ] `velveth`
 - [ ] `velvetg`
 - [ ] `unicycler`
 - [ ] `shovill`
 - [ ] `skesa`
-- [ ] `flye`
+- [x] `flye`: flye 2.9.6
 - [ ] `canu`
 - [ ] `hifiasm`
 - [ ] `miniasm`
@@ -357,14 +357,14 @@ them in the same way. A tick with `(Cobra)` means the program answers with its s
 - [ ] `medaka`
 - [ ] `pilon`
 - [ ] `polypolish`
-- [ ] `quast`
-- [ ] `busco`
+- [x] `quast`: quast 5.3.0 (also `quast.py`, `metaquast` and `metaquast.py`)
+- [x] `busco`: busco 6.1.0
 - [ ] `merqury`
-- [ ] `prodigal`
-- [ ] `prokka`
-- [ ] `bakta`
+- [x] `prodigal`: prodigal 2.6.3
+- [x] `prokka`: prokka 1.15.6
+- [x] `bakta`: bakta 1.12.1
 - [ ] `pharokka`
-- [ ] `barrnap`
+- [x] `barrnap`: barrnap 1.10.6 (which says 1.10.5)
 - [ ] `tRNAscan-SE`
 - [ ] `aragorn`
 - [ ] `augustus`
@@ -582,7 +582,7 @@ them in the same way. A tick with `(Cobra)` means the program answers with its s
 - [ ] `panaroo`
 - [ ] `ppanggolin`
 - [ ] `gubbins`
-- [ ] `prokka`
+- [x] `prokka`: prokka 1.15.6
 - [ ] `srst2`
 - [ ] `sistr`
 - [ ] `ectyper`

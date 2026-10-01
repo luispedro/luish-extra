@@ -16,11 +16,12 @@ FASTA, BAM, index prefixes of aligners, reference names and samples of VCFs, ...
 (sambamba, bamtools, samblaster, mosdepth, cramino, vcftools), `align.rhai` (bwa, bwa-mem2, bowtie2, hisat2, minimap2,
 STAR, kallisto, featureCounts), `blast.rhai` (BLAST+), `diamond.rhai`, `hmmer.rhai`, `reads.rhai` (read QC, trimming and
 filtering: fastp, fastqc, falco, cutadapt, trimmomatic, trim_galore, fastq_screen, seqtk, filtlong, chopper, nanoq,
-rasusa, porechop, NanoPlot, NanoFilt, NanoStat) and `dynamic.rhai` (mmseqs: the options are read from the installed
-program's `-h` when Tab is pressed, through extra-lib's `help`; use it for programs whose help has a regular format).
-Python programs built with Click (multiqc, genmod, cooler, ...) have no module: `extension.rhai` registers them with
-std's Click bridge (`@std/completion/bridges`), only if they answer in under a second. Go programs built with Cobra
-(seqkit, csvtk, taxonkit) are registered with std's Cobra bridge in the same way.
+rasusa, porechop, NanoPlot, NanoFilt, NanoStat), `asm.rhai` (assembly and annotation: spades.py, metaspades.py, megahit,
+flye, quast, metaquast, busco, prodigal, prokka, bakta, barrnap) and `dynamic.rhai` (mmseqs: the options are read from
+the installed program's `-h` when Tab is pressed, through extra-lib's `help`; use it for programs whose help has a
+regular format). Python programs built with Click (multiqc, genmod, cooler, ...) have no module: `extension.rhai`
+registers them with std's Click bridge (`@std/completion/bridges`), only if they answer in under a second. Go programs
+built with Cobra (seqkit, csvtk, taxonkit) are registered with std's Cobra bridge in the same way.
 
 `complete/science`: `kinds.rhai` (files by extension; the rules of a Snakefile; the profiles, runs and projects of
 Nextflow and the parameters of an nf-core pipeline's schema; pandoc's formats; ...), `workflow.rhai` (jug, nf-test),
@@ -69,12 +70,12 @@ environment with Bioconda, so nothing is installed):
   (hybracter, pysradb print usage), and Typer programs don't speak this protocol: read the output.
 - `scripts/help2opts.py` drafts `opts:` and `values:` from a help text on standard input; read a draft before using
   it, since help formats differ in many small ways.
-- `align.rhai`, `bam.rhai`, `blast.rhai`, `diamond.rhai`, `hmmer.rhai` and `reads.rhai` of `bio`, `snakemake.rhai`,
-  `pandoc.rhai`, `aria2.rhai`, `parallel.rhai`, `miller.rhai`, `cwltool.rhai` and `jupyter_specs.rhai` of `science`,
-  `pytest.rhai`, `mypy.rhai` and `poetry.rhai` of `dev`, and `borg.rhai` of `system`, are **generated** by
-  `scripts/gen/mk_*.py` from the `--help` of pinned versions (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`,
-  cached in `$HELP_CACHE`), with the corrections and value kinds written in the generators. For Python programs built
-  with argparse, `gen.argparse_dump(PKG, "module", "function")` runs the parser in the program's environment
+- `align.rhai`, `bam.rhai`, `blast.rhai`, `diamond.rhai`, `hmmer.rhai`, `reads.rhai` and `asm.rhai` of `bio`,
+  `snakemake.rhai`, `pandoc.rhai`, `aria2.rhai`, `parallel.rhai`, `miller.rhai`, `cwltool.rhai` and `jupyter_specs.rhai`
+  of `science`, `pytest.rhai`, `mypy.rhai` and `poetry.rhai` of `dev`, and `borg.rhai` of `system`, are **generated** by
+  `scripts/gen/mk_*.py` from the `--help` of pinned versions (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`, cached
+  in `$HELP_CACHE`), with the corrections and value kinds written in the generators. For Python programs built with
+  argparse, `gen.argparse_dump(PKG, "module", "function")` runs the parser in the program's environment
   (`argparse_dump.py`) and gives its options with their choices and number of values, and `gen.emit_argparse` writes the
   table; the function may also be one that builds the parser and parses the command line itself
   (`porechop.porechop:get_arguments`), since the parser is caught at `parse_args`. The module can be a helper file of

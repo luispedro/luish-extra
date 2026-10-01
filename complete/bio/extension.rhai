@@ -28,6 +28,8 @@ for m in [
                "hmmfetch", "hmmemit", "hmmconvert", "hmmstat"]],
     ["reads", ["fastp", "fastqc", "falco", "cutadapt", "trimmomatic", "trim_galore", "fastq_screen", "seqtk",
                "filtlong", "chopper", "nanoq", "rasusa", "porechop", "NanoPlot", "NanoFilt", "NanoStat"]],
+    ["asm", ["spades.py", "metaspades.py", "megahit", "flye", "quast", "quast.py", "metaquast", "metaquast.py",
+             "busco", "prodigal", "prokka", "bakta", "barrnap"]],
 ] {
     for cmd in m[1] {
         module_of[cmd] = m[0];

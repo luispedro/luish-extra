@@ -210,6 +210,46 @@ fn cutadapt_adapter(cur) {
     [#{value: "file:", desc: "adapters from a FASTA file", suffix: ""}]
 }
 
+// BUSCO's datasets: those of the list that busco downloads first
+// (`file_versions.tsv` in its download directory, `--download_path` or
+// `busco_downloads`), with their domain, and those it has downloaded (in
+// `lineages` there). For `-l`, also directories, as it takes the path of a
+// lineage; for `--download`, also the groups of datasets.
+fn busco_datasets(cur, words, download) {
+    let base = "busco_downloads";
+    for i in 0..words.len() {
+        if words[i] == "--download_path" && i + 1 < words.len() {
+            base = words[i + 1];
+        } else if words[i].starts_with("--download_path=") {
+            base = words[i].sub_string(16);
+        }
+    }
+    let r = if download { #{prefix: "", candidates: []} } else { std_kinds::listing(cur, "", true) };
+    if r.prefix != "" {
+        return r;
+    }
+    if download {
+        for g in ["all", "prokaryota", "eukaryota", "virus"] {
+            r.candidates.push(#{value: g, desc: "group of datasets"});
+        }
+    }
+    let got = fs::list_dir(base + "/lineages") ?? [];
+    let listed = [];
+    for line in (fs::read_file(base + "/file_versions.tsv") ?? "").split("\n") {
+        let f = line.split("\t");
+        if f.len() == 5 && f[4] == "lineages" {
+            r.candidates.push(#{value: f[0], desc: if got.contains(f[0]) { f[3] + ", downloaded" } else { f[3] }});
+            listed.push(f[0]);
+        }
+    }
+    for n in got {
+        if !listed.contains(n) {
+            r.candidates.push(#{value: n, desc: "downloaded"});
+        }
+    }
+    r
+}
+
 fn kind(name, cur, words) {
     switch name {
         "fasta" => lib_files::with_suffix(
@@ -268,6 +308,8 @@ fn kind(name, cur, words) {
         "vcf_samples" => vcf_samples(words),
         "trimmomatic_step" => trimmomatic_step(cur),
         "cutadapt_adapter" => cutadapt_adapter(cur),
+        "busco_lineage" => busco_datasets(cur, words, false),
+        "busco_download" => busco_datasets(cur, words, true),
         _ => throw `unknown kind: ${name}`,
     }
 }
