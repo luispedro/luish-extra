@@ -42,13 +42,14 @@ The simplest way is `plugin add`, in luish:
 
 ```console
 $ plugin add https://github.com/luispedro/luish-extra/tree/main/complete extra-complete
-$ plugin add extra-complete/bio
+$ plugin add extra-complete/all
 ```
 
 The first command adds the collection to `[plugins.available]` in `config.toml` and fetches it. Name it
 `extra-complete`, as above: without a name it is called `complete`, after the directory, and the plugins, which
-import each other's modules as `@extra-complete/...`, won't load. The second enables one plugin; repeat it for
-`science`, `gui`, `dev` and `system` as you want them.
+import each other's modules as `@extra-complete/...`, won't load. The second enables `all`, which loads `bio`,
+`science`, `gui`, `dev` and `system`. To have only some of them, enable them one by one instead
+(`plugin add extra-complete/bio`, ...).
 
 Or, by hand, in `config.toml` (then run `plugin sync`):
 
