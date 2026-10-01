@@ -1,0 +1,215 @@
+load 0
+=== sambamba
+--- sambamba 
+depth 	output statistics (BAM)
+flagstat 	output statistics (BAM)
+index 	build index (BAI)
+markdup 	mark or remove duplicates (BAM)
+merge 	merge files (BAM)
+mpileup 	parallel execution of samtools (BAM)
+slice 	slice file (BAM using BED)
+sort 	sort file (BAM)
+subsample 	subsample (BAM)
+validate 	simple validator (BAM)
+view 	view contents and convert from one format to another (SAM/BAM/JSON/UNPACK)
+--- sambamba m
+markdup 	mark or remove duplicates (BAM)
+merge 	merge files (BAM)
+mpileup 	parallel execution of samtools (BAM)
+--- sambamba view -
+--num-filter=	filter flag bits: 'i1/i2' is samtools' -f i1 -F i2
+--subsampling-seed=	set seed for subsampling
+-F 	keep only the reads that satisfy FILTER
+-H 	print only the header
+-I 	output to stdout only reference names and lengths in JSON
+-L 	output only reads overlapping one of regions from the BED file
+-S 	the input is SAM
+-T 	the reference, for writing CRAM
+-c 	print only the number of matching records
+-f 	the output format
+-h 	print the header before the reads
+-l 	the compression level (0 to 9)
+-o 	the output file
+-p 	show a progress bar on standard error
+-s 	subsample reads (read pairs)
+-t 	maximum number of threads to use
+-v 	output only valid alignments
+--- sambamba view --for
+--format=	the output format
+--- sambamba view -f 
+bam 
+json 
+sam 
+unpack 
+--- sambamba view -L data/
+data/peaks.bed 
+data/sub/
+--- sambamba view data/
+data/a.bam 
+data/b.sam 
+data/c.cram 
+data/sub/
+--- sambamba view data/a.bam 
+chrA 
+chrB 
+--- sambamba index data/
+data/a.bam 
+data/c.cram 
+data/sub/
+--- sambamba index -F data/
+data/genome.fa 
+data/sub/
+--- sambamba sort --tmpdir data/
+data/sub/
+--- sambamba markdup data/
+data/a.bam 
+data/c.cram 
+data/sub/
+--- sambamba subsample --logging 
+critical 
+debug 
+info 
+warning 
+--- sambamba depth 
+base 	the depth of each base
+region 	the depth of each region of a BED file
+window 	the depth of windows along the genome
+--- sambamba depth window --
+--annotate 	mark records that fail the criteria with a column of y/n instead of skipping them
+--combined 	output combined statistics for all samples
+--cov-threshold=	a coverage threshold: a column with the percentage of bases above it
+--filter=	a custom filter for alignments
+--fix-mate-overlaps 	detect overlaps of mate reads and handle them on per-base basis
+--max-coverage=	maximum mean coverage for output
+--min-base-quality=	don't count bases with lower base quality
+--min-coverage=	minimum mean coverage for output
+--nthreads=	maximum number of threads to use
+--output-file=	output filename
+--overlap=	overlap of successive windows, in bp
+--window-size=	breadth of the window, in bp (required)
+--- sambamba depth region -T 
+--- sambamba depth region -L data/
+data/peaks.bed 
+data/sub/
+--- sambamba mpileup --s
+--samtools 	the arguments of samtools mpileup follow
+=== bamtools
+--- bamtools 
+convert 	converts between BAM and a number of other formats
+count 	prints number of alignments in BAM file(s)
+coverage 	prints coverage statistics from the input BAM file
+filter 	filters BAM file(s) by user-specified criteria
+header 	prints BAM header information
+help 	show the help of a command
+index 	generates index for BAM file
+merge 	merge multiple BAM files into single file
+random 	select random alignments from BAM file(s)
+resolve 	resolves paired-end reads (marking the IsProperPair flag as needed)
+revert 	removes duplicate marks and restores original base qualities
+sort 	sorts the BAM file according to some criteria
+split 	split a BAM file on a property, a BAM file for each value
+stats 	prints some basic statistics from input BAM file(s)
+--- bamtools filter -isP
+-isPaired 	keep only alignments that were sequenced as paired?
+-isPrimaryAlignment 	keep only alignments marked as primary?
+-isProperPair 	keep only alignments that passed PE resolution?
+--- bamtools filter -isPaired 
+false 
+true 
+--- bamtools convert -format 
+bed 
+fasta 
+fastq 
+json 
+pileup 
+sam 
+yaml 
+--- bamtools convert -in data/
+data/a.bam 
+data/c.cram 
+data/sub/
+--- bamtools convert -fasta data/
+data/genome.fa 
+data/sub/
+--- bamtools help 
+convert 
+count 
+coverage 
+filter 
+header 
+index 
+merge 
+random 
+resolve 
+revert 
+sort 
+split 
+stats 
+=== samblaster, mosdepth, cramino
+--- samblaster --max
+--maxReadLength=	maximum length of SEQ/QUAL in the input
+--maxSplitCount=	maximum number of split alignments of a read in the splitter file
+--maxUnmappedBases=	maximum number of unaligned bases between two alignments in the splitter file
+--- samblaster -i data/
+data/a.bam 
+data/b.sam 
+data/c.cram 
+data/sub/
+--- mosdepth -
+--d4 	output per-base depth in d4 format
+-F 	exclude reads with any of the bits in FLAG set
+-Q 	mapping quality threshold
+-R 	only calculate depth for these comma-separated read groups IDs
+-T 	for each interval in --by, write number of bases covered by at least threshold bases
+-a 	count the coverage of the full fragment including the full insert (proper pairs only)
+-b 	optional BED file or (integer) window-sizes
+-c 	chromosome to restrict depth calculation
+-f 	fasta file for use with CRAM files
+-h 	show help
+-i 	only include reads with any of the bits in FLAG set
+-l 	minimum insert size
+-m 	output median of each region (in --by) instead of mean
+-n 	dont output per-base depth
+-q 	write quantized output see docs for description
+-t 	number of BAM decompression threads
+-u 	maximum insert size
+-x 	dont look at internal cigar operations or correct mate overlaps
+--- mosdepth -b data/
+data/peaks.bed 
+data/sub/
+--- mosdepth out data/
+data/a.bam 
+data/c.cram 
+data/sub/
+--- mosdepth -c 
+--- cramino --format 
+json 
+text 
+tsv 
+--- cramino --hi
+--hist	if histograms have to be generated (optionally specify output file as --hist=FILE)
+--hist-count	output read length histogram bin counts in TSV format
+--- cramino --reference data/
+data/genome.fa 
+data/sub/
+=== vcftools
+--- vcftools --gz
+--gzdiff=	a gzipped VCF file to compare with
+--gzvcf=	a gzipped VCF file to process
+--- vcftools --gzvcf data/
+data/calls.vcf.gz 
+data/sub/
+--- vcftools --bed data/
+data/peaks.bed 
+data/sub/
+--- vcftools --gzvcf data/calls.vcf.gz --chr 
+chr1 
+chr2 
+--- vcftools --gzvcf data/calls.vcf.gz --indv 
+sampleA 
+sampleB 
+--- vcftools --TsTv
+--TsTv-by-count 	Ts/Tv ratio by alternative allele count
+--TsTv-by-qual 	Ts/Tv ratio by quality
+--TsTv-summary 	summary of transitions and transversions
+--TsTv=	Ts/Tv ratio in bins of this size

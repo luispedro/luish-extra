@@ -45,17 +45,17 @@ them in the same way. A tick with `(Cobra)` means the program answers with its s
 - [x] `tabix`: htslib 1.22.1
 - [x] `bgzip`: htslib 1.22.1
 - [x] `htsfile`: htslib 1.22.1
-- [ ] `vcftools`
-- [ ] `bamtools`
-- [ ] `sambamba`
-- [ ] `samblaster`
-- [ ] `mosdepth`
+- [x] `vcftools`: vcftools 0.1.17 (options from its man page)
+- [x] `bamtools`: bamtools 2.5.3
+- [x] `sambamba`: sambamba 1.0.1
+- [x] `samblaster`: samblaster 0.1.26
+- [x] `mosdepth`: mosdepth 0.3.14
 - [ ] `picard`
 - [ ] `gatk`
 - [ ] `bamutil`
 - [ ] `bam-readcount`
 - [ ] `bamhash`
-- [ ] `cramino`
+- [x] `cramino`: cramino 2.0.0
 - [ ] `deeptools`
 - [ ] `bamCoverage`
 - [ ] `bamCompare`

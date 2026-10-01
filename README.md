@@ -32,11 +32,12 @@ FASTQ, BAM, BED, ... files by extension; reference names for regions, from a `.f
 output formats).
 
 Done: `ngless`, `SemiBin2` / `SemiBin`, `macrel`, `argnorm`; `samtools`, `bcftools`, `bedtools`, `tabix`, `bgzip`,
-`htsfile`; `bwa`, `bwa-mem2`, `bowtie2`, `hisat2`, `minimap2`, `STAR`, `kallisto`, `featureCounts`; BLAST+
-(`blastn` and the rest), `diamond`, `mmseqs`, HMMER; `fastp`, `fastqc`, `falco`, `cutadapt`, `trimmomatic` (its
-steps, and the adapter files that come with it), `trim_galore`, `fastq_screen`, `seqtk`, `filtlong`, `chopper`,
-`nanoq`, `rasusa`, `porechop`, `NanoPlot`, `NanoFilt`, `NanoStat`; `seqkit`, `csvtk` and `taxonkit` (which complete
-themselves, as Cobra programs). `completion-todo.md` has the tool versions they were checked against.
+`htsfile`, `sambamba`, `bamtools`, `samblaster`, `mosdepth`, `cramino`, `vcftools`; `bwa`, `bwa-mem2`, `bowtie2`,
+`hisat2`, `minimap2`, `STAR`, `kallisto`, `featureCounts`; BLAST+ (`blastn` and the rest), `diamond`, `mmseqs`,
+HMMER; `fastp`, `fastqc`, `falco`, `cutadapt`, `trimmomatic` (its steps, and the adapter files that come with it),
+`trim_galore`, `fastq_screen`, `seqtk`, `filtlong`, `chopper`, `nanoq`, `rasusa`, `porechop`, `NanoPlot`,
+`NanoFilt`, `NanoStat`; `seqkit`, `csvtk` and `taxonkit` (which complete themselves, as Cobra programs).
+`completion-todo.md` has the tool versions they were checked against.
 
 ## `science`
 

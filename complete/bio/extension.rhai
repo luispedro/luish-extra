@@ -15,6 +15,7 @@ for m in [
     ["ours", ["ngless", "SemiBin2", "SemiBin", "macrel", "argnorm"]],
     ["hts", ["samtools", "tabix", "bgzip", "htsfile", "bedtools"]],
     ["bcftools", ["bcftools"]],
+    ["bam", ["sambamba", "bamtools", "samblaster", "mosdepth", "cramino", "vcftools"]],
     ["align", ["bwa", "bwa-mem2", "bowtie2", "bowtie2-build", "hisat2", "hisat2-build", "minimap2", "STAR", "kallisto",
                "featureCounts"]],
     ["blast", ["blastn", "blastp", "blastx", "tblastn", "tblastx", "psiblast", "rpsblast", "rpstblastn", "deltablast",
