@@ -1,15 +1,42 @@
 # luish-extra
 
-Plugins for [luish](https://github.com/luispedro/luish) that don't belong in its standard library: completion for
+Tab completion for [luish](https://github.com/luispedro/luish), for the programs that its standard library leaves out:
 bioinformatics tools (`bio`), scientific computing (`science`), desktop programs (`gui`), development (`dev`) and
-system administration (`system`). The commands are listed in [`docs/completion.md`](docs/completion.md), and
-what is done so far in [`completion-todo.md`](completion-todo.md).
+system administration (`system`). Each plugin can be enabled on its own.
+
+Completion knows each program's options and subcommands, and the kind of value each one takes: `samtools sort -O`
+offers `BAM`, `CRAM` and `SAM`, `samtools view -T` offers FASTA files and `samtools view in.bam` the reference names
+in its header, `pytest tests/test_x.py::` the tests in that file, and `ruff check --select F4` the rule codes
+`F401`, `F403`, ... Option tables are written from each tool's own `--help`, and
+[`completion-todo.md`](completion-todo.md) records the version each one was checked against.
+
+## What is supported
+
+272 commands are completed so far, by 239 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
+`makeblastdb` and 16 others):
+
+| Plugin    | Commands | Tools done / listed |
+|-----------|---------:|--------------------:|
+| `bio`     |      169 |           164 / 768 |
+| `science` |       42 |             26 / 37 |
+| `gui`     |       49 |             40 / 40 |
+| `dev`     |        9 |              7 / 10 |
+| `system`  |        3 |               2 / 2 |
+| **Total** |  **272** |       **239 / 857** |
+
+The tools to support are listed in [`docs/completion.md`](docs/completion.md) and, with a box per tool, in
+[`completion-todo.md`](completion-todo.md) (`grep -c '^- \[x\]' completion-todo.md` counts the ticked ones). The
+sections below list what each plugin completes.
+
+Commands are completed by the name you type, not the name of their Bioconda package (`STAR`, not `star`;
+`featureCounts`, not `subread`). Commands that std's `completion` plugin already covers (`rg`, `fd`, `jq`, `uv`, `pixi`,
+`conda`, `docker`, ...) are left to it.
+
+## Enabling
 
 Requires luish at rev `9e3a39bf7dcbb4c472c3712bc4cf74cfb784c6cd` or later, and its `std.completion` plugin. The
 plugins depend on it and on `extra-lib`, this collection's library of shared helpers, so luish loads them first;
 `extra-lib` is not listed by `plugin list-available`.
-
-## Enabling
 
 In `config.toml`:
 
@@ -25,11 +52,29 @@ extra-complete.dev = "*"
 extra-complete.system = "*"
 ```
 
+Leave out the lines of the plugins you don't want. A plugin costs little until it is used: each module is compiled the
+first time Tab is pressed for one of its commands.
+
+## Programs that complete themselves
+
+Some programs know their own completions, and are asked rather than described here:
+
+- Python programs built with [Click](https://click.palletsprojects.com/) (`multiqc`, `cooler`, `nf-core`, `proksee`,
+  ...) go through std's Click bridge. Each Tab runs the program, so only those that answer in under a second are
+  registered; a slower one (`cooltools`, `genomad`, `iphop`, `planemo`, ...: 1.4 to 5 s) can be added with
+  `complete-click PROG` if you accept the wait.
+- Go programs built with Cobra (`seqkit`, `csvtk`, `taxonkit`, `apptainer`) go through std's Cobra bridge.
+- `aws` is asked through its own `aws_completer`.
+
+If such a program isn't installed, or doesn't answer, Tab offers filenames.
+
+A few programs have their options read from the installed version when Tab is pressed, so that they follow it:
+`mmseqs`, `xsv`, `qsv` and `ruff` (from their `-h`), `mpv` (`--list-options`), and `inkscape`'s actions.
+
 ## `bio`
 
-Completes commands by their name (not their Bioconda package's): options, subcommands, and values by kind (FASTA,
-FASTQ, BAM, BED, ... files by extension; reference names for regions, from a `.fai` or a BAM header; presets and
-output formats).
+Options, subcommands, and values by kind: FASTA, FASTQ, BAM, BED, ... files by extension; reference names for regions,
+from a `.fai` or a BAM header; presets and output formats.
 
 Done: `ngless`, `SemiBin2` / `SemiBin`, `macrel`, `argnorm`; `samtools`, `bcftools`, `bedtools`, `tabix`, `bgzip`,
 `htsfile`, `sambamba`, `bamtools`, `samblaster`, `mosdepth`, `cramino`, `vcftools`; `bwa`, `bwa-mem2`, `bowtie2`,
@@ -40,7 +85,9 @@ HMMER; `fastp`, `fastqc`, `falco`, `cutadapt`, `trimmomatic` (its steps, and the
 `prokka`, `bakta`, `barrnap`); profiling of metagenomes (`kraken2`, `bracken`, `krakenuniq`, `centrifuge`, `kaiju`,
 `metaphlan`, `humann`, `motus`); binning and MAGs (`metabat2`, `concoct`, `run_MaxBin.pl`, `vamb`, `DAS_Tool`,
 `checkm`, `checkm2`, `gunc`, `gtdbtk`, `dRep`, `coverm`); `rgi`; `seqkit`, `csvtk` and `taxonkit` (which complete
-themselves, as Cobra programs).
+themselves, as Cobra programs); and, through the Click bridge, `multiqc`, `peddy`, `genmod`, `plassembler`, `cooler`,
+`pairtools`, `checkv`, `virsorter`, `metacoag`, `harpy`, `defense-finder`, `dnaapler`, `genomepy`, `freyja`,
+`fastq-dl` and `biom`.
 `completion-todo.md` has the tool versions they were checked against.
 
 ## `science`
@@ -94,6 +141,8 @@ Done: `borg` (repositories, and `::ARCHIVE` with `BORG_REPO`; compression specs)
 FUSE mount points, for `-u`).
 
 ## Tests
+
+For working on the plugins (see [`CLAUDE.md`](CLAUDE.md) for how specs are written and generated):
 
 ```sh
 tests/run.sh                 # all the cases
