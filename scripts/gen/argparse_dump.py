@@ -7,13 +7,15 @@ parses the command line in the same function (porechop.porechop:get_arguments): 
 `parse_args` is called. MODULE can also be the path of a `.py` file, for a program whose parser needs a few lines to
 get at (pytest_parser.py), or `bin/PROG`, a Python script among the environment's programs (bin/k2). A FUNCTION with
 a required parameter (metaphlan.metaphlan:read_params(args)) is given the command line, `[FUNCTION]`. If FUNCTION
-returns a tuple, the parser is its first element (mypy.main:define_options).
+returns a tuple, the parser is its first element (mypy.main:define_options). FUNCTION `__main__` runs MODULE
+(`bin/PROG`) as a script, for one that builds its parser at the top level (bin/checkm). Words after FUNCTION are the
+command line that the program sees, for one that prints its help when it has no arguments (checkm2.main:main predict).
 Prints a list with, for each action, its option strings, metavar, nargs, choices, help and whether it is a flag.
 
 With `--tree`, for a program with subcommands (borg), prints {"actions": [...], "commands": [...]}, where each command
 has its name, aliases, help and the same map for its own actions and subcommands.
 """
-import argparse, importlib, importlib.machinery, importlib.util, inspect, json, shutil, sys
+import argparse, importlib, importlib.machinery, importlib.util, inspect, json, runpy, shutil, sys
 
 
 class Caught(Exception):
@@ -29,9 +31,12 @@ tree = args[:1] == ["--tree"]
 if tree:
     args = args[1:]
 mod, fn = args[:2]
-sys.argv = [fn]
+sys.argv = [fn] + args[2:]
 argparse.ArgumentParser.parse_args = argparse.ArgumentParser.parse_known_args = catch
 try:
+    if fn == "__main__":
+        runpy.run_path(shutil.which(mod[4:]) if mod.startswith("bin/") else mod, run_name="__main__")
+        sys.exit(f"{mod}: no parse_args")
     if mod.endswith(".py") or mod.startswith("bin/"):
         path = shutil.which(mod[4:]) if mod.startswith("bin/") else mod
         # (a script without `.py` has no loader of its own)

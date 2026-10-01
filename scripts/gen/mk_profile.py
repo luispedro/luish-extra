@@ -57,20 +57,6 @@ def getopts(text, prog, n):
     assert len(rows) == n, rows
     return rows
 
-def wrap_list(items, indent):
-    """A Rhai list of strings, one row of items per line if it doesn't fit on one."""
-    one = L(*items)
-    if indent + len(one) < 112:
-        return one
-    pad, rows, row = " " * (indent + 4), [], ""
-    for it in items:
-        if row and len(pad) + len(row) + len(it) + 4 > 116:
-            rows.append(pad + row.rstrip())
-            row = ""
-        row += f'"{it}", '
-    rows.append(pad + row.rstrip())
-    return "[\n" + "\n".join(rows) + "\n" + " " * indent + "]"
-
 def tidy(opts, fix={}):
     """The descriptions of `fix` instead of the help's, by the option's first name."""
     return [(n, a, fix.get(n.split(",")[0], d)) for n, a, d in opts]
@@ -276,9 +262,9 @@ fn("krakenuniq-download", body(kud, {"-o": DIRS, "--db": DIRS, "--threads": NONE
                                      "--search": NONE, "--ac": NONE,
                                      "--mapping-file": L("nucl_est", "nucl_gb", "nucl_gss", "nucl_wgs"),
                                      "--retmode": L("text", "asn.1", "xml"),
-                                     "--rettype": wrap_list(["fasta", "gb", "gbc", "native", "acc", "seqid", "ft",
+                                     "--rettype": gen.wrap_list(["fasta", "gb", "gbc", "native", "acc", "seqid", "ft",
                                                              "gbwithparts", "fasta_cds_na", "fasta_cds_aa"], 12),
-                                     "--taxa": NONE, "--fna": NONE}, f"[{wrap_list(KU_PATTERNS, 8)}]"))
+                                     "--taxa": NONE, "--fna": NONE}, f"[{gen.wrap_list(KU_PATTERNS, 8)}]"))
 
 # ---------------- centrifuge ----------------
 # As bowtie2's: the inputs are in the usage line, and `--un-gz` is a note about the --un, --al, ... options.
@@ -370,7 +356,7 @@ kdbs = re.findall(r"^ (\w+): ", kdt, re.M)
 assert len(kdbs) == 10, kdbs
 kmd = [("-s", "DATABASE", "source database: " + ", ".join(kdbs[:6]) + ", ...")] + h.parse(kdt)
 kmd = tidy([(n, "N" if n == "-t" else a, d) for n, a, d in kmd], {"-t": "number of threads for the index construction"})
-fn("kaiju-makedb", body(kmd, {"-s": wrap_list(kdbs, 12), "-t": NONE}, NO_ARGS))
+fn("kaiju-makedb", body(kmd, {"-s": gen.wrap_list(kdbs, 12), "-t": NONE}, NO_ARGS))
 
 # kaiju-mkbwt, kaiju-mkfmi: `-outfilename, -o (string)`, the description below, then `Value:  DEFAULT`;
 # `ARG 1, -infilename (string)` is the argument. Only the short names, as in kaiju's examples: the long ones have one

@@ -40,6 +40,9 @@ for m in [
                 "humann_join_tables", "humann_renorm_table", "humann_regroup_table", "humann_split_stratified_table",
                 "humann_rename_table", "humann_split_table", "humann_reduce_table", "humann_unpack_pathways",
                 "humann_barplot", "motus"]],
+    ["bins", ["checkm", "checkm2", "gunc", "gtdbtk", "metabat2", "jgi_summarize_bam_contig_depths", "concoct",
+              "concoct_coverage_table.py", "cut_up_fasta.py", "merge_cutup_clustering.py", "extract_fasta_bins.py",
+              "run_MaxBin.pl", "DAS_Tool", "Fasta_to_Contig2Bin.sh", "dRep", "coverm", "vamb"]],
 ] {
     for cmd in m[1] {
         module_of[cmd] = m[0];

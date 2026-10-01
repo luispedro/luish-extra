@@ -42,6 +42,21 @@ def spec_body(pkg, cmd, values=None, args=None, extra="", indent=12, opts_extra=
     return h.emit(opts, indent, values, tail.rstrip("\n"))
 
 
+def wrap_list(items, indent):
+    """A Rhai list of strings, one row of items per line if it doesn't fit on one."""
+    one = "[" + ", ".join(f'"{x}"' for x in items) + "]"
+    if indent + len(one) < 112:
+        return one
+    pad, rows, row = " " * (indent + 4), [], ""
+    for it in items:
+        if row and len(pad) + len(row) + len(it) + 4 > 116:
+            rows.append(pad + row.rstrip())
+            row = ""
+        row += f'"{it}", '
+    rows.append(pad + row.rstrip())
+    return "[\n" + "\n".join(rows) + "\n" + " " * indent + "]"
+
+
 def dump(pkg, script, args, chan="-c conda-forge -c bioconda", python=None):
     """The JSON that scripts/gen/SCRIPT prints with ARGS, run in a temporary environment with the packages `pkg`
     (separated by spaces), or with the interpreter `python` for a program that is not packaged (then `pkg` only names
@@ -56,6 +71,10 @@ def dump(pkg, script, args, chan="-c conda-forge -c bioconda", python=None):
                            text=True, timeout=600, stdin=subprocess.DEVNULL)
         if r.returncode:
             sys.exit(r.stderr)
+        try:
+            json.loads(r.stdout)
+        except ValueError:
+            sys.exit(f"{script} {args}: not JSON:\n{r.stdout[:2000]}")
         open(f, "w").write(r.stdout)
     return json.load(open(f))
 
@@ -64,7 +83,8 @@ def argparse_dump(pkg, module, function, chan="-c conda-forge -c bioconda", tree
     """The options of a Python program's argparse parser (scripts/gen/argparse_dump.py), at a pinned version:
     a list of dicts (names, metavar, nargs, choices, help, flag, positional), cached as helptext() is. With `tree`,
     {"actions": [...], "commands": [...]}, the subcommands with their own actions and subcommands. MODULE can be a
-    file of scripts/gen (`pytest_parser.py`), or `bin/PROG`, a Python script of the environment (`bin/k2`)."""
+    file of scripts/gen (`pytest_parser.py`), or `bin/PROG`, a Python script of the environment (`bin/k2`). FUNCTION can
+    be followed by the words of a command line (`main predict`); see argparse_dump.py."""
     if module.endswith(".py") and not module.startswith("bin/"):
         module = os.path.join(HERE, module)
     return dump(pkg, "argparse_dump.py", ("--tree " if tree else "") + f"{module} {function}", chan, python)
@@ -104,6 +124,8 @@ def emit_argparse(actions, kind_of, indent=12, extra=""):
     out = [pad[:-4] + "opts: `"]
     out += [f"{pad}{n}{' ' * max(2, w + 2 - len(n))}{d}".rstrip() for n, d in rows]
     out.append(pad[:-4] + "`,")
+    if not vals:
+        return "\n".join(out + ([extra] if extra else []))
     out.append(pad[:-4] + "values: #{")
     line = pad
     for v in vals:

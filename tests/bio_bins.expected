@@ -1,0 +1,302 @@
+load 0
+=== checkm
+--- checkm 
+analyze 	identify marker genes in bins
+coding_plot 	create coding density (CD) histogram and delta-CD plot
+coverage 	calculate coverage of sequences
+data 	set the CheckM data directory: checkm data setRoot DIR
+dist_plot 	create image with GC, CD, and TD distribution plots together
+gc_bias_plot 	plot bin coverage as a function of GC
+gc_plot 	create GC histogram and delta-GC plot
+len_hist 	sequence length histogram
+lineage_set 	infer lineage-specific marker sets for each bin
+lineage_wf 	runs tree, lineage_set, analyze, qa
+marker_plot 	plot position of marker genes on sequences
+merge 	identify bins with complementary sets of marker genes
+modify 	modify sequences in a bin (experimental)
+nx_plot 	create Nx-plots
+outliers 	identify outlier in bins relative to reference distributions (experimental)
+profile 	calculate percentage of reads mapped to each bin
+qa 	assess bins for contamination and completeness
+ssu_finder 	identify SSU (16S/18S) rRNAs in sequences
+taxon_list 	list available taxonomic-specific marker sets
+taxon_set 	generate taxonomic-specific marker set
+taxonomy_wf 	runs taxon_set, analyze, qa
+test 	run CheckM on a test genome
+tetra 	calculate tetranucleotide signature of sequences
+tetra_plot 	create tetranucleotide distance (TD) histogram and delta-TD plot
+tree 	place bins in the reference genome tree
+tree_qa 	assess phylogenetic markers found in each bin
+unbinned 	identify unbinned sequences
+unique 	ensure no sequences are assigned to multiple bins
+--- checkm data 
+setRoot 
+--- checkm lineage_wf data/
+data/assembly.fna 
+data/bins/
+data/contigs.bed 
+data/depth.txt 
+data/genes.gff 
+data/notes.md 
+data/out/
+data/reads_1.fq.gz 
+data/sample.bam 
+data/uniref.dmnd 
+--- checkm lineage_wf data/bins data/out --
+--aai_strain=	AAI threshold used to identify strain heterogeneity
+--ali 	generate HMMER alignment file for each bin
+--alignment_file=	produce file showing alignment of multi-copy genes and their AAI identity
+--e_value=	e-value cut off
+--extension=	extension of bins (other files in directory are ignored)
+--file=	print results to file
+--force_domain 	use domain-level sets for all bins
+--genes 	bins contain genes as amino acids instead of nucleotide contigs
+--help 	show this help message and exit
+--ignore_thresholds 	ignore model-specific score thresholds
+--individual_markers 	treat marker as independent (i.e, ignore co-located set structure)
+--length=	percent overlap between target and query
+--multi=	maximum number of multi-copy phylogenetic markers before defaulting to domain-level
+--no_refinement 	do not perform lineage-specific marker set refinement
+--nt 	generate nucleotide gene sequences for each bin
+--pplacer_threads=	number of threads used by pplacer
+--quiet 	suppress console output
+--reduced_tree 	use reduced tree (requires <16GB of memory) for determining lineage of each bin
+--skip_adj_correction 	do not exclude adjacent marker genes when estimating contamination
+--skip_pseudogene_correction 	skip identification and filtering of pseudogenes
+--tab_table 	print tab-separated values table
+--threads=	number of threads
+--tmpdir=	specify an alternative directory for temporary files
+--unique=	minimum number of unique phylogenetic markers required to use lineage-specific marker set
+--- checkm qa -o 
+1 
+2 
+3 
+4 
+5 
+6 
+7 
+8 
+9 
+--- checkm taxonomy_wf 
+class 
+domain 
+family 
+genus 
+life 
+order 
+phylum 
+species 
+--- checkm coverage data/bins data/out data/
+data/bins/
+data/out/
+data/sample.bam 
+=== checkm2
+--- checkm2 
+database 	download/set up required diamond database for CheckM2
+predict 	predict the completeness and contamination of genome bins in a folder
+testrun 	runs Checkm2 on internal test genomes to ensure it runs without errors
+--- checkm2 predict --database_path data/
+data/bins/
+data/out/
+data/uniref.dmnd 
+--- checkm2 predict --output
+--output-directory=	output folder
+--output_directory=	output folder
+=== gunc
+--- gunc 
+check 	validate environment and input files before running
+download_db 	download GUNC db
+merge_checkm 	merge GUNC and CheckM outputs
+plot 	create interactive visualisation
+run 	run chimerism detection
+summarise 	re-score genomes using a different contamination cutoff
+--- gunc download_db -db 
+gtdb_214 
+gtdb_95 
+progenomes_2.1 
+--- gunc rescore --
+--contamination_cutoff=	alternative cutoff to use
+--gunc_detailed_output_dir=	GUNC detailed output dir (e.g gunc_output)
+--help 	show this help message and exit
+--max_csslevel_file=	maxCSS output file from GUNC (e.g GUNC.progenomes_2.1.maxCSS_level.tsv)
+--output_file=	file in which to write output with rescored pass.GUNC column
+--verbose 	verbose output for debugging
+=== gtdbtk
+--- gtdbtk classify_wf --genome_dir 
+data/
+--- gtdbtk infer --prot_model 
+JTT 
+LG 
+WAG 
+--- gtdbtk export_msa --domain 
+arc 
+bac 
+=== metabat2
+--- metabat2 -i data/
+data/assembly.fna 
+data/bins/
+data/out/
+--- metabat2 --min
+--minCV=	minimum mean coverage of a contig in each library for binning
+--minCVSum=	minimum total effective mean coverage of a contig (sum of depth over minCV) for binning
+--minClsSize=	minimum size of a bin as the output
+--minContig=	minimum size of a contig for binning (at least 1500)
+--minRecruitingSize=	minimum cluster size for recruiting small and leftover contigs
+--minS=	minimum score of an edge for binning, 1 to 99
+--minSmallContig=	minimum size of a small contig to recruit into the bins (at least 500)
+--- jgi_summarize_bam_contig_depths --outputDepth data/depth.txt data/
+data/bins/
+data/out/
+data/sample.bam 
+--- jgi_summarize_bam_contig_depths --ref
+--referenceFasta=	the reference: the FASTA that the BAM files were mapped to
+=== concoct
+--- concoct --composition_file data/
+data/assembly.fna 
+data/bins/
+data/out/
+--- cut_up_fasta.py data/
+data/assembly.fna 
+data/bins/
+data/out/
+--- concoct_coverage_table.py data/
+data/bins/
+data/contigs.bed 
+data/out/
+--- concoct_coverage_table.py data/contigs.bed data/
+data/bins/
+data/out/
+data/sample.bam 
+--- extract_fasta_bins.py data/assembly.fna data/
+data/assembly.fna 
+data/bins/
+data/contigs.bed 
+data/depth.txt 
+data/genes.gff 
+data/notes.md 
+data/out/
+data/reads_1.fq.gz 
+data/sample.bam 
+data/uniref.dmnd 
+=== MaxBin, DAS Tool
+--- run_MaxBin.pl -contig data/
+data/assembly.fna 
+data/bins/
+data/out/
+--- run_MaxBin.pl -markerset 
+107 
+40 
+--- run_MaxBin.pl -re
+-reads 	reads file (FASTA or FASTQ)
+-reads2 	reads file of a second sample
+-reads3 	reads file of a third sample
+-reads4 	reads file of a fourth sample
+-reads_list 	file listing reads files, one per line
+--- DAS_Tool --search
+--search_engine=	engine for single copy gene identification: diamond, blastp, usearch
+--- DAS_Tool --search_engine=
+--search_engine=blastp 
+--search_engine=diamond 
+--search_engine=usearch 
+--- DAS_Tool -c data/
+data/assembly.fna 
+data/bins/
+data/out/
+--- Fasta_to_Contig2Bin.sh -
+-e 	extension of fasta files
+-h 	show this message
+-i 	folder with bins in fasta format
+=== dRep
+--- dRep 
+check_dependencies 	check which dependencies are properly installed
+compare 	compare and cluster a set of genomes
+dereplicate 	de-replicate a set of genomes
+--- dRep dereplicate --S_algorithm 
+ANImf 
+ANIn 
+fastANI 
+gANI 
+goANI 
+skani 
+--- dRep compare -g data/
+data/assembly.fna 
+data/bins/
+data/out/
+=== coverm
+--- coverm 
+cluster 	cluster FASTA files by average nucleotide identity
+contig 	calculate coverage of contigs
+filter 	remove alignments with insufficient identity
+genome 	calculate coverage of genomes
+make 	generate BAM files through mapping
+makedb 	generate mapping database(s) from reference FASTA files
+shell-completion 	generate a shell completion script for coverm
+--- coverm genome -m 
+anir 
+count 
+coverage_histogram 
+covered_bases 
+covered_fraction 
+length 
+mean 
+reads_per_base 
+relative_abundance 
+rpkm 
+tpm 
+trimmed_mean 
+variance 
+--- coverm contig --mapper 
+bwa-mem 
+bwa-mem2 
+minibwa 
+minimap2-hifi 
+minimap2-lr-hq 
+minimap2-no-preset 
+minimap2-ont 
+minimap2-pb 
+minimap2-sr 
+rammap-hifi 
+rammap-lr-hq 
+rammap-no-preset 
+rammap-ont 
+rammap-pb 
+rammap-sr 
+strobealign 
+--- coverm contig --coupled data/
+data/assembly.fna 
+data/bins/
+data/out/
+data/reads_1.fq.gz 
+data/sample.bam 
+--- coverm filter -o data/
+data/bins/
+data/out/
+data/sample.bam 
+--- coverm genome --dereplication-quality-formula 
+Parks2020_reduced 
+completeness-4contamination 
+completeness-5contamination 
+dRep 
+--- coverm shell-completion --shell 
+bash 
+elvish 
+fish 
+powershell 
+zsh 
+=== vamb
+--- vamb 
+bin 	VAMB and TaxVAMB binners
+recluster 	reclustering using single-copy genes for the binning results of VAMB or TaxVAMB
+taxometer 	refines taxonomic annotations of any metagenome classifier
+--- vamb bin 
+default 	default binner based on a variational autoencoder
+taxvamb 	taxonomy informed binner based on a bi-modal variational autoencoder
+--- vamb bin default --fasta data/
+data/assembly.fna 
+data/bins/
+data/out/
+--- vamb recluster --algorithm 
+dbscan 
+kmeans 
+--- vamb recluster --hmm
+--hmm_path=	path to the .hmm file of marker gene profiles

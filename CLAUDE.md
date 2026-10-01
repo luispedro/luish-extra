@@ -20,7 +20,9 @@ rasusa, porechop, NanoPlot, NanoFilt, NanoStat), `asm.rhai` (assembly and annota
 flye, quast, metaquast, busco, prodigal, prokka, bakta, barrnap), `meta.rhai` (metagenomics and microbial genomics:
 rgi, so far), `profile.rhai` (taxonomic and functional profiling: kraken2, bracken, krakenuniq, centrifuge, kaiju,
 metaphlan, humann, motus, and the programs that come with them: kraken2-build, k2, kaiju2table, strainphlan,
-humann_renorm_table, ...) and `dynamic.rhai` (mmseqs: the options are read from
+humann_renorm_table, ...), `bins.rhai` (binning and the quality, taxonomy and dereplication of MAGs: checkm,
+checkm2, gunc, gtdbtk, metabat2 and jgi_summarize_bam_contig_depths, concoct and its scripts, run_MaxBin.pl, DAS_Tool and
+Fasta_to_Contig2Bin.sh, dRep, coverm, vamb) and `dynamic.rhai` (mmseqs: the options are read from
 the installed program's `-h` when Tab is pressed, through extra-lib's `help`; use it for programs whose help has a
 regular format). Python programs built with Click (multiqc, genmod, cooler, ...) have no module: `extension.rhai`
 registers them with std's Click bridge (`@std/completion/bridges`), only if they answer in under a second. Go programs
@@ -79,8 +81,8 @@ environment with Bioconda, so nothing is installed):
   (hybracter, pysradb print usage), and Typer programs don't speak this protocol: read the output.
 - `scripts/help2opts.py` drafts `opts:` and `values:` from a help text on standard input; read a draft before using
   it, since help formats differ in many small ways.
-- `align.rhai`, `bam.rhai`, `blast.rhai`, `diamond.rhai`, `hmmer.rhai`, `reads.rhai`, `asm.rhai` and `profile.rhai`
-  of `bio`, `snakemake.rhai`, `pandoc.rhai`, `aria2.rhai`, `parallel.rhai`, `miller.rhai`, `cwltool.rhai` and
+- `align.rhai`, `bam.rhai`, `blast.rhai`, `diamond.rhai`, `hmmer.rhai`, `reads.rhai`, `asm.rhai`, `profile.rhai` and
+  `bins.rhai` of `bio`, `snakemake.rhai`, `pandoc.rhai`, `aria2.rhai`, `parallel.rhai`, `miller.rhai`, `cwltool.rhai` and
   `jupyter_specs.rhai` of `science`, `pytest.rhai`, `mypy.rhai` and `poetry.rhai` of `dev`, `borg.rhai` of `system`
   and `bandage.rhai` of `gui` are **generated** by `scripts/gen/mk_*.py` from the `--help` of pinned versions
   (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`, cached in `$HELP_CACHE`), with the corrections and value kinds
@@ -91,7 +93,9 @@ environment with Bioconda, so nothing is installed):
   (`porechop.porechop:get_arguments`), since the parser is caught at `parse_args`, or one that takes the command line
   as a parameter (`metaphlan.metaphlan:read_params(args)`). The module can be a helper file of
   `scripts/gen` (`pytest_parser.py`, `borg_parser.py`) for a parser that needs a few lines to get at, or `bin/PROG`
-  for a Python script among the environment's programs (`bin/k2`). `tree=True` gives
+  for a Python script among the environment's programs (`bin/k2`); the function `__main__` runs such a script as a
+  program, for one that builds its parser at its top level (`bin/checkm`), and words after the function are the command
+  line the program sees, for one that prints its help without arguments (`checkm2.main:main predict`). `tree=True` gives
   the subcommands too (borg), and `python=` runs a local interpreter instead of pixi (borg: not in conda-forge).
   `gen.cleo_dump` does the same for Cleo programs (poetry), and `gen.dump` runs any helper that prints JSON
   (`mypy_info.py`: mypy's error codes). A program that prints its usage only when its standard input is a terminal

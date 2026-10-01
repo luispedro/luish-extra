@@ -588,19 +588,25 @@ them in the same way. A tick with `(Cobra)` means the program answers with its s
 - [x] `humann_unpack_pathways`: humann 3.9
 - [x] `humann_barplot`: humann 3.9
 - [x] `motus`: motus 4.1.0
-- [ ] `checkm`
-- [ ] `checkm2`
+- [x] `checkm`: checkm-genome 1.2.5
+- [x] `checkm2`: checkm2 1.1.0
 - [x] `checkv`: checkv 1.1.1 (Click)
-- [ ] `gunc`
+- [x] `gunc`: gunc 1.1.1
 - [ ] `singlem`
-- [ ] `gtdbtk`
-- [ ] `metabat2`
-- [ ] `concoct`
-- [ ] `maxbin`
-- [ ] `das_tool`
-- [ ] `drep`
-- [ ] `coverm`
-- [ ] `vamb`
+- [x] `gtdbtk`: gtdbtk 2.7.2
+- [x] `metabat2`: metabat2 2.18_23_gc869c52
+- [x] `jgi_summarize_bam_contig_depths`: metabat2 2.18_23_gc869c52
+- [x] `concoct`: concoct 1.1.0
+- [x] `concoct_coverage_table.py`: concoct 1.1.0
+- [x] `cut_up_fasta.py`: concoct 1.1.0
+- [x] `merge_cutup_clustering.py`: concoct 1.1.0
+- [x] `extract_fasta_bins.py`: concoct 1.1.0
+- [x] `run_MaxBin.pl`: maxbin2 2.2.7
+- [x] `DAS_Tool`: das_tool 1.1.7
+- [x] `Fasta_to_Contig2Bin.sh`: das_tool 1.1.7
+- [x] `dRep`: drep 3.7.1
+- [x] `coverm`: coverm 0.8.0
+- [x] `vamb`: vamb 5.0.4
 - [ ] `genomad`: Click, 1.4 s: `complete-click genomad`
 - [ ] `emapper.py`
 - [ ] `mothur`
