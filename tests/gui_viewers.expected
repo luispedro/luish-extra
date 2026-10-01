@@ -24,3 +24,153 @@ sessions/
 style.xml 
 --- cytoscape -R 
 --- cytoscape -S script.txt 
+=== jalview
+--- jalview --colour=
+--colour=blosum62 
+--colour=buried-index 
+--colour=clustal 
+--colour=gecos-blossom 
+--colour=gecos-flower 
+--colour=gecos-ocean 
+--colour=gecos-sunset 
+--colour=helix-propensity 
+--colour=hydrophobic 
+--colour=nucleotide 
+--colour=nucleotide-ambiguity 
+--colour=pc-identity 
+--colour=purine-pyrimidine 
+--colour=rna-helices 
+--colour=sequence-id 
+--colour=strand-propensity 
+--colour=t-coffee-scores 
+--colour=taylor 
+--colour=turn-propensity 
+--colour=zappo 
+--- jalview --open=aln.fa --format=
+--format=amsa 
+--format=blc 
+--format=clustal 
+--format=fasta 
+--format=jalview 
+--format=json 
+--format=msf 
+--format=pfam 
+--format=phylip 
+--format=pileup 
+--format=pir 
+--format=stockholm 
+--- jalview --tr
+--tree=	add a tree file or URL to the open alignment
+=== artemis
+--- art -D
+-Dbam=	BAM, CRAM, VCF or BCF files (,-separated; bam1=, bam2=: in separate panels)
+-DbamClone=	open the BAM files in N panels
+-Dblack_belt_mode=	keep warnings to a minimum
+-Dchado=	a Chado database (host:port/db?user)
+-Dloguserplot=	userplot files, of log(data)
+-Doffset=	the base position to open at
+-Dread_only 	open the Chado database read-only
+-Dshow_cov_plot 	open the coverage plot in BamView
+-Dshow_forward_lines=	show the forward frame lines
+-Dshow_reverse_lines=	show the reverse frame lines
+-Dshow_snp_plot 	open the SNP plot in BamView
+-Dshow_snps 	show SNP marks in BamView
+-Duserplot=	userplot files (,-separated)
+--- art -Dbam=reads.bam,
+-Dbam=reads.bam,aln.fa 
+-Dbam=reads.bam,genome.gbk 
+-Dbam=reads.bam,gui_viewers.sh 
+-Dbam=reads.bam,net.sif 
+-Dbam=reads.bam,old.cys.bak 
+-Dbam=reads.bam,reads.bam 
+-Dbam=reads.bam,reads.cram 
+-Dbam=reads.bam,script.txt 
+-Dbam=reads.bam,sessions/
+-Dbam=reads.bam,style.xml 
+-Dbam=reads.bam,tree.nwk 
+--- art -Dshow_forward_lines=
+-Dshow_forward_lines=false 
+-Dshow_forward_lines=true 
+--- art genome.gbk +
++aln.fa 
++genome.gbk 
++gui_viewers.sh 
++net.sif 
++old.cys.bak 
++reads.bam 
++reads.cram 
++script.txt 
++sessions/
++style.xml 
++tree.nwk 
+--- act -
+-chado 	connect to a Chado database ($PGHOST, $PGPORT, $PGDATABASE, $PGUSER)
+-h 	show the help
+-help 	show the help
+-options 	read options from a file
+-quiet 	don't print the arguments Java is started with
+--- bamview -a 
+reads.bam 
+reads.cram 
+sessions/
+--- bamview -v 
+C 	coverage
+IS 	inferred size
+PS 	paired stack
+S 	stack
+ST 	strand
+--- dnaplotter -t 
+aln.fa 
+genome.gbk 
+gui_viewers.sh 
+net.sif 
+old.cys.bak 
+reads.bam 
+reads.cram 
+script.txt 
+sessions/
+style.xml 
+tree.nwk 
+=== BandageNG
+--- BandageNG 
+image 	generate an image file of a graph
+info 	display information about a graph
+layout 	layout the graph
+load 	launch the BandageNG GUI and load a graph file
+querypaths 	output graph paths for BLAST queries
+reduce 	save a subgraph of a larger graph
+--- BandageNG image 
+aln.fa 
+graph.gfa 
+sessions/
+--- BandageNG image graph.gfa out.png --sco
+--scope=	the graph's scope
+--- BandageNG image graph.gfa out.png --colour 
+csv 
+custom 
+depth 
+gc 
+gfa 
+random 
+uniform 
+--- BandageNG querypaths graph.gfa 
+aln.fa 
+sessions/
+=== pymol, chimerax, vmd
+--- pymol -A 
+1 	simple viewer window
+3 	internal GUI only, no splash
+4 	used by PYMOLVIEWER
+5 	helper application
+6 	full screen presentation
+--- pymol -r 
+sessions/
+--- chimerax --start
+--start_tool=	start a tool at startup
+--- vmd -dispdev 
+cave 
+none 
+text 
+win 
+--- vmd -ps
+-psf 	load a PSF file

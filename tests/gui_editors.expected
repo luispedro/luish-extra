@@ -74,3 +74,111 @@ wayland
 wayland-egl 
 --- kate -s 
 other 
+=== code
+--- code 
+agent 	subcommand
+chat 	subcommand
+data/
+ext.vsix 
+gui_editors.sh 
+notes.txt 
+serve-web 	subcommand
+src/
+tunnel 	subcommand
+--- code t
+tunnel 	subcommand
+--- code -n t
+data/
+ext.vsix 
+gui_editors.sh 
+notes.txt 
+--- code --uninstall-extension 
+mechatroner.rainbow-csv 	3.24.1
+ms-python.python 	2026.4.0
+--- code --install-extension 
+data/
+ext.vsix 
+src/
+--- code --profile 
+Data\ science 
+Default 
+--- code --locate-shell-integration-path 
+bash 
+fish 
+pwsh 
+zsh 
+--- code chat -
+--maximize 	maximize the chat view
+--profile=	open with a profile (created if it doesn't exist)
+-a 	add files as context
+-h 	show the help
+-m 	the mode of the chat (or a custom mode's id; agent)
+-n 	open an empty window
+-r 	use the last active window
+--- code chat --mode 
+agent 
+ask 
+edit 
+--- code tunnel 
+help 	print this message or the help of the given subcommand(s)
+kill 	stops any running tunnel on the system
+prune 	delete all servers which are currently not running
+rename 	rename the name of this machine associated with port forwarding service
+restart 	restarts any running tunnel on the system
+service 	(Preview) Manages the tunnel when installed as a system service,
+status 	gets whether there is a tunnel running on the current machine
+unregister 	remove this machine's association with the port forwarding service
+--- code tunnel --n
+--name=	sets the machine name for port forwarding service
+--no-sleep 	prevents the machine going to sleep while this command runs
+--- code tunnel user 
+help 	print this message or the help of the given subcommand(s)
+login 	log in to port forwarding service
+logout 	log out of port forwarding service
+show 	show the account that's logged into port forwarding service
+=== meld
+--- meld -
+--auto-merge 	merge the files automatically
+--comparison-file=	load a saved comparison (.meldcmp)
+--diff 	a diff tab for the files or directories after it
+--help-all 	show all the help
+--help-gapplication 	show GApplication's options
+--help-gtk 	show GTK's options
+--version 	show the version
+-L 	a label to use instead of a file's name (once for each)
+-a 	compare all differing files on startup
+-h 	show the help
+-n 	open a new tab in the running meld
+-o 	the file to save a merge to
+-u 	ignored, for compatibility
+--- meld --comparison-file 
+data/
+src/
+=== gedit
+--- gedit --encoding=
+--encoding=Big5 
+--encoding=EUC-JP 
+--encoding=EUC-KR 
+--encoding=GB18030 
+--encoding=ISO-8859-1 
+--encoding=ISO-8859-15 
+--encoding=KOI8-R 
+--encoding=Shift_JIS 
+--encoding=UTF-16 
+--encoding=UTF-16BE 
+--encoding=UTF-16LE 
+--encoding=UTF-32 
+--encoding=UTF-8 
+--encoding=windows-1251 
+--encoding=windows-1252 
+--- gedit -
+--encoding=	the encoding of the files on the command line
+--help-all 	show all the help
+--help-gapplication 	show GApplication's options
+--list-encodings 	list the values of --encoding
+--new-document 	create a new document in the running gedit
+--new-window 	open a new window in the running gedit
+-V 	show the version
+-h 	show the help
+-s 	run a gedit of its own
+-w 	wait for the files to be closed

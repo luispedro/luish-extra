@@ -173,3 +173,38 @@ sheet.ods
 --- xdg-open r
 report.odt 
 --- xdg-open report.odt 
+=== evince
+--- evince -
+--class=	program class, for the window manager
+--display=	X display to use
+--g-fatal-warnings 	make all warnings fatal
+--gtk-module=	load additional GTK modules
+--help-all 	show all the help
+--help-gtk 	show GTK's options
+--name=	program name, for the window manager
+--version 	show the version
+-f 	start in full screen
+-h 	show the help
+-i 	the page number to show
+-l 	the word or phrase to find
+-n 	the named destination to show
+-o 	open a new window
+-p 	the page label to show
+-s 	start in presentation mode
+-w 	run as a previewer
+--- evince --page-label=3 r
+report.odt 
+=== zathura
+--- zathura --mode 
+fullscreen 
+presentation 
+--- zathura -l 
+debug 
+error 
+info 
+warning 
+--- zathura --c
+--cache-dir=	the cache directory
+--config-dir=	the configuration directory
+--- zathura -P 2 r
+report.odt 

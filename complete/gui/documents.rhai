@@ -1,5 +1,5 @@
-// Documents: libreoffice and soffice (LibreOffice 24.2.7.2; soffice is the same program), okular (23.08.5) and
-// xdg-open (xdg-utils 1.1.3).
+// Documents: libreoffice and soffice (LibreOffice 24.2.7.2; soffice is the same program), evince (46.3.1), okular
+// (23.08.5), zathura (2026.07.18) and xdg-open (xdg-utils 1.1.3).
 import "qt" as qt;
 
 fn k(name) { "@extra-complete/gui/kinds:" + name }
@@ -79,6 +79,83 @@ fn libreoffice() {
     }
 }
 
+// The options of GTK 3 that GNOME programs take (`--help-gtk`).
+fn gtk_opts() {
+    `
+        --class=CLASS               program class, for the window manager
+        --name=NAME                 program name, for the window manager
+        --gtk-module=MODULES        load additional GTK modules
+        --g-fatal-warnings          make all warnings fatal
+        --display=DISPLAY           X display to use
+    `
+}
+
+fn gtk_values() {
+    #{"--class": "none", "--name": "none", "--gtk-module": "none", "--display": "none"}
+}
+
+// evince [OPTIONS] [FILES]
+fn evince() {
+    let v = gtk_values();
+    v.mixin(#{"--page-label": "none", "--page-index": "none", "--named-dest": "none", "--find": "none"});
+    #{
+        opts: `
+            -h, --help                  show the help
+            --help-all                  show all the help
+            --help-gtk                  show GTK's options
+            --version                   show the version
+            -o, --new-window            open a new window
+            -p, --page-label=PAGE       the page label to show
+            -i, --page-index=NUMBER     the page number to show
+            -n, --named-dest=DEST       the named destination to show
+            -f, --fullscreen            start in full screen
+            -s, --presentation          start in presentation mode
+            -w, --preview               run as a previewer
+            -l, --find=STRING           the word or phrase to find
+        ` + gtk_opts(),
+        values: v,
+    }
+}
+
+// zathura [OPTIONS] [FILES]: a file `-` is standard input.
+fn zathura() {
+    #{
+        opts: `
+            -h, --help                  show the help
+            -v, --version               show the version
+            -c, --config-dir=PATH       the configuration directory
+            -d, --data-dir=PATH         the data directory
+            --cache-dir=PATH            the cache directory
+            -p, --plugins-dir=PATH      the directories of the plugins (:-separated)
+            --fork                      fork into the background
+            -w, --password=PASSWORD     the document's password
+            -P, --page=NUMBER           the page to go to
+            -l, --log-level=LEVEL       the log level
+            -x, --synctex-editor-command=CMD  the SyncTeX editor command (%{input}, %{line}, %{column})
+            --synctex-forward=POSITION  move to a SyncTeX position (LINE:COLUMN:INPUT)
+            --synctex-pid=PID           highlight the position in this zathura
+            --mode=MODE                 start in a non-default mode
+            -b, --bookmark=BOOKMARK     the bookmark to go to
+            -f, --find=STRING           search for a phrase and show the results
+        `,
+        values: #{
+            "--config-dir": "dirs",
+            "--data-dir": "dirs",
+            "--cache-dir": "dirs",
+            "--plugins-dir": "dirs",
+            "--password": "none",
+            "--page": "none",
+            "--log-level": ["debug", "info", "warning", "error"],
+            "--synctex-editor-command": "none",
+            "--synctex-forward": "none",
+            "--synctex-pid": k("zathura_pids"),
+            "--mode": ["presentation", "fullscreen"],
+            "--bookmark": "none",
+            "--find": "none",
+        },
+    }
+}
+
 // okular [OPTIONS] [FILES]: a file `-` is standard input.
 fn okular() {
     qt::with_kde(#{
@@ -111,7 +188,9 @@ fn xdg_open() {
 fn spec(cmd) {
     switch cmd {
         "libreoffice" | "soffice" => libreoffice(),
+        "evince" => evince(),
         "okular" => okular(),
+        "zathura" => zathura(),
         "xdg-open" => xdg_open(),
         _ => #{},
     }

@@ -1,0 +1,19 @@
+#!/bin/sh
+# Stand-in for dconf in the tests: a small database.
+case "$*" in
+"list /")
+    printf 'org/\nsystem/\n'
+    ;;
+"list /org/")
+    printf 'gnome/\n'
+    ;;
+"list /org/gnome/")
+    printf 'desktop/\nterminal/\nversion\n'
+    ;;
+"read /org/gnome/version")
+    printf "'46'\n"
+    ;;
+*)
+    exit 1
+    ;;
+esac

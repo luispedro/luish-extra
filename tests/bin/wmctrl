@@ -1,0 +1,7 @@
+#!/bin/sh
+# Stand-in for wmctrl in the tests: `-l` lists two windows.
+if [ "$1" = -l ]; then
+    printf '0x03a00003  0 host Mozilla Firefox\n0x04200007  1 host notes.txt - Kate\n'
+    exit 0
+fi
+exit 1

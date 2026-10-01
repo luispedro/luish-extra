@@ -39,11 +39,17 @@ locations and compression specs, FUSE mount points from `/proc/mounts`), `tools.
 generated `borg.rhai`. `complete/gui`: `kinds.rhai` (LibreOffice's filters and file types, read from the `.xcd` files of
 its registry, found by following the `soffice` link in `PATH`; CUPS's printers; kate's sessions; GIMP's session files;
 the object IDs of the SVG files on the line and the actions of `inkscape --action-list`; OBS's profiles, scene
-collections and scenes), `qt.rhai` (the options of every KDE program, from QCommandLineParser and Qt), `documents.rhai`
-(libreoffice, soffice, okular, xdg-open), `editors.rhai` (kate), `media.rhai` (gimp, inkscape, obs, audacity),
-`viewers.rhai` (cytoscape, Cytoscape, cytoscape.sh) and `mpv.rhai` (its options read from the installed mpv's
-`--list-options` when Tab is pressed, with a completer of its own, as nextflow has); the rest of its commands are to do.
-svn, netlify and adb (`dev`) are still to do, and the rest of `PLAN.md` ("Order", "Next steps"). Every module has `fn
+collections and scenes; Firefox's, Thunderbird's and Chrome's profiles; VS Code's extensions and profiles; Krita's
+workspaces and sessions; Artemis's `-D` properties; xrandr's outputs and modes, gsettings's schemas, keys and values,
+dconf's paths and wmctrl's windows), `qt.rhai` (the options of every KDE program, from QCommandLineParser and Qt),
+`browsers.rhai` (firefox, thunderbird, chromium, google-chrome), `documents.rhai` (libreoffice, soffice, evince, okular,
+zathura, xdg-open), `editors.rhai` (code, with a completer of its own and its clap subcommands read through extra-lib's
+`help`; meld, gedit, kate), `media.rhai` (vlc, cvlc, gimp, inkscape, krita, blender, obs, audacity, eog),
+`viewers.rhai` (cytoscape, jalview, art, act, bamview, dnaplotter, tablet, pymol, chimerax, vmd), `desktop.rhai`
+(xrandr, gsettings, dconf, notify-send, wmctrl, swaymsg, hyprctl, and xdotool, whose chained commands have a completer
+of their own), the generated `bandage.rhai` (BandageNG) and `mpv.rhai` (its options read from the installed mpv's
+`--list-options` when Tab is pressed, with a completer of its own, as nextflow has); proksee goes through std's Click
+bridge. svn, netlify and adb (`dev`) are still to do, and the rest of `PLAN.md` ("Order", "Next steps"). Every module has `fn
 spec(cmd)` (the generated ones too, ignoring `cmd`), and `extension.rhai` maps each command to its module (`module_of`),
 so a new module needs an entry there; nextflow, whose spec depends on the line, and mpv have completers of their own.
 
@@ -72,10 +78,11 @@ environment with Bioconda, so nothing is installed):
   it, since help formats differ in many small ways.
 - `align.rhai`, `bam.rhai`, `blast.rhai`, `diamond.rhai`, `hmmer.rhai`, `reads.rhai` and `asm.rhai` of `bio`,
   `snakemake.rhai`, `pandoc.rhai`, `aria2.rhai`, `parallel.rhai`, `miller.rhai`, `cwltool.rhai` and `jupyter_specs.rhai`
-  of `science`, `pytest.rhai`, `mypy.rhai` and `poetry.rhai` of `dev`, and `borg.rhai` of `system`, are **generated** by
-  `scripts/gen/mk_*.py` from the `--help` of pinned versions (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`, cached
-  in `$HELP_CACHE`), with the corrections and value kinds written in the generators. For Python programs built with
-  argparse, `gen.argparse_dump(PKG, "module", "function")` runs the parser in the program's environment
+  of `science`, `pytest.rhai`, `mypy.rhai` and `poetry.rhai` of `dev`, `borg.rhai` of `system` and `bandage.rhai` of
+  `gui` are **generated** by `scripts/gen/mk_*.py` from the `--help` of pinned versions
+  (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`, cached in `$HELP_CACHE`), with the corrections and value kinds
+  written in the generators. For Python programs built with argparse, `gen.argparse_dump(PKG, "module", "function")`
+  runs the parser in the program's environment
   (`argparse_dump.py`) and gives its options with their choices and number of values, and `gen.emit_argparse` writes the
   table; the function may also be one that builds the parser and parses the command line itself
   (`porechop.porechop:get_arguments`), since the parser is caught at `parse_args`. The module can be a helper file of
@@ -135,8 +142,8 @@ sphinx-build -W docs docs/_build
   `String::replace`, `trim` and `sort` change the value in place and return `()`; a `switch` case with several values is
   `"a" | "b" =>`; a closure kept in a variable can't be called as `f(x)` (use a named `fn`); a backtick string keeps
   `\n` as two characters; `module` and `in` are reserved words (also as keys of a map literal: quote them); `parse_json`
-  takes only an object, so a JSON array is read as ``parse_json(`{"a": ${out}}`).a``; `go` is a reserved word. An
-  `import` can name a variable (`let m = module_of[words[0]]; import m as specs;`), which is how each
+  takes only an object, so a JSON array is read as ``parse_json(`{"a": ${out}}`).a``; `go` and `sync` are reserved
+  words. An `import` can name a variable (`let m = module_of[words[0]]; import m as specs;`), which is how each
   `extension.rhai` imports a command's module.
 - For a program whose long options take their value as the next word and have a single dash or two (`mlr`: `single_dash: true`
   and `strict_eq: true`, else the engine completes `--name=`; `nextflow` and `latexmk` have `single_dash` only). The `sub_spec`

@@ -1,0 +1,48 @@
+load 0
+=== firefox
+--- firefox -P 
+default-release 	wxyz9876.default-release
+work 	abcd1234.work
+--- firefox --pr
+--preferences 	open the preferences
+--private-window	open a new private window (with a URL)
+--profile=	start with the profile at PATH
+--- firefox --private-window
+--private-window	open a new private window (with a URL)
+--- firefox --profile 
+other/
+snap/
+--- firefox --new-tab x p
+page.html 
+=== thunderbird
+--- thunderbird -P 
+mail 	m1.mail
+--- thunderbird -c
+-calendar 	go to the calendar tab
+-compose 	compose a message (to='a@b.org',subject='...',attachment=FILE,...)
+--- thunderbird --com
+--compose	compose a message (to='a@b.org',subject='...',attachment=FILE,...)
+=== chrome
+--- google-chrome --profile-directory=
+--profile-directory=Default 	Person 1
+--profile-directory=Profile\ 2 	Work
+--- chromium --user-data-dir=other --profile-directory=
+--profile-directory=Default 	Testing
+--- google-chrome --oz
+--ozone-platform-hint=	the Ozone platform, if it is available
+--ozone-platform=	the Ozone platform
+--- google-chrome --ozone-platform-hint=
+--ozone-platform-hint=auto 
+--ozone-platform-hint=wayland 
+--ozone-platform-hint=x11 
+--- google-chrome --password-store=
+--password-store=basic 
+--password-store=gnome-libsecret 
+--password-store=kwallet 
+--password-store=kwallet5 
+--password-store=kwallet6 
+--- google-chrome --headless --print-to-pdf
+--print-to-pdf	print the page to a PDF file (headless; output.pdf)
+--- google-chrome-stable --load-extension=
+--load-extension=other/
+--load-extension=snap/

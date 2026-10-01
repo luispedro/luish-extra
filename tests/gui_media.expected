@@ -284,3 +284,98 @@ photo.jpg
 --- gimp --session 
 --- obs --profile 
 --- obs --scene 
+=== vlc
+--- vlc --deinterlace-mode 
+auto 
+blend 
+bob 
+discard 
+ivtc 
+linear 
+mean 
+phosphor 
+x 
+yadif 
+yadif2x 
+--- vlc -I 
+dummy 
+http 
+lua 
+ncurses 
+oldrc 
+qt 
+rc 
+skins2 
+telnet 
+--- cvlc --no-v
+--no-video 	disable video
+--no-video-title-show 	don't show the media's title on the video
+--- vlc --sub-file 
+drawing.png 
+figure.svg 
+gui_media.sh 
+out/
+photo.jpg 
+=== krita
+--- krita --workspace 
+Animation 
+Big_Paint_2 
+--- krita --load-session 
+comic 
+--- krita --exp
+--export 	export to --export-filename and quit
+--export-filename=	the file to export to
+--export-sequence 	export the animation to --export-filename and quit
+=== blender
+--- blender 
+out/
+scene.blend 
+--- blender scene.blend -b -E 
+BLENDER_EEVEE 
+BLENDER_WORKBENCH 
+CYCLES 
+help 
+--- blender -b scene.blend -P 
+out/
+render.py 
+--- blender --gpu-v
+--gpu-vsync 	VSync
+--- blender -F 
+BMP 
+CINEON 
+DPX 
+FFMPEG 
+HDR 
+IRIS 
+JP2 
+JPEG 
+OPEN_EXR 
+OPEN_EXR_MULTILAYER 
+PNG 
+RAWTGA 
+TGA 
+TIFF 
+WEBP 
+--- blender --log-level 
+debug 
+error 
+fatal 
+info 
+trace 
+warning 
+=== eog
+--- eog -
+--class=	program class, for the window manager
+--display=	X display to use
+--g-fatal-warnings 	make all warnings fatal
+--gtk-module=	load additional GTK modules
+--help-all 	show all the help
+--help-gtk 	show GTK's options
+--name=	program name, for the window manager
+--version 	show the version
+-f 	open in full screen
+-g 	disable the image gallery
+-h 	show the help
+-n 	start a new eog, instead of reusing the running one
+-s 	open in slideshow mode
+-w 	open in a single window (the first one, if there are several)

@@ -1,0 +1,336 @@
+load 0
+=== xrandr
+--- xrandr --output 
+DP-1 	connected
+HDMI-1 	disconnected
+eDP-1 	connected
+--- xrandr --output DP-1 --mode 
+1280x720 	60.00
+1920x1080 	60.00    50.00
+2560x1440 	59.95*+
+--- xrandr --output eDP-1 --mode 1920x1080 --output DP-1 --right-of 
+DP-1 	connected
+HDMI-1 	disconnected
+eDP-1 	connected
+--- xrandr --rot
+--rotate 	rotate the output
+--- xrandr --output DP-1 --rotate 
+inverted 
+left 
+normal 
+right 
+--- xrandr -d :1 --output 
+DP-1 	connected
+HDMI-1 	disconnected
+eDP-1 	connected
+--- xrandr --mode 
+1280x720 	60.00    59.99
+1680x1050 	59.95
+1920x1080 	60.01*+  59.97    59.96
+2560x1440 	59.95*+
+=== gsettings
+--- gsettings 
+describe 	show the description of a key
+get 	get the value of a key
+help 	show the help (of a command)
+list-children 	list the children of a schema
+list-keys 	list the keys of a schema
+list-recursively 	list the keys and values, recursively
+list-relocatable-schemas 	list the relocatable schemas
+list-schemas 	list the installed schemas
+monitor 	watch for changes
+range 	show the range of a key's values
+reset 	reset a key to its default
+reset-recursively 	reset all the keys of a schema
+set 	set the value of a key
+writable 	check whether a key is writable
+--- gsettings g
+get 	get the value of a key
+--- gsettings get 
+org.gnome.desktop.interface 
+org.gnome.desktop.wm.preferences 
+--- gsettings get org.gnome.desktop.interface 
+clock-show-seconds 
+color-scheme 
+text-scaling-factor 
+--- gsettings --schemadir dir set org.gnome.desktop.interface color-scheme 
+default 
+prefer-dark 
+prefer-light 
+--- gsettings set org.gnome.desktop.interface clock-show-seconds 
+false 
+true 
+--- gsettings set org.gnome.desktop.interface text-scaling-factor 
+--- gsettings list-keys org.gnome.desktop.wm.preferences 
+--- gsettings list-schemas --
+--print-paths 	show the paths of the schemas
+--- gsettings help r
+range 
+reset 
+reset-recursively 
+=== dconf
+--- dconf 
+compile 	compile a binary database from key files
+dump 	dump a directory to standard output
+help 	show the help (of a command)
+list 	list the contents of a directory
+load 	load a directory from standard input
+read 	read the value of a key
+reset 	reset a key or directory
+update 	update the system databases
+watch 	watch a path for changes
+write 	write the value of a key
+--- dconf read 
+/
+--- dconf read /
+/org/
+/system/
+--- dconf read /org/gnome/
+/org/gnome/desktop/
+/org/gnome/terminal/
+/org/gnome/version 
+--- dconf list /org/gnome/
+/org/gnome/desktop/
+/org/gnome/terminal/
+--- dconf write /org/gnome/version 
+\'46\' 
+--- dconf reset -
+-f 	reset a directory
+=== notify-send
+--- notify-send -u 
+critical 
+low 
+normal 
+--- notify-send --category=device,email.
+--category=device,email.arrived 
+--category=device,email.bounced 
+--- notify-send --hint=
+--hint=boolean:
+--hint=byte:
+--hint=double:
+--hint=int:
+--hint=string:
+--hint=variant:
+=== wmctrl
+--- wmctrl -a 
+:ACTIVE: 	the active window
+:SELECT: 	the window clicked on
+Mozilla\ Firefox 	0x03a00003
+notes.txt\ -\ Kate 	0x04200007
+--- wmctrl -i -c 
+0x03a00003 	Mozilla Firefox
+0x04200007 	notes.txt - Kate
+:ACTIVE: 	the active window
+:SELECT: 	the window clicked on
+--- wmctrl -r :ACTIVE: -b 
+add,
+remove,
+toggle,
+--- wmctrl -r :ACTIVE: -b toggle,full
+toggle,fullscreen 
+--- wmctrl -k 
+off 
+on 
+toggle 
+=== xdotool
+--- xdotool get
+get_desktop 	the current desktop
+get_desktop_for_window 	the desktop of a window
+get_desktop_viewport 	the viewport
+get_num_desktops 	the number of desktops
+getactivewindow 	the active window
+getdisplaygeometry 	the size of the display
+getmouselocation 	the mouse location
+getwindowclassname 	the class name of a window
+getwindowfocus 	the focused window
+getwindowgeometry 	the geometry of a window
+getwindowname 	the name of a window
+getwindowpid 	the pid of a window
+--- xdotool search --
+--all 	all conditions must match
+--any 	any condition may match
+--class 	match the window class
+--classname 	match the window class name
+--desktop=	only a desktop
+--help 	show the help
+--limit=	stop after N results
+--maxdepth=	the depth of the search (-1: infinite)
+--name 	match the window name
+--onlyvisible 	only visible windows
+--pid=	only the windows of a process
+--prefix=	the prefix of the array's name
+--role 	match the window role
+--screen=	only a screen
+--shell 	print the results as a shell array WINDOWS=( ... )
+--sync 	wait until a window is found
+--title 	the same as --name (deprecated)
+--- xdotool search --name firefox windowa
+windowactivate 	activate a window
+--- xdotool search --class kate windowactivate 
+%1 	the first window of the stack
+%@ 	all the windows of the stack
+behave 	run a command on a window event
+behave_screen_edge 	run a command when the mouse reaches a screen edge
+click 	click a mouse button
+exec 	run a command
+get_desktop 	the current desktop
+get_desktop_for_window 	the desktop of a window
+get_desktop_viewport 	the viewport
+get_num_desktops 	the number of desktops
+getactivewindow 	the active window
+getdisplaygeometry 	the size of the display
+getmouselocation 	the mouse location
+getwindowclassname 	the class name of a window
+getwindowfocus 	the focused window
+getwindowgeometry 	the geometry of a window
+getwindowname 	the name of a window
+getwindowpid 	the pid of a window
+help 	list the commands
+key 	type keystrokes
+keydown 	press keys
+keyup 	release keys
+mousedown 	press a mouse button
+mousemove 	move the mouse
+mousemove_relative 	move the mouse relative to its position
+mouseup 	release a mouse button
+search 	search for windows
+selectwindow 	select a window with the mouse
+set_desktop 	switch to a desktop
+set_desktop_for_window 	move a window to a desktop
+set_desktop_viewport 	move the viewport
+set_num_desktops 	set the number of desktops
+set_window 	set properties of a window
+sleep 	sleep for some seconds
+type 	type text
+version 	show the version
+windowactivate 	activate a window
+windowclose 	destroy a window
+windowfocus 	focus a window
+windowkill 	kill the client of a window
+windowlower 	lower a window
+windowmap 	map a window
+windowminimize 	minimize a window
+windowmove 	move a window
+windowquit 	ask a window to close
+windowraise 	raise a window
+windowreparent 	reparent a window
+windowsize 	resize a window
+windowstate 	change the state of a window
+windowunmap 	unmap a window
+--- xdotool key --window 
+%1 	the first window of the stack
+%@ 	all the windows of the stack
+--- xdotool key super+
+super+Alt_L 
+super+Alt_R 
+super+BackSpace 
+super+Caps_Lock 
+super+Control_L 
+super+Control_R 
+super+Delete 
+super+Down 
+super+End 
+super+Escape 
+super+F1 
+super+F10 
+super+F11 
+super+F12 
+super+F2 
+super+F3 
+super+F4 
+super+F5 
+super+F6 
+super+F7 
+super+F8 
+super+F9 
+super+Home 
+super+Insert 
+super+Left 
+super+Menu 
+super+Page_Down 
+super+Page_Up 
+super+Print 
+super+Return 
+super+Right 
+super+Shift_L 
+super+Shift_R 
+super+Super_L 
+super+Super_R 
+super+Tab 
+super+Up 
+super+XF86AudioLowerVolume 
+super+XF86AudioMute 
+super+XF86AudioNext 
+super+XF86AudioPlay 
+super+XF86AudioPrev 
+super+XF86AudioRaiseVolume 
+super+XF86MonBrightnessDown 
+super+XF86MonBrightnessUp 
+super+alt 
+super+ctrl 
+super+meta 
+super+shift 
+super+space 
+super+super 
+--- xdotool key ctrl+c windowac
+--- xdotool click 
+1 	left
+2 	middle
+3 	right
+4 	wheel up
+5 	wheel down
+--- xdotool windowstate --toggle F
+FULLSCREEN 
+--- xdotool behave %1 
+blur 
+focus 
+mouse-click 
+mouse-enter 
+mouse-leave 
+--- xdotool behave_screen_edge 
+bottom 
+bottom-left 
+bottom-right 
+left 
+right 
+top 
+top-left 
+top-right 
+=== swaymsg
+--- swaymsg -t 
+command 
+get_bar_config 
+get_binding_modes 
+get_binding_state 
+get_config 
+get_inputs 
+get_marks 
+get_outputs 
+get_seats 
+get_tree 
+get_version 
+get_workspaces 
+send_tick 
+subscribe 
+--- swaymsg work
+workspace 
+=== hyprctl
+--- hyprctl mon
+monitors 	list the active outputs (all: and the inactive ones)
+--- hyprctl dispatch toggle
+togglefloating 
+togglegroup 
+toggleopaque 
+togglespecialworkspace 
+--- hyprctl -j monitors 
+all 
+--- hyprctl rollinglog -
+-f 	follow the log
+--- hyprctl notify 
+-1 	no icon
+0 	warning
+1 	info
+2 	hint
+3 	error
+4 	confused
+5 	ok

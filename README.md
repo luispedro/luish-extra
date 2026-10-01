@@ -61,10 +61,17 @@ options are read from the installed mpv (`--list-options`), with the values of i
 filters, profiles and audio devices it lists; and Inkscape's actions (`--actions`) from `inkscape --action-list`, and
 the object IDs of `--export-id`, `--query-id` and `--select` from the SVG files on the command line. It also reads
 kate's sessions, GIMP's session files, and OBS's profiles, scene collections and scenes (of the collection given or the
-current one).
+current one); Firefox's and Thunderbird's profiles (`-P`) and Chrome's (`--profile-directory`); VS Code's installed
+extensions and profiles, and the subcommands of `code tunnel`, `code serve-web` and `code agent` from their help;
+Krita's workspaces, window layouts and sessions; xrandr's outputs and modes, gsettings's schemas, keys and the values of
+enum and boolean keys, dconf's keys and directories, and wmctrl's windows. xdotool's commands are completed as they are
+chained (`xdotool search --name x windowactivate`).
 
-Done: `libreoffice` and `soffice`, `okular`, `xdg-open`; `kate`; `mpv`, `gimp`, `inkscape`, `obs`, `audacity`;
-`cytoscape` (and `Cytoscape`, `cytoscape.sh`).
+Done: `firefox`, `thunderbird`, `chromium`, `google-chrome`; `libreoffice` and `soffice`, `evince`, `okular`,
+`zathura`, `xdg-open`; `code`, `meld`, `gedit`, `kate`; `vlc` (and `cvlc`), `mpv`, `gimp`, `inkscape`, `krita`,
+`blender`, `obs`, `audacity`, `eog`; `cytoscape` (and `Cytoscape`, `cytoscape.sh`), `jalview`, Artemis (`art`, `act`,
+`bamview`, `dnaplotter`), `tablet`, `BandageNG`, `proksee` (Click), `pymol`, `chimerax`, `vmd`; `xrandr`, `gsettings`,
+`dconf`, `notify-send`, `wmctrl`, `xdotool`, `swaymsg`, `hyprctl`.
 
 ## `dev`
 
@@ -93,6 +100,7 @@ UPDATE=1 tests/run.sh bio_hts   # write the .expected file (and read it before c
 They need luish (`LUISH`, default the one in `PATH`) and a checkout of its `luish-std-plugins` (`STD_PLUGINS`, default
 `../luish/luish-std-plugins`). Programs that completion runs (`samtools view -H`, `tabix -l`, `bcftools query -l`,
 `mmseqs -h`, `pandoc --list-output-formats`, `xsv -h`, `qsv --list`, `mlr help list-separator-aliases`, `ruff -h`, `mpv
---list-options`, `inkscape --action-list`, `bat --list-languages`, `lpstat -e`) are stood in for by the scripts in
+--list-options`, `inkscape --action-list`, `bat --list-languages`, `lpstat -e`, `code tunnel -h`, `xrandr --query`,
+`gsettings`, `dconf list`, `wmctrl -l`) are stood in for by the scripts in
 `tests/bin`. A test that lists a directory of `PATH` (`jupyter-*`) or the commands in it sets `PATH` itself, as does one
 that finds a program's files from it (LibreOffice's registry).

@@ -1,0 +1,26 @@
+#!/bin/sh
+# Stand-in for gsettings in the tests (GLib 2.80): two schemas, their keys and the ranges of their values.
+[ "$1" = --schemadir ] && shift 2
+case "$*" in
+"list-schemas")
+    printf 'org.gnome.desktop.interface\norg.gnome.desktop.wm.preferences\n'
+    ;;
+"list-keys org.gnome.desktop.interface")
+    printf 'clock-show-seconds\ncolor-scheme\ntext-scaling-factor\n'
+    ;;
+"list-keys org.gnome.desktop.wm.preferences")
+    printf 'button-layout\nfocus-mode\n'
+    ;;
+"range org.gnome.desktop.interface color-scheme")
+    printf "enum\n'default'\n'prefer-dark'\n'prefer-light'\n"
+    ;;
+"range org.gnome.desktop.interface clock-show-seconds")
+    printf 'type b\n'
+    ;;
+"range org.gnome.desktop.interface text-scaling-factor")
+    printf 'range d 0.5 3.0\n'
+    ;;
+*)
+    exit 1
+    ;;
+esac

@@ -159,3 +159,11 @@ echo "=== xdg-open"
 c 'xdg-open -'
 c 'xdg-open r'
 c 'xdg-open report.odt '
+echo "=== evince"
+c 'evince -'
+c 'evince --page-label=3 r'
+echo "=== zathura"
+c 'zathura --mode '
+c 'zathura -l '
+c 'zathura --c'
+c 'zathura -P 2 r'

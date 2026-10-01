@@ -22,3 +22,29 @@ c 'kate -l 10 -c 3 n'
 c 'kate --platform w'
 XDG_DATA_HOME=$PWD/data
 c 'kate -s '
+echo "=== code"
+mkdir -p .vscode/extensions .config/Code/User/globalStorage src
+cat >.vscode/extensions/extensions.json <<'JSON'
+[{"identifier": {"id": "ms-python.python", "uuid": "x"}, "version": "2026.4.0"},
+ {"identifier": {"id": "mechatroner.rainbow-csv"}, "version": "3.24.1"}]
+JSON
+echo '{"userDataProfiles": [{"location": "-1a2b", "name": "Data science"}]}' >.config/Code/User/globalStorage/storage.json
+touch ext.vsix
+c 'code '
+c 'code t'
+c 'code -n t'
+c 'code --uninstall-extension '
+c 'code --install-extension '
+c 'code --profile '
+c 'code --locate-shell-integration-path '
+c 'code chat -'
+c 'code chat --mode '
+c 'code tunnel '
+c 'code tunnel --n'
+c 'code tunnel user '
+echo "=== meld"
+c 'meld -'
+c 'meld --comparison-file '
+echo "=== gedit"
+c 'gedit --encoding='
+c 'gedit -'

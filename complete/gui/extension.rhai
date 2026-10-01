@@ -8,10 +8,14 @@
 // The module of each command.
 let module_of = #{};
 for m in [
-    ["documents", ["libreoffice", "soffice", "okular", "xdg-open"]],
-    ["editors", ["kate"]],
-    ["media", ["gimp", "inkscape", "obs", "audacity"]],
-    ["viewers", ["cytoscape", "Cytoscape", "cytoscape.sh"]],
+    ["browsers", ["firefox", "thunderbird", "chromium", "chromium-browser", "google-chrome", "google-chrome-stable"]],
+    ["documents", ["libreoffice", "soffice", "evince", "okular", "zathura", "xdg-open"]],
+    ["editors", ["meld", "gedit", "kate"]],
+    ["media", ["vlc", "cvlc", "gimp", "inkscape", "krita", "blender", "obs", "audacity", "eog"]],
+    ["viewers", ["cytoscape", "Cytoscape", "cytoscape.sh", "jalview", "art", "act", "bamview", "dnaplotter", "tablet",
+                 "pymol", "chimerax", "ChimeraX", "vmd"]],
+    ["bandage", ["BandageNG"]],
+    ["desktop", ["xrandr", "gsettings", "dconf", "notify-send", "wmctrl", "swaymsg", "hyprctl"]],
 ] {
     for cmd in m[1] {
         module_of[cmd] = m[0];
@@ -33,4 +37,22 @@ for cmd in module_of.keys() {
 sh::completer("mpv", |words, i| {
     import "mpv" as m;
     m::complete(words, i)
+});
+
+// code's subcommands are only its first word, and its other arguments are paths, so it has a completer of its own.
+sh::completer("code", |words, i| {
+    import "editors" as m;
+    m::complete_code(words, i)
+});
+
+// xdotool's commands are chained on one line, so it has a completer of its own.
+sh::completer("xdotool", |words, i| {
+    import "desktop" as m;
+    m::complete_xdotool(words, i)
+});
+
+// proksee is built with Click and completes itself through std's Click bridge (207 ms, proksee 1.0.0a6).
+sh::completer("proksee", |words, i| {
+    import "@std/completion/bridges" as bridges;
+    bridges::click(words, i)
 });

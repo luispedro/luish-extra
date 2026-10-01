@@ -1,7 +1,140 @@
-// Media and graphics: gimp (3.0.4, and 2.10.36, which lacks --quit), inkscape (1.4.2), obs (OBS Studio 32.2.2) and
-// audacity (4.0.1, and the options of 3.7.5 that 4 dropped). mpv has a module of its own.
+// Media and graphics: vlc and cvlc (3.0.24), gimp (3.0.4, and 2.10.36, which lacks --quit), inkscape (1.4.2), krita
+// (6.0.4), blender (5.2.2), obs (OBS Studio 32.2.2), audacity (4.0.1, and the options of 3.7.5 that 4 dropped) and eog
+// (45.3). mpv has a module of its own.
+import "qt" as qt;
 
 fn k(name) { "@extra-complete/gui/kinds:" + name }
+
+// vlc [OPTIONS] [STREAM]...: the options of VLC's core (`src/libvlc-module.c`) that are used most, of the thousands
+// that its modules add (`vlc -H`). A flag `--NAME` also has `--no-NAME`, written here for those that are on by
+// default. cvlc is vlc with the dummy interface.
+fn vlc() {
+    #{
+        opts: `
+            -h, --help                  show the help
+            -H, --full-help             show the help of VLC and all its modules
+            --longhelp                  show the help of VLC and all its modules, with the advanced options
+            --help-verbose              show the help, with the advanced options
+            -l, --list                  list the modules
+            --list-verbose              list the modules, with their capabilities
+            -p, --module MODULE         show the help of a module (with --advanced, its advanced options)
+            --version                   show the version
+            --ignore-config             don't read or write the configuration file
+            --reset-config              reset the configuration to the defaults
+            --reset-plugins-cache       reset the plugins cache
+            --config FILE               the configuration file
+            --save-config               save the options of the command line to the configuration file
+            --advanced                  show the advanced options
+            -I, --intf MODULE           the interface
+            --extraintf MODULES         extra interfaces (:-separated)
+            --control MODULES           control interfaces (:-separated)
+            -v, --verbose LEVEL         the verbosity (0, 1, 2)
+            -d, --daemon                run as a daemon
+            --pidfile FILE              write the process id to a file
+            --color                     color the messages on the console
+            --no-color                  don't color the messages on the console
+            --one-instance              play in the running VLC
+            --playlist-enqueue          add to the playlist of the running VLC (with --one-instance)
+            -f, --fullscreen            full-screen video
+            --video-on-top              keep the video window on top
+            --video                     enable video
+            --no-video                  disable video
+            --audio                     enable audio
+            --no-audio                  disable audio
+            --video-title-show          show the media's title on the video
+            --no-video-title-show       don't show the media's title on the video
+            -V, --vout MODULE           the video output
+            -A, --aout MODULE           the audio output
+            --width PIXELS              the video width
+            --height PIXELS             the video height
+            --zoom FACTOR               zoom the video
+            --aspect-ratio RATIO        the source aspect ratio (4:3, 16:9, ...)
+            --crop GEOMETRY             crop the video (16:9, or WxH+X+Y)
+            --deinterlace MODE          deinterlace (-1 automatic, 0 off, 1 on)
+            --deinterlace-mode MODE     the deinterlace method
+            --video-filter MODULES      video filters (:-separated)
+            --audio-filter MODULES      audio filters (:-separated)
+            --gain FACTOR               the audio gain (0 to 8)
+            --volume-step STEP          the volume step
+            --stereo-mode MODE          the stereo audio output mode
+            --audio-desync MS           the audio delay, in milliseconds
+            --audio-track NUMBER        the audio track
+            --sub-track NUMBER          the subtitle track
+            --audio-language LANGS      the audio languages (,-separated, any)
+            --sub-language LANGS        the subtitle languages (,-separated, any, none)
+            --sub-file FILE             a subtitle file
+            --sub-autodetect-file       look for subtitle files next to the video
+            --no-sub-autodetect-file    don't look for subtitle files next to the video
+            --input-slave MRLS          extra inputs (#-separated)
+            --start-time SECONDS        start at this time
+            --stop-time SECONDS         stop at this time
+            --run-time SECONDS          play for this long
+            --rate RATE                 the playback speed
+            --input-repeat N            repeat the input N times
+            --start-paused              start paused
+            -Z, --random                play the files in random order, forever
+            -L, --loop                  repeat all
+            -R, --repeat                repeat the current item
+            --play-and-exit             quit at the end of the playlist
+            --play-and-stop             stop after each item
+            --play-and-pause            pause at the end of each item
+            --recursive MODE            what to do with directories
+            --network-caching MS        the cache for network streams, in milliseconds
+            --file-caching MS           the cache for files, in milliseconds
+            --http-proxy PROXY          the HTTP proxy (http://[user@]host[:port]/)
+            --sout CHAIN                the stream output chain (#transcode{...}:std{...})
+            --sout-keep                 keep the stream output open between items
+            --snapshot-path PATH        the directory (or file) of snapshots
+            --snapshot-format FORMAT    the format of snapshots
+            -S, --services-discovery MODULES  the services discovery modules (:-separated)
+        `,
+        values: #{
+            "--module": "none",
+            "--config": "files",
+            "--intf": ["qt", "skins2", "dummy", "rc", "oldrc", "ncurses", "http", "telnet", "lua"],
+            "--extraintf": "none",
+            "--control": "none",
+            "--verbose": ["0", "1", "2"],
+            "--vout": "none",
+            "--aout": "none",
+            "--width": "none",
+            "--height": "none",
+            "--zoom": "none",
+            "--aspect-ratio": "none",
+            "--crop": "none",
+            "--deinterlace": ["-1", "0", "1"],
+            "--deinterlace-mode": ["auto", "discard", "blend", "mean", "bob", "linear", "x", "yadif", "yadif2x",
+                                   "phosphor", "ivtc"],
+            "--video-filter": "none",
+            "--audio-filter": "none",
+            "--gain": "none",
+            "--volume-step": "none",
+            "--stereo-mode": [#{value: "0", desc: "unset"}, #{value: "1", desc: "stereo"},
+                              #{value: "2", desc: "reverse stereo"}, #{value: "3", desc: "left"},
+                              #{value: "4", desc: "right"}, #{value: "5", desc: "Dolby Surround"},
+                              #{value: "6", desc: "headphones"}, #{value: "7", desc: "mono"}],
+            "--audio-desync": "none",
+            "--audio-track": "none",
+            "--sub-track": "none",
+            "--audio-language": "none",
+            "--sub-language": "none",
+            "--input-slave": "files",
+            "--start-time": "none",
+            "--stop-time": "none",
+            "--run-time": "none",
+            "--rate": "none",
+            "--input-repeat": "none",
+            "--recursive": ["none", "collapse", "expand"],
+            "--network-caching": "none",
+            "--file-caching": "none",
+            "--http-proxy": "none",
+            "--sout": "none",
+            "--snapshot-path": "files",
+            "--snapshot-format": ["png", "jpg", "tiff"],
+            "--services-discovery": "none",
+        },
+    }
+}
 
 // gimp [OPTIONS] [FILES|URIS]: the options of `--help-all` but GTK's, which differ between GTK 2 (GIMP 2.10) and 3.
 fn gimp() {
@@ -222,12 +355,225 @@ fn audacity() {
     }
 }
 
+// krita [OPTIONS] [FILES|URLS]: the options of its source (`libs/ui/KisApplicationArguments.cpp`), and Qt's.
+fn krita() {
+    let v = qt::values();
+    v.mixin(#{
+        "--new-image": "none",
+        "--workspace": k("krita_workspaces"),
+        "--windowlayout": k("krita_windowlayouts"),
+        "--load-session": k("krita_sessions"),
+        "--dpi": "none",
+        "--resource-location": "dirs",
+    });
+    #{
+        opts: `
+            -h, --help                  show the help
+            --help-all                  show the help, with Qt's options
+            -v, --version               show the version
+            --template                  open a new document with a template (a .desktop file)
+            --new-image COLORSPACE,DEPTH,WIDTH,HEIGHT  create a new image (RGBA, XYZA, LABA, CMYKA, GRAY, YCbCrA; U8, U16, F16, F32)
+            --workspace WORKSPACE       the workspace to open with
+            --windowlayout WINDOWLAYOUT  the window layout to open with
+            --load-session SESSION      the session to open with
+            --canvasonly                start in canvas-only mode
+            --nosplash                  don't show the splash screen
+            --fullscreen                start in full screen
+            --dpi DPIX,DPIY             override the display's DPI
+            --export                    export to --export-filename and quit
+            --export-sequence           export the animation to --export-filename and quit
+            --export-filename FILENAME  the file to export to
+            --file-layer FILE           a file layer to add to the existing or new file
+            --resource-location DIR     the location of the resources, instead of the configured one
+        ` + qt::qt_opts(),
+        values: v,
+    }
+}
+
+// blender [OPTIONS] [FILE] [OPTIONS] [-- ARGS]: the options of its source (`source/creator/creator_args.cc`), in the
+// order of its help, with their values as the next word only. The options are applied in order, so most of them go after the .blend file; the arguments
+// after `--` are left for Python's `sys.argv` (and Cycles's options, `--cycles-device`).
+fn blender() {
+    #{
+        opts: `
+            -b, --background            run in the background (for rendering without a UI)
+            -a, --render-anim           render the frames from start to end
+            -S, --scene NAME            the active scene for rendering
+            -f, --render-frame FRAME    render frames and save them (N, +N, -N, A..B, comma-separated)
+            -s, --frame-start FRAME     the start frame (+/- for relative frames)
+            -e, --frame-end FRAME       the end frame (+/- for relative frames)
+            -j, --frame-jump FRAMES     the frames to step after each rendered frame
+            -o, --render-output PATH    the render path and file name (# for the frame number)
+            -E, --engine ENGINE         the render engine (help to list them)
+            -t, --threads THREADS       the number of threads (0 for the processors)
+            -F, --render-format FORMAT  the render format
+            -x, --use-extension BOOL    add the file extension to the file name
+            -w, --window-border         open with borders, not maximized
+            -M, --window-maximized      open maximized
+            -W, --window-fullscreen     open in full screen
+            -p, --window-geometry SX SY W H  open with the lower left corner at SX,SY and size W×H
+            -con, --start-console       start with the console window open (Windows only)
+            --no-native-pixels          don't use native pixel size, on high resolution displays
+            --no-window-frame           disable all window decorations (Linux only)
+            --no-window-focus           open behind other windows, without taking focus
+            -y, --enable-autoexec       enable automatic Python script execution
+            -Y, --disable-autoexec      disable automatic Python script execution (drivers and startup scripts)
+            -P, --python FILEPATH       run a Python script file
+            --python-text NAME          run a Python script text block
+            --python-expr EXPRESSION    run a Python expression
+            --python-console            run with an interactive console
+            --python-exit-code CODE     the exit code (0 to 255) on a Python exception
+            --python-use-system-env     let Python use environment variables such as PYTHONPATH
+            --python-use-user-env       let Python use the user's site-packages directory
+            --addons ADDONS             add-ons to enable, besides the default ones (comma-separated)
+            --online-mode               allow internet access, overriding the preference
+            --offline-mode              disallow internet access, overriding the preference
+            --log MATCH                 enable logging categories (comma-separated; * wildcards, ^ to exclude)
+            --log-level LEVEL           the logging verbosity level
+            --log-show-memory           show the memory usage of each log message
+            --log-show-source           show the source file and function of each log message
+            --log-show-backtrace        show a backtrace for each log message (debug builds)
+            --log-file FILEPATH         write the log to a file
+            --log-list-categories       list the logging categories and quit
+            -d, --debug                 turn debugging on
+            --debug-value VALUE         the debug value on startup
+            --debug-events              debug messages for the event handler
+            --debug-handlers            debug messages for event handling
+            --debug-libmv               debug messages from libmv
+            --debug-memory              fully guarded memory allocation and debugging
+            --debug-jobs                debug messages for the job system
+            --debug-python              debug messages for Python
+            --debug-depsgraph           all debug messages of the dependency graph
+            --debug-depsgraph-eval      debug messages of the dependency graph's evaluation
+            --debug-depsgraph-build     debug messages of the dependency graph's building
+            --debug-depsgraph-tag       debug messages of the dependency graph's tagging
+            --debug-depsgraph-no-threads  evaluate the dependency graph in a single thread
+            --debug-depsgraph-time      debug messages of the dependency graph's timing
+            --debug-depsgraph-pretty    colors in the dependency graph's debug messages
+            --debug-depsgraph-uid       verify the uniqueness of the dependency graph's session identifiers
+            --debug-ghost               debug messages for GHOST (the window system)
+            --debug-wintab              debug messages for Wintab
+            --debug-gpu                 GPU debug context and information (OpenGL 4.3+)
+            --debug-gpu-force-workarounds  enable workarounds for GPU issues and disable GPU extensions
+            --debug-gpu-compile-shaders  compile all static shaders, to test the platform
+            --debug-gpu-shader-debug-info  generate shader debug info (Vulkan only)
+            --debug-gpu-scope-capture NAME  capture the GPU commands in a scope
+            --debug-gpu-shader-source NAME  save the compiled source of shaders (* wildcards) to Shaders/
+            --debug-gpu-shader-no-preprocessor  skip the preprocessor pass of shaders
+            --debug-gpu-shader-no-dce   skip dead code elimination in shaders
+            --debug-gpu-no-texture-pool  disable memory aliasing in the GPU texture pool
+            --debug-gpu-renderdoc       enable RenderDoc integration
+            --debug-gpu-vulkan-local-read  force Vulkan dynamic rendering local read
+            --debug-wm                  debug messages for the window manager
+            --debug-xr                  debug messages for virtual reality
+            --debug-xr-time             debug messages for virtual reality frame timing
+            --debug-all                 all debug messages
+            --debug-io                  debug messages for I/O
+            --debug-fpe                 enable floating-point exceptions
+            --debug-exit-on-error       exit when internal errors are detected
+            --debug-freestyle           debug messages for Freestyle
+            --console-crash-handler     report crashes on the console
+            --disable-crash-handler     disable the crash handler
+            --disable-abort-handler     disable the abort handler
+            --verbose VERBOSE           the verbosity of debug messages that support it
+            -q, --quiet                 don't print the status (warnings and errors are still printed)
+            --gpu-backend BACKEND       the GPU backend
+            --gpu-device DEVICE         the GPU device (VENDOR/DEVICE/INDEX in hex, or an index; help to list them)
+            --gpu-device-no-fallback    fail if --gpu-device matches no usable Vulkan device
+            --gpu-vsync VSYNC           VSync
+            --gpu-compilation-subprocesses COUNT  the number of shader compilation subprocesses (OpenGL only)
+            --profile-gpu               profile the CPU and GPU in GPU debug groups
+            --open-last                 open the last opened .blend file, not the startup file
+            --app-template TEMPLATE     the application template (default for none)
+            -X, --factory-startup       don't read the user's startup.blend
+            --enable-event-simulate     enable event simulation (bpy.types.Window.event_simulate)
+            --env-system-datafiles PATH  set $BLENDER_SYSTEM_DATAFILES
+            --env-system-scripts PATH   set $BLENDER_SYSTEM_SCRIPTS
+            --env-system-extensions PATH  set $BLENDER_SYSTEM_EXTENSIONS
+            --env-system-python PATH    set $BLENDER_SYSTEM_PYTHON
+            -c, --command COMMAND       run a command, with the rest of the arguments
+            -h, --help                  show the help
+            -r, --register              register the .blend extension for the user (Windows and Linux)
+            --register-allusers         register the .blend extension for all users (Windows and Linux)
+            --unregister                unregister the .blend extension for the user (Windows and Linux)
+            --unregister-allusers       unregister the .blend extension for all users (Windows and Linux)
+            --qos LEVEL                 the Quality of Service mode on hybrid CPUs (Windows only)
+            -v, --version               show the version
+        `,
+        values: #{
+            "--scene": "none",
+            "--render-frame": "none",
+            "--frame-start": "none",
+            "--frame-end": "none",
+            "--frame-jump": "none",
+            "--render-output": "files",
+            "--engine": ["BLENDER_EEVEE", "BLENDER_WORKBENCH", "CYCLES", "help"],
+            "--threads": "none",
+            "--render-format": ["TGA", "RAWTGA", "JPEG", "IRIS", "PNG", "BMP", "HDR", "TIFF", "OPEN_EXR",
+                                "OPEN_EXR_MULTILAYER", "FFMPEG", "CINEON", "DPX", "JP2", "WEBP"],
+            "--use-extension": ["0", "1"],
+            "--window-geometry": "none",
+            "--python": k("py"),
+            "--python-text": "none",
+            "--python-expr": "none",
+            "--python-exit-code": "none",
+            "--addons": "none",
+            "--log": "none",
+            "--log-level": ["fatal", "error", "warning", "info", "debug", "trace"],
+            "--debug-value": "none",
+            "--debug-gpu-scope-capture": "none",
+            "--debug-gpu-shader-source": "none",
+            "--verbose": "none",
+            "--gpu-backend": ["vulkan", "opengl", "metal"],
+            "--gpu-device": ["help"],
+            "--gpu-vsync": ["on", "off", "auto"],
+            "--gpu-compilation-subprocesses": "none",
+            "--app-template": "none",
+            "--env-system-datafiles": "dirs",
+            "--env-system-scripts": "dirs",
+            "--env-system-extensions": "dirs",
+            "--env-system-python": "dirs",
+            "--command": ["extension", "help"],
+            "--qos": ["default", "high", "eco"],
+        },
+        args: [k("blend")],
+        strict_eq: true,
+    }
+}
+
+// eog [OPTIONS] [FILES]
+fn eog() {
+    #{
+        opts: `
+            -h, --help                  show the help
+            --help-all                  show all the help
+            --help-gtk                  show GTK's options
+            --version                   show the version
+            -f, --fullscreen            open in full screen
+            -g, --disable-gallery       disable the image gallery
+            -s, --slide-show            open in slideshow mode
+            -n, --new-instance          start a new eog, instead of reusing the running one
+            -w, --single-window         open in a single window (the first one, if there are several)
+            --class=CLASS               program class, for the window manager
+            --name=NAME                 program name, for the window manager
+            --gtk-module=MODULES        load additional GTK modules
+            --g-fatal-warnings          make all warnings fatal
+            --display=DISPLAY           X display to use
+        `,
+        values: #{"--class": "none", "--name": "none", "--gtk-module": "none", "--display": "none"},
+    }
+}
+
 fn spec(cmd) {
     switch cmd {
+        "vlc" | "cvlc" => vlc(),
         "gimp" => gimp(),
         "inkscape" => inkscape(),
         "obs" => obs(),
         "audacity" => audacity(),
+        "krita" => krita(),
+        "blender" => blender(),
+        "eog" => eog(),
         _ => #{},
     }
 }

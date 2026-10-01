@@ -81,3 +81,26 @@ HOME=$PWD/out
 c 'gimp --session '
 c 'obs --profile '
 c 'obs --scene '
+echo "=== vlc"
+c 'vlc --deinterlace-mode '
+c 'vlc -I '
+c 'cvlc --no-v'
+c 'vlc --sub-file '
+echo "=== krita"
+HOME=$PWD
+mkdir -p .local/share/krita/workspaces .local/share/krita/sessions
+touch .local/share/krita/workspaces/Animation.kws .local/share/krita/workspaces/Big_Paint_2.kws \
+    .local/share/krita/sessions/comic.ksn
+c 'krita --workspace '
+c 'krita --load-session '
+c 'krita --exp'
+echo "=== blender"
+touch scene.blend render.py
+c 'blender '
+c 'blender scene.blend -b -E '
+c 'blender -b scene.blend -P '
+c 'blender --gpu-v'
+c 'blender -F '
+c 'blender --log-level '
+echo "=== eog"
+c 'eog -'
