@@ -4,6 +4,21 @@ Extra material for [luish](https://github.com/luispedro/luish).
 
 Source: <https://github.com/luispedro/luish-extra>
 
+## Installing
+
+In luish, add the collection of completion plugins, then enable the plugins you want (`bio`, `science`, `gui`, `dev`
+and `system`):
+
+```console
+$ plugin add https://github.com/luispedro/luish-extra/tree/main/complete extra-complete
+$ plugin add extra-complete/bio
+$ plugin add extra-complete/science
+```
+
+The collection must be named `extra-complete` (the second argument of the first command), since its plugins import
+each other's modules by that name. They need luish at rev `9e3a39bf7dcbb4c472c3712bc4cf74cfb784c6cd` or later, and
+std's `completion` plugin.
+
 ```{toctree}
 :maxdepth: 2
 

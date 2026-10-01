@@ -38,7 +38,19 @@ Requires luish at rev `9e3a39bf7dcbb4c472c3712bc4cf74cfb784c6cd` or later, and i
 plugins depend on it and on `extra-lib`, this collection's library of shared helpers, so luish loads them first;
 `extra-lib` is not listed by `plugin list-available`.
 
-In `config.toml`:
+The simplest way is `plugin add`, in luish:
+
+```console
+$ plugin add https://github.com/luispedro/luish-extra/tree/main/complete extra-complete
+$ plugin add extra-complete/bio
+```
+
+The first command adds the collection to `[plugins.available]` in `config.toml` and fetches it. Name it
+`extra-complete`, as above: without a name it is called `complete`, after the directory, and the plugins, which
+import each other's modules as `@extra-complete/...`, won't load. The second enables one plugin; repeat it for
+`science`, `gui`, `dev` and `system` as you want them.
+
+Or, by hand, in `config.toml` (then run `plugin sync`):
 
 ```toml
 [plugins.available]
