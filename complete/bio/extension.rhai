@@ -6,7 +6,7 @@
 // the first Tab for one of their commands rather than whenever a shell
 // starts. luish calls a completer with the command's name as the first word.
 // Every module has `fn spec(cmd)`, and, for commands with subcommands, the
-// spec's `sub_spec` is `"@extra-complete/bio/MODULE:CMD"`, that is
+// spec's `sub_spec` is `own("MODULE:CMD")`, that is
 // `MODULE::sub_spec(CMD, SUBCOMMAND)`.
 
 // The module of each command.

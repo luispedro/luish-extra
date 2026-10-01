@@ -1,6 +1,9 @@
 // pandoc 3.11, from `pandoc --help`, with the descriptions of its man page. The formats are asked of the
 // installed pandoc (`--list-input-formats`), so that they follow the version in use.
 
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
 fn spec(cmd) {
     #{
         opts: `
@@ -115,32 +118,26 @@ fn spec(cmd) {
             -h, --help                           show usage message
         `,
         values: #{
-            "-f": "@extra-complete/science/kinds:pandoc_input_format",
-            "-r": "@extra-complete/science/kinds:pandoc_input_format",
-            "--from": "@extra-complete/science/kinds:pandoc_input_format",
-            "--read": "@extra-complete/science/kinds:pandoc_input_format",
-            "-t": "@extra-complete/science/kinds:pandoc_output_format",
-            "-w": "@extra-complete/science/kinds:pandoc_output_format",
-            "--to": "@extra-complete/science/kinds:pandoc_output_format",
-            "--write": "@extra-complete/science/kinds:pandoc_output_format", "-o": "files", "--output": "files",
-            "--data-dir": "dirs", "-M": "none", "--metadata": "none", "--metadata-file": "files",
-            "-d": "@extra-complete/science/kinds:pandoc_defaults",
-            "--defaults": "@extra-complete/science/kinds:pandoc_defaults", "--template": "files", "-V": "none",
-            "--variable": "none", "--variable-json": "none", "--wrap": ["auto", "none", "preserve"],
-            "--toc-depth": "none", "--number-offset": "none",
-            "--top-level-division": ["section", "chapter", "part"], "--extract-media": "dirs",
-            "--resource-path": "dirs", "-H": "files", "--include-in-header": "files", "-B": "files",
-            "--include-before-body": "files", "-A": "files", "--include-after-body": "files",
-            "--highlight-style": "@extra-complete/science/kinds:pandoc_highlight_style",
-            "--syntax-definition": "files",
-            "--syntax-highlighting": "@extra-complete/science/kinds:pandoc_syntax_highlighting", "--dpi": "none",
+            "-f": own("kinds:pandoc_input_format"), "-r": own("kinds:pandoc_input_format"),
+            "--from": own("kinds:pandoc_input_format"), "--read": own("kinds:pandoc_input_format"),
+            "-t": own("kinds:pandoc_output_format"), "-w": own("kinds:pandoc_output_format"),
+            "--to": own("kinds:pandoc_output_format"), "--write": own("kinds:pandoc_output_format"), "-o": "files",
+            "--output": "files", "--data-dir": "dirs", "-M": "none", "--metadata": "none",
+            "--metadata-file": "files", "-d": own("kinds:pandoc_defaults"),
+            "--defaults": own("kinds:pandoc_defaults"), "--template": "files", "-V": "none", "--variable": "none",
+            "--variable-json": "none", "--wrap": ["auto", "none", "preserve"], "--toc-depth": "none",
+            "--number-offset": "none", "--top-level-division": ["section", "chapter", "part"],
+            "--extract-media": "dirs", "--resource-path": "dirs", "-H": "files", "--include-in-header": "files",
+            "-B": "files", "--include-before-body": "files", "-A": "files", "--include-after-body": "files",
+            "--highlight-style": own("kinds:pandoc_highlight_style"), "--syntax-definition": "files",
+            "--syntax-highlighting": own("kinds:pandoc_syntax_highlighting"), "--dpi": "none",
             "--eol": ["crlf", "lf", "native"], "--columns": "none", "--tab-stop": "none",
-            "--pdf-engine": "@extra-complete/science/kinds:pdf_engine", "--pdf-engine-opt": "none",
-            "--reference-doc": "files", "--request-header": "none", "--abbreviations": "files",
-            "--typst-input": "none", "--indented-code-classes": "none", "--default-image-extension": "none",
-            "-F": "files", "--filter": "files", "-L": "@extra-complete/science/kinds:lua",
-            "--lua-filter": "@extra-complete/science/kinds:lua", "--shift-heading-level-by": "none",
-            "--base-header-level": "none", "--track-changes": ["accept", "reject", "all"],
+            "--pdf-engine": own("kinds:pdf_engine"), "--pdf-engine-opt": "none", "--reference-doc": "files",
+            "--request-header": "none", "--abbreviations": "files", "--typst-input": "none",
+            "--indented-code-classes": "none", "--default-image-extension": "none", "-F": "files",
+            "--filter": "files", "-L": own("kinds:lua"), "--lua-filter": own("kinds:lua"),
+            "--shift-heading-level-by": "none", "--base-header-level": "none",
+            "--track-changes": ["accept", "reject", "all"],
             "--reference-location": ["block", "section", "document"],
             "--figure-caption-position": ["above", "below"], "--table-caption-position": ["above", "below"],
             "--markdown-headings": ["setext", "atx"], "--slide-level": "none",
@@ -148,15 +145,12 @@ fn spec(cmd) {
             "--title-prefix": "none", "-c": "files", "--css": "files", "--epub-subdirectory": "dirs",
             "--epub-cover-image": "files", "--epub-metadata": "files", "--epub-embed-font": "files",
             "--split-level": "none", "--chunk-template": "none", "--epub-chapter-level": "none",
-            "--ipynb-output": ["all", "none", "best"],
-            "--bibliography": "@extra-complete/science/kinds:bibliography",
-            "--csl": "@extra-complete/science/kinds:csl", "--citation-abbreviations": "files",
-            "--math-method": "none", "--webtex": "none", "--mathjax": "none", "--katex": "none", "--log": "files",
-            "--completion": "none", "--list-extensions": "@extra-complete/science/kinds:pandoc_output_format",
-            "-D": "@extra-complete/science/kinds:pandoc_output_format",
-            "--print-default-template": "@extra-complete/science/kinds:pandoc_output_format",
-            "--print-default-data-file": "none",
-            "--print-highlight-style": "@extra-complete/science/kinds:pandoc_highlight_style",
+            "--ipynb-output": ["all", "none", "best"], "--bibliography": own("kinds:bibliography"),
+            "--csl": own("kinds:csl"), "--citation-abbreviations": "files", "--math-method": "none",
+            "--webtex": "none", "--mathjax": "none", "--katex": "none", "--log": "files", "--completion": "none",
+            "--list-extensions": own("kinds:pandoc_output_format"), "-D": own("kinds:pandoc_output_format"),
+            "--print-default-template": own("kinds:pandoc_output_format"), "--print-default-data-file": "none",
+            "--print-highlight-style": own("kinds:pandoc_highlight_style"),
         },
     }
 }

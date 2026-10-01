@@ -6,7 +6,7 @@ import re
 import gen
 
 PKG = "cwltool=3.3.20260925135507"
-K = lambda n: f'"@extra-complete/science/kinds:{n}"'
+K = lambda n: f'own("kinds:{n}")'
 FILES = {"--write-summary", "--overrides", "--mpi-config-file", "--beta-dependency-resolvers-configuration",
          "--js-hint-options-file", "--orcid"}
 
@@ -30,6 +30,9 @@ actions = gen.argparse_dump(PKG, "cwltool.argparser", "arg_parser")
 body = gen.emit_argparse(actions, kind_of, 12, f"        args: [{K('cwl')}, {K('params_file')}],")
 open(gen.REPO + "/complete/science/cwltool.rhai", "w").write(f"""// cwltool 3.3.20260925135507, from its argparse parser (`cwltool --help`). The arguments are the CWL document and,
 // after it, the file of inputs.
+
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) {{ sh::plugin_dir() + "/" + name }}
 
 fn spec(cmd) {{
     #{{

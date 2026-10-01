@@ -87,7 +87,10 @@ emit('''// Taxonomic and functional profiling of metagenomes: kraken2, bracken,
 // scripts/gen/mk_profile.py from the tools' own `--help` or argparse parser
 // (versions in completion-todo.md).
 
-fn k(name) { "@extra-complete/bio/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 ''')
 
 # ---------------- kraken2 ----------------
@@ -177,7 +180,7 @@ k2_cmds = "".join(f"            {', '.join([c['name']] + c['aliases']).ljust(w)}
                   for c in k2["commands"])
 emit('fn k2() {\n    #{\n        opts: `\n            -h, --help     show the help of each subcommand\n'
      "            -v, --version  show program's version number and exit\n        `,\n"
-     '        commands: `\n' + k2_cmds + '        `,\n        sub_spec: "@extra-complete/bio/profile:k2",\n    }\n}\n')
+     '        commands: `\n' + k2_cmds + '        `,\n        sub_spec: own("profile:k2"),\n    }\n}\n')
 progs["k2"] = "k2"
 emit("fn k2_sub(sub) {\n    switch sub {\n" + "\n".join(k2_subs) + "\n        _ => (),\n    }\n}\n")
 
@@ -585,7 +588,7 @@ w = max(len(c) for c, _ in cmds)
 progs["motus"] = "motus"
 emit('fn motus() {\n    #{\n        opts: `\n            -h, --help  show the commands\n        `,\n'
      '        commands: `\n' + "".join(f"            {c.ljust(w)}  {h.clean(d)}\n" for c, d in cmds) +
-     '        `,\n        sub_spec: "@extra-complete/bio/profile:motus",\n    }\n}\n')
+     '        `,\n        sub_spec: own("profile:motus"),\n    }\n}\n')
 emit("fn motus_sub(sub) {\n    switch sub {\n" + "\n".join(subs) + "\n        _ => (),\n    }\n}\n")
 
 # ---------------- dispatch ----------------

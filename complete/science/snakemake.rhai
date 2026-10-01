@@ -1,6 +1,9 @@
 // snakemake 9.27.0, from its argparse parser (`snakemake --help`). The targets are the rules of the
 // Snakefile, and the files of the directory.
 
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
 fn spec(cmd) {
     #{
         opts: `
@@ -164,15 +167,15 @@ fn spec(cmd) {
         `,
         values: #{
             "--profile": "dirs", "--workflow-profile": "dirs",
-            "--cache": "@extra-complete/science/kinds:snakemake_rules",
-            "-s": "@extra-complete/science/kinds:snakefile",
-            "--snakefile": "@extra-complete/science/kinds:snakefile", "-c": ["all"], "--cores": ["all"],
+            "--cache": own("kinds:snakemake_rules"),
+            "-s": own("kinds:snakefile"),
+            "--snakefile": own("kinds:snakefile"), "-c": ["all"], "--cores": ["all"],
             "-j": ["unlimited"], "--jobs": ["unlimited"], "--local-cores": ["all"], "--resources": "none",
             "--res": "none", "--set-threads": "none", "--max-threads": "none", "--set-resources": "none",
             "--set-scatter": "none", "--set-resource-scopes": "none", "--default-resources": "none",
-            "--default-res": "none", "--preemptible-rules": "@extra-complete/science/kinds:snakemake_rules",
-            "--preemptible-retries": "none", "--configfile": "@extra-complete/science/kinds:config",
-            "--configfiles": "@extra-complete/science/kinds:config", "-C": "none", "--config": "none",
+            "--default-res": "none", "--preemptible-rules": own("kinds:snakemake_rules"),
+            "--preemptible-retries": "none", "--configfile": own("kinds:config"),
+            "--configfiles": own("kinds:config"), "-C": "none", "--config": "none",
             "--envvars": "none", "-d": "dirs", "--directory": "dirs",
             "--rerun-triggers": ["code", "input", "mtime", "params", "software-env"],
             "-e": [
@@ -182,20 +185,20 @@ fn spec(cmd) {
             "--executor": [
                 "local", "dryrun", "touch", "cluster-generic", "cluster-sync", "slurm", "slurm-jobstep",
                 "kubernetes", "googlebatch", "aws-batch", "azure-batch", "flux", "drmaa", "lsf", "htcondor", "tes",
-            ], "-R": "@extra-complete/science/kinds:snakemake_rules",
-            "--forcerun": "@extra-complete/science/kinds:snakemake_rules", "--consider-ancient": "none",
-            "-P": "@extra-complete/science/kinds:snakemake_rules",
-            "--prioritize": "@extra-complete/science/kinds:snakemake_rules", "--batch": "none",
-            "-U": "@extra-complete/science/kinds:snakemake_rules",
-            "--until": "@extra-complete/science/kinds:snakemake_rules",
-            "-O": "@extra-complete/science/kinds:snakemake_rules",
-            "--omit-from": "@extra-complete/science/kinds:snakemake_rules", "--shadow-prefix": "dirs",
+            ], "-R": own("kinds:snakemake_rules"),
+            "--forcerun": own("kinds:snakemake_rules"), "--consider-ancient": "none",
+            "-P": own("kinds:snakemake_rules"),
+            "--prioritize": own("kinds:snakemake_rules"), "--batch": "none",
+            "-U": own("kinds:snakemake_rules"),
+            "--until": own("kinds:snakemake_rules"),
+            "-O": own("kinds:snakemake_rules"),
+            "--omit-from": own("kinds:snakemake_rules"), "--shadow-prefix": "dirs",
             "--strict-dag-evaluation": ["cyclic-graph", "functions", "periodic-wildcards"],
             "--scheduler": ["greedy", "ilp"], "--conda-base-path": "dirs", "--precommand": "none",
             "--groups": "none", "--group-components": "none", "--report": "files", "--report-stylesheet": "files",
             "--report-metadata": "files", "--reporter": "none",
-            "--draft-notebook": "@extra-complete/science/kinds:snakemake_targets",
-            "--edit-notebook": "@extra-complete/science/kinds:snakemake_targets", "--notebook-listen": "none",
+            "--draft-notebook": own("kinds:snakemake_targets"),
+            "--edit-notebook": own("kinds:snakemake_targets"), "--notebook-listen": "none",
             "--lint": ["text", "json"], "--generate-unit-tests": "dirs",
             "--containerize": ["dockerfile", "apptainer"], "--export-cwl": "files", "--dag": ["dot", "mermaid-js"],
             "--rulegraph": ["dot", "mermaid-js"], "--archive": "files", "--cleanup-metadata": "files",
@@ -205,7 +208,7 @@ fn spec(cmd) {
             "--max-checksum-file-size": "none", "-w": "none", "--latency-wait": "none", "--output-wait": "none",
             "--wait-for-free-local-storage": "none", "--wait-for-files": "files", "--wait-for-files-file": "files",
             "--runtime-source-cache-path": "dirs", "--queue-input-wait-time": "none", "--omit-flags": "none",
-            "--unneeded-temp-files": "files", "--allowed-rules": "@extra-complete/science/kinds:snakemake_rules",
+            "--unneeded-temp-files": "files", "--allowed-rules": own("kinds:snakemake_rules"),
             "--max-jobs-per-timespan": "none", "--max-status-checks-per-second": "none",
             "--seconds-between-status-checks": "none", "-T": "none", "--retries": "none",
             "--restart-times": "none", "--wrapper-prefix": "dirs", "--default-storage-provider": "none",
@@ -229,6 +232,6 @@ fn spec(cmd) {
             "--report-html-stylesheet-path": "none", "--scheduler-greedy-greediness": "none",
             "--scheduler-ilp-solver": ["COIN_CMD"], "--scheduler-ilp-solver-path": "files",
         },
-        args: ["@extra-complete/science/kinds:snakemake_targets"],
+        args: [own("kinds:snakemake_targets")],
     }
 }

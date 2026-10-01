@@ -3,7 +3,10 @@
 // (45.3). mpv has a module of its own.
 import "qt" as qt;
 
-fn k(name) { "@extra-complete/gui/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 // vlc [OPTIONS] [STREAM]...: the options of VLC's core (`src/libvlc-module.c`) that are used most, of the thousands
 // that its modules add (`vlc -H`). A flag `--NAME` also has `--no-NAME`, written here for those that are on by

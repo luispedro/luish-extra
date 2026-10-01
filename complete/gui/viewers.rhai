@@ -2,7 +2,10 @@
 // installer), jalview (2.11.5.1), Artemis (18.2.0: art, act, bamview, dnaplotter), tablet (1.17.08.17), pymol
 // (open-source 3.1.0), chimerax (1.11.1) and vmd (1.9.3). BandageNG has a generated module of its own.
 
-fn k(name) { "@extra-complete/gui/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 // cytoscape [OPTIONS]: it opens the files of its options, and takes no others.
 fn cytoscape() {

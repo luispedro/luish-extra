@@ -2,7 +2,10 @@
 // bibtex, latexmk 4.87). Their options start with one `-` (the engines also take `--`, and latexmk always
 // does), so the specs are `single_dash`. A `[-no]-shell-escape` is written as its two options.
 
-fn k(name) { "@extra-complete/science/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 // The options that pdfTeX and XeTeX have in common.
 fn common() {

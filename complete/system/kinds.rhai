@@ -1,5 +1,5 @@
 // What the arguments and option values of system tools complete to, named
-// `"@extra-complete/system/kinds:NAME"` in specs: `kind(name, cur, words)`.
+// `own("kinds:NAME")` in specs: `kind(name, cur, words)`.
 import "@std/completion/kinds" as std_kinds;
 
 // The mount points of FUSE file systems (sshfs, borg mount, ...): for a word

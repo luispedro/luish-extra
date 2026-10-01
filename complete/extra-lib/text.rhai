@@ -1,5 +1,5 @@
 // String helpers that Rhai's library lacks, for the extra-complete plugins:
-// `import "@extra-complete/extra-lib/text" as lib_text;`.
+// `import "../extra-lib/text" as lib_text;`.
 
 // Whether `s` is a name to pass to a program: letters, digits, `_`, `-` and
 // `.`, not starting with `-` (the words come from the command line, and a

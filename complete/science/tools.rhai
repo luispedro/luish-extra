@@ -1,7 +1,10 @@
 // Small tools, from their `--help` (duckdb 1.5.6, datamash 1.9, pigz 2.8, gnuplot 6.0 patchlevel 5,
 // R and Rscript 4.6.1). Written by hand: their help formats have nothing in common.
 
-fn k(name) { "@extra-complete/science/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 fn duckdb() {
     #{

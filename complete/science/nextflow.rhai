@@ -5,7 +5,10 @@
 
 import "kinds" as kinds;
 
-fn k(name) { "@extra-complete/science/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 fn run_opts() {
     `
@@ -136,7 +139,7 @@ fn nextflow() {
             self-update  update nextflow runtime to the latest available version
             view         view project script file(s)
         `,
-        sub_spec: "@extra-complete/science/nextflow:sub",
+        sub_spec: own("nextflow:sub"),
     }
 }
 

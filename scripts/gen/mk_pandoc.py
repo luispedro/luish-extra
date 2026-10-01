@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import help2opts as h
 
 VERSION = "3.11"
-K = lambda n: f'"@extra-complete/science/kinds:{n}"'
+K = lambda n: f'own("kinds:{n}")'
 FORMATS_IN, FORMATS_OUT = K("pandoc_input_format"), K("pandoc_output_format")
 BY_NAME = {
     "--from": FORMATS_IN, "-f": FORMATS_IN, "--read": FORMATS_IN, "-r": FORMATS_IN,
@@ -156,6 +156,9 @@ wrapped.append(line.rstrip())
 body = "\n".join(l.rstrip() for l in out)
 open(gen.REPO + "/complete/science/pandoc.rhai", "w").write(f"""// pandoc {VERSION}, from `pandoc --help`, with the descriptions of its man page. The formats are asked of the
 // installed pandoc (`--list-input-formats`), so that they follow the version in use.
+
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) {{ sh::plugin_dir() + "/" + name }}
 
 fn spec(cmd) {{
     #{{

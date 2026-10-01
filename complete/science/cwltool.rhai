@@ -1,6 +1,9 @@
 // cwltool 3.3.20260925135507, from its argparse parser (`cwltool --help`). The arguments are the CWL document and,
 // after it, the file of inputs.
 
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
 fn spec(cmd) {
     #{
         opts: `
@@ -110,6 +113,6 @@ fn spec(cmd) {
             "--js-hint-options-file": "files", "-t": "none", "--target": "none", "--single-step": "none",
             "--single-process": "none",
         },
-        args: ["@extra-complete/science/kinds:cwl", "@extra-complete/science/kinds:params_file"],
+        args: [own("kinds:cwl"), own("kinds:params_file")],
     }
 }

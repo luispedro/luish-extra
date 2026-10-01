@@ -1,5 +1,5 @@
 load 0
-completion
+std/completion
 extra-lib
 bio
 science

@@ -8,7 +8,7 @@ import gen
 import help2opts as h
 
 PKG = "bandage_ng=2026.9.1"
-K = lambda n: f'"@extra-complete/gui/kinds:{n}"'
+K = lambda n: f'own("kinds:{n}")'
 # Descriptions that the help's are too long for.
 DESC = {"--scope": "the graph's scope", "--exact": "match node names exactly", "--partial": "match node names partially",
         "--aa": "enable antialiasing", "--noaa": "disable antialiasing", "--double": "draw the graph in double mode",
@@ -118,6 +118,9 @@ open(gen.REPO + "/complete/gui/bandage.rhai", "w").write(f"""// BandageNG {versi
 // its subcommands. The options of the graph's scope, size, appearance and BLAST search are also taken after a
 // subcommand (`BandageNG image graph.gfa out.png --scope aroundnodes --nodes 1`); without a subcommand, BandageNG opens
 // its GUI.
+
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) {{ sh::plugin_dir() + "/" + name }}
 
 fn spec(cmd) {{
     #{{

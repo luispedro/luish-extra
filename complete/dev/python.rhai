@@ -1,6 +1,9 @@
 // Python packaging tools whose options fit in a table: twine (twine 7.0.0).
 
-fn k(name) { "@extra-complete/dev/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 // twine COMMAND [OPTIONS] DIST...
 fn twine() {

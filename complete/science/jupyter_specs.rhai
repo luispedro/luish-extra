@@ -3,6 +3,9 @@
 // seconds to start, which is why the tables are written out. The options of the classes (`--Application.log_level`)
 // are not offered: they are in `--help-all`.
 
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
 fn ipython() {
     #{
         opts: `
@@ -77,7 +80,7 @@ fn ipython() {
                 "qt", "qt4", "qt5", "qt6", "svg", "tk", "webagg", "widget", "wx",
             ], "--cache-size": "none",
         },
-        args: ["@extra-complete/science/kinds:python_script"],
+        args: [own("kinds:python_script")],
     }
 }
 
@@ -127,7 +130,7 @@ fn nbconvert() {
             "--writer": "none", "--post": "none", "--output": "none", "--output-dir": "dirs",
             "--reveal-prefix": "none", "--nbformat": ["1", "2", "3", "4"],
         },
-        args: ["@extra-complete/science/kinds:notebook"],
+        args: [own("kinds:notebook")],
     }
 }
 
@@ -173,7 +176,7 @@ fn lab() {
             "--certfile": "files", "--client-ca": "none", "--notebook-dir": "dirs", "--browser": "none",
             "--pylab": "none", "--watch": "none", "--app-dir": "dirs",
         },
-        args: ["@extra-complete/science/kinds:notebook"],
+        args: [own("kinds:notebook")],
     }
 }
 
@@ -199,7 +202,7 @@ fn notebook() {
             "--log-level": ["0", "10", "20", "30", "40", "50", "DEBUG", "INFO", "WARN", "ERROR", "CRITICAL"],
             "--config": "files",
         },
-        args: ["@extra-complete/science/kinds:notebook"],
+        args: [own("kinds:notebook")],
     }
 }
 
@@ -295,7 +298,7 @@ fn execute() {
         values: #{
             "--timeout": "none", "--startup_timeout": "none", "--kernel_name": "none", "--output": "none",
         },
-        args: ["@extra-complete/science/kinds:notebook"],
+        args: [own("kinds:notebook")],
     }
 }
 
@@ -315,7 +318,7 @@ fn trust() {
             "--log-level": ["0", "10", "20", "30", "40", "50", "DEBUG", "INFO", "WARN", "ERROR", "CRITICAL"],
             "--config": "files",
         },
-        args: ["@extra-complete/science/kinds:notebook"],
+        args: [own("kinds:notebook")],
     }
 }
 

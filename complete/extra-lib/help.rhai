@@ -1,13 +1,13 @@
 // Specs read from a program's own help when Tab is pressed, for programs
 // whose help has a regular format, so that no table has to follow every
-// release: `import "@extra-complete/extra-lib/help" as help;`.
+// release: `import "../extra-lib/help" as help;`.
 //
 // `how` is a map of how to read the help, all of it optional:
 //   flag          the option that prints the help (`-h`)
 //   stderr        `sh::capture`'s second argument, `"merge"` for a program
 //                 that prints its help there (mmseqs)
 //   sub_spec      the module whose `sub_spec(PATH, SUB)` completes the
-//                 subcommands of PATH (`"@extra-complete/dev/dynamic"`),
+//                 subcommands of PATH (`own("dynamic")`),
 //                 usually by calling `sub` and adding what the help lacks
 //   help_command  whether `PROG help` takes the names of the commands
 //                 (clap)

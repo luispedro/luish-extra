@@ -13,7 +13,10 @@
 // list (`--alang-add=LANG`), offered only for a word that starts with the list's name and `-`, so that `--` doesn't
 // list them all. Deprecated and removed options are left out.
 
-fn k(name) { "@extra-complete/gui/mpv:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("mpv:") + name }
 
 // What the actions on a list are.
 fn action_desc(a) {

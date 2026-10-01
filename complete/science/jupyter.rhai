@@ -1,6 +1,9 @@
 // ipython, and jupyter with its subcommands (jupyter_specs.rhai, generated from their `--help`, which takes seconds).
 // The subcommands of `jupyter` are the `jupyter-*` programs in PATH, which is how jupyter finds them.
 
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
 import "jupyter_specs" as specs;
 
 // The names X of the programs `jupyter-X` in PATH.
@@ -25,7 +28,7 @@ fn jupyter() {
             --debug        output debug information about paths
         `,
         commands: commands,
-        sub_spec: "@extra-complete/science/jupyter:jupyter",
+        sub_spec: own("jupyter:jupyter"),
     }
 }
 
@@ -49,7 +52,7 @@ fn sub_spec(name, sub) {
 // ipython's first argument is a script or a subcommand (`ipython profile create`): kind `ipython_args`.
 fn ipython() {
     let s = specs::sub_spec("ipython");
-    s.args = ["@extra-complete/science/kinds:ipython_args"];
+    s.args = [own("kinds:ipython_args")];
     s
 }
 

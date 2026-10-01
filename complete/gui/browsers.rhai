@@ -2,7 +2,10 @@
 // chromium and google-chrome (154), whose switches are many and undocumented: those of its manual page and the stable
 // ones that are used most.
 
-fn k(name) { "@extra-complete/gui/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 // The options that Firefox and Thunderbird share (their `--help`). Mozilla takes each option with one dash or two,
 // and its value as the next word or after `=`, so the optional values are written `[=VALUE]`.

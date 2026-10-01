@@ -3,7 +3,10 @@
 // deltablast, makeblastdb, blastdbcmd, blast_formatter, blastdb_aliastool,
 // the maskers, makeprofiledb and blastdbcheck.
 
-fn k(name) { "@extra-complete/bio/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 fn blastn() {
     #{

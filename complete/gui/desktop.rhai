@@ -3,7 +3,10 @@
 // swaymsg (sway 1.12) and hyprctl (Hyprland 0.56.2).
 import "@std/completion/lib" as lib;
 
-fn k(name) { "@extra-complete/gui/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 // xrandr [OPTIONS]: the options after `--output NAME` apply to that output. Values are the next word only.
 fn xrandr() {

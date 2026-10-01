@@ -1,7 +1,10 @@
 // Metagenomics and microbial genomics: rgi. Written out from `rgi --help` and
 // `rgi SUB --help` (rgi 6.0.8, see completion-todo.md).
 
-fn k(name) { "@extra-complete/bio/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 fn rgi() {
     #{
@@ -27,7 +30,7 @@ fn rgi() {
             kmer_build           build the k-mer sets for CARD*kmers
             kmer_query           test sequences using CARD*kmers
         `,
-        sub_spec: "@extra-complete/bio/meta:rgi",
+        sub_spec: own("meta:rgi"),
         args: ["none"],
     }
 }

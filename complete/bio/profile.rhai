@@ -4,7 +4,10 @@
 // scripts/gen/mk_profile.py from the tools' own `--help` or argparse parser
 // (versions in completion-todo.md).
 
-fn k(name) { "@extra-complete/bio/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 fn kraken2() {
     #{
@@ -108,7 +111,7 @@ fn k2() {
             clean                       removes unwanted files from database
             merge-classifications       merge classification results for different databases
         `,
-        sub_spec: "@extra-complete/bio/profile:k2",
+        sub_spec: own("profile:k2"),
     }
 }
 
@@ -1337,7 +1340,7 @@ fn motus() {
             genomes       search the mOTUs-db by keyword (taxonomic, functional)
             download      download sequence files from mOTUs-db
         `,
-        sub_spec: "@extra-complete/bio/profile:motus",
+        sub_spec: own("profile:motus"),
     }
 }
 

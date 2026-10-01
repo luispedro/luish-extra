@@ -1,6 +1,9 @@
 // Miller 6.22.0, from `mlr help flags`, `mlr help list-verbs` and `mlr VERB --help`: the main flags before the verb,
 // and the flags of each verb. The values of the separator flags are asked of the installed mlr.
 
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
 fn spec(cmd) {
     #{
         single_dash: true,
@@ -184,21 +187,16 @@ fn spec(cmd) {
         values: #{
             "--pass-comments-with": "none", "--skip-comments-with": "none", "--prepipe": "none",
             "--prepipex": "none", "--io": "none", "-i": "none", "-o": "none",
-            "--flatsep": "@extra-complete/science/kinds:miller_separator",
-            "--jflatsep": "@extra-complete/science/kinds:miller_separator", "--files": "files", "--from": "files",
-            "--load": "files", "--mfrom": "files", "--mload": "files", "--nr-progress-mod": "none",
-            "--ofmt": "none", "--ofmte": "none", "--ofmtf": "none", "--ofmtg": "none", "--profile": "none",
-            "-P": "none", "--records-per-batch": "none", "--s-no-comment-strip": "files", "--seed": "none",
-            "--tz": "none", "-s": "files", "--fixed": "none", "--fw": "none", "--cpuprofile": "files",
-            "--fs": "@extra-complete/science/kinds:miller_separator",
-            "--ifs": "@extra-complete/science/kinds:miller_separator", "--ifs-regex": "none",
-            "--ips": "@extra-complete/science/kinds:miller_separator", "--ips-regex": "none",
-            "--irs": "@extra-complete/science/kinds:miller_separator",
-            "--ofs": "@extra-complete/science/kinds:miller_separator",
-            "--ops": "@extra-complete/science/kinds:miller_separator",
-            "--ors": "@extra-complete/science/kinds:miller_separator",
-            "--ps": "@extra-complete/science/kinds:miller_separator",
-            "--rs": "@extra-complete/science/kinds:miller_separator",
+            "--flatsep": own("kinds:miller_separator"), "--jflatsep": own("kinds:miller_separator"),
+            "--files": "files", "--from": "files", "--load": "files", "--mfrom": "files", "--mload": "files",
+            "--nr-progress-mod": "none", "--ofmt": "none", "--ofmte": "none", "--ofmtf": "none", "--ofmtg": "none",
+            "--profile": "none", "-P": "none", "--records-per-batch": "none", "--s-no-comment-strip": "files",
+            "--seed": "none", "--tz": "none", "-s": "files", "--fixed": "none", "--fw": "none",
+            "--cpuprofile": "files", "--fs": own("kinds:miller_separator"), "--ifs": own("kinds:miller_separator"),
+            "--ifs-regex": "none", "--ips": own("kinds:miller_separator"), "--ips-regex": "none",
+            "--irs": own("kinds:miller_separator"), "--ofs": own("kinds:miller_separator"),
+            "--ops": own("kinds:miller_separator"), "--ors": own("kinds:miller_separator"),
+            "--ps": own("kinds:miller_separator"), "--rs": own("kinds:miller_separator"),
         },
         commands: `
             altkv                   given fields with values of the form a,b,c,d,e,f emits a=b,c=d,e=f pairs
@@ -276,7 +274,7 @@ fn spec(cmd) {
             unspace                 replaces spaces in record keys and/or values with _. This is helpful for PPRINT output
             unsparsify              prints records with the union of field names over all input records
         `,
-        sub_spec: "@extra-complete/science/miller:verb",
+        sub_spec: own("miller:verb"),
     }
 }
 

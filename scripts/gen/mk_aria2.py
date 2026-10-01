@@ -7,7 +7,7 @@ import gen
 import help2opts as h
 
 PKG = "aria2=1.37.0"
-K = lambda n: f'"@extra-complete/science/kinds:{n}"'
+K = lambda n: f'own("kinds:{n}")'
 BY_NAME = {"--torrent-file": K("torrent"), "-T": K("torrent"), "--metalink-file": K("metalink"), "-M": K("metalink"),
            "--input-file": '"files"', "-i": '"files"', "--conf-path": '"files"', "--out": '"files"', "-o": '"files"',
            "--dir": '"dirs"', "-d": '"dirs"', "--log": '"files"', "-l": '"files"'}
@@ -62,6 +62,9 @@ for n, v in values:
     line += item
 vals.append(line.rstrip())
 open(gen.REPO + "/complete/science/aria2.rhai", "w").write(f"""// aria2c 1.37.0, from `aria2c --help=#all`. The arguments are URIs, or torrent and metalink files.
+
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) {{ sh::plugin_dir() + "/" + name }}
 
 fn spec(cmd) {{
     #{{

@@ -1,8 +1,8 @@
 // What the arguments and option values of development tools complete to, named
-// `"@extra-complete/dev/kinds:NAME"` in specs: `kind(name, cur, words)`.
+// `own("kinds:NAME")` in specs: `kind(name, cur, words)`.
 import "@std/completion/kinds" as std_kinds;
-import "@extra-complete/extra-lib/files" as lib_files;
-import "@extra-complete/extra-lib/text" as lib_text;
+import "../extra-lib/files" as lib_files;
+import "../extra-lib/text" as lib_text;
 
 // The name a line of Python defines, as `[kind, name]` (kind: "def" or
 // "class"), or ().

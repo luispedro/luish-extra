@@ -65,7 +65,7 @@ argument, directories to leave out; `compressed(suffixes)`), `text.rhai` (`is_na
 command PATH (`PROG SUB ...`), `help::sub(PATH, SUB, how)` is the usual body of a `sub_spec` (`()` for a word that isn't
 a subcommand), and `help::commands(text)` takes a list of commands under any heading, with any gap after the name; `how`
 gives the help flag, `stderr` (`"merge"` for mmseqs), the `sub_spec` module and clap's `help` command. They are imported
-as `import "@extra-complete/extra-lib/files" as lib_files;`, `lib_text` and `help`, and a plugin that does so lists
+as `import "../extra-lib/files" as lib_files;`, `lib_text` and `help`, and a plugin that does so lists
 `extra-lib = "*"` in its `[dependencies]` (now `bio`, `science`, `dev` and `gui`). A helper that a second plugin needs
 goes there, not into a copy.
 
@@ -135,16 +135,23 @@ sphinx-build -W docs docs/_build
 
 ## Design decisions to keep in mind
 
-- Requires luish at rev `9e3a39bf7dcbb4c472c3712bc4cf74cfb784c6cd` or later (library plugins).
+- Works with luish 0.3.0 or later when `complete/` is added as a source (`subdir = "complete"`); adding the whole
+  repository as a source (`extra = { gh = "luispedro/luish-extra" }`, plugins `extra/complete/bio`, ...) needs a
+  luish with sub-collections (after 0.3.0, luish's a3653c7), as does `tests/root_source.sh`.
 - Run programs with `sh::capture(["prog", arg, ...])` (no shell parsing; stdin is /dev/null, stderr discarded unless
   a second argument says `"merge"`, `"return"` or `"inherit"`; variables through `env`), not by building a shell
   string. Find them with `sh::which(name)` and list them with `sh::commands(prefix)`, so that PATH is searched
   as luish searches it; don't walk `PATH` in Rhai.
-- Plugin naming is `SOURCE.NAME`, one level only. These plugins form a collection `extra-complete` (`subdir =
-  "complete"`) enabled as `extra-complete.bio`, and so on, or all at once as `extra-complete.all`: `complete/all` is
+- **Nothing depends on the name the user gives the source.** Users add the repository as a source under a name of
+  their choice (the docs say `extra`, so the plugins are `extra/complete/bio`, ...), or, with luish 0.3.0, the
+  `complete/` directory (`extra-complete/bio`). So never write `@SOURCE/...`: import this repository's modules by
+  relative path (`import "kinds"`, `import "../extra-lib/files"`), and name kinds and `sub_spec` with each module's
+  `fn own(name) { sh::plugin_dir() + "/" + name }` (`own("kinds:fasta")`, the module's absolute path, which std's
+  engine imports). Only std is named (`@std/completion/...`). The plugins can be enabled one by one
+  (`extra.complete.bio`), or all at once as `extra.complete.all`: `complete/all` is
   only a `plugin.toml` that depends on the others (a new user-facing plugin goes in its `[dependencies]`, and in the
   `all_load` test). `complete/` itself must not get a `plugin.toml` or any other entry point: luish would then take
-  it as one plugin, not a collection, and both `extra-complete.bio` and the plain-name dependencies (`extra-lib =
+  it as one plugin, not a collection, and both `extra.complete.bio` and the plain-name dependencies (`extra-lib =
   "*"`) would stop resolving. Other kinds of plugin would be further collections.
 - Completion is by **command name, not Bioconda package name** (`star` → `STAR`, `subread` → `featureCounts`,
   `entrez-direct` → `esearch`/`efetch`). Check the real executables.
@@ -160,7 +167,7 @@ sphinx-build -W docs docs/_build
   `extension.rhai` imports a command's module.
 - For a program whose long options take their value as the next word and have a single dash or two (`mlr`: `single_dash: true`
   and `strict_eq: true`, else the engine completes `--name=`; `nextflow` and `latexmk` have `single_dash` only). The `sub_spec`
-  of a spec is `"@extra-complete/science/MODULE:NAME"`, and the engine calls `MODULE::sub_spec(NAME, SUBCOMMAND)`
+  of a spec is `own("MODULE:NAME")`, and the engine calls `MODULE::sub_spec(NAME, SUBCOMMAND)`
   (`NAME` is what is after the colon, not the command).
 - A test that depends on what is in `PATH` (the `jupyter-*` programs, the commands starting with a prefix, the
   LibreOffice whose registry is read) must set `PATH` itself, after making its files (the `PATH` of `run.sh` is the
@@ -169,7 +176,7 @@ sphinx-build -W docs docs/_build
   value called `-|LIST` or `-|+TYPE` makes the option a flag: write `LIST|-`. The table is inside a Rhai backtick
   string, so it can't contain a backtick or `${`.
 - Modules import lazily, inside the completer, so each one is compiled on first Tab. Kinds and `sub_spec` are named
-  as qualified strings (`"@extra-complete/bio/kinds:fasta"`) because closures made in a module fail in Rhai 1.26.1
+  as strings (`own("kinds:fasta")`) because closures made in a module fail in Rhai 1.26.1
   when `lib.rhai` calls them.
 - Spec style follows std: short lowercase descriptions, `values` for option values (`"none"` for free text), `args`
   with kinds.

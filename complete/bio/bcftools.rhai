@@ -1,7 +1,10 @@
 // bcftools, from `bcftools SUBCOMMAND --help` (1.24). The options that
 // the subcommands share are written once, as functions returning tables.
 
-fn k(name) { "@extra-complete/bio/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 fn regions_opts() {
     `
@@ -119,7 +122,7 @@ fn bcftools() {
             stats        produce VCF/BCF stats
             help         show help for a command
         `,
-        sub_spec: "@extra-complete/bio/bcftools:bcftools",
+        sub_spec: own("bcftools:bcftools"),
     }
 }
 

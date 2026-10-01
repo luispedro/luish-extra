@@ -7,7 +7,7 @@ import re
 import gen
 
 PKG = "parallel=20260922"
-K = lambda n: f'"@extra-complete/science/kinds:{n}"'
+K = lambda n: f'own("kinds:{n}")'
 # option -> (description, value name or "", kind of the value)
 INFO = {
     "-j": ("run N jobs in parallel", "N", '"none"'), "--jobs": ("run N jobs in parallel", "N", '"none"'),
@@ -113,6 +113,9 @@ vals.append(line.rstrip())
 open(gen.REPO + "/complete/science/parallel.rhai", "w").write(f"""// GNU parallel 20260922, from `parallel --shellcompletion bash` (the option names, without their aliases that
 // are only spelled differently: `--keeporder`), with the descriptions and values of the common ones. The command
 // is completed as a command, and after it come the arguments (`:::`, `::::`) and files.
+
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) {{ sh::plugin_dir() + "/" + name }}
 
 fn spec(cmd) {{
     #{{

@@ -4,7 +4,7 @@
 // so that they are compiled on the first Tab for one of their commands. luish
 // calls a completer with the command's name as the first word. Every module
 // has `fn spec(cmd)`, and, for commands whose subcommands are read when
-// needed, the spec's `sub_spec` is `"@extra-complete/dev/MODULE:NAME"`, that
+// needed, the spec's `sub_spec` is `own("MODULE:NAME")`, that
 // is `MODULE::sub_spec(NAME, SUBCOMMAND)`.
 
 // The module of each command.

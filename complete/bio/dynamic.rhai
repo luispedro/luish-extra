@@ -4,13 +4,16 @@
 // whose help has a regular format, so that no table has to follow every
 // release.
 
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
 import "@std/completion/lib" as lib;
-import "@extra-complete/extra-lib/help" as help;
+import "../extra-lib/help" as help;
 
 // MMseqs2 prints its help on standard error. Its modules are the lines
 // `  NAME<TAB>description` of `mmseqs -h`, under headings by purpose.
 fn how() {
-    #{stderr: "merge", sub_spec: "@extra-complete/bio/dynamic"}
+    #{stderr: "merge", sub_spec: own("dynamic")}
 }
 
 fn mmseqs() {
@@ -19,7 +22,7 @@ fn mmseqs() {
             -h, --help  show help
         `,
         commands: help::commands(help::text("mmseqs", how())),
-        sub_spec: "@extra-complete/bio/dynamic:mmseqs",
+        sub_spec: own("dynamic:mmseqs"),
     }
 }
 

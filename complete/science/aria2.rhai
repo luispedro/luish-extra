@@ -1,5 +1,8 @@
 // aria2c 1.37.0, from `aria2c --help=#all`. The arguments are URIs, or torrent and metalink files.
 
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
 fn spec(cmd) {
     #{
         opts: `
@@ -265,8 +268,7 @@ fn spec(cmd) {
             "--ftp-proxy-user": "none", "--ftp-proxy-passwd": "none", "--all-proxy-user": "none",
             "--all-proxy-passwd": "none", "-S": ["true", "false"], "--show-files": ["true", "false"],
             "--max-overall-upload-limit": "none", "-u": "none", "--max-upload-limit": "none",
-            "-T": "@extra-complete/science/kinds:torrent",
-            "--torrent-file": "@extra-complete/science/kinds:torrent", "--listen-port": "none",
+            "-T": own("kinds:torrent"), "--torrent-file": own("kinds:torrent"), "--listen-port": "none",
             "--follow-torrent": ["true", "mem", "false"], "--select-file": "none", "--seed-time": "none",
             "--seed-ratio": "none", "--peer-id-prefix": "none", "--peer-agent": "none",
             "--enable-peer-exchange": ["true", "false"], "--enable-dht": ["true", "false"],
@@ -284,13 +286,12 @@ fn spec(cmd) {
             "--bt-exclude-tracker": "none", "--bt-remove-unselected-file": ["true", "false"],
             "--bt-detach-seed-only": ["true", "false"], "--bt-force-encryption": ["true", "false"],
             "--bt-enable-hook-after-hash-check": ["true", "false"], "--bt-load-saved-metadata": ["true", "false"],
-            "-M": "@extra-complete/science/kinds:metalink",
-            "--metalink-file": "@extra-complete/science/kinds:metalink", "--metalink-version": "none",
+            "-M": own("kinds:metalink"), "--metalink-file": own("kinds:metalink"), "--metalink-version": "none",
             "--metalink-language": "none", "--metalink-os": "none", "--metalink-location": "none",
             "--follow-metalink": ["true", "mem", "false"],
             "--metalink-preferred-protocol": ["http", "https", "ftp", "none"],
             "--metalink-enable-unique-protocol": ["true", "false"], "--metalink-base-uri": "none",
         },
-        args: ["@extra-complete/science/kinds:aria2_input"],
+        args: [own("kinds:aria2_input")],
     }
 }

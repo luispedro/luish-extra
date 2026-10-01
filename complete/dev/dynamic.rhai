@@ -2,9 +2,12 @@
 // installed program's own `-h`, through extra-lib's `help`, so that no table has to follow every release.
 // It is for fast programs whose help has a regular format (ruff: clap, a few milliseconds).
 
-import "@extra-complete/extra-lib/help" as help;
+import "../extra-lib/help" as help;
 
-fn k(name) { "@extra-complete/dev/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 // The values of ruff's options that its `-h` doesn't give (it gives those with `[possible values: ...]`).
 fn ruff_values() {
@@ -19,7 +22,7 @@ fn ruff_values() {
 
 // ruff is built with clap, whose `help` takes the names of the commands.
 fn how() {
-    #{sub_spec: "@extra-complete/dev/dynamic", help_command: true}
+    #{sub_spec: own("dynamic"), help_command: true}
 }
 
 fn ruff() {

@@ -2,10 +2,13 @@
 // installed program's own `-h`, through extra-lib's `help`, so that no table has to follow every release.
 // It is for programs whose help has a regular format (xsv and qsv: docopt).
 
-import "@extra-complete/extra-lib/help" as help;
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+import "../extra-lib/help" as help;
 
 fn how() {
-    #{sub_spec: "@extra-complete/science/dynamic"}
+    #{sub_spec: own("dynamic")}
 }
 
 // xsv and qsv: the commands are those of `PROG -h` (xsv), or `qsv --list`, and the options those of

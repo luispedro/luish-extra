@@ -2,7 +2,10 @@
 // providers of `publish` and the tools of `install` are from Quarto's documentation, since the help only says
 // `[provider]`. `quarto pandoc` takes pandoc's options (the spec of pandoc.rhai).
 
-fn k(name) { "@extra-complete/science/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 import "pandoc" as pandoc;
 
@@ -68,7 +71,7 @@ fn quarto() {
             help       show the help of a command
         `,
         values: values(),
-        sub_spec: "@extra-complete/science/quarto:sub",
+        sub_spec: own("quarto:sub"),
     }
 }
 

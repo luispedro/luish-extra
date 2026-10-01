@@ -1,8 +1,8 @@
 // What the arguments and option values of desktop programs complete to, named
-// `"@extra-complete/gui/kinds:NAME"` in specs: `kind(name, cur, words)`.
+// `own("kinds:NAME")` in specs: `kind(name, cur, words)`.
 import "@std/completion/kinds" as std_kinds;
-import "@extra-complete/extra-lib/files" as lib_files;
-import "@extra-complete/extra-lib/text" as lib_text;
+import "../extra-lib/files" as lib_files;
+import "../extra-lib/text" as lib_text;
 
 // LibreOffice's configuration registry, whose `.xcd` files define its filters
 // and file types, found from the `soffice` (or `libreoffice`) that the command

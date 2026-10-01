@@ -3,6 +3,9 @@
 // subcommand (`BandageNG image graph.gfa out.png --scope aroundnodes --nodes 1`); without a subcommand, BandageNG opens
 // its GUI.
 
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
 fn spec(cmd) {
     #{
         opts: `
@@ -113,7 +116,7 @@ fn spec(cmd) {
                 opts: `
                     --draw  draw graph after loading
                 `,
-                args: ["@extra-complete/gui/kinds:bandage_graph", "none"],
+                args: [own("kinds:bandage_graph"), "none"],
             },
             "image": #{
                 opts: `
@@ -124,16 +127,16 @@ fn spec(cmd) {
                 values: #{
                     "--height": "none", "--width": "none", "--color": "files",
                 },
-                args: ["@extra-complete/gui/kinds:bandage_graph", "files", "none"],
+                args: [own("kinds:bandage_graph"), "files", "none"],
             },
             "info": #{
                 opts: `
                     --tsv  output the information in a single tab-delimited line starting with the graph file
                 `,
-                args: ["@extra-complete/gui/kinds:bandage_graph", "none"],
+                args: [own("kinds:bandage_graph"), "none"],
             },
             "reduce": #{
-                args: ["@extra-complete/gui/kinds:bandage_graph", "files", "none"],
+                args: [own("kinds:bandage_graph"), "files", "none"],
             },
             "querypaths": #{
                 opts: `
@@ -141,10 +144,10 @@ fn spec(cmd) {
                     --hitsfasta  produce a multi-FASTA file of all BLAST hits in the query paths
                     --gfapaths   align to GFA path sequences in addition to nodes
                 `,
-                args: ["@extra-complete/gui/kinds:bandage_graph", "@extra-complete/gui/kinds:fasta", "files", "none"],
+                args: [own("kinds:bandage_graph"), own("kinds:fasta"), "files", "none"],
             },
             "layout": #{
-                args: ["@extra-complete/gui/kinds:bandage_graph", "files", "none"],
+                args: [own("kinds:bandage_graph"), "files", "none"],
             },
         },
     }

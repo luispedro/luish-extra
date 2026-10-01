@@ -35,7 +35,10 @@ emit('''// Mapping and quantification: bwa, bwa-mem2, bowtie2, minimap2, hisat2,
 // kallisto and featureCounts. The option tables come from the tools' own
 // `--help` (versions in completion-todo.md).
 
-fn k(name) { "@extra-complete/bio/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 ''')
 
 # ---------------- bwa ----------------
@@ -61,7 +64,7 @@ emit(f'''fn bwa() {{
             -h, --help  show help
         `,
         commands: `{bwa_cmds}        `,
-        sub_spec: "@extra-complete/bio/align:bwa",
+        sub_spec: own("align:bwa"),
     }}
 }}
 ''')
@@ -94,7 +97,7 @@ emit(f'''fn bwa_mem2() {{
             mem      BWA-MEM2 algorithm
             version  show the version
         `,
-        sub_spec: "@extra-complete/bio/align:bwa-mem2",
+        sub_spec: own("align:bwa-mem2"),
     }}
 }}
 ''')
@@ -295,7 +298,7 @@ emit('''fn kallisto() {
             version    print version information
             cite       print citation information
         `,
-        sub_spec: "@extra-complete/bio/align:kallisto",
+        sub_spec: own("align:kallisto"),
     }
 }
 ''')

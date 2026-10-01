@@ -1,6 +1,9 @@
 // Command-line utilities: fzf (fzf 0.74) and bat (bat 0.26.1; `batcat` on Debian).
 
-fn k(name) { "@extra-complete/dev/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 // fzf [OPTIONS] (its `--help`; `+x`, `+i`, `+s` and `+m` are given by their long names only, and `--reverse`,
 // `--no-multi` and `--no-mouse`, which the help leaves out, are from its man page).

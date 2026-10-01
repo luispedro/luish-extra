@@ -1,5 +1,5 @@
 // Files by their names, for the kinds of the extra-complete plugins:
-// `import "@extra-complete/extra-lib/files" as lib_files;`.
+// `import "../extra-lib/files" as lib_files;`.
 import "@std/completion/kinds" as std_kinds;
 
 // `suffixes` and the same with each compression a data file may have.

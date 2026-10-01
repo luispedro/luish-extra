@@ -34,40 +34,43 @@ Commands are completed by the name you type, not the name of their Bioconda pack
 
 ## Enabling
 
-Requires luish at rev `9e3a39bf7dcbb4c472c3712bc4cf74cfb784c6cd` or later, and its `std.completion` plugin. The
-plugins depend on it and on `extra-lib`, this collection's library of shared helpers, so luish loads them first;
-`extra-lib` is not listed by `plugin list-available`.
+Requires luish 0.3.0 or later, and its `std.completion` plugin. The plugins depend on it and on `extra-lib`, this
+collection's library of shared helpers, so luish loads them first; `extra-lib` is not listed by `plugin
+list-available`.
 
-The simplest way is `plugin add`, in luish:
+The simplest way is `plugin add`, in luish (newer than 0.3.0, for collections with subdirectories):
 
 ```console
-$ plugin add https://github.com/luispedro/luish-extra/tree/main/complete extra-complete
-$ plugin add extra-complete/all
+$ plugin add luispedro/luish-extra extra
+$ plugin add extra/complete/all
 ```
 
-The first command adds the collection to `[plugins.available]` in `config.toml` and fetches it. Name it
-`extra-complete`, as above: without a name it is called `complete`, after the directory, and the plugins, which
-import each other's modules as `@extra-complete/...`, won't load. The second enables `all`, which loads `bio`,
-`science`, `gui`, `dev` and `system`. To have only some of them, enable them one by one instead
-(`plugin add extra-complete/bio`, ...).
+The first command adds the repository to `[plugins.available]` in `config.toml`, under the name `extra` (any name
+works), and fetches it. Its completion plugins are then `extra/complete/bio`, `extra/complete/science`, ...
+(`plugin list-available` lists them). The second enables `all`, which loads `bio`, `science`, `gui`, `dev` and
+`system`. To have only some of them, enable them one by one instead (`plugin add extra/complete/bio`, ...).
 
 Or, by hand, in `config.toml` (then run `plugin sync`):
 
 ```toml
 [plugins.available]
-extra-complete = { gh = "luispedro/luish-extra", subdir = "complete" }
+extra = { gh = "luispedro/luish-extra" }
 
 [plugins.enabled]
-extra-complete.all = "*"
+extra.complete.all = "*"        # or "extra/complete/all" = "*"
 ```
 
-`all` loads `bio`, `science`, `gui`, `dev` and `system`. To have only some of them, enable them one by one instead:
+To have only some of them, enable them one by one instead:
 
 ```toml
 [plugins.enabled]
-extra-complete.bio = "*"
-extra-complete.science = "*"
+extra.complete.bio = "*"
+extra.complete.science = "*"
 ```
+
+luish 0.3.0 takes only one level of collections, so add the `complete` directory as a source of its own instead
+(`plugin add https://github.com/luispedro/luish-extra/tree/main/complete extra-complete`, then `plugin add
+extra-complete/all`; in `config.toml`, `extra-complete = { gh = "luispedro/luish-extra", subdir = "complete" }`).
 
 A plugin costs little until it is used: each module is compiled the first time Tab is pressed for one of its commands.
 

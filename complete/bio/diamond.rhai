@@ -1,7 +1,10 @@
 // DIAMOND, from `diamond COMMAND` (2.2.8). diamond does not say which options
 // take a value, so the switches are listed in the generator of this file.
 
-fn k(name) { "@extra-complete/bio/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 fn diamond() {
     #{
@@ -28,7 +31,7 @@ fn diamond() {
             greedy-vertex-cover  compute a greedy vertex cover
             countdistinct        count the distinct sequences in a FASTA file
         `,
-        sub_spec: "@extra-complete/bio/diamond:diamond",
+        sub_spec: own("diamond:diamond"),
     }
 }
 

@@ -5,7 +5,7 @@
 import gen
 
 PKG = "snakemake=9.27.0"
-K = lambda n: f'"@extra-complete/science/kinds:{n}"'
+K = lambda n: f'own("kinds:{n}")'
 RULES = K("snakemake_rules")
 # Executor plugins are separate packages, and their names are not in the parser of snakemake itself.
 EXECUTORS = ["local", "dryrun", "touch", "cluster-generic", "cluster-sync", "slurm", "slurm-jobstep", "kubernetes",
@@ -41,6 +41,9 @@ actions = gen.argparse_dump(PKG, "snakemake.cli", "get_argument_parser")
 body = gen.emit_argparse(actions, kind_of, 12, "        args: [" + K("snakemake_targets") + "],")
 open(gen.REPO + "/complete/science/snakemake.rhai", "w").write(f"""// snakemake 9.27.0, from its argparse parser (`snakemake --help`). The targets are the rules of the
 // Snakefile, and the files of the directory.
+
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) {{ sh::plugin_dir() + "/" + name }}
 
 fn spec(cmd) {{
     #{{

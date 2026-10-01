@@ -1,6 +1,9 @@
 // Workflow managers: jug (Jug 2.5.0), and those that need more than a table of options.
 
-fn k(name) { "@extra-complete/science/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 // A subcommand of jug: its options, and the jugfile.
 fn sub(opts) {

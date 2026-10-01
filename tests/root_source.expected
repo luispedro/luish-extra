@@ -1,0 +1,68 @@
+--- available: only complete/ holds plugins
+x/complete/all
+x/complete/bio
+x/complete/dev
+x/complete/gui
+x/complete/science
+x/complete/system
+load 0
+std/completion
+x/complete/extra-lib
+x/complete/bio
+x/complete/science
+x/complete/gui
+x/complete/dev
+x/complete/system
+x/complete/all
+--- samtools view -T data/
+data/genome.fa 
+--- bwa mem -
+-5 	for split alignment, take the alignment with the smallest query (not genomic) coordinate
+-A 	score for a sequence match, which scales options -TdBOELU unless overridden
+-B 	penalty for a mismatch
+-C 	append FASTA/FASTQ comment to SAM output
+-D 	drop chains shorter than FLOAT fraction of the longest overlapping chain
+-E 	gap extension penalty; a gap of size k cost '{-O} + {-E}*k'
+-H 	insert STR to header if it starts with @; or insert lines in FILE
+-I 	specify the mean, standard deviation (10% of the mean if absent), max
+-K 	process INT input bases in each batch regardless of nThreads (for reproducibility)
+-L 	penalty for 5'- and 3'-end clipping
+-M 	mark shorter split hits as secondary
+-O 	gap open penalties for deletions and insertions
+-P 	skip pairing; mate rescue performed unless -S also in use
+-R 	read group header line such as '@RG\tID:foo\tSM:bar'
+-S 	skip mate rescue
+-T 	minimum score to output
+-U 	penalty for an unpaired read pair
+-V 	output the reference FASTA header in the XR tag
+-W 	discard a chain if seeded bases shorter than INT
+-Y 	use soft clipping for supplementary alignments
+-a 	output all alignments for SE or unpaired PE
+-c 	skip seeds with more than INT occurrences
+-d 	off-diagonal X-dropoff
+-h 	if there are <INT hits with score >80.00% of the max score, output all in XA [5,200] A
+-j 	treat ALT contigs as part of the primary assembly
+-k 	minimum seed length
+-m 	perform at most INT rounds of mate rescues for each read
+-o 	sam file to output results to
+-p 	smart pairing (ignoring in2.fq)
+-q 	don't modify mapQ of supplementary alignments
+-r 	look for internal seeds inside a seed longer than {-k} * FLOAT
+-t 	number of threads
+-u 	output XB instead of XA; XB is XA with the alignment score and mapping quality added
+-v 	verbosity level: 1=error, 2=warning, 3=message, 4+=debugging
+-w 	band width for banded alignment
+-x 	read type
+-y 	seed occurrence for the 3rd round seeding
+-z 	the fraction of the max score to use with -h
+--- borg create --compression 
+auto,	compress only data that lz4 finds compressible
+lz4 	very high speed, very low compression (default)
+lzma 	low speed, high compression (level 6)
+lzma,	lzma with a level (0-9)
+none 	no compression
+obfuscate,	obfuscate the sizes of the compressed chunks
+zlib 	medium speed, medium compression (level 6)
+zlib,	zlib with a level (0-9)
+zstd 	modern wide-range algorithm (level 3)
+zstd,	zstd with a level (1-22)

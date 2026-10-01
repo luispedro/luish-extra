@@ -2,7 +2,10 @@
 // (23.08.5), zathura (2026.07.18) and xdg-open (xdg-utils 1.1.3).
 import "qt" as qt;
 
-fn k(name) { "@extra-complete/gui/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 // soffice [OPTIONS] [FILES]: the options of its `--help`. `-n`, `-o`, `-p`, `--pt`, `--view` and `--show` say how the
 // files after them are opened, and `-env:VAR=VALUE` sets a bootstrap variable. `--nstemporarydirectory` (macOS

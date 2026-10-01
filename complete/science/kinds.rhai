@@ -1,8 +1,8 @@
 // What the arguments and option values of science commands complete to, named
-// `"@extra-complete/science/kinds:NAME"` in specs: `kind(name, cur, words)`.
+// `own("kinds:NAME")` in specs: `kind(name, cur, words)`.
 import "@std/completion/kinds" as std_kinds;
-import "@extra-complete/extra-lib/files" as lib_files;
-import "@extra-complete/extra-lib/text" as lib_text;
+import "../extra-lib/files" as lib_files;
+import "../extra-lib/text" as lib_text;
 
 // The word after `keyword ` in a line of a workflow file (`rule NAME:`), or ().
 fn declared(line, keyword) {

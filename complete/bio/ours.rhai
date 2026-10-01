@@ -2,9 +2,12 @@
 // Their options are written out (not read from `--help`): SemiBin2 imports
 // torch and takes seconds to answer.
 
-fn fasta() { "@extra-complete/bio/kinds:fasta" }
-fn fastq() { "@extra-complete/bio/kinds:fastq" }
-fn bam() { "@extra-complete/bio/kinds:bam" }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn fasta() { own("kinds:fasta") }
+fn fastq() { own("kinds:fastq") }
+fn bam() { own("kinds:bam") }
 
 fn ngless() {
     #{
@@ -78,7 +81,7 @@ fn ngless() {
             "--print-path": "none",
         },
         // SCRIPT [ARGUMENTS...]
-        args: ["@extra-complete/bio/kinds:ngless", "files"],
+        args: [own("kinds:ngless"), "files"],
     }
 }
 
@@ -207,7 +210,7 @@ fn semibin() {
             install-skills, install_skills   install the bundled agent skills
             citation                         print citation information
         `,
-        sub_spec: "@extra-complete/bio/ours:semibin",
+        sub_spec: own("ours:semibin"),
         values: semibin_values(),
         args: ["none"],
     }

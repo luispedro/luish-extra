@@ -2,6 +2,9 @@
 // are only spelled differently: `--keeporder`), with the descriptions and values of the common ones. The command
 // is completed as a command, and after it come the arguments (`:::`, `::::`) and files.
 
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
 fn spec(cmd) {
     #{
         opts: `
@@ -270,6 +273,6 @@ fn spec(cmd) {
             "--max-lines": "none", "-l": "none", "--recstart": "none", "--recend": "none", "--block-size": "none",
             "--block": "none", "--header": "none", "--group-by": "none",
         },
-        args: ["commands", "@extra-complete/science/kinds:parallel_args"],
+        args: ["commands", own("kinds:parallel_args")],
     }
 }

@@ -1,8 +1,11 @@
 // Editors: code (Visual Studio Code 1.140.0), meld (3.24.0), gedit (50.0) and kate (23.08.5).
 import "qt" as qt;
-import "@extra-complete/extra-lib/help" as help;
+import "../extra-lib/help" as help;
 
-fn k(name) { "@extra-complete/gui/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 // The encodings that are asked for most (kate's `-e`, gedit's `--encoding`).
 fn encodings() {
@@ -109,7 +112,7 @@ fn code_chat() {
 }
 
 fn code_how() {
-    #{sub_spec: "@extra-complete/gui/editors", help_command: true}
+    #{sub_spec: own("editors"), help_command: true}
 }
 
 // code's completer: its subcommands only as the first word, and then their specs.
@@ -118,7 +121,7 @@ fn complete_code(words, i) {
     let s = code();
     if i > 1 && lib::parse_commands(code_commands()).some(|c| c.names[0] == words[1]) {
         s.commands = code_commands();
-        s.sub_spec = "@extra-complete/gui/editors:code";
+        s.sub_spec = own("editors:code");
     }
     lib::complete(s, words, i)
 }

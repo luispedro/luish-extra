@@ -1,7 +1,10 @@
 // Alignment files, variants and intervals: samtools, tabix, bgzip, htsfile
 // and bedtools.
 
-fn k(name) { "@extra-complete/bio/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 // ---- samtools ----
 
@@ -126,7 +129,7 @@ fn samtools() {
             help           show help for a command
             version        detailed version information
         `,
-        sub_spec: "@extra-complete/bio/hts:samtools",
+        sub_spec: own("hts:samtools"),
         values: samtools_values(),
     }
 }
@@ -1106,7 +1109,7 @@ fn bedtools() {
             split          split a file into multiple files
             summary        statistical summary of intervals in a file
         `,
-        sub_spec: "@extra-complete/bio/hts:bedtools",
+        sub_spec: own("hts:bedtools"),
         single_dash: true,
         values: #{"--cram-ref": k("fasta")},
     }

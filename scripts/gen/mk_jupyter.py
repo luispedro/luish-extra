@@ -9,7 +9,7 @@ import help2opts as h
 
 IPYTHON = "ipython=9.9.0"
 JUPYTER = "jupyterlab=4.5.2 notebook=7.5.2 nbconvert=7.16.6 jupyter_client=8.8.0 jupyter_server=2.17.0 jupyter_core=5.9.1 ipython"
-K = lambda n: f'"@extra-complete/science/kinds:{n}"'
+K = lambda n: f'own("kinds:{n}")'
 
 # what runs, by program: (package, command, kind of the arguments)
 PROGS = [
@@ -108,6 +108,9 @@ text = ['''// ipython and the Jupyter applications, from their `--help` (traitle
 // notebook 7.5.2, nbconvert 7.16.6, jupyter_client 8.8.0, jupyter_server 2.17.0, jupyter_core 5.9.1). They take
 // seconds to start, which is why the tables are written out. The options of the classes (`--Application.log_level`)
 // are not offered: they are in `--help-all`.
+
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
 ''']
 names = []
 for name, pkg, cmd, args in PROGS:

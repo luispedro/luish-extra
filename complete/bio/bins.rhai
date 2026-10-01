@@ -5,7 +5,10 @@
 // scripts/gen/mk_bins.py from the tools' own `--help` or argparse parser
 // (versions in completion-todo.md).
 
-fn k(name) { "@extra-complete/bio/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 
 fn checkm() {
     #{
@@ -42,7 +45,7 @@ fn checkm() {
             unique        ensure no sequences are assigned to multiple bins
             test          run CheckM on a test genome
         `,
-        sub_spec: "@extra-complete/bio/bins:checkm",
+        sub_spec: own("bins:checkm"),
     }
 }
 
@@ -552,7 +555,7 @@ fn checkm2() {
             testrun   runs Checkm2 on internal test genomes to ensure it runs without errors
             database  download/set up required diamond database for CheckM2
         `,
-        sub_spec: "@extra-complete/bio/bins:checkm2",
+        sub_spec: own("bins:checkm2"),
     }
 }
 
@@ -641,7 +644,7 @@ fn gunc() {
             summarise, rescore  re-score genomes using a different contamination cutoff
             check               validate environment and input files before running
         `,
-        sub_spec: "@extra-complete/bio/bins:gunc",
+        sub_spec: own("bins:gunc"),
     }
 }
 
@@ -780,7 +783,7 @@ fn gtdbtk() {
             export_msa          export the untrimmed archaeal or bacterial MSA file
             check_install       verify third party programs and GTDB reference package
         `,
-        sub_spec: "@extra-complete/bio/bins:gtdbtk",
+        sub_spec: own("bins:gtdbtk"),
     }
 }
 
@@ -1120,7 +1123,7 @@ fn drep() {
             compare             compare and cluster a set of genomes
             check_dependencies  check which dependencies are properly installed
         `,
-        sub_spec: "@extra-complete/bio/bins:dRep",
+        sub_spec: own("bins:dRep"),
     }
 }
 
@@ -1247,7 +1250,7 @@ fn vamb() {
             taxometer  refines taxonomic annotations of any metagenome classifier
             recluster  reclustering using single-copy genes for the binning results of VAMB or TaxVAMB
         `,
-        sub_spec: "@extra-complete/bio/bins:vamb",
+        sub_spec: own("bins:vamb"),
     }
 }
 
@@ -1643,7 +1646,7 @@ fn coverm() {
             shell-completion  generate a shell completion script for coverm
             cluster           cluster FASTA files by average nucleotide identity
         `,
-        sub_spec: "@extra-complete/bio/bins:coverm",
+        sub_spec: own("bins:coverm"),
     }
 }
 

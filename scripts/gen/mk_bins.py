@@ -133,7 +133,7 @@ def tree_tool(cmd, tree, helps, values, pos, fix={}, args={}, top=None, sub_valu
         opts = "        opts: `\n" + "".join(f"            {r}\n" for r in top) + "        `,\n" + \
             commands_table(tree["commands"], helps, 12)
     progs[cmd] = name
-    emit(f"fn {name}() {{\n    #{{\n{opts}\n        sub_spec: \"@extra-complete/bio/bins:{cmd}\",\n    }}\n}}\n")
+    emit(f"fn {name}() {{\n    #{{\n{opts}\n        sub_spec: own(\"bins:{cmd}\"),\n    }}\n}}\n")
     cases = []
     for c in tree["commands"]:
         v = dict(values, **sub_values.get(c["name"], {}))
@@ -153,7 +153,10 @@ emit('''// Binning of metagenomes, and the quality, taxonomy and dereplication o
 // scripts/gen/mk_bins.py from the tools' own `--help` or argparse parser
 // (versions in completion-todo.md).
 
-fn k(name) { "@extra-complete/bio/kinds:" + name }
+// This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
+fn own(name) { sh::plugin_dir() + "/" + name }
+
+fn k(name) { own("kinds:") + name }
 ''')
 
 # ---------------- checkm ----------------
@@ -503,7 +506,7 @@ subs["coverm"] = "coverm"
 emit('fn coverm() {\n    #{\n        opts: `\n            -h, --help     show the commands\n'
      '            -V, --version  print version information\n        `,\n        commands: `\n' +
      "".join(f"            {c.ljust(w)}  {h.clean(d)}\n" for c, d in CV_CMDS) +
-     '        `,\n        sub_spec: "@extra-complete/bio/bins:coverm",\n    }\n}\n')
+     '        `,\n        sub_spec: own("bins:coverm"),\n    }\n}\n')
 emit("fn coverm_sub(sub) {\n    switch sub {\n" + "\n".join(cmds) + "\n        _ => (),\n    }\n}\n")
 
 emit('''fn spec(cmd) {

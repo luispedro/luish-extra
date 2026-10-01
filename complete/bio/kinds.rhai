@@ -1,7 +1,7 @@
 // What the arguments and option values of bio commands complete to, named
-// `"@extra-complete/bio/kinds:NAME"` in specs: `kind(name, cur, words)`.
+// `own("kinds:NAME")` in specs: `kind(name, cur, words)`.
 import "@std/completion/kinds" as std_kinds;
-import "@extra-complete/extra-lib/files" as lib_files;
+import "../extra-lib/files" as lib_files;
 
 // The names of the directory of `cur` without the first of `suffixes` that
 // they end with, for files that make up a whole (the index of an aligner
