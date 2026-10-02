@@ -65,7 +65,11 @@ means in every scheme (one colour for commands, functions bold, ...); a new sche
 usually `inherits` the dark one. luish reads a manifest's tables only in interactive shells, so `tests/themes.sh` runs
 `$LUISH -i`. `docs/themes.md` and the README list the schemes; the preview in `docs/themes.md` is
 `docs/themes_preview.html`, written by `scripts/themes_preview.py` from `tests/themes.expected` (the styles luish
-resolved), on each palette's own background and text colour (`BACKGROUND` there; a new scheme needs an entry). After
+resolved), on the background and text colour of each scheme's `terminal` table (`ANSI_BACKGROUND` for the `ansi` pair,
+which sets none). Each palette scheme has a `[colorscheme.NAME.terminal]` table (background, foreground, cursor, the 16
+colours of the palette), taken from what the palette's authors give terminals (their kitty themes, or their own
+mapping), which luish sets while the scheme is in use (luish's c92fdd6 and later; an older luish reports the palette
+arrays as errors). After
 changing a scheme: `UPDATE=1 tests/run.sh themes`, read the diff, then rerun the script. The palettes are other people's:
 `themes/README.md` says where each comes from and under which license, `themes/LICENSES/` has the license texts, and
 a scheme's colours are its palette's own (a new one needs all three, and a check that each `#rrggbb` is upstream).

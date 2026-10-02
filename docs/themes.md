@@ -53,10 +53,24 @@ The schemes differ in their colours, not in what they mark:
 ## Colours and terminals
 
 The schemes other than `ansi` write their palette's colours as `#rrggbb`, which needs a terminal with 24-bit colour
-(most have it). They leave the background and the text colour to the terminal, so they look as meant when the
-terminal is set to the same palette (most terminals ship Solarized, gruvbox, Catppuccin and Tokyo Night). `ansi-dark`
-and `ansi-light` use the terminal's 16 colours instead, so they follow whatever palette it has; `ansi-light` leaves out
-yellow and the bright colours, which are hard to read on a light background.
+(most have it). They also set the terminal's own colours while they are in use: its background, text and cursor
+colours, and the 16 colours that other programs use (`ls --color`, `git diff`), as the palette's authors give them
+for terminals. luish puts back the terminal's colours when the scheme is no longer in use and when it exits (see
+luish's [The terminal's colours](https://luish.readthedocs.io/en/latest/usage.html#the-terminals-colours)); this
+needs a luish newer than 0.3.0, and the terminal must accept the colours (xterm, GNOME Terminal and other VTE ones,
+kitty, foot, Alacritty, WezTerm and iTerm2 do; tmux and screen may not pass them on). To keep your terminal's own
+colours, with the schemes' colours only on the command line:
+
+```toml
+[style]
+terminal-colors = false
+```
+
+The dark or light member of a pair is still chosen by the terminal's own background, before the scheme changes it.
+
+`ansi-dark` and `ansi-light` set none of the terminal's colours, and use its 16 colours, so they follow whatever
+palette it has; `ansi-light` leaves out yellow and the bright colours, which are hard to read on a light
+background.
 
 Solarized and Catppuccin Latte are soft palettes, with colours that contrast less with the background than the
 others'. `catppuccin-latte` departs from Catppuccin's style guide where its colours are hardest to read: variables

@@ -187,8 +187,9 @@ colorscheme = { dark = "gruvbox-dark", light = "gruvbox-light" }
 or try one with `style -c catppuccin-mocha` (`style -c` lists them). All of them give each kind of word the same
 role: one colour for commands (functions bold, aliases italic, unknown commands bold red), one for keywords, options,
 strings, variables (also in `NAME=`; exported ones bold, unset ones italic red); comments italic. Except the `ansi`
-pair, they write colours as `#rrggbb`, which needs a terminal with 24-bit colour, and look best with the terminal set
-to the same palette. They need a luish with colour schemes (after 0.3.0).
+pair, they write colours as `#rrggbb`, which needs a terminal with 24-bit colour, and also set the terminal's own
+background, text and cursor colours and its 16 colours while they are in use, putting them back afterwards
+(`terminal-colors = false` in `[style]` keeps the terminal's own). They need a luish newer than 0.3.0.
 
 The palettes are other people's, used under their licenses (MIT for Solarized, gruvbox, Catppuccin and the original
 Tokyo Night; Apache-2.0 for tokyonight.nvim, whose night and day styles these are). [`themes/README.md`](themes/README.md)

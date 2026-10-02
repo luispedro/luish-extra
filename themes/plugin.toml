@@ -21,16 +21,20 @@ description = "Colour schemes for luish's line editor, in pairs for dark and lig
 #   error          underlined red, added to the text's colours; path is underlined
 #   menu.selected  bold on the palette's selection colour (match, a shade further)
 #
-# The text colour and the background are left to the terminal. The palettes' colours are written as #rrggbb, which
-# needs a terminal with 24-bit colour (most have it); `ansi-dark` and `ansi-light` use the terminal's own 16 colours
-# instead, so they follow whatever palette it has.
+# The palettes' colours are written as #rrggbb, which needs a terminal with 24-bit colour (most have it). Each palette
+# scheme also sets the terminal's own colours while it is in use, in its `terminal` table: its background, text and
+# cursor colours and its 16 colours, as the palette's authors give them for terminals, so that the programs run from
+# the shell match it (a luish newer than 0.3.0; `terminal-colors = false` in the user's [style] keeps the terminal's
+# own). `ansi-dark` and `ansi-light` set none, and use the terminal's own 16 colours, so they follow whatever palette
+# it has.
 #
 # The palettes are other people's: README.md here says where each comes from and under which license, and LICENSES/
 # has copies of the licenses. Every #rrggbb colour below is the palette's own.
 
 # ---------------------------------------------------------------------------------------------------------------------
 # ansi: the terminal's 16 colours (and 136, a dark yellow, on light backgrounds, as default-light has). Brighter than
-# default-dark, with options, escapes, special variables and precommands told apart.
+# default-dark, with options, escapes, special variables and precommands told apart. It sets none of the terminal's
+# colours.
 
 [colorscheme.ansi-dark]
 keyword = "bold magenta"
@@ -82,7 +86,9 @@ match = "bold bg:white"
 # ---------------------------------------------------------------------------------------------------------------------
 # solarized: the same accents on both backgrounds; only the greys change. A match is reversed yellow, as Solarized's
 # Vim scheme has its search matches.
-#   Source: Solarized, by Ethan Schoonover, https://github.com/altercation/solarized (MIT; LICENSES/solarized.txt)
+#   Source: Solarized, by Ethan Schoonover, https://github.com/altercation/solarized (MIT; LICENSES/solarized.txt);
+#   the terminal's colours as its README maps them (the 16/8 column), with base0 and base00 for the text and cursor,
+#   as its Vim scheme has them.
 #   yellow #b58900  orange #cb4b16  red #dc322f  magenta #d33682  violet #6c71c4  blue #268bd2  cyan #2aa198
 #   green #859900;  dark: base03 #002b36 (background) base02 #073642 base01 #586e75 (comments)
 #   light: base3 #fdf6e3 (background) base2 #eee8d5 base1 #93a1a1 (comments)
@@ -119,6 +125,15 @@ match = "bold reverse #b58900"
 "menu.description" = "#586e75"
 suggestion = "#586e75"
 
+[colorscheme.solarized-dark.terminal]
+background = "#002b36"
+foreground = "#839496"
+cursor = "#839496"
+palette = [
+    "#073642", "#dc322f", "#859900", "#b58900", "#268bd2", "#d33682", "#2aa198", "#eee8d5",
+    "#002b36", "#cb4b16", "#586e75", "#657b83", "#839496", "#6c71c4", "#93a1a1", "#fdf6e3",
+]
+
 [colorscheme.solarized-light]
 inherits = "solarized-dark"
 comment = "italic #93a1a1"
@@ -126,10 +141,17 @@ comment = "italic #93a1a1"
 "menu.description" = "#93a1a1"
 suggestion = "#93a1a1"
 
+# The palette is solarized-dark's: Solarized's 16 colours are the same on both backgrounds.
+[colorscheme.solarized-light.terminal]
+background = "#fdf6e3"
+foreground = "#657b83"
+cursor = "#657b83"
+
 # ---------------------------------------------------------------------------------------------------------------------
 # gruvbox: the bright accents on the dark background, the faded ones on the light.
 #   Source: gruvbox, by Pavel Pertsev (morhetz), https://github.com/morhetz/gruvbox, colors/gruvbox.vim (MIT/X11, as
-#   its README and package.json say)
+#   its README and package.json say); the terminal's colours as gruvbox.vim gives them to Neovim's terminal
+#   (g:terminal_color_0 to 15), with fg1 for the text and the cursor (its Cursor is the text reversed).
 #   dark:  red #fb4934 green #b8bb26 yellow #fabd2f blue #83a598 purple #d3869b aqua #8ec07c orange #fe8019
 #          gray #928374 bg1 #3c3836 bg2 #504945 bg3 #665c54 bg4 #7c6f64 (background #282828)
 #   light: red #9d0006 green #79740e yellow #b57614 blue #076678 purple #8f3f71 aqua #427b58 orange #af3a03
@@ -169,6 +191,15 @@ match = "bold bg:#665c54"
 "menu.description" = "#928374"
 suggestion = "#7c6f64"
 
+[colorscheme.gruvbox-dark.terminal]
+background = "#282828"
+foreground = "#ebdbb2"
+cursor = "#ebdbb2"
+palette = [
+    "#282828", "#cc241d", "#98971a", "#d79921", "#458588", "#b16286", "#689d6a", "#a89984",
+    "#928374", "#fb4934", "#b8bb26", "#fabd2f", "#83a598", "#d3869b", "#8ec07c", "#ebdbb2",
+]
+
 [colorscheme.gruvbox-light]
 inherits = "gruvbox-dark"
 keyword = "bold #9d0006"
@@ -198,11 +229,21 @@ match = "bold bg:#d5c4a1"
 "menu.description" = "#7c6f64"
 suggestion = "#928374"
 
+[colorscheme.gruvbox-light.terminal]
+background = "#fbf1c7"
+foreground = "#3c3836"
+cursor = "#3c3836"
+palette = [
+    "#fbf1c7", "#cc241d", "#98971a", "#d79921", "#458588", "#b16286", "#689d6a", "#7c6f64",
+    "#928374", "#9d0006", "#79740e", "#b57614", "#076678", "#8f3f71", "#427b58", "#3c3836",
+]
+
 # ---------------------------------------------------------------------------------------------------------------------
 # catppuccin: mocha on dark backgrounds, latte on light ones, following its style guide where it says (keywords
 # mauve, strings green, escapes pink, functions blue, operators sky, constants peach, parameters maroon).
 #   Source: Catppuccin, https://github.com/catppuccin/palette and its style guide in
-#   https://github.com/catppuccin/catppuccin (MIT, (c) 2021 Catppuccin; LICENSES/catppuccin.txt)
+#   https://github.com/catppuccin/catppuccin (MIT, (c) 2021 Catppuccin; LICENSES/catppuccin.txt); the terminal's
+#   colours from its kitty themes, https://github.com/catppuccin/kitty, themes/mocha.conf and latte.conf (MIT).
 #   mocha: mauve #cba6f7 red #f38ba8 maroon #eba0ac peach #fab387 yellow #f9e2af green #a6e3a1 sky #89dceb
 #          sapphire #74c7ec blue #89b4fa pink #f5c2e7 overlay2 #9399b2 overlay1 #7f849c overlay0 #6c7086
 #          surface1 #45475a surface2 #585b70 (base #1e1e2e)
@@ -244,6 +285,15 @@ match = "bold bg:#585b70"
 "menu.description" = "#7f849c"
 suggestion = "#6c7086"
 
+[colorscheme.catppuccin-mocha.terminal]
+background = "#1e1e2e"
+foreground = "#cdd6f4"
+cursor = "#f5e0dc"
+palette = [
+    "#45475a", "#f38ba8", "#a6e3a1", "#f9e2af", "#89b4fa", "#f5c2e7", "#94e2d5", "#bac2de",
+    "#585b70", "#f38ba8", "#a6e3a1", "#f9e2af", "#89b4fa", "#f5c2e7", "#94e2d5", "#a6adc8",
+]
+
 [colorscheme.catppuccin-latte]
 inherits = "catppuccin-mocha"
 keyword = "bold #8839ef"
@@ -276,12 +326,22 @@ match = "bold bg:#bcc0cc"
 "menu.description" = "#8c8fa1"
 suggestion = "#8c8fa1"
 
+[colorscheme.catppuccin-latte.terminal]
+background = "#eff1f5"
+foreground = "#4c4f69"
+cursor = "#dc8a78"
+palette = [
+    "#5c5f77", "#d20f39", "#40a02b", "#df8e1d", "#1e66f5", "#ea76cb", "#179299", "#acb0be",
+    "#6c6f85", "#d20f39", "#40a02b", "#df8e1d", "#1e66f5", "#ea76cb", "#179299", "#bcc0cc",
+]
+
 # ---------------------------------------------------------------------------------------------------------------------
 # tokyonight: night on dark backgrounds, day on light ones. Options are in the colour of parameters, special
 # variables in that of built-in variables (red), operators in that of operators.
 #   Source: the night and day styles of tokyonight.nvim, by Folke Lemaitre, https://github.com/folke/tokyonight.nvim
 #   (Apache-2.0; LICENSES/tokyonight.nvim.txt), ported from Enkia's Tokyo Night for VS Code,
-#   https://github.com/tokyo-night/tokyo-night-vscode-theme (MIT; LICENSES/tokyo-night-vscode-theme.txt)
+#   https://github.com/tokyo-night/tokyo-night-vscode-theme (MIT; LICENSES/tokyo-night-vscode-theme.txt); the
+#   terminal's colours from tokyonight.nvim's extras/kitty/tokyonight_night.conf and tokyonight_day.conf.
 #   night: magenta #bb9af7 purple #9d7cd8 blue #7aa2f7 cyan #7dcfff blue5 #89ddff green #9ece6a yellow #e0af68
 #          orange #ff9e64 red #f7768e red1 #db4b4b comment #565f89 dark5 #737aa2 bg_visual #283457
 #          bg_search #3d59a1 (background #1a1b26)
@@ -321,6 +381,15 @@ match = "bold bg:#3d59a1"
 "menu.description" = "#737aa2"
 suggestion = "#565f89"
 
+[colorscheme.tokyonight-night.terminal]
+background = "#1a1b26"
+foreground = "#c0caf5"
+cursor = "#c0caf5"
+palette = [
+    "#15161e", "#f7768e", "#9ece6a", "#e0af68", "#7aa2f7", "#bb9af7", "#7dcfff", "#a9b1d6",
+    "#414868", "#ff899d", "#9fe044", "#faba4a", "#8db0ff", "#c7a9ff", "#a4daff", "#c0caf5",
+]
+
 [colorscheme.tokyonight-day]
 inherits = "tokyonight-night"
 keyword = "bold #9854f1"
@@ -352,3 +421,12 @@ match = "bold bg:#7890dd"
 "menu.selected" = "bold bg:#b7c1e3"
 "menu.description" = "#68709a"
 suggestion = "#848cb5"
+
+[colorscheme.tokyonight-day.terminal]
+background = "#e1e2e7"
+foreground = "#3760bf"
+cursor = "#3760bf"
+palette = [
+    "#b4b5b9", "#f52a65", "#587539", "#8c6c3e", "#2e7de9", "#9854f1", "#007197", "#6172b0",
+    "#a1a6c5", "#ff4774", "#5c8524", "#a27629", "#358aff", "#a463ff", "#007ea8", "#3760bf",
+]

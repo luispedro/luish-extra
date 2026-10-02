@@ -5,14 +5,15 @@ The styles are those luish resolved for each scheme, read from tests/themes.expe
 `UPDATE=1 tests/run.sh themes` first after changing a scheme. Writes docs/themes_preview.html, a fragment with
 its own <style> that the docs include; `scripts/themes_preview.py FILE` writes it to FILE instead.
 
-A scheme leaves the background and the text colour to the terminal, so each one is drawn on the background and
-text colour of its palette (BACKGROUND), and the ansi ones on the Tango palette's 16 colours, on backgrounds
-chosen here. Each terminal says which.
+Each scheme is drawn on the background and text colour that its `terminal` table in themes/plugin.toml sets in the
+terminal, and the ansi ones, which set none, on the Tango palette's 16 colours, on backgrounds chosen here
+(ANSI_BACKGROUND). Each terminal says which.
 """
 import html
 import os
 import re
 import sys
+import tomllib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -23,19 +24,35 @@ TANGO_BRIGHT = dict(black="#555753", red="#ef2929", green="#8ae234", yellow="#fc
                     magenta="#ad7fa8", cyan="#34e2e2", white="#eeeeec")
 XTERM_256 = {"136": "#af8700"}
 
-# Each scheme's background and text colour, and where they come from.
-BACKGROUND = {
-    "ansi-dark": ("#1a1b1e", "#d3d7cf", "Tango palette; background chosen for this page"),
-    "ansi-light": ("#fbfbf8", "#2e3436", "Tango palette; background chosen for this page"),
-    "solarized-dark": ("#002b36", "#839496", "base03 and base0"),
-    "solarized-light": ("#fdf6e3", "#657b83", "base3 and base00"),
-    "gruvbox-dark": ("#282828", "#ebdbb2", "bg and fg"),
-    "gruvbox-light": ("#fbf1c7", "#3c3836", "bg and fg"),
-    "catppuccin-mocha": ("#1e1e2e", "#cdd6f4", "base and text"),
-    "catppuccin-latte": ("#eff1f5", "#4c4f69", "base and text"),
-    "tokyonight-night": ("#1a1b26", "#c0caf5", "bg and fg"),
-    "tokyonight-day": ("#e1e2e7", "#3760bf", "bg and fg"),
+# The backgrounds and text colours of the ansi schemes, which set none of the terminal's colours: chosen here.
+ANSI_BACKGROUND = {
+    "ansi-dark": ("#1a1b1e", "#d3d7cf"),
+    "ansi-light": ("#fbfbf8", "#2e3436"),
 }
+# Each scheme's background and text colour, and where they come from (read_backgrounds).
+BACKGROUND = {}
+
+
+def scheme_names():
+    return [scheme for _, dark, light, _ in FAMILIES for scheme in (dark, light)]
+
+
+def read_backgrounds(path):
+    """Each scheme's background and text colour, and where they come from: those that its `terminal` table sets
+    (or that of a scheme it inherits from), else ANSI_BACKGROUND's."""
+    schemes = tomllib.load(open(path, "rb"))["colorscheme"]
+    out = {}
+    for name in scheme_names():
+        if name in ANSI_BACKGROUND:
+            out[name] = (*ANSI_BACKGROUND[name], "chosen for this page, with the Tango palette")
+            continue
+        terminal, cur = {}, name
+        while cur:
+            for k, v in schemes[cur].get("terminal", {}).items():
+                terminal.setdefault(k, v)
+            cur = schemes[cur].get("inherits")
+        out[name] = (terminal["background"], terminal["foreground"], "the colours the scheme sets in the terminal")
+    return out
 
 FAMILIES = [
     ("ansi", "ansi-dark", "ansi-light",
@@ -116,13 +133,13 @@ def read_styles(path):
     for line in open(path):
         if line.startswith("--- "):
             m = re.match(r"--- (\S+)$", line)
-            cur = m.group(1) if m and m.group(1) in BACKGROUND else None
+            cur = m.group(1) if m and m.group(1) in scheme_names() else None
             if cur:
                 schemes[cur] = {}
         elif cur and re.match(r"[a-z]", line):
             name, value = line.split(None, 1)
             schemes[cur][name] = value.strip()
-    missing = set(BACKGROUND) - set(schemes)
+    missing = set(scheme_names()) - set(schemes)
     if missing:
         sys.exit(f"themes_preview: not in {path}: {', '.join(sorted(missing))}")
     return schemes
@@ -207,13 +224,14 @@ def terminal(scheme, styles):
 
 def main():
     out = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "docs", "themes_preview.html")
+    BACKGROUND.update(read_backgrounds(os.path.join(ROOT, "themes", "plugin.toml")))
     styles = read_styles(os.path.join(ROOT, "tests", "themes.expected"))
     parts = [f"<!-- Written by scripts/themes_preview.py from tests/themes.expected; don't edit. -->", STYLE,
              '<div class="lx-themes">',
-             '<p class="lx-note">The schemes leave the background and the text colour to the terminal, so each one '
-             "is drawn here on its palette's own background and text colour, as a terminal set to that palette has "
-             "them; each terminal says which. The <code>ansi</code> pair is drawn with the Tango palette, on "
-             "backgrounds chosen for this page: in your terminal it takes the terminal's palette. "
+             '<p class="lx-note">Each scheme other than <code>ansi</code> also sets the terminal\'s background and '
+             "text colour (with luish newer than 0.3.0, unless <code>terminal-colors = false</code>), and is drawn "
+             "here on them; each terminal says which. The <code>ansi</code> pair sets none, and is drawn with the "
+             "Tango palette on backgrounds chosen for this page: in your terminal it takes the terminal's colours. "
              "Hover over a word to see its role. The palettes are other people's; "
              '<a href="https://github.com/luispedro/luish-extra/blob/main/themes/README.md">themes/README.md</a> '
              "says where each comes from, under which license.</p>"]
