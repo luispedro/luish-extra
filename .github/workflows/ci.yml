@@ -19,7 +19,11 @@ jobs:
   test:
     runs-on: ubuntu-24.04
     steps:
+      # Side by side, not luish inside this repository: tests/root_source.sh adds the whole repository as a source,
+      # and would find luish's plugins in it.
       - uses: actions/checkout@v7
+        with:
+          path: extra
 
       # tests/run.sh needs a luish and its std plugins (for the `completion` plugin).
       - uses: actions/checkout@v7
@@ -41,6 +45,7 @@ jobs:
         env:
           LUISH: ${{ github.workspace }}/luish/target/release/luish
           STD_PLUGINS: ${{ github.workspace }}/luish/luish-std-plugins
+        working-directory: extra
         run: tests/run.sh
 
   docs:
