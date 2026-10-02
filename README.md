@@ -190,6 +190,10 @@ strings, variables (also in `NAME=`; exported ones bold, unset ones italic red);
 pair, they write colours as `#rrggbb`, which needs a terminal with 24-bit colour, and look best with the terminal set
 to the same palette. They need a luish with colour schemes (after 0.3.0).
 
+The palettes are other people's, used under their licenses (MIT for Solarized, gruvbox, Catppuccin and the original
+Tokyo Night; Apache-2.0 for tokyonight.nvim, whose night and day styles these are). [`themes/README.md`](themes/README.md)
+says where each comes from, and [`themes/LICENSES`](themes/LICENSES) has the license texts.
+
 ## Tests
 
 For working on the plugins (see [`CLAUDE.md`](CLAUDE.md) for how specs are written and generated):
@@ -207,3 +211,8 @@ They need luish (`LUISH`, default the one in `PATH`) and a checkout of its `luis
 `gsettings`, `dconf list`, `wmctrl -l`) are stood in for by the scripts in
 `tests/bin`. A test that lists a directory of `PATH` (`jupyter-*`) or the commands in it sets `PATH` itself, as does one
 that finds a program's files from it (LibreOffice's registry).
+
+## License
+
+luish-extra is licensed under the [MIT License](COPYING.MIT), as luish is. The colour palettes that the schemes in
+`themes` use are their authors', under their own licenses: see [`themes/README.md`](themes/README.md).

@@ -22,6 +22,9 @@ extra-complete`, then `plugin add extra-complete/all`. Either way, the plugins n
 
 The colour schemes are the plugin `themes` (`plugin add extra/themes`): see [](themes.md).
 
+luish-extra is licensed under the MIT License, as luish is; the palettes of the colour schemes are their authors',
+under their own licenses (see [](themes.md)).
+
 ```{toctree}
 :maxdepth: 2
 
