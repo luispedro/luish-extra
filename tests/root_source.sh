@@ -2,7 +2,7 @@
 # sub-collections), and their kinds and sub_specs name their modules by path, so they don't depend on the name.
 # Needs a luish with sub-collections (after 0.3.0).
 printf 'x = { path = "%s" }\n' "$EXTRA" >>"$HOME/.config/luish/config.toml"
-echo "--- available: only complete/ holds plugins"
+echo "--- available: the completion plugins under complete/, and themes"
 __luish_internal plugin list-available | grep '^x/'
 __luish_internal plugin load x/complete/all
 echo "load $?"

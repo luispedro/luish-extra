@@ -10,7 +10,7 @@
 #   LUISH        the luish to run (default: luish in PATH)
 #   STD_PLUGINS  luish-std-plugins (default: ../luish/luish-std-plugins)
 #
-# The scripts get $STD_PLUGINS, $EXTRA (this repository) and $PATH with
+# The scripts get $STD_PLUGINS, $EXTRA (this repository), $LUISH and $PATH with
 # tests/bin first: the programs that completion runs (samtools, tabix, bcftools, mmseqs) are stood in for there.
 here=$(cd "$(dirname "$0")" && pwd)
 EXTRA=$(dirname "$here")
@@ -35,7 +35,7 @@ for name in "$@"; do
     (
         cd "$dir" &&
         env -i PATH="$here/bin:$PATH" HOME="$dir" LC_ALL=C \
-            EXTRA="$EXTRA" STD_PLUGINS="$STD_PLUGINS" \
+            EXTRA="$EXTRA" STD_PLUGINS="$STD_PLUGINS" LUISH="$LUISH" \
             "$LUISH" "$name.sh" >"$dir/.stdout" 2>"$dir/.stderr"
     )
     if [ -n "$UPDATE" ]; then

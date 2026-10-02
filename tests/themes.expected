@@ -1,0 +1,508 @@
+--- the schemes
+* default-dark (dark background, from $LUISH_BACKGROUND)
+  default-light
+  ansi-dark
+  ansi-light
+  catppuccin-latte
+  catppuccin-mocha
+  gruvbox-dark
+  gruvbox-light
+  solarized-dark
+  solarized-light
+  tokyonight-day
+  tokyonight-night
+--- ansi-dark
+command              green
+command.builtin      green
+command.function     bold green
+command.alias        italic green
+command.external     green
+command.precommand   italic magenta
+command.directory    bold bright-blue
+command.history      yellow
+command.unknown      bold red
+keyword              bold magenta
+arg                  plain
+arg.option           bright-blue
+arg.subcommand       plain
+string               yellow
+string.single        yellow
+string.double        yellow
+string.dollar        yellow
+string.heredoc       yellow
+string.escape        bold bright-yellow
+var                  cyan
+var.special          bright-cyan
+var.array            italic cyan
+var.exported         bold cyan
+var.readonly         bright-cyan
+var.unset            italic red
+subst                bright-magenta
+subst.command        bright-magenta
+subst.process        bright-magenta
+subst.arith          bright-magenta
+expand               bright-yellow
+expand.tilde         bright-yellow
+expand.brace         bright-yellow
+expand.glob          bright-yellow
+op                   bold
+op.control           bold
+op.pipe              bold
+redir                bold
+redir.fd             bold bright-yellow
+assign               cyan
+comment              italic bright-black
+error                underline red
+path                 underline
+path.prefix          underline
+match                bold bg:bright-black
+menu                 plain
+menu.selected        reverse
+menu.description     bright-black
+suggestion           bright-black
+--- ansi-light
+command              green
+command.builtin      green
+command.function     bold green
+command.alias        italic green
+command.external     green
+command.precommand   italic magenta
+command.directory    bold blue
+command.history      136
+command.unknown      bold red
+keyword              bold magenta
+arg                  plain
+arg.option           blue
+arg.subcommand       plain
+string               136
+string.single        136
+string.double        136
+string.dollar        136
+string.heredoc       136
+string.escape        bold 136
+var                  cyan
+var.special          blue
+var.array            italic cyan
+var.exported         bold cyan
+var.readonly         blue
+var.unset            italic red
+subst                magenta
+subst.command        magenta
+subst.process        magenta
+subst.arith          magenta
+expand               bold magenta
+expand.tilde         bold magenta
+expand.brace         bold magenta
+expand.glob          bold magenta
+op                   bold
+op.control           bold
+op.pipe              bold
+redir                bold
+redir.fd             bold magenta
+assign               cyan
+comment              italic bright-black
+error                underline red
+path                 underline
+path.prefix          underline
+match                bold bg:white
+menu                 plain
+menu.selected        reverse
+menu.description     bright-black
+suggestion           bright-black
+--- solarized-dark
+command              #268bd2
+command.builtin      #268bd2
+command.function     bold #268bd2
+command.alias        italic #268bd2
+command.external     #268bd2
+command.precommand   italic #859900
+command.directory    bold #2aa198
+command.history      #cb4b16
+command.unknown      bold #dc322f
+keyword              bold #859900
+arg                  plain
+arg.option           #6c71c4
+arg.subcommand       plain
+string               #2aa198
+string.single        #2aa198
+string.double        #2aa198
+string.dollar        #2aa198
+string.heredoc       #2aa198
+string.escape        #dc322f
+var                  #b58900
+var.special          #cb4b16
+var.array            italic #b58900
+var.exported         bold #b58900
+var.readonly         #cb4b16
+var.unset            italic #dc322f
+subst                #d33682
+subst.command        #d33682
+subst.process        #d33682
+subst.arith          #d33682
+expand               #d33682
+expand.tilde         #d33682
+expand.brace         #d33682
+expand.glob          #d33682
+op                   bold
+op.control           bold
+op.pipe              bold
+redir                bold
+redir.fd             bold #cb4b16
+assign               #b58900
+comment              italic #586e75
+error                underline #dc322f
+path                 underline
+path.prefix          underline
+match                bold bg:#0a4a5a
+menu                 plain
+menu.selected        bold bg:#073642
+menu.description     #586e75
+suggestion           #586e75
+--- solarized-light
+command              #268bd2
+command.builtin      #268bd2
+command.function     bold #268bd2
+command.alias        italic #268bd2
+command.external     #268bd2
+command.precommand   italic #859900
+command.directory    bold #2aa198
+command.history      #cb4b16
+command.unknown      bold #dc322f
+keyword              bold #859900
+arg                  plain
+arg.option           #6c71c4
+arg.subcommand       plain
+string               #2aa198
+string.single        #2aa198
+string.double        #2aa198
+string.dollar        #2aa198
+string.heredoc       #2aa198
+string.escape        #dc322f
+var                  #b58900
+var.special          #cb4b16
+var.array            italic #b58900
+var.exported         bold #b58900
+var.readonly         #cb4b16
+var.unset            italic #dc322f
+subst                #d33682
+subst.command        #d33682
+subst.process        #d33682
+subst.arith          #d33682
+expand               #d33682
+expand.tilde         #d33682
+expand.brace         #d33682
+expand.glob          #d33682
+op                   bold
+op.control           bold
+op.pipe              bold
+redir                bold
+redir.fd             bold #cb4b16
+assign               #b58900
+comment              italic #93a1a1
+error                underline #dc322f
+path                 underline
+path.prefix          underline
+match                bold bg:#e0d8be
+menu                 plain
+menu.selected        bold bg:#eee8d5
+menu.description     #93a1a1
+suggestion           #93a1a1
+--- gruvbox-dark
+command              #fabd2f
+command.builtin      #fabd2f
+command.function     bold #fabd2f
+command.alias        italic #fabd2f
+command.external     #fabd2f
+command.precommand   italic #fb4934
+command.directory    bold #83a598
+command.history      #fe8019
+command.unknown      bold underline #fb4934
+keyword              bold #fb4934
+arg                  plain
+arg.option           #8ec07c
+arg.subcommand       plain
+string               #b8bb26
+string.single        #b8bb26
+string.double        #b8bb26
+string.dollar        #b8bb26
+string.heredoc       #b8bb26
+string.escape        #fe8019
+var                  #83a598
+var.special          #d3869b
+var.array            italic #83a598
+var.exported         bold #83a598
+var.readonly         #d3869b
+var.unset            italic #fb4934
+subst                bold #d3869b
+subst.command        bold #d3869b
+subst.process        bold #d3869b
+subst.arith          bold #d3869b
+expand               #fe8019
+expand.tilde         #fe8019
+expand.brace         #fe8019
+expand.glob          #fe8019
+op                   bold
+op.control           bold
+op.pipe              bold
+redir                bold
+redir.fd             bold #d3869b
+assign               #83a598
+comment              italic #928374
+error                underline #fb4934
+path                 underline
+path.prefix          underline
+match                bold bg:#665c54
+menu                 plain
+menu.selected        bold bg:#504945
+menu.description     #928374
+suggestion           #7c6f64
+--- gruvbox-light
+command              #b57614
+command.builtin      #b57614
+command.function     bold #b57614
+command.alias        italic #b57614
+command.external     #b57614
+command.precommand   italic #9d0006
+command.directory    bold #076678
+command.history      #af3a03
+command.unknown      bold underline #9d0006
+keyword              bold #9d0006
+arg                  plain
+arg.option           #427b58
+arg.subcommand       plain
+string               #79740e
+string.single        #79740e
+string.double        #79740e
+string.dollar        #79740e
+string.heredoc       #79740e
+string.escape        #af3a03
+var                  #076678
+var.special          #8f3f71
+var.array            italic #076678
+var.exported         bold #076678
+var.readonly         #8f3f71
+var.unset            italic #9d0006
+subst                bold #8f3f71
+subst.command        bold #8f3f71
+subst.process        bold #8f3f71
+subst.arith          bold #8f3f71
+expand               #af3a03
+expand.tilde         #af3a03
+expand.brace         #af3a03
+expand.glob          #af3a03
+op                   bold
+op.control           bold
+op.pipe              bold
+redir                bold
+redir.fd             bold #8f3f71
+assign               #076678
+comment              italic #928374
+error                underline #9d0006
+path                 underline
+path.prefix          underline
+match                bold bg:#d5c4a1
+menu                 plain
+menu.selected        bold bg:#ebdbb2
+menu.description     #7c6f64
+suggestion           #928374
+--- catppuccin-mocha
+command              #89b4fa
+command.builtin      #89b4fa
+command.function     bold #89b4fa
+command.alias        italic #89b4fa
+command.external     #89b4fa
+command.precommand   italic #cba6f7
+command.directory    bold #74c7ec
+command.history      #fab387
+command.unknown      bold #f38ba8
+keyword              bold #cba6f7
+arg                  plain
+arg.option           #74c7ec
+arg.subcommand       plain
+string               #a6e3a1
+string.single        #a6e3a1
+string.double        #a6e3a1
+string.dollar        #a6e3a1
+string.heredoc       #a6e3a1
+string.escape        #f5c2e7
+var                  #f9e2af
+var.special          #eba0ac
+var.array            italic #f9e2af
+var.exported         bold #f9e2af
+var.readonly         #eba0ac
+var.unset            italic #f38ba8
+subst                bold #f5c2e7
+subst.command        bold #f5c2e7
+subst.process        bold #f5c2e7
+subst.arith          bold #f5c2e7
+expand               #fab387
+expand.tilde         #fab387
+expand.brace         #fab387
+expand.glob          #fab387
+op                   bold #89dceb
+op.control           bold #89dceb
+op.pipe              bold #89dceb
+redir                bold #89dceb
+redir.fd             bold #fab387
+assign               #f9e2af
+comment              italic #9399b2
+error                underline #f38ba8
+path                 underline
+path.prefix          underline
+match                bold bg:#585b70
+menu                 plain
+menu.selected        bold bg:#45475a
+menu.description     #7f849c
+suggestion           #6c7086
+--- catppuccin-latte
+command              #1e66f5
+command.builtin      #1e66f5
+command.function     bold #1e66f5
+command.alias        italic #1e66f5
+command.external     #1e66f5
+command.precommand   italic #8839ef
+command.directory    bold #209fb5
+command.history      #fe640b
+command.unknown      bold #d20f39
+keyword              bold #8839ef
+arg                  plain
+arg.option           #209fb5
+arg.subcommand       plain
+string               #40a02b
+string.single        #40a02b
+string.double        #40a02b
+string.dollar        #40a02b
+string.heredoc       #40a02b
+string.escape        #e64553
+var                  #179299
+var.special          #e64553
+var.array            italic #179299
+var.exported         bold #179299
+var.readonly         #e64553
+var.unset            italic #d20f39
+subst                bold #8839ef
+subst.command        bold #8839ef
+subst.process        bold #8839ef
+subst.arith          bold #8839ef
+expand               bold #fe640b
+expand.tilde         bold #fe640b
+expand.brace         bold #fe640b
+expand.glob          bold #fe640b
+op                   bold
+op.control           bold
+op.pipe              bold
+redir                bold
+redir.fd             bold #fe640b
+assign               #179299
+comment              italic #7c7f93
+error                underline #d20f39
+path                 underline
+path.prefix          underline
+match                bold bg:#bcc0cc
+menu                 plain
+menu.selected        bold bg:#ccd0da
+menu.description     #8c8fa1
+suggestion           #8c8fa1
+--- tokyonight-night
+command              #7aa2f7
+command.builtin      #7aa2f7
+command.function     bold #7aa2f7
+command.alias        italic #7aa2f7
+command.external     #7aa2f7
+command.precommand   italic #bb9af7
+command.directory    bold #7dcfff
+command.history      #ff9e64
+command.unknown      bold #db4b4b
+keyword              bold #bb9af7
+arg                  plain
+arg.option           #e0af68
+arg.subcommand       plain
+string               #9ece6a
+string.single        #9ece6a
+string.double        #9ece6a
+string.dollar        #9ece6a
+string.heredoc       #9ece6a
+string.escape        #89ddff
+var                  #7dcfff
+var.special          #f7768e
+var.array            italic #7dcfff
+var.exported         bold #7dcfff
+var.readonly         #f7768e
+var.unset            italic #db4b4b
+subst                bold #9d7cd8
+subst.command        bold #9d7cd8
+subst.process        bold #9d7cd8
+subst.arith          bold #9d7cd8
+expand               #ff9e64
+expand.tilde         #ff9e64
+expand.brace         #ff9e64
+expand.glob          #ff9e64
+op                   bold #89ddff
+op.control           bold #89ddff
+op.pipe              bold #89ddff
+redir                bold #89ddff
+redir.fd             bold #ff9e64
+assign               #7dcfff
+comment              italic #565f89
+error                underline #db4b4b
+path                 underline
+path.prefix          underline
+match                bold bg:#3d59a1
+menu                 plain
+menu.selected        bold bg:#283457
+menu.description     #737aa2
+suggestion           #565f89
+--- tokyonight-day
+command              #2e7de9
+command.builtin      #2e7de9
+command.function     bold #2e7de9
+command.alias        italic #2e7de9
+command.external     #2e7de9
+command.precommand   italic #9854f1
+command.directory    bold #007197
+command.history      #b15c00
+command.unknown      bold #c64343
+keyword              bold #9854f1
+arg                  plain
+arg.option           #8c6c3e
+arg.subcommand       plain
+string               #587539
+string.single        #587539
+string.double        #587539
+string.dollar        #587539
+string.heredoc       #587539
+string.escape        #006a83
+var                  #007197
+var.special          #f52a65
+var.array            italic #007197
+var.exported         bold #007197
+var.readonly         #f52a65
+var.unset            italic #c64343
+subst                bold #7847bd
+subst.command        bold #7847bd
+subst.process        bold #7847bd
+subst.arith          bold #7847bd
+expand               #b15c00
+expand.tilde         #b15c00
+expand.brace         #b15c00
+expand.glob          #b15c00
+op                   bold #006a83
+op.control           bold #006a83
+op.pipe              bold #006a83
+redir                bold #006a83
+redir.fd             bold #b15c00
+assign               #007197
+comment              italic #848cb5
+error                underline #c64343
+path                 underline
+path.prefix          underline
+match                bold bg:#7890dd
+menu                 plain
+menu.selected        bold bg:#b7c1e3
+menu.description     #68709a
+suggestion           #848cb5
+--- a pair, by the background
+keyword bold #fb4934
+  keyword: bold #fb4934 (scheme gruvbox-dark)
+keyword bold #9d0006
+  keyword: bold #9d0006 (scheme gruvbox-light)

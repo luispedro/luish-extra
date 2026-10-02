@@ -1,10 +1,11 @@
---- available: only complete/ holds plugins
+--- available: the completion plugins under complete/, and themes
 x/complete/all
 x/complete/bio
 x/complete/dev
 x/complete/gui
 x/complete/science
 x/complete/system
+x/themes
 load 0
 std/completion
 x/complete/extra-lib

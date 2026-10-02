@@ -1,0 +1,343 @@
+description = "Colour schemes for luish's line editor, in pairs for dark and light backgrounds"
+
+# Loading this plugin only makes the schemes available; choose a pair in config.toml:
+#
+#     [style]
+#     colorscheme = { dark = "gruvbox-dark", light = "gruvbox-light" }
+#
+# or with `style -c gruvbox-dark gruvbox-light`. luish picks the one that fits the terminal's background.
+#
+# Every scheme gives the roles the same meaning, so that changing scheme changes the colours, not what they say:
+#
+#   command        one colour for every kind of command; functions bold, aliases italic; sudo, env, exec and the
+#                  other precommands italic in the keyword's colour, unknown commands bold red
+#   keyword        bold, in a colour of its own
+#   arg.option     a colour of its own; other arguments are the terminal's text colour
+#   op, redir      bold, in the palette's colour for operators if it has one; file descriptors as numbers
+#   string         one colour; escapes, and $( ... ) and the expansions (~, {a,b}, *), stand out from it
+#   var            one colour, also for the NAME= of an assignment; exported variables bold, arrays italic,
+#                  special and read-only ones in a second colour, unset ones italic red
+#   comment        italic, in the palette's comment colour, which suggestions and menu descriptions share
+#   error          underlined red, added to the text's colours; path is underlined
+#   menu.selected  bold on the palette's selection colour (match, a shade further)
+#
+# The text colour and the background are left to the terminal. The palettes' colours are written as #rrggbb, which
+# needs a terminal with 24-bit colour (most have it); `ansi-dark` and `ansi-light` use the terminal's own 16 colours
+# instead, so they follow whatever palette it has.
+
+# ---------------------------------------------------------------------------------------------------------------------
+# ansi: the terminal's 16 colours (and 136, a dark yellow, on light backgrounds, as default-light has). Brighter than
+# default-dark, with options, escapes, special variables and precommands told apart.
+
+[colorscheme.ansi-dark]
+keyword = "bold magenta"
+command = "green"
+"command.function" = "bold green"
+"command.alias" = "italic green"
+"command.precommand" = "italic magenta"
+"command.directory" = "bold bright-blue"
+"command.history" = "yellow"
+"command.unknown" = "bold red"
+"arg.option" = "bright-blue"
+string = "yellow"
+"string.escape" = "bold bright-yellow"
+var = "cyan"
+"var.exported" = "bold cyan"
+"var.array" = "italic cyan"
+"var.special" = "bright-cyan"
+"var.readonly" = "bright-cyan"
+"var.unset" = "italic red"
+subst = "bright-magenta"
+expand = "bright-yellow"
+op = "bold"
+redir = "bold"
+"redir.fd" = "bright-yellow"
+assign = "cyan"
+comment = "italic bright-black"
+error = "underline red"
+path = "underline"
+match = "bold bg:bright-black"
+"menu.selected" = "reverse"
+"menu.description" = "bright-black"
+suggestion = "bright-black"
+
+# Bright colours wash out on a light background, and yellow can't be read on it.
+[colorscheme.ansi-light]
+inherits = "ansi-dark"
+"command.directory" = "bold blue"
+"command.history" = "136"
+"arg.option" = "blue"
+string = "136"
+"string.escape" = "bold 136"
+"var.special" = "blue"
+"var.readonly" = "blue"
+subst = "magenta"
+expand = "bold magenta"
+"redir.fd" = "magenta"
+match = "bold bg:white"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# solarized (Ethan Schoonover): the same accents on both backgrounds; only the greys change.
+#   yellow #b58900  orange #cb4b16  red #dc322f  magenta #d33682  violet #6c71c4  blue #268bd2  cyan #2aa198
+#   green #859900;  dark: base03 #002b36 (background) base02 #073642 base01 #586e75 (comments)
+#   light: base3 #fdf6e3 (background) base2 #eee8d5 base1 #93a1a1 (comments)
+
+[colorscheme.solarized-dark]
+keyword = "bold #859900"
+command = "#268bd2"
+"command.function" = "bold #268bd2"
+"command.alias" = "italic #268bd2"
+"command.precommand" = "italic #859900"
+"command.directory" = "bold #2aa198"
+"command.history" = "#cb4b16"
+"command.unknown" = "bold #dc322f"
+"arg.option" = "#6c71c4"
+string = "#2aa198"
+"string.escape" = "#dc322f"
+var = "#b58900"
+"var.exported" = "bold #b58900"
+"var.array" = "italic #b58900"
+"var.special" = "#cb4b16"
+"var.readonly" = "#cb4b16"
+"var.unset" = "italic #dc322f"
+subst = "#d33682"
+expand = "#d33682"
+op = "bold"
+redir = "bold"
+"redir.fd" = "#cb4b16"
+assign = "#b58900"
+comment = "italic #586e75"
+error = "underline #dc322f"
+path = "underline"
+match = "bold bg:#0a4a5a"
+"menu.selected" = "bold bg:#073642"
+"menu.description" = "#586e75"
+suggestion = "#586e75"
+
+[colorscheme.solarized-light]
+inherits = "solarized-dark"
+comment = "italic #93a1a1"
+match = "bold bg:#e0d8be"
+"menu.selected" = "bold bg:#eee8d5"
+"menu.description" = "#93a1a1"
+suggestion = "#93a1a1"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# gruvbox (Pavel Pertsev): the bright accents on the dark background, the faded ones on the light.
+#   dark:  red #fb4934 green #b8bb26 yellow #fabd2f blue #83a598 purple #d3869b aqua #8ec07c orange #fe8019
+#          gray #928374 bg1 #3c3836 bg2 #504945 bg3 #665c54 bg4 #7c6f64 (background #282828)
+#   light: red #9d0006 green #79740e yellow #b57614 blue #076678 purple #8f3f71 aqua #427b58 orange #af3a03
+#          gray #928374 bg1 #ebdbb2 bg2 #d5c4a1 bg3 #bdae93 (background #fbf1c7)
+# Keywords are red, as gruvbox has them, so unknown commands are also underlined; numbers (file descriptors) are
+# purple, as its constants.
+
+[colorscheme.gruvbox-dark]
+keyword = "bold #fb4934"
+command = "#fabd2f"
+"command.function" = "bold #fabd2f"
+"command.alias" = "italic #fabd2f"
+"command.precommand" = "italic #fb4934"
+"command.directory" = "bold #83a598"
+"command.history" = "#fe8019"
+"command.unknown" = "bold underline #fb4934"
+"arg.option" = "#8ec07c"
+string = "#b8bb26"
+"string.escape" = "#fe8019"
+var = "#83a598"
+"var.exported" = "bold #83a598"
+"var.array" = "italic #83a598"
+"var.special" = "#d3869b"
+"var.readonly" = "#d3869b"
+"var.unset" = "italic #fb4934"
+subst = "bold #d3869b"
+expand = "#fe8019"
+op = "bold"
+redir = "bold"
+"redir.fd" = "#d3869b"
+assign = "#83a598"
+comment = "italic #928374"
+error = "underline #fb4934"
+path = "underline"
+match = "bold bg:#665c54"
+"menu.selected" = "bold bg:#504945"
+"menu.description" = "#928374"
+suggestion = "#7c6f64"
+
+[colorscheme.gruvbox-light]
+inherits = "gruvbox-dark"
+keyword = "bold #9d0006"
+command = "#b57614"
+"command.function" = "bold #b57614"
+"command.alias" = "italic #b57614"
+"command.precommand" = "italic #9d0006"
+"command.directory" = "bold #076678"
+"command.history" = "#af3a03"
+"command.unknown" = "bold underline #9d0006"
+"arg.option" = "#427b58"
+string = "#79740e"
+"string.escape" = "#af3a03"
+var = "#076678"
+"var.exported" = "bold #076678"
+"var.array" = "italic #076678"
+"var.special" = "#8f3f71"
+"var.readonly" = "#8f3f71"
+"var.unset" = "italic #9d0006"
+subst = "bold #8f3f71"
+expand = "#af3a03"
+"redir.fd" = "#8f3f71"
+assign = "#076678"
+error = "underline #9d0006"
+match = "bold bg:#d5c4a1"
+"menu.selected" = "bold bg:#ebdbb2"
+"menu.description" = "#7c6f64"
+suggestion = "#928374"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# catppuccin: mocha on dark backgrounds, latte on light ones, following its style guide where it says (keywords
+# mauve, strings green, escapes pink, functions blue, operators sky, constants peach, parameters maroon).
+#   mocha: mauve #cba6f7 red #f38ba8 maroon #eba0ac peach #fab387 yellow #f9e2af green #a6e3a1 sky #89dceb
+#          sapphire #74c7ec blue #89b4fa pink #f5c2e7 overlay2 #9399b2 overlay1 #7f849c overlay0 #6c7086
+#          surface1 #45475a surface2 #585b70 (base #1e1e2e)
+#   latte: mauve #8839ef red #d20f39 maroon #e64553 peach #fe640b yellow #df8e1d green #40a02b sky #04a5e5
+#          sapphire #209fb5 blue #1e66f5 pink #ea76cb teal #179299 overlay2 #7c7f93 overlay1 #8c8fa1
+#          surface0 #ccd0da surface1 #bcc0cc (base #eff1f5)
+# Latte's lighter colours are hard to read on its background, so it has variables teal rather than yellow, escapes
+# maroon rather than pink, $( mauve, globs bold, and operators in the text colour.
+
+[colorscheme.catppuccin-mocha]
+keyword = "bold #cba6f7"
+command = "#89b4fa"
+"command.function" = "bold #89b4fa"
+"command.alias" = "italic #89b4fa"
+"command.precommand" = "italic #cba6f7"
+"command.directory" = "bold #74c7ec"
+"command.history" = "#fab387"
+"command.unknown" = "bold #f38ba8"
+"arg.option" = "#74c7ec"
+string = "#a6e3a1"
+"string.escape" = "#f5c2e7"
+var = "#f9e2af"
+"var.exported" = "bold #f9e2af"
+"var.array" = "italic #f9e2af"
+"var.special" = "#eba0ac"
+"var.readonly" = "#eba0ac"
+"var.unset" = "italic #f38ba8"
+subst = "bold #f5c2e7"
+expand = "#fab387"
+op = "bold #89dceb"
+redir = "bold #89dceb"
+"redir.fd" = "#fab387"
+assign = "#f9e2af"
+comment = "italic #9399b2"
+error = "underline #f38ba8"
+path = "underline"
+match = "bold bg:#585b70"
+"menu.selected" = "bold bg:#45475a"
+"menu.description" = "#7f849c"
+suggestion = "#6c7086"
+
+[colorscheme.catppuccin-latte]
+inherits = "catppuccin-mocha"
+keyword = "bold #8839ef"
+command = "#1e66f5"
+"command.function" = "bold #1e66f5"
+"command.alias" = "italic #1e66f5"
+"command.precommand" = "italic #8839ef"
+"command.directory" = "bold #209fb5"
+"command.history" = "#fe640b"
+"command.unknown" = "bold #d20f39"
+"arg.option" = "#209fb5"
+string = "#40a02b"
+"string.escape" = "#e64553"
+var = "#179299"
+"var.exported" = "bold #179299"
+"var.array" = "italic #179299"
+"var.special" = "#e64553"
+"var.readonly" = "#e64553"
+"var.unset" = "italic #d20f39"
+subst = "bold #8839ef"
+expand = "bold #fe640b"
+op = "bold"
+redir = "bold"
+"redir.fd" = "#fe640b"
+assign = "#179299"
+comment = "italic #7c7f93"
+error = "underline #d20f39"
+match = "bold bg:#bcc0cc"
+"menu.selected" = "bold bg:#ccd0da"
+"menu.description" = "#8c8fa1"
+suggestion = "#8c8fa1"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# tokyonight (enkia, folke): night on dark backgrounds, day on light ones. Options are in the colour of parameters,
+# special variables in that of built-in variables (red), operators in that of operators.
+#   night: magenta #bb9af7 purple #9d7cd8 blue #7aa2f7 cyan #7dcfff blue5 #89ddff green #9ece6a yellow #e0af68
+#          orange #ff9e64 red #f7768e red1 #db4b4b comment #565f89 dark5 #737aa2 bg_visual #283457
+#          bg_search #3d59a1 (background #1a1b26)
+#   day:   magenta #9854f1 purple #7847bd blue #2e7de9 cyan #007197 blue5 #006a83 green #587539 yellow #8c6c3e
+#          orange #b15c00 red #f52a65 red1 #c64343 comment #848cb5 dark5 #68709a bg_visual #b7c1e3
+#          bg_search #7890dd (background #e1e2e7)
+
+[colorscheme.tokyonight-night]
+keyword = "bold #bb9af7"
+command = "#7aa2f7"
+"command.function" = "bold #7aa2f7"
+"command.alias" = "italic #7aa2f7"
+"command.precommand" = "italic #bb9af7"
+"command.directory" = "bold #7dcfff"
+"command.history" = "#ff9e64"
+"command.unknown" = "bold #db4b4b"
+"arg.option" = "#e0af68"
+string = "#9ece6a"
+"string.escape" = "#89ddff"
+var = "#7dcfff"
+"var.exported" = "bold #7dcfff"
+"var.array" = "italic #7dcfff"
+"var.special" = "#f7768e"
+"var.readonly" = "#f7768e"
+"var.unset" = "italic #db4b4b"
+subst = "bold #9d7cd8"
+expand = "#ff9e64"
+op = "bold #89ddff"
+redir = "bold #89ddff"
+"redir.fd" = "#ff9e64"
+assign = "#7dcfff"
+comment = "italic #565f89"
+error = "underline #db4b4b"
+path = "underline"
+match = "bold bg:#3d59a1"
+"menu.selected" = "bold bg:#283457"
+"menu.description" = "#737aa2"
+suggestion = "#565f89"
+
+[colorscheme.tokyonight-day]
+inherits = "tokyonight-night"
+keyword = "bold #9854f1"
+command = "#2e7de9"
+"command.function" = "bold #2e7de9"
+"command.alias" = "italic #2e7de9"
+"command.precommand" = "italic #9854f1"
+"command.directory" = "bold #007197"
+"command.history" = "#b15c00"
+"command.unknown" = "bold #c64343"
+"arg.option" = "#8c6c3e"
+string = "#587539"
+"string.escape" = "#006a83"
+var = "#007197"
+"var.exported" = "bold #007197"
+"var.array" = "italic #007197"
+"var.special" = "#f52a65"
+"var.readonly" = "#f52a65"
+"var.unset" = "italic #c64343"
+subst = "bold #7847bd"
+expand = "#b15c00"
+op = "bold #006a83"
+redir = "bold #006a83"
+"redir.fd" = "#b15c00"
+assign = "#007197"
+comment = "italic #848cb5"
+error = "underline #c64343"
+match = "bold bg:#7890dd"
+"menu.selected" = "bold bg:#b7c1e3"
+"menu.description" = "#68709a"
+suggestion = "#848cb5"

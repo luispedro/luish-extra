@@ -58,6 +58,13 @@ bridge. svn, netlify and adb (`dev`) are still to do, and the rest of `PLAN.md` 
 spec(cmd)` (the generated ones too, ignoring `cmd`), and `extension.rhai` maps each command to its module (`module_of`),
 so a new module needs an entry there; nextflow, whose spec depends on the line, and mpv have completers of their own.
 
+`themes` is a plugin of its own, beside the `complete` collection (`extra/themes`): only a `plugin.toml` with
+`[colorscheme.NAME]` tables (luish's colour schemes, after 0.3.0), in pairs for dark and light backgrounds (`ansi`,
+`solarized`, `gruvbox`, `catppuccin` mocha/latte, `tokyonight` night/day). Its header comment says what each role
+means in every scheme (one colour for commands, functions bold, ...); a new scheme keeps to it, and its light member
+usually `inherits` the dark one. luish reads a manifest's tables only in interactive shells, so `tests/themes.sh` runs
+`$LUISH -i`. `docs/themes.md` and the README list the schemes.
+
 `complete/extra-lib` is a library plugin (`library = true` in its `plugin.toml`, which is its only entry point; `plugin
 list-available` leaves it out) of helpers the others share: `files.rhai` (`with_suffix(cur, suffixes)`, and with a third
 argument, directories to leave out; `compressed(suffixes)`), `text.rhai` (`is_name`, `last_of`, `last_index`, `indent`,
@@ -152,7 +159,8 @@ sphinx-build -W docs docs/_build
   only a `plugin.toml` that depends on the others (a new user-facing plugin goes in its `[dependencies]`, and in the
   `all_load` test). `complete/` itself must not get a `plugin.toml` or any other entry point: luish would then take
   it as one plugin, not a collection, and both `extra.complete.bio` and the plain-name dependencies (`extra-lib =
-  "*"`) would stop resolving. Other kinds of plugin would be further collections.
+  "*"`) would stop resolving. Other kinds of plugin go beside `complete/`, as a plugin (`themes/`) or a further
+  collection.
 - Completion is by **command name, not Bioconda package name** (`star` → `STAR`, `subread` → `featureCounts`,
   `entrez-direct` → `esearch`/`efetch`). Check the real executables.
 - Commands that std's `completion` plugin already covers (`fd`, `rg`, `jq`, `uv`, `pixi`, `conda`, `docker`, …) are

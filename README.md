@@ -2,7 +2,8 @@
 
 Tab completion for [luish](https://github.com/luispedro/luish), for the programs that its standard library leaves out:
 bioinformatics tools (`bio`), scientific computing (`science`), desktop programs (`gui`), development (`dev`) and
-system administration (`system`). Each plugin can be enabled on its own.
+system administration (`system`). Each plugin can be enabled on its own. And [colour schemes](#colour-schemes) for
+luish's highlighting, for dark and light backgrounds (`themes`).
 
 Completion knows each program's options and subcommands, and the kind of value each one takes: `samtools sort -O`
 offers `BAM`, `CRAM` and `SAM`, `samtools view -T` offers FASTA files and `samtools view in.bam` the reference names
@@ -158,6 +159,36 @@ its flags), `poetry`, `twine`; `fzf`, `bat` (and `batcat`).
 
 Done: `borg` (repositories, and `::ARCHIVE` with `BORG_REPO`; compression specs), `fusermount` and `fusermount3` (the
 FUSE mount points, for `-u`).
+
+## Colour schemes
+
+The plugin `themes` (`extra/themes`) has colour schemes for luish's syntax highlighting, completion menu and
+suggestions, each in a pair for dark and light backgrounds:
+
+| Dark               | Light              | Colours                                                          |
+|--------------------|--------------------|------------------------------------------------------------------|
+| `ansi-dark`        | `ansi-light`       | the terminal's own 16, so they follow its palette                |
+| `solarized-dark`   | `solarized-light`  | [Solarized](https://ethanschoonover.com/solarized/)              |
+| `gruvbox-dark`     | `gruvbox-light`    | [gruvbox](https://github.com/morhetz/gruvbox)                    |
+| `catppuccin-mocha` | `catppuccin-latte` | [Catppuccin](https://catppuccin.com/palette)                     |
+| `tokyonight-night` | `tokyonight-day`   | [Tokyo Night](https://github.com/folke/tokyonight.nvim)          |
+
+Enable the plugin, which only makes them available, and choose a pair in `config.toml`; luish takes the one that
+fits the terminal's background:
+
+```toml
+[plugins.enabled]
+extra.themes = "*"
+
+[style]
+colorscheme = { dark = "gruvbox-dark", light = "gruvbox-light" }
+```
+
+or try one with `style -c catppuccin-mocha` (`style -c` lists them). All of them give each kind of word the same
+role: one colour for commands (functions bold, aliases italic, unknown commands bold red), one for keywords, options,
+strings, variables (also in `NAME=`; exported ones bold, unset ones italic red); comments italic. Except the `ansi`
+pair, they write colours as `#rrggbb`, which needs a terminal with 24-bit colour, and look best with the terminal set
+to the same palette. They need a luish with colour schemes (after 0.3.0).
 
 ## Tests
 

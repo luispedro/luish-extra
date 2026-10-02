@@ -20,8 +20,11 @@ This needs a luish newer than 0.3.0, which takes collections with subdirectories
 `complete` directory instead: `plugin add https://github.com/luispedro/luish-extra/tree/main/complete
 extra-complete`, then `plugin add extra-complete/all`. Either way, the plugins need std's `completion` plugin.
 
+The colour schemes are the plugin `themes` (`plugin add extra/themes`): see [](themes.md).
+
 ```{toctree}
 :maxdepth: 2
 
 completion
+themes
 ```
