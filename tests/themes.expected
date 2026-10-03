@@ -60,6 +60,12 @@ menu                 plain
 menu.selected        reverse
 menu.description     bright-black
 suggestion           bright-black
+plugin.name          bold
+plugin.ok            green
+plugin.update        yellow
+plugin.warn          yellow
+plugin.error         bold red
+plugin.dim           bright-black
 --- ansi-light
 command              green
 command.builtin      green
@@ -109,6 +115,12 @@ menu                 plain
 menu.selected        reverse
 menu.description     bright-black
 suggestion           bright-black
+plugin.name          bold
+plugin.ok            green
+plugin.update        136
+plugin.warn          136
+plugin.error         bold red
+plugin.dim           bright-black
 --- solarized-dark
 command              #268bd2
 command.builtin      #268bd2
@@ -158,6 +170,12 @@ menu                 plain
 menu.selected        bold bg:#073642
 menu.description     #586e75
 suggestion           #586e75
+plugin.name          bold
+plugin.ok            #859900
+plugin.update        #b58900
+plugin.warn          #cb4b16
+plugin.error         bold #dc322f
+plugin.dim           #586e75
 terminal.background  #002b36
 terminal.cursor      #839496
 terminal.foreground  #839496
@@ -211,6 +229,12 @@ menu                 plain
 menu.selected        bold bg:#eee8d5
 menu.description     #93a1a1
 suggestion           #93a1a1
+plugin.name          bold
+plugin.ok            #859900
+plugin.update        #b58900
+plugin.warn          #cb4b16
+plugin.error         bold #dc322f
+plugin.dim           #93a1a1
 terminal.background  #fdf6e3
 terminal.cursor      #657b83
 terminal.foreground  #657b83
@@ -263,6 +287,12 @@ menu                 plain
 menu.selected        bold bg:#504945
 menu.description     #928374
 suggestion           #7c6f64
+plugin.name          bold
+plugin.ok            #b8bb26
+plugin.update        #fabd2f
+plugin.warn          #fe8019
+plugin.error         bold #fb4934
+plugin.dim           #928374
 terminal.background  #282828
 terminal.cursor      #ebdbb2
 terminal.foreground  #ebdbb2
@@ -316,6 +346,12 @@ menu                 plain
 menu.selected        bold bg:#ebdbb2
 menu.description     #7c6f64
 suggestion           #928374
+plugin.name          bold
+plugin.ok            #79740e
+plugin.update        #b57614
+plugin.warn          #af3a03
+plugin.error         bold #9d0006
+plugin.dim           #7c6f64
 terminal.background  #fbf1c7
 terminal.cursor      #3c3836
 terminal.foreground  #3c3836
@@ -369,6 +405,12 @@ menu                 plain
 menu.selected        bold bg:#45475a
 menu.description     #7f849c
 suggestion           #6c7086
+plugin.name          bold
+plugin.ok            #a6e3a1
+plugin.update        #f9e2af
+plugin.warn          #fab387
+plugin.error         bold #f38ba8
+plugin.dim           #7f849c
 terminal.background  #1e1e2e
 terminal.cursor      #f5e0dc
 terminal.foreground  #cdd6f4
@@ -422,6 +464,12 @@ menu                 plain
 menu.selected        bold bg:#ccd0da
 menu.description     #8c8fa1
 suggestion           #8c8fa1
+plugin.name          bold
+plugin.ok            #40a02b
+plugin.update        #fe640b
+plugin.warn          #fe640b
+plugin.error         bold #d20f39
+plugin.dim           #8c8fa1
 terminal.background  #eff1f5
 terminal.cursor      #dc8a78
 terminal.foreground  #4c4f69
@@ -475,6 +523,12 @@ menu                 plain
 menu.selected        bold bg:#283457
 menu.description     #737aa2
 suggestion           #565f89
+plugin.name          bold
+plugin.ok            #9ece6a
+plugin.update        #e0af68
+plugin.warn          #ff9e64
+plugin.error         bold #db4b4b
+plugin.dim           #737aa2
 terminal.background  #1a1b26
 terminal.cursor      #c0caf5
 terminal.foreground  #c0caf5
@@ -528,6 +582,12 @@ menu                 plain
 menu.selected        bold bg:#b7c1e3
 menu.description     #68709a
 suggestion           #848cb5
+plugin.name          bold
+plugin.ok            #587539
+plugin.update        #8c6c3e
+plugin.warn          #b15c00
+plugin.error         bold #c64343
+plugin.dim           #68709a
 terminal.background  #e1e2e7
 terminal.cursor      #3760bf
 terminal.foreground  #3760bf

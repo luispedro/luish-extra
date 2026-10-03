@@ -48,7 +48,9 @@ The schemes differ in their colours, not in what they mark:
   special and read-only ones (`$?`, `$1`) in a second colour, and unset ones italic red;
 - operators and redirections are bold; the file descriptors of redirections are in the colour of numbers;
 - comments are italic, in the palette's colour for comments, which suggestions and descriptions in the menu share;
-- syntax errors are underlined red, and with `setopt highlight.paths`, files are underlined.
+- syntax errors are underlined red, and with `setopt highlight.paths`, files are underlined;
+- in the output of `plugin`, names are bold, what worked green, what changed (or can) yellow, warnings orange
+  where the palette has it, errors bold red, and details in the colour of the menu's descriptions.
 
 ## Colours and terminals
 

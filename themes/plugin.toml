@@ -20,6 +20,8 @@ description = "Colour schemes for luish's line editor, in pairs for dark and lig
 #   comment        italic, in the palette's comment colour, which suggestions and menu descriptions share
 #   error          underlined red, added to the text's colours; path is underlined
 #   menu.selected  bold on the palette's selection colour (match, a shade further)
+#   plugin.*       the output of `plugin`: names bold, what worked green, what changed or can yellow, warnings in
+#                  the palette's orange if it has one, errors bold red, detail in the colour of menu descriptions
 #
 # The palettes' colours are written as #rrggbb, which needs a terminal with 24-bit colour (most have it). Each palette
 # scheme also sets the terminal's own colours while it is in use, in its `terminal` table: its background, text and
@@ -67,6 +69,12 @@ match = "bold bg:bright-black"
 "menu.selected" = "reverse"
 "menu.description" = "bright-black"
 suggestion = "bright-black"
+"plugin.name" = "bold"
+"plugin.ok" = "green"
+"plugin.update" = "yellow"
+"plugin.warn" = "yellow"
+"plugin.error" = "bold red"
+"plugin.dim" = "bright-black"
 
 # Bright colours wash out on a light background, and yellow can't be read on it.
 [colorscheme.ansi-light]
@@ -82,6 +90,8 @@ subst = "magenta"
 expand = "bold magenta"
 "redir.fd" = "magenta"
 match = "bold bg:white"
+"plugin.update" = "136"
+"plugin.warn" = "136"
 
 # ---------------------------------------------------------------------------------------------------------------------
 # solarized: the same accents on both backgrounds; only the greys change. A match is reversed yellow, as Solarized's
@@ -124,6 +134,12 @@ match = "bold reverse #b58900"
 "menu.selected" = "bold bg:#073642"
 "menu.description" = "#586e75"
 suggestion = "#586e75"
+"plugin.name" = "bold"
+"plugin.ok" = "#859900"
+"plugin.update" = "#b58900"
+"plugin.warn" = "#cb4b16"
+"plugin.error" = "bold #dc322f"
+"plugin.dim" = "#586e75"
 
 [colorscheme.solarized-dark.terminal]
 background = "#002b36"
@@ -140,6 +156,7 @@ comment = "italic #93a1a1"
 "menu.selected" = "bold bg:#eee8d5"
 "menu.description" = "#93a1a1"
 suggestion = "#93a1a1"
+"plugin.dim" = "#93a1a1"
 
 # The palette is solarized-dark's: Solarized's 16 colours are the same on both backgrounds.
 [colorscheme.solarized-light.terminal]
@@ -190,6 +207,12 @@ match = "bold bg:#665c54"
 "menu.selected" = "bold bg:#504945"
 "menu.description" = "#928374"
 suggestion = "#7c6f64"
+"plugin.name" = "bold"
+"plugin.ok" = "#b8bb26"
+"plugin.update" = "#fabd2f"
+"plugin.warn" = "#fe8019"
+"plugin.error" = "bold #fb4934"
+"plugin.dim" = "#928374"
 
 [colorscheme.gruvbox-dark.terminal]
 background = "#282828"
@@ -228,6 +251,11 @@ match = "bold bg:#d5c4a1"
 "menu.selected" = "bold bg:#ebdbb2"
 "menu.description" = "#7c6f64"
 suggestion = "#928374"
+"plugin.ok" = "#79740e"
+"plugin.update" = "#b57614"
+"plugin.warn" = "#af3a03"
+"plugin.error" = "bold #9d0006"
+"plugin.dim" = "#7c6f64"
 
 [colorscheme.gruvbox-light.terminal]
 background = "#fbf1c7"
@@ -251,7 +279,7 @@ palette = [
 #          sapphire #209fb5 blue #1e66f5 pink #ea76cb teal #179299 overlay2 #7c7f93 overlay1 #8c8fa1
 #          surface0 #ccd0da surface1 #bcc0cc (base #eff1f5)
 # Latte's lighter colours are hard to read on its background, so it has variables teal rather than yellow, escapes
-# maroon rather than pink, $( mauve, globs bold, and operators in the text colour.
+# maroon rather than pink, $( mauve, globs bold, operators in the text colour, and the updates of `plugin` peach.
 
 [colorscheme.catppuccin-mocha]
 keyword = "bold #cba6f7"
@@ -284,6 +312,12 @@ match = "bold bg:#585b70"
 "menu.selected" = "bold bg:#45475a"
 "menu.description" = "#7f849c"
 suggestion = "#6c7086"
+"plugin.name" = "bold"
+"plugin.ok" = "#a6e3a1"
+"plugin.update" = "#f9e2af"
+"plugin.warn" = "#fab387"
+"plugin.error" = "bold #f38ba8"
+"plugin.dim" = "#7f849c"
 
 [colorscheme.catppuccin-mocha.terminal]
 background = "#1e1e2e"
@@ -325,6 +359,11 @@ match = "bold bg:#bcc0cc"
 "menu.selected" = "bold bg:#ccd0da"
 "menu.description" = "#8c8fa1"
 suggestion = "#8c8fa1"
+"plugin.ok" = "#40a02b"
+"plugin.update" = "#fe640b"
+"plugin.warn" = "#fe640b"
+"plugin.error" = "bold #d20f39"
+"plugin.dim" = "#8c8fa1"
 
 [colorscheme.catppuccin-latte.terminal]
 background = "#eff1f5"
@@ -380,6 +419,12 @@ match = "bold bg:#3d59a1"
 "menu.selected" = "bold bg:#283457"
 "menu.description" = "#737aa2"
 suggestion = "#565f89"
+"plugin.name" = "bold"
+"plugin.ok" = "#9ece6a"
+"plugin.update" = "#e0af68"
+"plugin.warn" = "#ff9e64"
+"plugin.error" = "bold #db4b4b"
+"plugin.dim" = "#737aa2"
 
 [colorscheme.tokyonight-night.terminal]
 background = "#1a1b26"
@@ -421,6 +466,11 @@ match = "bold bg:#7890dd"
 "menu.selected" = "bold bg:#b7c1e3"
 "menu.description" = "#68709a"
 suggestion = "#848cb5"
+"plugin.ok" = "#587539"
+"plugin.update" = "#8c6c3e"
+"plugin.warn" = "#b15c00"
+"plugin.error" = "bold #c64343"
+"plugin.dim" = "#68709a"
 
 [colorscheme.tokyonight-day.terminal]
 background = "#e1e2e7"
