@@ -1,0 +1,272 @@
+load 0
+=== claude
+--- claude --perm
+--permission-mode=	permission mode to use for the session
+--permission-prompts=	who answers permission prompts with --print: "host" (the SDK host or --permission-prompt-tool) or "none" (nobody: anything that would prompt is denied automatically; the permission mode still decides everything else)
+--- claude --permission-mode 
+acceptEdits 
+auto 
+bypassPermissions 
+dontAsk 
+manual 
+plan 
+--- claude --permission-mode=p
+--permission-mode=plan 
+--- claude --output-format=
+--output-format=json 
+--output-format=stream-json 
+--output-format=text 
+--- claude --input-format 
+stream-json 
+text 
+--- claude --effort 
+high 
+low 
+max 
+medium 
+xhigh 
+--- claude --model 
+fable 
+haiku 
+opus 
+sonnet 
+--- claude --agent 
+planner 
+reviewer 
+--- claude --add-dir 
+src/
+--- claude --settings 
+prompt.md 
+src/
+--- claude -p --
+--add-dir=	additional directories to allow tool access to
+--agent=	agent for the current session
+--effort=	effort level for the current session (low, medium, high, xhigh, max)
+--fork-session 	when resuming, create a new session ID instead of reusing the original (use with --resume or --continue)
+--help 	display help for command
+--input-format=	input format (only works with --print): "text" (default), or "stream-json" (realtime streaming input)
+--model=	model for the current session
+--output-format=	output format (only works with --print): "text" (default), "json" (single result), or "stream-json" (realtime streaming)
+--permission-mode=	permission mode to use for the session
+--permission-prompts=	who answers permission prompts with --print: "host" (the SDK host or --permission-prompt-tool) or "none" (nobody: anything that would prompt is denied automatically; the permission mode still decides everything else)
+--print 	print response and exit (useful for pipes)
+--resume=	resume a conversation by session ID, or open interactive picker with optional search term
+--settings=	path to a settings JSON file or a JSON string to load additional settings from
+--- claude mc
+mcp 	configure and manage MCP servers
+--- claude mcp 
+add 	add an MCP server to Claude Code
+add-from-claude-desktop 	import MCP servers from Claude Desktop (Mac and WSL only)
+add-json 	add an MCP server (stdio, SSE, HTTP, or WebSocket) with a JSON string
+get 	get details about an MCP server
+help 	display help for command
+list 	list configured MCP servers
+login 	authenticate with an MCP server (HTTP, SSE, or claude.ai connector)
+logout 	clear stored OAuth credentials for an MCP server
+remove 	remove an MCP server
+reset-project-choices 	reset all approved and rejected project-scoped (.mcp.json) servers within this project
+serve 	start the Claude Code MCP server
+--- claude mcp add --
+--callback-port=	fixed port for OAuth callback (for servers requiring pre-registered redirect URIs)
+--client-id=	OAuth client ID for HTTP/SSE servers
+--client-secret 	prompt for OAuth client secret (or set MCP_CLIENT_SECRET env var)
+--env=	set environment variables (e.g., -e KEY=value)
+--header=	set headers for HTTP/SSE servers (e.g., -H "X-Api-Key: abc123" -H "X-Custom: value")
+--help 	display help for command
+--scope=	configuration scope (local, user, or project) (default: "local")
+--transport=	transport type (stdio, sse, http)
+--- claude mcp add --scope 
+local 
+project 
+user 
+--- claude mcp add -t 
+http 
+sse 
+stdio 
+--- claude mcp add --transport=h
+--transport=http 
+--- claude mcp get 
+prompt.md 
+src/
+--- claude plugin
+plugin 	manage Claude Code plugins
+--- claude stop
+stop 	stop a background session
+--- claude kill
+--- claude fix the bug --perm
+--permission-mode=	permission mode to use for the session
+--permission-prompts=	who answers permission prompts with --print: "host" (the SDK host or --permission-prompt-tool) or "none" (nobody: anything that would prompt is denied automatically; the permission mode still decides everything else)
+--- claude "fix it" --effort 
+high 
+low 
+max 
+medium 
+xhigh 
+=== codex
+--- codex --sand
+--sandbox=	select the sandbox policy to use when executing model-generated shell commands
+--- codex --sandbox 
+danger-full-access 
+read-only 
+workspace-write 
+--- codex -a 
+never 
+on-failure 
+on-request 
+untrusted 
+--- codex ex
+exec 	run Codex non-interactively
+exec-server 	[EXPERIMENTAL] Run the standalone exec-server service
+--- codex exec --
+--config=	override a configuration value that would otherwise be loaded from `~/.codex/config.toml`
+--dangerously-bypass-approvals-and-sandbox 	skip all confirmation prompts and execute commands without sandboxing
+--dangerously-bypass-hook-trust 	run enabled hooks without requiring persisted hook trust for this invocation
+--disable=	disable a feature (repeatable)
+--enable=	enable a feature (repeatable)
+--help 	print help (see more with '--help')
+--local-provider=	specify which local provider to use (lmstudio or ollama)
+--model=	model the agent should use
+--oss 	use open-source provider
+--sandbox=	select the sandbox policy to use when executing model-generated shell commands
+--strict-config 	error out when config.toml contains fields that are not recognized by this version of Codex
+--- codex exec -s 
+danger-full-access 
+read-only 
+workspace-write 
+--- codex mcp 
+add 	
+get 	
+help 	print this message or the help of the given subcommand(s)
+list 	
+remove 	
+--- codex -p 
+old 
+work 
+--- codex --profile=w
+--profile=work 
+--- codex -C 
+src/
+--- codex exec nosuch --
+=== opencode
+--- opencode --log-
+--log-level=	log level
+--- opencode --log-level 
+DEBUG 
+ERROR 
+INFO 
+WARN 
+--- opencode r
+run 	run opencode with a message
+--- opencode run --
+--agent=	agent to use
+--attach=	attach to a running opencode server (e.g., http://localhost:4096)
+--auto 	auto-approve permissions that are not explicitly denied (dangerous!)
+--command=	the command to run, use message for args
+--continue 	continue the last session
+--dir=	directory to run in, path on remote server if attaching
+--file=	file(s) to attach to message
+--fork 	fork the session when continuing (use with --continue or --session)
+--format=	format: default (formatted) or json (raw JSON events)
+--help 	show help
+--interactive 	run in direct interactive split-footer mode
+--log-level=	log level
+--model=	model to use in the format of provider/model
+--password=	
+--port=	port for the local server (defaults to random port if no value provided)
+--print-logs 	print logs to stderr
+--pure 	run without external plugins
+--session=	session id to continue
+--share 	share the session
+--thinking 	show thinking blocks
+--title=	title for the session (uses truncated prompt if no value provided)
+--username=	basic auth username (defaults to OPENCODE_SERVER_USERNAME or 'opencode')
+--variant=	model variant (provider-specific reasoning effort, e.g., high, max, minimal)
+--version 	show version number
+--- opencode run --format 
+default 
+json 
+--- opencode run -f 
+prompt.md 
+src/
+--- opencode run --dir 
+src/
+--- opencode session 
+delete 	delete a session
+list 	list sessions
+--- opencode session list --
+--format=	output format
+--help 	show help
+--log-level=	log level
+--max-count=	limit to N most recent sessions
+--print-logs 	print logs to stderr
+--pure 	run without external plugins
+--version 	show version number
+--- opencode session list --format 
+json 
+table 
+--- opencode mcp 
+add 	add an MCP server
+auth 	authenticate with an OAuth-enabled MCP server
+debug 	debug OAuth connection for an MCP server
+list 	list MCP servers and their status
+logout 	remove OAuth credentials for an MCP server
+--- opencode mcp add --
+--env=	environment variable for a local MCP server
+--header=	HTTP header for a remote MCP server
+--help 	show help
+--log-level=	log level
+--print-logs 	print logs to stderr
+--pure 	run without external plugins
+--url=	URL for a remote MCP server
+--version 	show version number
+--- opencode auth 
+list 	list providers and credentials
+login 	log in to a provider
+logout 	log out from a configured provider
+--- opencode providers login --
+--help 	show help
+--log-level=	log level
+--method=	login method label (skips method selection)
+--print-logs 	print logs to stderr
+--provider=	provider id or name to log in to (skips provider selection)
+--pure 	run without external plugins
+--version 	show version number
+--- opencode agent create --mode 
+all 
+primary 
+subagent 
+--- opencode upgrade --method 
+brew 
+bun 
+choco 
+curl 
+npm 
+pnpm 
+scoop 
+--- opencode db 
+path 	print the database path
+--- opencode import 
+prompt.md 
+src/
+--- opencode 
+acp 	start ACP (Agent Client Protocol) server
+agent 	manage agents
+attach 	attach to a running opencode server
+completion 	generate shell completion script
+db 	database tools
+debug 	debugging and troubleshooting tools
+export 	export session data as JSON
+github 	manage GitHub agent
+import 	import session data from JSON file or URL
+mcp 	manage MCP (Model Context Protocol) servers
+models 	list all available models
+plugin 	install plugin and update config
+pr 	fetch and checkout a GitHub PR branch, then run opencode
+providers 	manage AI providers and credentials
+run 	run opencode with a message
+serve 	starts a headless opencode server
+session 	manage sessions
+stats 	show token usage and cost statistics
+uninstall 	uninstall opencode and remove all related files
+upgrade 	upgrade opencode to the latest or a specific version
+web 	start opencode server and open web interface

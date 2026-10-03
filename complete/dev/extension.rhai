@@ -14,8 +14,10 @@ for m in [
     ["mypy", ["mypy"]],
     ["poetry", ["poetry"]],
     ["python", ["twine"]],
-    // Programs whose help is read when Tab is pressed (ruff: clap).
-    ["dynamic", ["ruff"]],
+    // Programs whose help is read when Tab is pressed (ruff and codex: clap; claude: Commander).
+    ["dynamic", ["ruff", "codex", "claude"]],
+    // Coding agents whose help is irregular or slow (opencode).
+    ["agents", ["opencode"]],
     ["tools", ["fzf", "bat", "batcat"]],
 ] {
     for cmd in m[1] {

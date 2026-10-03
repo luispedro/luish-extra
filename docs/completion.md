@@ -191,6 +191,8 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
 - **Python tooling**: `pytest` (test files and the tests in them, `FILE::CLASS::TEST`; markers; the options of
   pytest-xdist and pytest-cov), `ruff` (rule codes and linter prefixes), `mypy` (error codes)
 - **Command-line utilities**: `fzf`, `bat` (`batcat` on Debian; its languages and themes)
+- **Coding agents**: `claude` (read from its help; the agents of `.claude/agents` for `--agent`), `codex` (read from its
+  help; the profiles of `$CODEX_HOME` for `--profile`), `opencode`
 - **Version control**: `svn`
 - **Web deployment**: `netlify`
 - **Android**: `adb`

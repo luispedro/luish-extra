@@ -411,6 +411,54 @@ fn bat_themes(words, special) {
     out
 }
 
+// The names of the `.md` files in the directory `dir`, added to `out`.
+fn md_names(dir, out) {
+    for f in fs::list_dir(dir) ?? [] {
+        if f.ends_with(".md") {
+            let name = f.sub_string(0, f.len() - 3);
+            if !out.contains(name) {
+                out.push(name);
+            }
+        }
+    }
+    out
+}
+
+// The agents of claude's `--agent`: the files of `.claude/agents` in the nearest directory that has one
+// (the project's), and of `~/.claude/agents`.
+fn claude_agents() {
+    let out = [];
+    let project = fs::find_up(".claude");
+    if project != () {
+        out = md_names(project + "/agents", out);
+    }
+    md_names(std_kinds::home() + "/.claude/agents", out)
+}
+
+// The profiles of codex's `--profile`: the `NAME.config.toml` of `$CODEX_HOME` (`~/.codex`), and the
+// `[profiles.NAME]` of its `config.toml` that earlier versions read.
+fn codex_profiles() {
+    let dir = sh::getvar("CODEX_HOME") ?? (std_kinds::home() + "/.codex");
+    let out = [];
+    for f in fs::list_dir(dir) ?? [] {
+        if f.ends_with(".config.toml") {
+            out.push(f.sub_string(0, f.len() - 12));
+        }
+    }
+    for line in (fs::read_file(dir + "/config.toml") ?? "").split("\n") {
+        let t = line;
+        t.trim();
+        if t.starts_with("[profiles.") && t.ends_with("]") {
+            let name = t.sub_string(10, t.len() - 11);
+            name.replace("\"", "");
+            if name != "" && !name.contains(".") && !out.contains(name) {
+                out.push(name);
+            }
+        }
+    }
+    out
+}
+
 fn kind(name, cur, words) {
     switch name {
         "pytest_tests" => pytest_tests(cur, false),
@@ -432,6 +480,8 @@ fn kind(name, cur, words) {
         "bat_languages" => bat_languages(words),
         "bat_theme" => bat_themes(words, true),
         "bat_themes" => bat_themes(words, false),
+        "claude_agents" => claude_agents(),
+        "codex_profiles" => codex_profiles(),
         _ => throw `unknown kind: ${name}`,
     }
 }

@@ -956,6 +956,9 @@ of the output the test stand-in in `tests/bin` was cut from.
 - [x] `mypy`: mypy 2.3.1
 - [x] `fzf`: fzf 0.74
 - [x] `bat`: bat 0.26.1 (also `batcat`; languages and themes read from the installed `bat`)
+- [x] `claude`: Claude Code 2.1.288 (options and commands read from the installed `claude`, Commander's help put in clap's shape)
+- [x] `codex`: codex-cli 0.142.5 (options and commands read from the installed `codex`)
+- [x] `opencode`: opencode 1.18.34 (a table: yargs, and a start-up of 0.8 s)
 - [ ] `svn`
 - [ ] `netlify`
 - [ ] `adb`

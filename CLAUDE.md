@@ -38,8 +38,11 @@ apptainer and singularity (Cobra bridge) and nf-core (Click bridge).
 
 `complete/dev`: `kinds.rhai` (pytest's tests in a file and markers; poetry's groups, extras, dependencies, locked
 packages, scripts and sources from `pyproject.toml` and `poetry.lock`; `~/.pypirc`; ruff's rules and settings; bat's
-languages and themes), `python.rhai` (twine), `tools.rhai` (fzf, bat and batcat), `dynamic.rhai` (ruff, from its `-h`
-like mmseqs) and the generated `pytest.rhai`, `mypy.rhai`, `poetry.rhai`. `complete/system`: `kinds.rhai` (borg
+languages and themes; claude's agents and codex's profiles), `python.rhai` (twine), `tools.rhai` (fzf, bat and batcat),
+`agents.rhai` (opencode, a table: yargs help, and a start-up of most of a second), `dynamic.rhai` (ruff, codex and
+claude, from their `-h` like mmseqs; claude is Commander, whose help `commander()` puts in clap's shape before std's
+`help_spec` reads it: wrapped descriptions joined, `stop|kill <id>` as `stop, kill`, `(choices: ...)` as
+`[possible values: ...]`) and the generated `pytest.rhai`, `mypy.rhai`, `poetry.rhai`. `complete/system`: `kinds.rhai` (borg
 locations and compression specs, FUSE mount points from `/proc/mounts`), `tools.rhai` (fusermount, fusermount3) and the
 generated `borg.rhai`. `complete/gui`: `kinds.rhai` (LibreOffice's filters and file types, read from the `.xcd` files of
 its registry, found by following the `soffice` link in `PATH`; CUPS's printers; kate's sessions; GIMP's session files;
