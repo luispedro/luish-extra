@@ -1,10 +1,11 @@
---- available: the completion plugins under complete/, and themes
+--- available: the completion plugins under complete/, conda and themes
 x/complete/all
 x/complete/bio
 x/complete/dev
 x/complete/gui
 x/complete/science
 x/complete/system
+x/conda
 x/themes
 load 0
 std/completion

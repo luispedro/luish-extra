@@ -3,7 +3,7 @@
 Tab completion for [luish](https://github.com/luispedro/luish), for the programs that its standard library leaves out:
 bioinformatics tools (`bio`), scientific computing (`science`), desktop programs (`gui`), development (`dev`) and
 system administration (`system`). Each plugin can be enabled on its own. And [colour schemes](#colour-schemes) for
-luish's highlighting, for dark and light backgrounds (`themes`).
+luish's highlighting, for dark and light backgrounds (`themes`), and a [cached set-up of conda](#conda) (`conda`).
 
 Completion knows each program's options and subcommands, and the kind of value each one takes: `samtools sort -O`
 offers `BAM`, `CRAM` and `SAM`, `samtools view -T` offers FASTA files and `samtools view in.bam` the reference names
@@ -190,6 +190,22 @@ background, text and cursor colours and its 16 colours while they are in use, pu
 The palettes are other people's, used under their licenses (MIT for Solarized, gruvbox, Catppuccin and the original
 Tokyo Night; Apache-2.0 for tokyonight.nvim, whose night and day styles these are). [`themes/README.md`](themes/README.md)
 says where each comes from, and [`themes/LICENSES`](themes/LICENSES) has the license texts.
+
+## conda
+
+The plugin `conda` (`extra/conda`) does what `conda init` does for bash (conda's shell hook, then `conda activate
+ENV`) in a `__luish_cache` block, so that only the first shell runs conda, and the next ones restore what it did until
+the environment's packages, conda's configuration or the variables it reads change. Enable it in `config.toml`, with
+the environment to activate:
+
+```toml
+[plugins.enabled]
+extra.conda = { options = { env = "py3.12" } }
+```
+
+(or `plugin load extra/conda env=py3.12`). The option `root` gives the installation, if it isn't the `conda` in `PATH`
+or in one of the usual places (`~/miniforge3`, `~/miniconda3`, ...). It needs a luish with plugin options (newer than
+0.4.0). See [`docs/conda.md`](docs/conda.md) for what the cache depends on.
 
 ## Tests
 

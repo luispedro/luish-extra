@@ -1,0 +1,122 @@
+--- the first shell runs conda
+PATH=~/miniconda3/envs/py/bin:~/miniconda3/condabin:/usr/bin:/bin
+PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/miniconda3/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=1 FROM_NEW=
+conda is a shell function
+0
+ran: conda shell.bash hook
+ran: conda shell.posix activate py
+--- the next restores what it did
+PATH=~/miniconda3/envs/py/bin:~/miniconda3/condabin:/usr/bin:/bin
+PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/miniconda3/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=1 FROM_NEW=
+conda is a shell function
+0
+--- a changed activation script (read with .)
+PATH=~/miniconda3/envs/py/bin:~/miniconda3/condabin:/usr/bin:/bin
+PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/miniconda3/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=2 FROM_NEW=
+conda is a shell function
+0
+ran: conda shell.bash hook
+ran: conda shell.posix activate py
+PATH=~/miniconda3/envs/py/bin:~/miniconda3/condabin:/usr/bin:/bin
+PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/miniconda3/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=2 FROM_NEW=
+conda is a shell function
+0
+--- a new activation script
+PATH=~/miniconda3/envs/py/bin:~/miniconda3/condabin:/usr/bin:/bin
+PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/miniconda3/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=2 FROM_NEW=1
+conda is a shell function
+0
+ran: conda shell.bash hook
+ran: conda shell.posix activate py
+--- a package installed in the environment, or in the installation
+PATH=~/miniconda3/envs/py/bin:~/miniconda3/condabin:/usr/bin:/bin
+PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/miniconda3/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=2 FROM_NEW=1
+conda is a shell function
+0
+ran: conda shell.bash hook
+ran: conda shell.posix activate py
+PATH=~/miniconda3/envs/py/bin:~/miniconda3/condabin:/usr/bin:/bin
+PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/miniconda3/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=2 FROM_NEW=1
+conda is a shell function
+0
+ran: conda shell.bash hook
+ran: conda shell.posix activate py
+--- a .condarc
+PATH=~/miniconda3/envs/py/bin:~/miniconda3/condabin:/usr/bin:/bin
+PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/miniconda3/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=2 FROM_NEW=1
+conda is a shell function
+0
+ran: conda shell.bash hook
+ran: conda shell.posix activate py
+--- a shell started with conda set up
+PATH=~/miniconda3/envs/py/bin:/usr/bin:/bin
+PS1=(py) $  CONDA_SHLVL=2 CONDA_PREFIX=~/miniconda3/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=2 FROM_NEW=1
+conda is a shell function
+0
+ran: conda shell.bash hook
+ran: conda shell.posix activate py
+--- an environment that does not exist: an error, not cached
+EnvironmentNameNotFound: nope
+PATH=~/miniconda3/condabin:/usr/bin:/bin
+PS1=$  CONDA_SHLVL=0 CONDA_PREFIX=
+CONDA_DEFAULT_ENV= FROM_SCRIPT= FROM_NEW=
+conda is a shell function
+0
+ran: conda shell.bash hook
+ran: conda shell.posix activate nope
+EnvironmentNameNotFound: nope
+PATH=~/miniconda3/condabin:/usr/bin:/bin
+PS1=$  CONDA_SHLVL=0 CONDA_PREFIX=
+CONDA_DEFAULT_ENV= FROM_SCRIPT= FROM_NEW=
+conda is a shell function
+0
+ran: conda shell.bash hook
+ran: conda shell.posix activate nope
+--- no env: only the hook
+PATH=~/miniconda3/condabin:/usr/bin:/bin
+PS1=$  CONDA_SHLVL=0 CONDA_PREFIX=
+CONDA_DEFAULT_ENV= FROM_SCRIPT= FROM_NEW=
+conda is a shell function
+0
+ran: conda shell.bash hook
+--- no conda
+conda: no conda in ~/nowhere (see the plugin's option root)
+PATH=/usr/bin:/bin
+PS1=$  CONDA_SHLVL= CONDA_PREFIX=
+CONDA_DEFAULT_ENV= FROM_SCRIPT= FROM_NEW=
+conda: not found
+0
+--- enabled in config.toml, with its options: the block is cached on its own there too
+PATH=~/miniconda3/envs/py/bin:~/miniconda3/condabin:/usr/bin:/bin
+PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/miniconda3/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=2 FROM_NEW=1
+conda is a shell function
+0
+ran: conda shell.bash hook
+ran: conda shell.posix activate py
+PATH=~/miniconda3/envs/py/bin:~/miniconda3/condabin:/usr/bin:/bin
+PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/miniconda3/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=2 FROM_NEW=1
+conda is a shell function
+0
+PATH=~/miniconda3/envs/py/bin:~/miniconda3/condabin:/usr/bin:/bin
+PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/miniconda3/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=2 FROM_NEW=2
+conda is a shell function
+0
+ran: conda shell.bash hook
+ran: conda shell.posix activate py
+PATH=~/miniconda3/envs/py/bin:~/miniconda3/condabin:/usr/bin:/bin
+PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/miniconda3/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=2 FROM_NEW=2
+conda is a shell function
+0

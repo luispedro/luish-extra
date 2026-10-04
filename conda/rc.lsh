@@ -1,0 +1,70 @@
+# What `conda init` puts in ~/.bashrc (conda's shell hook, then `conda activate ENV`), cached. The keys of the block
+# are what the hook and the activation read:
+#
+# - the installation and the environment (also through the paths of files), and what the shell inherits of a conda
+#   already set up: PATH, CONDA_SHLVL (the hook puts condabin in PATH only if it is unset), CONDA_PREFIX and
+#   CONDA_DEFAULT_ENV (what `conda activate` replaces);
+# - PS1, to which `conda activate` adds "(ENV) " (conda's changeps1);
+# - conda's configuration: its condarc files and the variables that change what the hook and activate do;
+# - conda-meta of the installation (an update of conda changes the hook) and of the environment (its packages), the
+#   environment's variables (conda-meta/state, `conda env config vars`) and its activation scripts (etc/conda/
+#   activate.d: those there are read with `.`, so luish already follows changes to them, but not a new one).
+
+_luish_conda_root=${LUISH_PLUGIN_OPTIONS[root]-}
+_luish_conda_env=${LUISH_PLUGIN_OPTIONS[env]-}
+case $_luish_conda_root in
+    '~'/*) _luish_conda_root=$HOME/${_luish_conda_root#'~/'} ;;
+    '')
+        _luish_conda_root=$(command -v conda)
+        case $_luish_conda_root in
+            */condabin/conda | */bin/conda) _luish_conda_root=${_luish_conda_root%/*/conda} ;;
+            *)
+                _luish_conda_root=
+                for d in ~/miniforge3 ~/miniconda3 ~/anaconda3 ~/mambaforge ~/.miniforge3 ~/.miniconda3 \
+                    ~/.anaconda3 /opt/conda /opt/miniforge3 /opt/miniconda3 /opt/anaconda3; do
+                    if [ -x "$d/bin/conda" ]; then _luish_conda_root=$d; break; fi
+                done
+                unset d
+                ;;
+        esac
+        ;;
+esac
+case $_luish_conda_env in
+    '' | base) _luish_conda_prefix=$_luish_conda_root ;;
+    '~'/*) _luish_conda_prefix=$HOME/${_luish_conda_env#'~/'} ;;
+    */*) _luish_conda_prefix=$_luish_conda_env ;;
+    *)
+        _luish_conda_prefix=$_luish_conda_root/envs/$_luish_conda_env
+        if [ ! -d "$_luish_conda_prefix" ] && [ -d ~/.conda/envs/"$_luish_conda_env" ]; then
+            _luish_conda_prefix=$HOME/.conda/envs/$_luish_conda_env
+        fi
+        ;;
+esac
+
+if [ ! -x "$_luish_conda_root/bin/conda" ]; then
+    echo "conda: no conda in ${_luish_conda_root:-PATH or the usual places} (see the plugin's option root)" >&2
+else
+    __luish_cache env=(_luish_conda_root _luish_conda_env PATH CONDA_SHLVL CONDA_PREFIX CONDA_DEFAULT_ENV PS1
+        CONDARC CONDA_ENVS_PATH CONDA_ENVS_DIRS CONDA_AUTO_ACTIVATE CONDA_AUTO_ACTIVATE_BASE CONDA_CHANGEPS1) \
+        files=("$_luish_conda_root/conda-meta" "$_luish_conda_prefix/conda-meta" "$_luish_conda_prefix/conda-meta/state"
+        "$_luish_conda_prefix/etc/conda/activate.d"
+        ~/.condarc ~/.conda/.condarc ~/.conda/condarc ~/.conda/condarc.d
+        "${XDG_CONFIG_HOME:-$HOME/.config}"/conda/.condarc "${XDG_CONFIG_HOME:-$HOME/.config}"/conda/condarc
+        "${XDG_CONFIG_HOME:-$HOME/.config}"/conda/condarc.d
+        "$_luish_conda_root/.condarc" "$_luish_conda_root/condarc" "$_luish_conda_root/condarc.d"
+        /etc/conda/.condarc /etc/conda/condarc /etc/conda/condarc.d ${CONDARC:+"$CONDARC"}) {
+        # A failure returns, so that it isn't cached: the next shell tries again (and says why).
+        if ! _luish_conda_hook=$("$_luish_conda_root/bin/conda" shell.bash hook); then
+            echo "conda: $_luish_conda_root/bin/conda shell.bash hook failed" >&2
+            unset _luish_conda_root _luish_conda_env _luish_conda_prefix _luish_conda_hook
+            return 1
+        fi
+        eval "$_luish_conda_hook"
+        unset _luish_conda_hook
+        if [ -n "$_luish_conda_env" ] && ! conda activate "$_luish_conda_env"; then
+            unset _luish_conda_root _luish_conda_env _luish_conda_prefix
+            return 1
+        fi
+    }
+fi
+unset _luish_conda_root _luish_conda_env _luish_conda_prefix

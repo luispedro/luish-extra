@@ -18,7 +18,8 @@ $ plugin add extra/complete/all
 
 This needs luish 0.4.0 or later, and the plugins need std's `completion` plugin.
 
-The colour schemes are the plugin `themes` (`plugin add extra/themes`): see [](themes.md).
+The colour schemes are the plugin `themes` (`plugin add extra/themes`): see [](themes.md). The plugin `conda` sets
+conda up in interactive shells, cached (`extra.conda = { options = { env = "ENV" } }`): see [](conda.md).
 
 luish-extra is licensed under the MIT License, as luish is; the palettes of the colour schemes are their authors',
 under their own licenses (see [](themes.md)).
@@ -28,4 +29,5 @@ under their own licenses (see [](themes.md)).
 
 completion
 themes
+conda
 ```

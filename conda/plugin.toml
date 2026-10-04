@@ -1,0 +1,14 @@
+# conda: sets conda up in interactive shells, as `conda init` does for bash (conda's shell hook, then `conda activate
+# ENV`), in a __luish_cache block (rc.lsh), so that a new shell restores what they did instead of running conda again
+# (its hook, `conda activate`, and the activation scripts of the environment's packages, which can take seconds).
+#
+# Enable it in config.toml with its options (`extra.conda = { options = { env = "py3.12" } }`), or load it with
+# `plugin load extra/conda env=py3.12`. Both need a luish with plugin options (newer than 0.4.0); in config.toml, also
+# one that caches the blocks of the plugins it enables on their own (likewise).
+
+[plugin-options]
+# The conda installation (the directory with bin/conda). By default, that of the conda in PATH, or the first of
+# ~/miniforge3, ~/miniconda3, ~/anaconda3, ... that exists.
+root = { type = "str" }
+# The environment to activate, by name or path, after conda's own (base, unless conda's auto_activate is false).
+env = { type = "str" }
