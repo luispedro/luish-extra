@@ -12,7 +12,7 @@ concurrency:
 
 env:
   CARGO_TERM_COLOR: always
-  # The luish to test against: it must have sub-collections (a3653c7, after 0.3.0) for tests/root_source.sh.
+  # The luish to test against (0.4.0 or later).
   LUISH_REF: main
 
 jobs:

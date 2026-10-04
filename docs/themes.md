@@ -1,8 +1,8 @@
 # Colour schemes
 
 The plugin `themes` (`extra/themes`, if the repository was added as `extra`) defines colour schemes for luish's
-syntax highlighting, completion menu and suggestions. It needs a luish with colour schemes (newer than 0.3.0). Each
-scheme comes in a pair, for dark and light backgrounds:
+syntax highlighting, completion menu and suggestions. It needs luish 0.4.0 or later. Each scheme comes in a pair, for
+dark and light backgrounds:
 
 | Dark               | Light              | Colours                                                    |
 |--------------------|--------------------|------------------------------------------------------------|
@@ -58,10 +58,10 @@ The schemes other than `ansi` write their palette's colours as `#rrggbb`, which 
 (most have it). They also set the terminal's own colours while they are in use: its background, text and cursor
 colours, and the 16 colours that other programs use (`ls --color`, `git diff`), as the palette's authors give them
 for terminals. luish puts back the terminal's colours when the scheme is no longer in use and when it exits (see
-luish's [The terminal's colours](https://luish.readthedocs.io/en/latest/usage.html#the-terminals-colours)); this
-needs a luish newer than 0.3.0, and the terminal must accept the colours (xterm, GNOME Terminal and other VTE ones,
-kitty, foot, Alacritty, WezTerm and iTerm2 do; tmux and screen may not pass them on). To keep your terminal's own
-colours, with the schemes' colours only on the command line:
+luish's [The terminal's colours](https://luish.readthedocs.io/en/latest/usage.html#the-terminals-colours)); the
+terminal must accept the colours (xterm, GNOME Terminal and other VTE ones, kitty, foot, Alacritty, WezTerm and iTerm2
+do; tmux and screen may not pass them on). To keep your terminal's own colours, with the schemes' colours only on the
+command line:
 
 ```toml
 [style]

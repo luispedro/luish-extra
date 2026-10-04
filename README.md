@@ -35,11 +35,11 @@ Commands are completed by the name you type, not the name of their Bioconda pack
 
 ## Enabling
 
-Requires luish 0.3.0 or later, and its `std.completion` plugin. The plugins depend on it and on `extra-lib`, this
+Requires luish 0.4.0 or later, and its `std.completion` plugin. The plugins depend on it and on `extra-lib`, this
 collection's library of shared helpers, so luish loads them first; `extra-lib` is not listed by `plugin
 list-available`.
 
-The simplest way is `plugin add`, in luish (newer than 0.3.0, for collections with subdirectories):
+The simplest way is `plugin add`, in luish:
 
 ```console
 $ plugin add luispedro/luish-extra extra
@@ -68,10 +68,6 @@ To have only some of them, enable them one by one instead:
 extra.complete.bio = "*"
 extra.complete.science = "*"
 ```
-
-luish 0.3.0 takes only one level of collections, so add the `complete` directory as a source of its own instead
-(`plugin add https://github.com/luispedro/luish-extra/tree/main/complete extra-complete`, then `plugin add
-extra-complete/all`; in `config.toml`, `extra-complete = { gh = "luispedro/luish-extra", subdir = "complete" }`).
 
 A plugin costs little until it is used: each module is compiled the first time Tab is pressed for one of its commands.
 
@@ -189,7 +185,7 @@ role: one colour for commands (functions bold, aliases italic, unknown commands 
 strings, variables (also in `NAME=`; exported ones bold, unset ones italic red); comments italic. Except the `ansi`
 pair, they write colours as `#rrggbb`, which needs a terminal with 24-bit colour, and also set the terminal's own
 background, text and cursor colours and its 16 colours while they are in use, putting them back afterwards
-(`terminal-colors = false` in `[style]` keeps the terminal's own). They need a luish newer than 0.3.0.
+(`terminal-colors = false` in `[style]` keeps the terminal's own).
 
 The palettes are other people's, used under their licenses (MIT for Solarized, gruvbox, Catppuccin and the original
 Tokyo Night; Apache-2.0 for tokyonight.nvim, whose night and day styles these are). [`themes/README.md`](themes/README.md)

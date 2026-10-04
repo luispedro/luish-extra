@@ -26,9 +26,8 @@ description = "Colour schemes for luish's line editor, in pairs for dark and lig
 # The palettes' colours are written as #rrggbb, which needs a terminal with 24-bit colour (most have it). Each palette
 # scheme also sets the terminal's own colours while it is in use, in its `terminal` table: its background, text and
 # cursor colours and its 16 colours, as the palette's authors give them for terminals, so that the programs run from
-# the shell match it (a luish newer than 0.3.0; `terminal-colors = false` in the user's [style] keeps the terminal's
-# own). `ansi-dark` and `ansi-light` set none, and use the terminal's own 16 colours, so they follow whatever palette
-# it has.
+# the shell match it (`terminal-colors = false` in the user's [style] keeps the terminal's own). `ansi-dark` and
+# `ansi-light` set none, and use the terminal's own 16 colours, so they follow whatever palette it has.
 #
 # The palettes are other people's: README.md here says where each comes from and under which license, and LICENSES/
 # has copies of the licenses. Every #rrggbb colour below is the palette's own.

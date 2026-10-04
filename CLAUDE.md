@@ -57,26 +57,24 @@ zathura, xdg-open), `editors.rhai` (code, with a completer of its own and its cl
 (xrandr, gsettings, dconf, notify-send, wmctrl, swaymsg, hyprctl, and xdotool, whose chained commands have a completer
 of their own), the generated `bandage.rhai` (BandageNG) and `mpv.rhai` (its options read from the installed mpv's
 `--list-options` when Tab is pressed, with a completer of its own, as nextflow has); proksee goes through std's Click
-bridge. svn, netlify and adb (`dev`) are still to do, and the rest of `PLAN.md` ("Order", "Next steps"). Every module has `fn
-spec(cmd)` (the generated ones too, ignoring `cmd`), and `extension.rhai` maps each command to its module (`module_of`),
-so a new module needs an entry there; nextflow, whose spec depends on the line, and mpv have completers of their own.
+bridge. svn, netlify and adb (`dev`) are still to do. Every module has `fn spec(cmd)` (the generated ones too, ignoring
+`cmd`), and `extension.rhai` maps each command to its module (`module_of`), so a new module needs an entry there;
+nextflow, whose spec depends on the line, and mpv have completers of their own.
 
 `themes` is a plugin of its own, beside the `complete` collection (`extra/themes`): only a `plugin.toml` with
-`[colorscheme.NAME]` tables (luish's colour schemes, after 0.3.0), in pairs for dark and light backgrounds (`ansi`,
-`solarized`, `gruvbox`, `catppuccin` mocha/latte, `tokyonight` night/day). Its header comment says what each role
-means in every scheme (one colour for commands, functions bold, ...); a new scheme keeps to it, and its light member
-usually `inherits` the dark one. luish reads a manifest's tables only in interactive shells, so `tests/themes.sh` runs
-`$LUISH -i`. `docs/themes.md` and the README list the schemes; the preview in `docs/themes.md` is
-`docs/themes_preview.html`, written by `scripts/themes_preview.py` from `tests/themes.expected` (the styles luish
-resolved), on the background and text colour of each scheme's `terminal` table (`ANSI_BACKGROUND` for the `ansi` pair,
-which sets none). Each palette scheme has a `[colorscheme.NAME.terminal]` table (background, foreground, cursor, the 16
-colours of the palette), taken from what the palette's authors give terminals (their kitty themes, or their own
-mapping), which luish sets while the scheme is in use (luish's c92fdd6 and later; an older luish reports the palette
-arrays as errors). After
-changing a scheme: `UPDATE=1 tests/run.sh themes`, read the diff, then rerun the script. The palettes are other people's:
-`themes/README.md` says where each comes from and under which license, `themes/LICENSES/` has the license texts, and
-a scheme's colours are its palette's own (a new one needs all three, and a check that each `#rrggbb` is upstream).
-luish-extra itself is MIT (`COPYING.MIT`, as luish's).
+`[colorscheme.NAME]` tables (luish's colour schemes), in pairs for dark and light backgrounds (`ansi`, `solarized`,
+`gruvbox`, `catppuccin` mocha/latte, `tokyonight` night/day). Its header comment says what each role means in every
+scheme (one colour for commands, functions bold, ...); a new scheme keeps to it, and its light member usually `inherits`
+the dark one. luish reads a manifest's tables only in interactive shells, so `tests/themes.sh` runs `$LUISH -i`.
+`docs/themes.md` and the README list the schemes; the preview in `docs/themes.md` is `docs/themes_preview.html`, written
+by `scripts/themes_preview.py` from `tests/themes.expected` (the styles luish resolved), on the background and text
+colour of each scheme's `terminal` table (`ANSI_BACKGROUND` for the `ansi` pair, which sets none). Each palette scheme
+has a `[colorscheme.NAME.terminal]` table (background, foreground, cursor, the 16 colours of the palette), taken from
+what the palette's authors give terminals (their kitty themes, or their own mapping), which luish sets while the scheme
+is in use. After changing a scheme: `UPDATE=1 tests/run.sh themes`, read the diff, then rerun the script. The palettes
+are other people's: `themes/README.md` says where each comes from and under which license, `themes/LICENSES/` has the
+license texts, and a scheme's colours are its palette's own (a new one needs all three, and a check that each `#rrggbb`
+is upstream). luish-extra itself is MIT (`COPYING.MIT`, as luish's).
 
 `complete/extra-lib` is a library plugin (`library = true` in its `plugin.toml`, which is its only entry point; `plugin
 list-available` leaves it out) of helpers the others share: `files.rhai` (`with_suffix(cur, suffixes)`, and with a third
@@ -155,16 +153,16 @@ sphinx-build -W docs docs/_build
 
 ## Design decisions to keep in mind
 
-- Works with luish 0.3.0 or later when `complete/` is added as a source (`subdir = "complete"`); adding the whole
-  repository as a source (`extra = { gh = "luispedro/luish-extra" }`, plugins `extra/complete/bio`, ...) needs a
-  luish with sub-collections (after 0.3.0, luish's a3653c7), as does `tests/root_source.sh`.
+- Needs luish 0.4.0 or later (the minimum supported version: sub-collections, colour schemes and their terminal
+  colours). The docs add the whole repository as a source (`extra = { gh = "luispedro/luish-extra" }`, plugins
+  `extra/complete/bio`, ...).
 - Run programs with `sh::capture(["prog", arg, ...])` (no shell parsing; stdin is /dev/null, stderr discarded unless
   a second argument says `"merge"`, `"return"` or `"inherit"`; variables through `env`), not by building a shell
   string. Find them with `sh::which(name)` and list them with `sh::commands(prefix)`, so that PATH is searched
   as luish searches it; don't walk `PATH` in Rhai.
 - **Nothing depends on the name the user gives the source.** Users add the repository as a source under a name of
-  their choice (the docs say `extra`, so the plugins are `extra/complete/bio`, ...), or, with luish 0.3.0, the
-  `complete/` directory (`extra-complete/bio`). So never write `@SOURCE/...`: import this repository's modules by
+  their choice (the docs say `extra`, so the plugins are `extra/complete/bio`, ...), or the `complete/` directory alone
+  (`subdir = "complete"`: `extra-complete/bio`). So never write `@SOURCE/...`: import this repository's modules by
   relative path (`import "kinds"`, `import "../extra-lib/files"`), and name kinds and `sub_spec` with each module's
   `fn own(name) { sh::plugin_dir() + "/" + name }` (`own("kinds:fasta")`, the module's absolute path, which std's
   engine imports). Only std is named (`@std/completion/...`). The plugins can be enabled one by one

@@ -16,9 +16,7 @@ $ plugin add extra/complete/all
 `all` loads `bio`, `science`, `gui`, `dev` and `system`. To have only some of them, enable them one by one instead
 (`plugin add extra/complete/bio`, ...).
 
-This needs a luish newer than 0.3.0, which takes collections with subdirectories. With luish 0.3.0, add the
-`complete` directory instead: `plugin add https://github.com/luispedro/luish-extra/tree/main/complete
-extra-complete`, then `plugin add extra-complete/all`. Either way, the plugins need std's `completion` plugin.
+This needs luish 0.4.0 or later, and the plugins need std's `completion` plugin.
 
 The colour schemes are the plugin `themes` (`plugin add extra/themes`): see [](themes.md).
 

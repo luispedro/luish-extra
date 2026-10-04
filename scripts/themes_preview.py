@@ -229,8 +229,7 @@ def main():
     parts = [f"<!-- Written by scripts/themes_preview.py from tests/themes.expected; don't edit. -->", STYLE,
              '<div class="lx-themes">',
              '<p class="lx-note">Each scheme other than <code>ansi</code> also sets the terminal\'s background and '
-             "text colour (with luish newer than 0.3.0, unless <code>terminal-colors = false</code>), and is drawn "
-             "here on them; each terminal says which. The <code>ansi</code> pair sets none, and is drawn with the "
+             "text colour (unless <code>terminal-colors = false</code>), and is drawn here on them; each terminal says which. The <code>ansi</code> pair sets none, and is drawn with the "
              "Tango palette on backgrounds chosen for this page: in your terminal it takes the terminal's colours. "
              "Hover over a word to see its role. The palettes are other people's; "
              '<a href="https://github.com/luispedro/luish-extra/blob/main/themes/README.md">themes/README.md</a> '
