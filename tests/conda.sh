@@ -35,9 +35,12 @@ chmod +x "$root/bin/conda"
 echo 'export FROM_SCRIPT=1' > "$root/envs/py/etc/conda/activate.d/a.sh"
 C=$HOME/.config/luish
 # Not the machine's PATH, which may have a conda of its own (a CI runner has /usr/bin/conda): the system's programs,
-# linked here without it.
+# linked here without it (a link that points nowhere, as /usr/bin may have, counts as there).
 mkdir -p "$HOME/sysbin"
-for f in /usr/bin/* /bin/*; do [ -e "$HOME/sysbin/${f##*/}" ] || ln -s "$f" "$HOME/sysbin/${f##*/}"; done
+for f in /usr/bin/* /bin/*; do
+    l=$HOME/sysbin/${f##*/}
+    [ -e "$l" ] || [ -L "$l" ] || ln -s "$f" "$l"
+done
 rm -f "$HOME/sysbin/conda" "$HOME/sysbin/mamba" "$HOME/sysbin/micromamba"
 PATH=$HOME/sysbin
 show='echo "PATH=$PATH"; echo "PS1=$PS1 CONDA_SHLVL=$CONDA_SHLVL CONDA_PREFIX=$CONDA_PREFIX"
