@@ -291,14 +291,15 @@ fn pandoc_formats(cur, direction) {
         i += 1;
     }
     if cut < 0 {
-        return sh::capture(["pandoc", "--list-" + direction + "-formats"]).out.split("\n").filter(|l| l != "");
+        let r = sh::capture_cached(300, ["pandoc", "--list-" + direction + "-formats"]);
+        return r.out.split("\n").filter(|l| l != "");
     }
     let base = cur.sub_string(0, cut);
     if !lib_text::is_name(base) {
         return [];
     }
     let out = [];
-    for l in sh::capture(["pandoc", "--list-extensions=" + base]).out.split("\n") {
+    for l in sh::capture_cached(300, ["pandoc", "--list-extensions=" + base]).out.split("\n") {
         let name = if l.starts_with("+") || l.starts_with("-") { l.sub_string(1) } else { l };
         if name != "" && !(cur + "+").contains("+" + name + "+") && !(cur + "-").contains("-" + name + "-") {
             out.push(name);
@@ -311,7 +312,7 @@ fn pandoc_formats(cur, direction) {
 fn pandoc_highlight_style(cur, extra) {
     let r = lib_files::with_suffix(cur, [".theme"]);
     if !cur.contains("/") {
-        for n in extra + sh::capture(["pandoc", "--list-highlight-styles"]).out.split("\n") {
+        for n in extra + sh::capture_cached(300, ["pandoc", "--list-highlight-styles"]).out.split("\n") {
             if n != "" && n.starts_with(cur) && !r.candidates.contains(n) {
                 r.candidates.push(n);
             }
@@ -368,7 +369,7 @@ fn parallel_args(cur) {
 // The names Miller has for separators (`--ifs semicolon`), asked of the installed mlr.
 fn miller_separator() {
     let out = [];
-    for line in sh::capture(["mlr", "help", "list-separator-aliases"]).out.split("\n") {
+    for line in sh::capture_cached(300, ["mlr", "help", "list-separator-aliases"]).out.split("\n") {
         let t = line;
         t.trim();
         let sp = t.index_of(" ");

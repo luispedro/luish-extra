@@ -12,7 +12,7 @@ concurrency:
 
 env:
   CARGO_TERM_COLOR: always
-  # The luish to test against (0.4.0 or later).
+  # The luish to test against (0.5.0 or later).
   LUISH_REF: main
 
 jobs:

@@ -315,7 +315,7 @@ fn ruff_rules(cur) {
     let k = lib_text::last_of(cur, [',']);
     let w = cur.sub_string(k + 1);
     let out = [#{value: "ALL", desc: "all rules"}];
-    let r = sh::capture(["ruff", "linter", "--output-format", "json"]);
+    let r = sh::capture_cached(300, ["ruff", "linter", "--output-format", "json"]);
     if r.status == 0 && r.out.starts_with("[") {
         for l in parse_json(`{"a": ${r.out}}`).a {
             if l.categories != () {
@@ -330,7 +330,7 @@ fn ruff_rules(cur) {
     let last = if w == "" { ' ' } else { w[w.len() - 1] };
     if last >= '0' && last <= '9' {
         // `ruff rule --all` gives each rule's "name", then its "code", on lines of their own.
-        let r = sh::capture(["ruff", "rule", "--all", "--output-format", "json"]);
+        let r = sh::capture_cached(300, ["ruff", "rule", "--all", "--output-format", "json"]);
         let name = "";
         for line in r.out.split("\n") {
             if line.starts_with(`    "name": "`) {
@@ -354,7 +354,8 @@ fn ruff_config_keys(cur) {
         return [];
     }
     let out = [];
-    for line in sh::capture(["ruff", "config"] + (if section == "" { [] } else { [section] })).out.split("\n") {
+    let argv = ["ruff", "config"] + (if section == "" { [] } else { [section] });
+    for line in sh::capture_cached(300, argv).out.split("\n") {
         let t = line;
         t.replace(" (deprecated)", "");
         t.trim();
@@ -374,7 +375,7 @@ fn bat(words) {
 // the extensions and file names they are for.
 fn bat_languages(words) {
     let out = [];
-    for line in sh::capture([bat(words), "--list-languages"]).out.split("\n") {
+    for line in sh::capture_cached(300, [bat(words), "--list-languages"]).out.split("\n") {
         let colon = line.index_of(":");
         if colon <= 0 {
             continue;
@@ -403,7 +404,7 @@ fn bat_themes(words, special) {
     } else {
         []
     };
-    for line in sh::capture([bat(words), "--list-themes", "--color=never"]).out.split("\n") {
+    for line in sh::capture_cached(300, [bat(words), "--list-themes", "--color=never"]).out.split("\n") {
         if line != "" {
             out.push(line);
         }

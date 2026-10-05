@@ -16,7 +16,7 @@ $ plugin add extra/complete/all
 `all` loads `bio`, `science`, `gui`, `dev` and `system`. To have only some of them, enable them one by one instead
 (`plugin add extra/complete/bio`, ...).
 
-This needs luish 0.4.0 or later, and the plugins need std's `completion` plugin.
+This needs luish 0.5.0 or later, and the plugins need std's `completion` plugin.
 
 The colour schemes are the plugin `themes` (`plugin add extra/themes`): see [](themes.md). The plugin `conda` sets
 conda up in interactive shells, cached (`extra.conda = { options = { env = "ENV" } }`): see [](conda.md).

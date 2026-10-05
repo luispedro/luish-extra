@@ -1,4 +1,5 @@
 description = "Completion for desktop programs"
+luish-version = "0.5"
 
 [dependencies]
 std.completion = "*"

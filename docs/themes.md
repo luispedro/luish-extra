@@ -1,7 +1,7 @@
 # Colour schemes
 
 The plugin `themes` (`extra/themes`, if the repository was added as `extra`) defines colour schemes for luish's
-syntax highlighting, completion menu and suggestions. It needs luish 0.4.0 or later. Each scheme comes in a pair, for
+syntax highlighting, completion menu and suggestions. It needs luish 0.5.0 or later. Each scheme comes in a pair, for
 dark and light backgrounds:
 
 | Dark               | Light              | Colours                                                    |

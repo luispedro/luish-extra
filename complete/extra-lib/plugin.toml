@@ -1,4 +1,5 @@
 description = "Helpers shared by the extra-complete plugins"
+luish-version = "0.5"
 library = true
 
 [dependencies]

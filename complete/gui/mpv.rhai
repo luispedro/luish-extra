@@ -142,7 +142,7 @@ fn line(name, x, desc) {
 // The spec for the word `cur`: the options of the installed mpv, with the flags' negations for `--no-`, and in
 // `actions`, the actions on lists (by their names, with the list's).
 fn spec(cmd, cur) {
-    let r = sh::capture([cmd, "--list-options"]);
+    let r = sh::capture_cached(300, [cmd, "--list-options"]);
     let o = options(if r.status == 0 { r.out } else { "" });
     let table = "";
     let values = #{};
@@ -199,7 +199,7 @@ fn complete(words, i) {
 // device)`, `\tname\tdescription`), the first word of each, with what follows as its description. A name listed
 // more than once (`--gpu-api`) has none, nor have those of `--hwdec`, whose other names follow them.
 fn help_list(prog, name) {
-    let r = sh::capture([prog, `--${name}=help`]);
+    let r = sh::capture_cached(300, [prog, `--${name}=help`]);
     let out = [];
     let seen = #{};
     for line in r.out.split("\n") {

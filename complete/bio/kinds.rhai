@@ -65,9 +65,10 @@ fn is_alignment(name) {
 }
 
 // The `@SQ` names of an alignment file's header (`samtools view -H`, which
-// is quick).
+// is quick). What is read from a file is kept only 30 s, since it may be
+// rewritten.
 fn header_names(path) {
-    let r = sh::capture(["timeout", "5", "samtools", "view", "-H", path]);
+    let r = sh::capture_cached(30, ["timeout", "5", "samtools", "view", "-H", path]);
     let names = [];
     for l in r.out.split("\n") {
         if l.starts_with("@SQ\t") {
@@ -102,7 +103,7 @@ fn regions(words) {
 fn tabix_regions(words) {
     for w in words {
         if (w.ends_with(".gz") || w.ends_with(".bgz")) && fs::is_file(w) {
-            let r = sh::capture(["timeout", "5", "tabix", "-l", w]);
+            let r = sh::capture_cached(30, ["timeout", "5", "tabix", "-l", w]);
             return r.out.split("\n").filter(|l| l != "");
         }
     }
@@ -118,12 +119,12 @@ fn is_vcf(name) {
 fn vcf_regions(words) {
     for w in words {
         if is_vcf(w) && fs::is_file(w) {
-            let r = sh::capture(["timeout", "5", "bcftools", "index", "-s", w]);
+            let r = sh::capture_cached(30, ["timeout", "5", "bcftools", "index", "-s", w]);
             let names = r.out.split("\n").filter(|l| l != "").map(|l| l.split("\t")[0]);
             if !names.is_empty() {
                 return names;
             }
-            let r = sh::capture(["timeout", "5", "tabix", "-l", w]);
+            let r = sh::capture_cached(30, ["timeout", "5", "tabix", "-l", w]);
             return r.out.split("\n").filter(|l| l != "");
         }
     }
@@ -134,7 +135,7 @@ fn vcf_regions(words) {
 fn vcf_samples(words) {
     for w in words {
         if is_vcf(w) && fs::is_file(w) {
-            let r = sh::capture(["timeout", "5", "bcftools", "query", "-l", w]);
+            let r = sh::capture_cached(30, ["timeout", "5", "bcftools", "query", "-l", w]);
             return r.out.split("\n").filter(|l| l != "");
         }
     }

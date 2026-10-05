@@ -16,7 +16,8 @@ import "text" as lib_text;
 
 // The help of the command `path` (a program and its subcommands, separated
 // by spaces), which clap doesn't wrap with COLUMNS=400, or "" if a word of
-// it isn't a name (the words come from the command line).
+// it isn't a name (the words come from the command line). It is kept 300 s,
+// as std's `lib::help_of` keeps it, so that Tab doesn't run the program again.
 fn text(path, how) {
     let words = path.split(" ");
     for w in words {
@@ -25,7 +26,7 @@ fn text(path, how) {
         }
     }
     let argv = ["env", "COLUMNS=400"] + words + [how.flag ?? "-h"];
-    if how.stderr == () { sh::capture(argv).out } else { sh::capture(argv, how.stderr).out }
+    if how.stderr == () { sh::capture_cached(300, argv).out } else { sh::capture_cached(300, argv, how.stderr).out }
 }
 
 // The commands listed in `text`, as the `commands` of a spec: its indented

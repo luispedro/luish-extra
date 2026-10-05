@@ -35,7 +35,8 @@ Commands are completed by the name you type, not the name of their Bioconda pack
 
 ## Enabling
 
-Requires luish 0.4.0 or later, and its `std.completion` plugin. The plugins depend on it and on `extra-lib`, this
+Requires luish 0.5.0 or later (the plugins say so in their `plugin.toml`, and an older luish doesn't load them), and
+its `std.completion` plugin. The plugins depend on it and on `extra-lib`, this
 collection's library of shared helpers, so luish loads them first; `extra-lib` is not listed by `plugin
 list-available`.
 
@@ -204,8 +205,8 @@ extra.conda = { options = { env = "py3.12" } }
 ```
 
 (or `plugin load extra/conda env=py3.12`). The option `root` gives the installation, if it isn't the `conda` in `PATH`
-or in one of the usual places (`~/miniforge3`, `~/miniconda3`, ...). It needs a luish with plugin options (newer than
-0.4.0). See [`docs/conda.md`](docs/conda.md) for what the cache depends on.
+or in one of the usual places (`~/miniforge3`, `~/miniconda3`, ...). See [`docs/conda.md`](docs/conda.md) for what
+the cache depends on.
 
 ## Tests
 

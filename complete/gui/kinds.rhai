@@ -174,7 +174,7 @@ fn lo_bootstrap() {
 
 // The printers of CUPS (`lpstat -e`).
 fn printers() {
-    let r = sh::capture(["lpstat", "-e"]);
+    let r = sh::capture_cached(60, ["lpstat", "-e"]);
     if r.status != 0 || r.out == "" { [] } else { r.out.split("\n") }
 }
 
@@ -313,7 +313,7 @@ fn inkscape_actions(cur, words) {
         return [];
     }
     let out = [];
-    let r = sh::capture([words[0], "--action-list"]);
+    let r = sh::capture_cached(300, [words[0], "--action-list"]);
     if r.status == 0 {
         for line in r.out.split("\n") {
             let k = line.index_of(":  ");
@@ -610,7 +610,7 @@ fn xrandr_query(words) {
     if d != () {
         argv += ["--display", d];
     }
-    sh::capture(argv + ["--query"]).out
+    sh::capture_cached(10, argv + ["--query"]).out
 }
 
 fn xrandr_outputs(words) {
@@ -671,7 +671,7 @@ fn gsettings_line(words) {
 
 fn gsettings_schemas(words) {
     let g = gsettings_line(words);
-    let r = sh::capture(g.argv + ["list-schemas"]);
+    let r = sh::capture_cached(300, g.argv + ["list-schemas"]);
     if r.status != 0 || r.out == "" { [] } else { r.out.split("\n") }
 }
 
@@ -687,7 +687,7 @@ fn gsettings_keys(words) {
     if !lib_text::is_name(name) {
         return [];
     }
-    let r = sh::capture(g.argv + ["list-keys", g.args[0]]);
+    let r = sh::capture_cached(300, g.argv + ["list-keys", g.args[0]]);
     if r.status != 0 || r.out == "" { [] } else { r.out.split("\n") }
 }
 
@@ -697,7 +697,7 @@ fn gsettings_values(words) {
     if g.args.len() < 2 {
         return [];
     }
-    let r = sh::capture(g.argv + ["range", g.args[0], g.args[1]]);
+    let r = sh::capture_cached(300, g.argv + ["range", g.args[0], g.args[1]]);
     let lines = r.out.split("\n");
     if r.status != 0 || lines.is_empty() {
         return [];

@@ -204,7 +204,7 @@ fn claude_help(path) {
             return "";
         }
     }
-    commander(sh::capture(words + ["--help"]).out)
+    commander(sh::capture_cached(300, words + ["--help"]).out)
 }
 
 fn claude_spec(path) {

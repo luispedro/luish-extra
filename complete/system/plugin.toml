@@ -1,4 +1,5 @@
 description = "Completion for system administration tools"
+luish-version = "0.5"
 
 [dependencies]
 std.completion = "*"

@@ -1,4 +1,5 @@
 description = "All the extra-complete plugins: bio, science, gui, dev and system"
+luish-version = "0.5"
 
 [dependencies]
 bio = "*"

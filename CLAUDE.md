@@ -76,13 +76,11 @@ are other people's: `themes/README.md` says where each comes from and under whic
 license texts, and a scheme's colours are its palette's own (a new one needs all three, and a check that each `#rrggbb`
 is upstream). luish-extra itself is MIT (`COPYING.MIT`, as luish's).
 
-`conda` is another plugin beside `complete` (`extra/conda`): `plugin.toml` declares its options (`root`, `env`; plugin
-options need a luish newer than 0.4.0) and `rc.lsh` runs conda's bash hook and `conda activate ENV` in a
-`__luish_cache` block, whose `env=` and `files=` are what the hook and the activation read (the comment at the top of
-`rc.lsh` says why each); a failure `return`s, so that it isn't cached. In a plugin that `config.toml` enables, a block
-is cached with its own keys only by a luish newer than 0.4.0 (older ones cache it as part of `config.toml`'s entry).
-`tests/conda.sh` stands in for conda with a script in `~/miniconda3` that logs its calls, and sets `PATH` itself (the
-machine's may have a conda).
+`conda` is another plugin beside `complete` (`extra/conda`): `plugin.toml` declares its options (`root`, `env`) and
+`rc.lsh` runs conda's bash hook and `conda activate ENV` in a `__luish_cache` block, whose `env=` and `files=` are what
+the hook and the activation read (the comment at the top of `rc.lsh` says why each); a failure `return`s, so that it
+isn't cached. `tests/conda.sh` stands in for conda with a script in `~/miniconda3` that logs its calls, and sets
+`PATH` itself (the machine's may have a conda).
 
 `complete/extra-lib` is a library plugin (`library = true` in its `plugin.toml`, which is its only entry point; `plugin
 list-available` leaves it out) of helpers the others share: `files.rhai` (`with_suffix(cur, suffixes)`, and with a third
@@ -161,13 +159,19 @@ sphinx-build -W docs docs/_build
 
 ## Design decisions to keep in mind
 
-- Needs luish 0.4.0 or later (the minimum supported version: sub-collections, colour schemes and their terminal
-  colours). The docs add the whole repository as a source (`extra = { gh = "luispedro/luish-extra" }`, plugins
+- Needs luish 0.5.0 or later (the minimum supported version: sub-collections, colour schemes and their terminal
+  colours, plugin options, `sh::capture_cached`). Every `plugin.toml` says so (`luish-version = "0.5"`, after
+  `description`, if any), so that an older luish doesn't load it; a new plugin does too, and raising the minimum
+  changes them all. The docs add the whole repository as a source (`extra = { gh = "luispedro/luish-extra" }`, plugins
   `extra/complete/bio`, ...).
 - Run programs with `sh::capture(["prog", arg, ...])` (no shell parsing; stdin is /dev/null, stderr discarded unless
   a second argument says `"merge"`, `"return"` or `"inherit"`; variables through `env`), not by building a shell
-  string. Find them with `sh::which(name)` and list them with `sh::commands(prefix)`, so that PATH is searched
-  as luish searches it; don't walk `PATH` in Rhai.
+  string. A program whose output changes seldom (help text, lists of formats, rules or themes) goes through
+  `sh::capture_cached(TTL, argv)`, which keeps it in memory for `TTL` seconds (at most 300) and drops it when a
+  command line names the program: 300 for help and lists, 30 for what is read from a file (BAM headers, VCF samples),
+  which may be rewritten, and less or none for live state (`xrandr --query`, `wmctrl -l`, `dconf read`). Bridges
+  that pass the line (`aws_completer`) aren't cached, as std's aren't. Find programs with `sh::which(name)` and list
+  them with `sh::commands(prefix)`, so that PATH is searched as luish searches it; don't walk `PATH` in Rhai.
 - **Nothing depends on the name the user gives the source.** Users add the repository as a source under a name of
   their choice (the docs say `extra`, so the plugins are `extra/complete/bio`, ...), or the `complete/` directory alone
   (`subdir = "complete"`: `extra-complete/bio`). So never write `@SOURCE/...`: import this repository's modules by

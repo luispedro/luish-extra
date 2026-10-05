@@ -3,8 +3,9 @@
 # (its hook, `conda activate`, and the activation scripts of the environment's packages, which can take seconds).
 #
 # Enable it in config.toml with its options (`extra.conda = { options = { env = "py3.12" } }`), or load it with
-# `plugin load extra/conda env=py3.12`. Both need a luish with plugin options (newer than 0.4.0); in config.toml, also
-# one that caches the blocks of the plugins it enables on their own (likewise).
+# `plugin load extra/conda env=py3.12`.
+
+luish-version = "0.5"
 
 [plugin-options]
 # The conda installation (the directory with bin/conda). By default, that of the conda in PATH, or the first of
