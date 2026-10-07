@@ -6,6 +6,7 @@ x/complete/gui
 x/complete/science
 x/complete/system
 x/conda
+x/nvm
 x/themes
 load 0
 std/completion

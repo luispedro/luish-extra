@@ -3,7 +3,7 @@
 Tab completion for [luish](https://github.com/luispedro/luish), for the programs that its standard library leaves out:
 bioinformatics tools (`bio`), scientific computing (`science`), desktop programs (`gui`), development (`dev`) and
 system administration (`system`). Each plugin can be enabled on its own. And [colour schemes](#colour-schemes) for
-luish's highlighting, for dark and light backgrounds (`themes`), and a [cached set-up of conda](#conda) (`conda`).
+luish's highlighting, for dark and light backgrounds (`themes`), and cached set-ups of [conda](#conda) (`conda`) and [nvm](#nvm) (`nvm`).
 
 Completion knows each program's options and subcommands, and the kind of value each one takes: `samtools sort -O`
 offers `BAM`, `CRAM` and `SAM`, `samtools view -T` offers FASTA files and `samtools view in.bam` the reference names
@@ -207,6 +207,22 @@ extra.conda = { options = { env = "py3.12" } }
 (or `plugin load extra/conda env=py3.12`). The option `root` gives the installation, if it isn't the `conda` in `PATH`
 or in one of the usual places (`~/miniforge3`, `~/miniconda3`, ...). See [`docs/conda.md`](docs/conda.md) for what
 the cache depends on.
+
+## nvm
+
+The plugin `nvm` (`extra/nvm`) does what nvm's installer puts in `~/.bashrc` (`. $NVM_DIR/nvm.sh`), then `nvm use
+VERSION`, in a `__luish_cache` block, so that only the first shell reads nvm.sh and runs `nvm use`, and the next ones
+restore what they did until a version is installed or removed, an alias changes, or the variables it reads change.
+Enable it in `config.toml`, with the version to use:
+
+```toml
+[plugins.enabled]
+extra.nvm = { options = { version = "node" } }
+```
+
+(or `plugin load extra/nvm version=node`). Without `version`, it uses the alias `default`, as nvm.sh does; `none`
+only loads nvm. The option `dir` gives nvm's directory, if it isn't `$NVM_DIR` or `~/.nvm`. See
+[`docs/nvm.md`](docs/nvm.md) for what the cache depends on.
 
 ## Tests
 

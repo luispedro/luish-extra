@@ -1,0 +1,56 @@
+# What nvm's installer puts in ~/.bashrc (`. $NVM_DIR/nvm.sh`), then `nvm use VERSION`, cached. nvm.sh is read with
+# --no-use, and `nvm use` is given the version itself: on its own, nvm.sh falls back to the .nvmrc of the directory
+# the shell starts in, which a cache can't follow. The keys of the block are what nvm.sh and `nvm use` read:
+#
+# - the directory and the version, and PATH and MANPATH (from which `nvm use` takes out the bin and man directories
+#   of the version that a shell started from one with nvm already set up has);
+# - the variables that make `nvm use` fail (PREFIX, NPM_CONFIG_PREFIX, npm_config_prefix: npm's prefix, which nvm
+#   can't work with, as also in ~/.npmrc) or that change what it does (NVM_SYMLINK_CURRENT);
+# - the aliases (alias/, alias/lts/, which `nvm install` and `nvm alias` write) and the installed versions
+#   (versions/node, versions/io.js), so that `nvm install` and `nvm uninstall` take effect in the next shell. nvm.sh
+#   itself is read with `.`, so luish already follows changes to it (`nvm` updates it with git).
+
+_luish_nvm_dir=${LUISH_PLUGIN_OPTIONS[dir]-}
+_luish_nvm_version=${LUISH_PLUGIN_OPTIONS[version]-}
+case $_luish_nvm_dir in
+    '~'/*) _luish_nvm_dir=$HOME/${_luish_nvm_dir#'~/'} ;;
+    '')
+        if [ -n "${NVM_DIR-}" ]; then
+            _luish_nvm_dir=$NVM_DIR
+        elif [ -n "${XDG_CONFIG_HOME-}" ] && [ -s "$XDG_CONFIG_HOME/nvm/nvm.sh" ]; then
+            _luish_nvm_dir=$XDG_CONFIG_HOME/nvm
+        else
+            _luish_nvm_dir=$HOME/.nvm
+        fi
+        ;;
+esac
+if [ -z "$_luish_nvm_version" ] && [ -e "$_luish_nvm_dir/alias/default" ]; then
+    _luish_nvm_version=default
+fi
+
+if [ ! -s "$_luish_nvm_dir/nvm.sh" ]; then
+    echo "nvm: no nvm.sh in $_luish_nvm_dir (see the plugin's option dir)" >&2
+else
+    __luish_cache env=(_luish_nvm_dir _luish_nvm_version PATH MANPATH PREFIX NPM_CONFIG_PREFIX npm_config_prefix
+        NVM_SYMLINK_CURRENT) \
+        files=("$_luish_nvm_dir/alias" "$_luish_nvm_dir"/alias/* "$_luish_nvm_dir"/alias/lts/*
+        "$_luish_nvm_dir/versions/node" "$_luish_nvm_dir/versions/io.js" ~/.npmrc) {
+        export NVM_DIR=$_luish_nvm_dir
+        # Read from a function, whose arguments it sees: luish's `.` doesn't pass on its own (`. FILE --no-use`).
+        _luish_nvm_load() { . "$NVM_DIR/nvm.sh"; }
+        _luish_nvm_load --no-use
+        unset -f _luish_nvm_load
+        # Its message ("Now using node ...") would be shown only by the shell that builds the cache; its errors are
+        # shown, and a failure returns, so that it isn't cached: the next shell tries again (and says why).
+        case $_luish_nvm_version in
+            '' | none) ;;
+            *)
+                if ! nvm use "$_luish_nvm_version" >/dev/null; then
+                    unset _luish_nvm_dir _luish_nvm_version
+                    return 1
+                fi
+                ;;
+        esac
+    }
+fi
+unset _luish_nvm_dir _luish_nvm_version

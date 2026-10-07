@@ -1,0 +1,16 @@
+# nvm: sets nvm (the Node Version Manager) up in interactive shells, as its installer's lines in ~/.bashrc do (`.
+# $NVM_DIR/nvm.sh`), then `nvm use VERSION`, in a __luish_cache block (rc.lsh), so that a new shell restores what
+# they did instead of reading nvm.sh again (some 4000 lines of shell, and `nvm use` runs node and npm: over a second).
+#
+# Enable it in config.toml with its options (`extra.nvm = { options = { version = "node" } }`), or load it with
+# `plugin load extra/nvm version=node`.
+
+luish-version = "0.5"
+
+[plugin-options]
+# nvm's directory (NVM_DIR, with nvm.sh). By default $NVM_DIR, or $XDG_CONFIG_HOME/nvm if XDG_CONFIG_HOME is set and
+# nvm is there, or ~/.nvm.
+dir = { type = "str" }
+# What to `nvm use`: a version or an alias (`node` for the newest installed, `lts/*`, `20`, `v22.1.0`, `system`, ...),
+# or `none` to only load nvm. By default the alias `default`, if there is one, as nvm.sh does.
+version = { type = "str" }

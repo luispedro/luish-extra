@@ -1,0 +1,138 @@
+--- the first shell runs nvm (and nvm use prints nothing)
+PATH=~/.nvm/versions/node/v22.2.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v22.2.0/bin
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+ran: nvm use node
+--- the next restores what it did
+PATH=~/.nvm/versions/node/v22.2.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v22.2.0/bin
+nvm is a shell function
+0
+--- a version installed
+PATH=~/.nvm/versions/node/v24.0.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v24.0.0/bin
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+ran: nvm use node
+PATH=~/.nvm/versions/node/v24.0.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v24.0.0/bin
+nvm is a shell function
+0
+--- a version uninstalled
+PATH=~/.nvm/versions/node/v22.2.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v22.2.0/bin
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+ran: nvm use node
+--- no version: the alias default, if there is one
+PATH=/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+PATH=~/.nvm/versions/node/v20.1.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v20.1.0/bin
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+ran: nvm use default
+PATH=~/.nvm/versions/node/v20.1.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v20.1.0/bin
+nvm is a shell function
+0
+--- an alias changed
+PATH=~/.nvm/versions/node/v22.2.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v22.2.0/bin
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+ran: nvm use default
+--- a new alias, used by name
+PATH=~/.nvm/versions/node/v20.1.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v20.1.0/bin
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+ran: nvm use lts/iron
+PATH=~/.nvm/versions/node/v20.1.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v20.1.0/bin
+nvm is a shell function
+0
+--- a version that is not installed: an error, not cached
+N/A: version "v18.0.0" is not yet installed.
+PATH=/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+ran: nvm use v18.0.0
+N/A: version "v18.0.0" is not yet installed.
+PATH=/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+ran: nvm use v18.0.0
+--- none: only nvm.sh
+PATH=/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+--- an ~/.npmrc (where npm prefix, which nvm refuses, may be set)
+PATH=~/.nvm/versions/node/v22.2.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v22.2.0/bin
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+ran: nvm use node
+PATH=~/.nvm/versions/node/v22.2.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v22.2.0/bin
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+ran: nvm use node
+--- NVM_DIR in the environment, or the option dir
+PATH=~/other/versions/node/v22.2.0/bin:/usr/bin:/bin
+NVM_DIR=~/other NVM_BIN=~/other/versions/node/v22.2.0/bin
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+ran: nvm use node
+PATH=~/other/versions/node/v20.1.0/bin:/usr/bin:/bin
+NVM_DIR=~/other NVM_BIN=~/other/versions/node/v20.1.0/bin
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+ran: nvm use v20.1.0
+--- no nvm
+nvm: no nvm.sh in ~/nowhere (see the plugin's option dir)
+PATH=/usr/bin:/bin
+NVM_DIR= NVM_BIN=
+nvm: not found
+0
+--- enabled in config.toml, with its options: the block is cached on its own there too
+PATH=~/.nvm/versions/node/v22.2.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v22.2.0/bin
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+ran: nvm use node
+PATH=~/.nvm/versions/node/v22.2.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v22.2.0/bin
+nvm is a shell function
+0
+PATH=~/.nvm/versions/node/v24.0.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v24.0.0/bin
+nvm is a shell function
+0
+ran: nvm.sh --no-use
+ran: nvm use node
+PATH=~/.nvm/versions/node/v24.0.0/bin:/usr/bin:/bin
+NVM_DIR=~/.nvm NVM_BIN=~/.nvm/versions/node/v24.0.0/bin
+nvm is a shell function
+0

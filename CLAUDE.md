@@ -82,6 +82,12 @@ the hook and the activation read (the comment at the top of `rc.lsh` says why ea
 isn't cached. `tests/conda.sh` stands in for conda with a script in `~/miniconda3` that logs its calls, and sets
 `PATH` itself (the machine's may have a conda).
 
+`nvm` is a third (`extra/nvm`), built as `conda` is: options `dir` and `version`, and `rc.lsh` reads nvm.sh with
+`--no-use` and runs `nvm use VERSION` (by default the alias `default`; `none`: no `nvm use`) in a `__luish_cache`
+block, keyed on the aliases and installed versions. luish's `.` doesn't pass arguments (`. FILE ARG` gives FILE the
+caller's `$@`), so nvm.sh is read from a function called with `--no-use`. `tests/nvm.sh` stands in for nvm with an
+nvm.sh in `~/.nvm` that logs its calls.
+
 `complete/extra-lib` is a library plugin (`library = true` in its `plugin.toml`, which is its only entry point; `plugin
 list-available` leaves it out) of helpers the others share: `files.rhai` (`with_suffix(cur, suffixes)`, and with a third
 argument, directories to leave out; `compressed(suffixes)`), `text.rhai` (`is_name`, `last_of`, `last_index`, `indent`,
