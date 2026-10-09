@@ -1,4 +1,4 @@
-"""Generates ../../complete/science/cwltool.rhai for cwltool, from its argparse parser at a pinned version.
+"""Generates ../../completion/science/cwltool.rhai for cwltool, from its argparse parser at a pinned version.
 
     python3 scripts/gen/mk_cwltool.py
 """
@@ -28,7 +28,7 @@ def kind_of(names, mv, choices):
 
 actions = gen.argparse_dump(PKG, "cwltool.argparser", "arg_parser")
 body = gen.emit_argparse(actions, kind_of, 12, f"        args: [{K('cwl')}, {K('params_file')}],")
-open(gen.REPO + "/complete/science/cwltool.rhai", "w").write(f"""// cwltool 3.3.20260925135507, from its argparse parser (`cwltool --help`). The arguments are the CWL document and,
+open(gen.REPO + "/completion/science/cwltool.rhai", "w").write(f"""// cwltool 3.3.20260925135507, from its argparse parser (`cwltool --help`). The arguments are the CWL document and,
 // after it, the file of inputs.
 
 // This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.

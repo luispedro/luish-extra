@@ -1,4 +1,4 @@
-"""Generates ../../complete/science/jupyter.rhai for ipython and the Jupyter applications, from their --help
+"""Generates ../../completion/science/jupyter.rhai for ipython and the Jupyter applications, from their --help
 (traitlets: an option is `--name` or `--name=<Type>` at the start of a line, its description and `Choices:` below).
 
     python3 scripts/gen/mk_jupyter.py
@@ -124,5 +124,5 @@ text.append("fn sub_spec(name) {\n    switch name {")
 for n in names:
     text.append(f'        "{n}" => {n}(),')
 text.append("        _ => (),\n    }\n}\n")
-open(gen.REPO + "/complete/science/jupyter_specs.rhai", "w").write("\n".join(text))
+open(gen.REPO + "/completion/science/jupyter_specs.rhai", "w").write("\n".join(text))
 print("ok", names)

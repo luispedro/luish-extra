@@ -3,7 +3,7 @@
 # shapes of the real one's (a filter whose name has spaces, a self-closing property, a translated name, a character
 # reference, a type whose extensions are a pattern, and a section of another package). PATH is set after the files are
 # made, since the machine's may have a LibreOffice.
-__luish_internal plugin load "$EXTRA/complete/gui"
+__luish_internal plugin load "$EXTRA/completion/gui"
 echo "load $?"
 c() {
     echo "--- $1"

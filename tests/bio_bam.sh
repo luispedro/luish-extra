@@ -1,7 +1,7 @@
 # Utilities for alignment and variant files: sambamba, bamtools, samblaster,
 # mosdepth, cramino and vcftools. tests/bin/samtools and tests/bin/bcftools
 # stand in for the programs that give reference names and samples.
-__luish_internal plugin load "$EXTRA/complete/bio"
+__luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 c() {
     echo "--- $1"

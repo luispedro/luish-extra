@@ -1,6 +1,6 @@
 # Programs that complete themselves, asked through std's bridges: apptainer and singularity (Cobra), nf-core
 # (Click). The programs are stand-ins made here: they answer as the real ones do (apptainer 1.5.4, nf-core).
-__luish_internal plugin load "$EXTRA/complete/science"
+__luish_internal plugin load "$EXTRA/completion/science"
 echo "load $?"
 c() {
     echo "--- $1"

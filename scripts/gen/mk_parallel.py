@@ -1,4 +1,4 @@
-"""Generates ../../complete/science/parallel.rhai for GNU parallel, from `parallel --shellcompletion bash` (the
+"""Generates ../../completion/science/parallel.rhai for GNU parallel, from `parallel --shellcompletion bash` (the
 list of its options) at a pinned version, with the descriptions and values written here.
 
     python3 scripts/gen/mk_parallel.py
@@ -110,7 +110,7 @@ for n, v in values:
         line = "            "
     line += item
 vals.append(line.rstrip())
-open(gen.REPO + "/complete/science/parallel.rhai", "w").write(f"""// GNU parallel 20260922, from `parallel --shellcompletion bash` (the option names, without their aliases that
+open(gen.REPO + "/completion/science/parallel.rhai", "w").write(f"""// GNU parallel 20260922, from `parallel --shellcompletion bash` (the option names, without their aliases that
 // are only spelled differently: `--keeporder`), with the descriptions and values of the common ones. The command
 // is completed as a command, and after it come the arguments (`:::`, `::::`) and files.
 

@@ -44,13 +44,13 @@ The simplest way is `plugin add`, in luish:
 
 ```console
 $ plugin add luispedro/luish-extra extra
-$ plugin add extra/complete/all
+$ plugin add extra/completion/all
 ```
 
 The first command adds the repository to `[plugins.available]` in `config.toml`, under the name `extra` (any name
-works), and fetches it. Its completion plugins are then `extra/complete/bio`, `extra/complete/science`, ...
+works), and fetches it. Its completion plugins are then `extra/completion/bio`, `extra/completion/science`, ...
 (`plugin list-available` lists them). The second enables `all`, which loads `bio`, `science`, `gui`, `dev` and
-`system`. To have only some of them, enable them one by one instead (`plugin add extra/complete/bio`, ...).
+`system`. To have only some of them, enable them one by one instead (`plugin add extra/completion/bio`, ...).
 
 Or, by hand, in `config.toml` (then run `plugin sync`):
 
@@ -59,15 +59,15 @@ Or, by hand, in `config.toml` (then run `plugin sync`):
 extra = { gh = "luispedro/luish-extra" }
 
 [plugins.enabled]
-extra.complete.all = "*"        # or "extra/complete/all" = "*"
+extra.completion.all = "*"        # or "extra/completion/all" = "*"
 ```
 
 To have only some of them, enable them one by one instead:
 
 ```toml
 [plugins.enabled]
-extra.complete.bio = "*"
-extra.complete.science = "*"
+extra.completion.bio = "*"
+extra.completion.science = "*"
 ```
 
 A plugin costs little until it is used: each module is compiled the first time Tab is pressed for one of its commands.

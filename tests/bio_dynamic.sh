@@ -1,6 +1,6 @@
 # Commands whose help is read at Tab time (dynamic.rhai). tests/bin/mmseqs is a
 # stand-in with the help of three modules.
-__luish_internal plugin load "$EXTRA/complete/bio"
+__luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 c() {
     echo "--- $1"

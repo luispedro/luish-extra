@@ -1,4 +1,4 @@
-"""Generates ../../complete/bio/blast.rhai for the BLAST+ programs (blast.rhai), from the --help of the pinned versions.
+"""Generates ../../completion/bio/blast.rhai for the BLAST+ programs (blast.rhai), from the --help of the pinned versions.
 
     python3 scripts/gen/mk_blast.py
 """
@@ -136,5 +136,5 @@ out.append('''        "update_blastdb.pl" => update_blastdb(),
     }
 }
 ''')
-open(gen.REPO + "/complete/bio/blast.rhai", "w").write("\n".join(out))
+open(gen.REPO + "/completion/bio/blast.rhai", "w").write("\n".join(out))
 print("ok")

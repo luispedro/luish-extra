@@ -1,4 +1,4 @@
-// Files by their names, for the kinds of the extra-complete plugins:
+// Files by their names, for the kinds of the extra-completion plugins:
 // `import "../extra-lib/files" as lib_files;`.
 import "@std/completion/kinds" as std_kinds;
 

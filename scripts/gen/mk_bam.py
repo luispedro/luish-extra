@@ -1,4 +1,4 @@
-"""Generates ../../complete/bio/bam.rhai: utilities for alignment and variant files (sambamba, bamtools, samblaster,
+"""Generates ../../completion/bio/bam.rhai: utilities for alignment and variant files (sambamba, bamtools, samblaster,
 mosdepth, cramino, vcftools), from their help (vcftools: its man page) at the pinned versions (see
 completion-todo.md).
 
@@ -395,5 +395,5 @@ emit('''fn sub_spec(name, sub) {
         _ => (),
     }
 }''')
-open(gen.REPO + "/complete/bio/bam.rhai", "w").write("\n".join(out) + "\n")
+open(gen.REPO + "/completion/bio/bam.rhai", "w").write("\n".join(out) + "\n")
 print("written")

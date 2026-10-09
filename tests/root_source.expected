@@ -1,22 +1,22 @@
---- available: the completion plugins under complete/, conda and themes
-x/complete/all
-x/complete/bio
-x/complete/dev
-x/complete/gui
-x/complete/science
-x/complete/system
+--- available: the completion plugins under completion/, conda and themes
+x/completion/all
+x/completion/bio
+x/completion/dev
+x/completion/gui
+x/completion/science
+x/completion/system
 x/conda
 x/nvm
 x/themes
 load 0
 std/completion
-x/complete/extra-lib
-x/complete/bio
-x/complete/science
-x/complete/gui
-x/complete/dev
-x/complete/system
-x/complete/all
+x/completion/extra-lib
+x/completion/bio
+x/completion/science
+x/completion/gui
+x/completion/dev
+x/completion/system
+x/completion/all
 --- samtools view -T data/
 data/genome.fa 
 --- bwa mem -

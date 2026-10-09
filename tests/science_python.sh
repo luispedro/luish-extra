@@ -1,5 +1,5 @@
 # ipython and jupyter. The subcommands of jupyter are the jupyter-* programs in PATH (stood in for here).
-__luish_internal plugin load "$EXTRA/complete/science"
+__luish_internal plugin load "$EXTRA/completion/science"
 echo "load $?"
 c() {
     echo "--- $1"

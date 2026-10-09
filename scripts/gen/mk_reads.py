@@ -1,4 +1,4 @@
-"""Generates ../../complete/bio/reads.rhai: read QC, trimming and filtering (fastp, fastqc, falco, cutadapt,
+"""Generates ../../completion/bio/reads.rhai: read QC, trimming and filtering (fastp, fastqc, falco, cutadapt,
 trimmomatic, trim_galore, fastq_screen, seqtk, filtlong, chopper, nanoq, rasusa, porechop, NanoPlot, NanoFilt,
 NanoStat), from their --help or argparse parser at the pinned versions (see completion-todo.md).
 
@@ -271,5 +271,5 @@ emit('''fn sub_spec(name, sub) {
         _ => (),
     }
 }''')
-open(gen.REPO + "/complete/bio/reads.rhai", "w").write("\n".join(out) + "\n")
+open(gen.REPO + "/completion/bio/reads.rhai", "w").write("\n".join(out) + "\n")
 print("written")

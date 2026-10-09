@@ -1,5 +1,5 @@
 # Mapping and quantification: bwa, bowtie2, minimap2, hisat2, STAR, kallisto, featureCounts.
-__luish_internal plugin load "$EXTRA/complete/bio"
+__luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 c() {
     echo "--- $1"

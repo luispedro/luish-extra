@@ -1,4 +1,4 @@
-"""Generates ../../complete/bio/diamond.rhai for diamond (diamond.rhai), from the --help of the pinned versions.
+"""Generates ../../completion/bio/diamond.rhai for diamond (diamond.rhai), from the --help of the pinned versions.
 
     python3 scripts/gen/mk_diamond.py
 """
@@ -166,5 +166,5 @@ fn sub_spec(name, sub) {
     }
 }
 ''')
-open(gen.REPO + "/complete/bio/diamond.rhai", "w").write("\n".join(out))
+open(gen.REPO + "/completion/bio/diamond.rhai", "w").write("\n".join(out))
 print("ok")

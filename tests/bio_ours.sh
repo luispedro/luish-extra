@@ -1,5 +1,5 @@
 # The group's tools: ngless, SemiBin2 (and SemiBin), macrel and argnorm.
-__luish_internal plugin load "$EXTRA/complete/bio"
+__luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 __luish_internal plugin list-loaded
 c() {

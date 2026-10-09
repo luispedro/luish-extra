@@ -1,4 +1,4 @@
-"""Generates ../../complete/bio/hmmer.rhai for HMMER (hmmer.rhai), from the --help of the pinned versions.
+"""Generates ../../completion/bio/hmmer.rhai for HMMER (hmmer.rhai), from the --help of the pinned versions.
 
     python3 scripts/gen/mk_hmmer.py
 """
@@ -45,5 +45,5 @@ out.append("fn spec(cmd) {\n    switch cmd {")
 for prog, _, _ in PROGS:
     out.append(f'        "{prog}" => {prog}(),')
 out.append("        _ => #{},\n    }\n}\n")
-open(gen.REPO + "/complete/bio/hmmer.rhai", "w").write("\n".join(out))
+open(gen.REPO + "/completion/bio/hmmer.rhai", "w").write("\n".join(out))
 print("ok")

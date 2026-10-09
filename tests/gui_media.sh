@@ -2,7 +2,7 @@
 # ~/.config/GIMP; Inkscape's object IDs come from the SVG files on the command line, and its actions from
 # `inkscape --action-list` (tests/bin/inkscape, a stand-in); OBS's profiles, scene collections and scenes come from
 # ~/.config/obs-studio.
-__luish_internal plugin load "$EXTRA/complete/gui"
+__luish_internal plugin load "$EXTRA/completion/gui"
 echo "load $?"
 c() {
     echo "--- $1"

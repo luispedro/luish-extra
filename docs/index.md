@@ -10,11 +10,11 @@ In luish, add the repository (under any name, here `extra`), then enable `all` o
 
 ```console
 $ plugin add luispedro/luish-extra extra
-$ plugin add extra/complete/all
+$ plugin add extra/completion/all
 ```
 
 `all` loads `bio`, `science`, `gui`, `dev` and `system`. To have only some of them, enable them one by one instead
-(`plugin add extra/complete/bio`, ...).
+(`plugin add extra/completion/bio`, ...).
 
 This needs luish 0.5.0 or later, and the plugins need std's `completion` plugin.
 

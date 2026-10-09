@@ -1,4 +1,4 @@
-"""Generates ../../complete/bio/align.rhai: bwa, bwa-mem2, bowtie2, hisat2, minimap2, STAR, kallisto
+"""Generates ../../completion/bio/align.rhai: bwa, bwa-mem2, bowtie2, hisat2, minimap2, STAR, kallisto
 and featureCounts, from their --help at the pinned versions (see completion-todo.md).
 
     python3 scripts/gen/mk_align.py
@@ -347,5 +347,5 @@ fn sub_spec(name, sub) {
     }
 }
 ''')
-open(gen.REPO + "/complete/bio/align.rhai", "w").write("\n".join(out))
+open(gen.REPO + "/completion/bio/align.rhai", "w").write("\n".join(out))
 print("written")

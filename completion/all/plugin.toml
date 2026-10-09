@@ -1,4 +1,4 @@
-description = "All the extra-complete plugins: bio, science, gui, dev and system"
+description = "All the extra-completion plugins: bio, science, gui, dev and system"
 luish-version = "0.5"
 
 [dependencies]

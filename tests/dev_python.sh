@@ -1,6 +1,6 @@
 # mypy (with the inverses of its flags, and its error codes), ruff (its help, linters and rules are asked of
 # tests/bin/ruff, a stand-in) and twine.
-__luish_internal plugin load "$EXTRA/complete/dev"
+__luish_internal plugin load "$EXTRA/completion/dev"
 echo "load $?"
 c() {
     echo "--- $1"

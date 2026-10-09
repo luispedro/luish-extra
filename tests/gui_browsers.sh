@@ -1,7 +1,7 @@
 # firefox, thunderbird, chromium and google-chrome. Mozilla's profiles are the Name= of the [ProfileN] sections of
 # profiles.ini (in ~/.mozilla/firefox, or the Snap's directory); Chrome's are the directories of profile.info_cache in
 # the Local State of the user data directory (~/.config/google-chrome, or that of --user-data-dir).
-__luish_internal plugin load "$EXTRA/complete/gui"
+__luish_internal plugin load "$EXTRA/completion/gui"
 echo "load $?"
 c() {
     echo "--- $1"

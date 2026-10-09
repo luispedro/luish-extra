@@ -1,7 +1,7 @@
 # claude (Commander) and codex (clap), whose help is asked of tests/bin/claude and tests/bin/codex, stand-ins
 # with their real help cut short, and opencode, whose spec is a table. The agents of claude's --agent are the
 # files of the nearest .claude/agents and of ~/.claude/agents; the profiles of codex's -p are those of $CODEX_HOME.
-__luish_internal plugin load "$EXTRA/complete/dev"
+__luish_internal plugin load "$EXTRA/completion/dev"
 echo "load $?"
 c() {
     echo "--- $1"

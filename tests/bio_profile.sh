@@ -1,6 +1,6 @@
 # Taxonomic and functional profiling: kraken2, bracken, krakenuniq, centrifuge,
 # kaiju, metaphlan, humann, motus, and the programs that come with them.
-__luish_internal plugin load "$EXTRA/complete/bio"
+__luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 c() {
     echo "--- $1"

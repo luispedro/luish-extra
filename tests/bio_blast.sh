@@ -1,5 +1,5 @@
 # BLAST+ programs.
-__luish_internal plugin load "$EXTRA/complete/bio"
+__luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 c() {
     echo "--- $1"

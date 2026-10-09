@@ -1,4 +1,4 @@
-"""Generates ../../complete/bio/asm.rhai: assembly and annotation (spades.py, metaspades.py, megahit, flye, quast,
+"""Generates ../../completion/bio/asm.rhai: assembly and annotation (spades.py, metaspades.py, megahit, flye, quast,
 metaquast, busco, prodigal, prokka, bakta, barrnap), from their --help or argparse parser at the pinned versions (see
 completion-todo.md).
 
@@ -229,5 +229,5 @@ progs = {"spades.py": "spades", "metaspades.py": "metaspades", "megahit": "megah
          "busco": "busco", "prodigal": "prodigal", "prokka": "prokka", "bakta": "bakta", "barrnap": "barrnap"}
 emit("fn spec(cmd) {\n    switch cmd {\n" + "".join(f'        "{p}" => {f}(),\n' for p, f in progs.items()) +
      "        _ => #{},\n    }\n}")
-open(gen.REPO + "/complete/bio/asm.rhai", "w").write("\n".join(out) + "\n")
+open(gen.REPO + "/completion/bio/asm.rhai", "w").write("\n".join(out) + "\n")
 print("written")

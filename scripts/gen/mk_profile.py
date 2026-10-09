@@ -1,4 +1,4 @@
-"""Generates ../../complete/bio/profile.rhai: taxonomic and functional profiling of metagenomes (kraken2, bracken,
+"""Generates ../../completion/bio/profile.rhai: taxonomic and functional profiling of metagenomes (kraken2, bracken,
 krakenuniq, centrifuge, kaiju, metaphlan, humann, motus, and the programs that come with them), from their --help or
 argparse parser at the pinned versions (see completion-todo.md).
 
@@ -601,5 +601,5 @@ emit('''fn sub_spec(name, sub) {
         _ => (),
     }
 }''')
-open(gen.REPO + "/complete/bio/profile.rhai", "w").write("\n".join(out) + "\n")
+open(gen.REPO + "/completion/bio/profile.rhai", "w").write("\n".join(out) + "\n")
 print("written")

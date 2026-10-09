@@ -1,5 +1,5 @@
 # fzf, and bat (and Debian's batcat): its languages and themes are asked of tests/bin/bat, a stand-in.
-__luish_internal plugin load "$EXTRA/complete/dev"
+__luish_internal plugin load "$EXTRA/completion/dev"
 echo "load $?"
 c() {
     echo "--- $1"

@@ -1,4 +1,4 @@
-"""Generates ../../complete/science/miller.rhai for Miller (mlr), from `mlr help flags`, `mlr help list-verbs` and
+"""Generates ../../completion/science/miller.rhai for Miller (mlr), from `mlr help flags`, `mlr help list-verbs` and
 `mlr VERB --help` at a pinned version.
 
     python3 scripts/gen/mk_miller.py
@@ -105,5 +105,5 @@ for v in verbs:
     rows = [r for r in rows if "-h" not in r[0] and "--help" not in r[0]]
     out.append(f'        "{v}" => #{{\n            single_dash: true,\n            strict_eq: true,\n{emit(rows, 12)}        }},' if rows else f'        "{v}" => #{{}},')
 out.append("        _ => (),\n    }\n}\n")
-open(gen.REPO + "/complete/science/miller.rhai", "w").write("\n".join(out))
+open(gen.REPO + "/completion/science/miller.rhai", "w").write("\n".join(out))
 print("ok", len(flags), len(verbs))

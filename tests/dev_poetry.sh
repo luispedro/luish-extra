@@ -1,6 +1,6 @@
 # poetry: its commands (and those of its namespaces: `cache clear`, `self show plugins`), and what the
 # project's pyproject.toml and poetry.lock have: groups, extras, dependencies, scripts, sources.
-__luish_internal plugin load "$EXTRA/complete/dev"
+__luish_internal plugin load "$EXTRA/completion/dev"
 echo "load $?"
 c() {
     echo "--- $1"

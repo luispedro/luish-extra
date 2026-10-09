@@ -11,7 +11,7 @@ options that --help leaves out on purpose. This is a development aid, not a
 test: run it with the tool at the version named in completion-todo.md.
 
 Environment: LUISH (default: luish), STD_PLUGINS (default: ../luish/luish-std-plugins),
-PLUGIN (the plugin to load, default: complete/bio).
+PLUGIN (the plugin to load, default: completion/bio).
 """
 import os, re, subprocess, sys, tempfile
 
@@ -19,7 +19,7 @@ here = os.path.dirname(os.path.abspath(__file__))
 extra = os.path.dirname(here)
 luish = os.environ.get("LUISH", "luish")
 std = os.path.abspath(os.environ.get("STD_PLUGINS", os.path.join(extra, "..", "luish", "luish-std-plugins")))
-plugin = os.path.abspath(os.environ.get("PLUGIN", os.path.join(extra, "complete", "bio")))
+plugin = os.path.abspath(os.environ.get("PLUGIN", os.path.join(extra, "completion", "bio")))
 
 line = sys.argv[1]
 help_text = sys.stdin.read()

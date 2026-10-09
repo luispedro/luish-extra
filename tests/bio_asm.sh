@@ -1,6 +1,6 @@
 # Assembly and annotation: spades.py, metaspades.py, megahit, flye, quast, metaquast, busco, prodigal, prokka, bakta,
 # barrnap.
-__luish_internal plugin load "$EXTRA/complete/bio"
+__luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 c() {
     echo "--- $1"

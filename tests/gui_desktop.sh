@@ -1,7 +1,7 @@
 # xrandr, gsettings, dconf, notify-send, wmctrl, xdotool, swaymsg and hyprctl. xrandr's outputs and modes come from
 # `xrandr --query`, gsettings's schemas, keys and values from gsettings, dconf's paths from `dconf list`, and wmctrl's
 # windows from `wmctrl -l` (all stand-ins in tests/bin).
-__luish_internal plugin load "$EXTRA/complete/gui"
+__luish_internal plugin load "$EXTRA/completion/gui"
 echo "load $?"
 c() {
     echo "--- $1"

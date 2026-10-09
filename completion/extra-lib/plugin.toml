@@ -1,4 +1,4 @@
-description = "Helpers shared by the extra-complete plugins"
+description = "Helpers shared by the extra-completion plugins"
 luish-version = "0.5"
 library = true
 

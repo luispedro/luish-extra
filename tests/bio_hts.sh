@@ -1,7 +1,7 @@
 # Alignment files, variants and intervals: samtools, tabix, bgzip, htsfile and
 # bedtools. tests/bin/samtools is a stand-in that gives a BAM header with the
 # sequences chrA and chrB.
-__luish_internal plugin load "$EXTRA/complete/bio"
+__luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 c() {
     echo "--- $1"

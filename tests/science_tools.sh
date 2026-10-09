@@ -1,5 +1,5 @@
 # Small tools: duckdb, datamash, pigz, gnuplot, R and Rscript, aria2c and GNU parallel.
-__luish_internal plugin load "$EXTRA/complete/science"
+__luish_internal plugin load "$EXTRA/completion/science"
 echo "load $?"
 c() {
     echo "--- $1"

@@ -1,5 +1,5 @@
 # Workflow managers: jug and snakemake (the rules of the Snakefile, and the files it includes).
-__luish_internal plugin load "$EXTRA/complete/science"
+__luish_internal plugin load "$EXTRA/completion/science"
 echo "load $?"
 c() {
     echo "--- $1"

@@ -1,6 +1,6 @@
 # Tabular data: xsv and qsv, whose commands and options are read from their help (tests/bin/xsv and qsv are
 # their real help, cut short).
-__luish_internal plugin load "$EXTRA/complete/science"
+__luish_internal plugin load "$EXTRA/completion/science"
 echo "load $?"
 c() {
     echo "--- $1"

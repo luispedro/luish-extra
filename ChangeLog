@@ -1,0 +1,4 @@
+Unreleased
+    * complete/ is now completion/, as std's completion plugin: the
+      plugins are extra/completion/bio, ... (were extra/complete/bio);
+      config.toml needs the new names (extra.completion.all = "*")

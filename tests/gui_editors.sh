@@ -1,6 +1,6 @@
 # kate: the sessions of -s are the .katesession files of $XDG_DATA_HOME/kate/sessions (~/.local/share), named with
 # their names percent-encoded. (The pids of -p, those of the running kates, depend on the machine.)
-__luish_internal plugin load "$EXTRA/complete/gui"
+__luish_internal plugin load "$EXTRA/completion/gui"
 echo "load $?"
 c() {
     echo "--- $1"

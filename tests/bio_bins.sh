@@ -1,7 +1,7 @@
 # Binning of metagenomes and the quality of the genomes: checkm, checkm2, gunc,
 # gtdbtk, metabat2, concoct, MaxBin, DAS Tool, dRep, coverm, vamb, and the
 # programs that come with them.
-__luish_internal plugin load "$EXTRA/complete/bio"
+__luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 c() {
     echo "--- $1"

@@ -1,4 +1,4 @@
-"""Generates ../../complete/bio/bins.rhai: binning of metagenomes and the quality, taxonomy and dereplication of the
+"""Generates ../../completion/bio/bins.rhai: binning of metagenomes and the quality, taxonomy and dereplication of the
 genomes (MAGs) that come out of it (checkm, checkm2, gunc, gtdbtk, metabat2, concoct, MaxBin, DAS Tool, dRep,
 coverm, vamb, and the programs that come with them), from their --help or argparse parser at the pinned versions (see
 completion-todo.md).
@@ -520,5 +520,5 @@ fn sub_spec(name, sub) {
 ''' + "".join(f'        "{c}" => {n}_sub(sub),\n' for c, n in subs.items()) + '''        _ => (),
     }
 }''')
-open(gen.REPO + "/complete/bio/bins.rhai", "w").write("\n".join(out) + "\n")
+open(gen.REPO + "/completion/bio/bins.rhai", "w").write("\n".join(out) + "\n")
 print("written")

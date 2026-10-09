@@ -1,4 +1,4 @@
-"""Generates ../../complete/science/pandoc.rhai for pandoc, from its --help and its man page at a pinned version.
+"""Generates ../../completion/science/pandoc.rhai for pandoc, from its --help and its man page at a pinned version.
 
     python3 scripts/gen/mk_pandoc.py
 
@@ -154,7 +154,7 @@ for n, k in values:
     line += v
 wrapped.append(line.rstrip())
 body = "\n".join(l.rstrip() for l in out)
-open(gen.REPO + "/complete/science/pandoc.rhai", "w").write(f"""// pandoc {VERSION}, from `pandoc --help`, with the descriptions of its man page. The formats are asked of the
+open(gen.REPO + "/completion/science/pandoc.rhai", "w").write(f"""// pandoc {VERSION}, from `pandoc --help`, with the descriptions of its man page. The formats are asked of the
 // installed pandoc (`--list-input-formats`), so that they follow the version in use.
 
 // This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.

@@ -9,8 +9,8 @@ completion modules that don't belong in luish's standard library (`std`), in plu
 and `system`. Rhai (luish's scripting language) is the implementation language: `plugin.toml` + `extension.rhai` per
 plugin.
 
-`complete/bio`, `complete/science`, `complete/gui`, `complete/dev` and `complete/system` exist so far.
-`complete/bio`: `extension.rhai` (registers the completers, one function per module), `kinds.rhai` (bio file kinds:
+`completion/bio`, `completion/science`, `completion/gui`, `completion/dev` and `completion/system` exist so far.
+`completion/bio`: `extension.rhai` (registers the completers, one function per module), `kinds.rhai` (bio file kinds:
 FASTA, BAM, index prefixes of aligners, reference names and samples of VCFs, ...) and, by family of tools, `ours.rhai`
 (ngless, SemiBin2, macrel, argnorm), `hts.rhai` (samtools, bedtools, tabix, bgzip, htsfile), `bcftools.rhai`, `bam.rhai`
 (sambamba, bamtools, samblaster, mosdepth, cramino, vcftools), `align.rhai` (bwa, bwa-mem2, bowtie2, hisat2, minimap2,
@@ -28,7 +28,7 @@ regular format). Python programs built with Click (multiqc, genmod, cooler, ...)
 registers them with std's Click bridge (`@std/completion/bridges`), only if they answer in under a second. Go programs
 built with Cobra (seqkit, csvtk, taxonkit) are registered with std's Cobra bridge in the same way.
 
-`complete/science`: `kinds.rhai` (files by extension; the rules of a Snakefile; the profiles, runs and projects of
+`completion/science`: `kinds.rhai` (files by extension; the rules of a Snakefile; the profiles, runs and projects of
 Nextflow and the parameters of an nf-core pipeline's schema; pandoc's formats; ...), `workflow.rhai` (jug, nf-test),
 `nextflow.rhai`, `quarto.rhai`, `tex.rhai` (pdflatex, xelatex, lualatex, bibtex, latexmk), `jupyter.rhai` (with
 `jupyter_specs.rhai`), `tools.rhai` (duckdb, datamash, pigz, gnuplot, R, Rscript), `dynamic.rhai` (xsv and qsv, read
@@ -36,15 +36,15 @@ from `-h` like mmseqs), `bridges.rhai` (aws, through `aws_completer`) and the ge
 `aria2.rhai`, `parallel.rhai`, `miller.rhai`, `cwltool.rhai`, `jupyter_specs.rhai`. `extension.rhai` also registers
 apptainer and singularity (Cobra bridge) and nf-core (Click bridge).
 
-`complete/dev`: `kinds.rhai` (pytest's tests in a file and markers; poetry's groups, extras, dependencies, locked
+`completion/dev`: `kinds.rhai` (pytest's tests in a file and markers; poetry's groups, extras, dependencies, locked
 packages, scripts and sources from `pyproject.toml` and `poetry.lock`; `~/.pypirc`; ruff's rules and settings; bat's
 languages and themes; claude's agents and codex's profiles), `python.rhai` (twine), `tools.rhai` (fzf, bat and batcat),
 `agents.rhai` (opencode, a table: yargs help, and a start-up of most of a second), `dynamic.rhai` (ruff, codex and
 claude, from their `-h` like mmseqs; claude is Commander, whose help `commander()` puts in clap's shape before std's
 `help_spec` reads it: wrapped descriptions joined, `stop|kill <id>` as `stop, kill`, `(choices: ...)` as
-`[possible values: ...]`) and the generated `pytest.rhai`, `mypy.rhai`, `poetry.rhai`. `complete/system`: `kinds.rhai` (borg
+`[possible values: ...]`) and the generated `pytest.rhai`, `mypy.rhai`, `poetry.rhai`. `completion/system`: `kinds.rhai` (borg
 locations and compression specs, FUSE mount points from `/proc/mounts`), `tools.rhai` (fusermount, fusermount3) and the
-generated `borg.rhai`. `complete/gui`: `kinds.rhai` (LibreOffice's filters and file types, read from the `.xcd` files of
+generated `borg.rhai`. `completion/gui`: `kinds.rhai` (LibreOffice's filters and file types, read from the `.xcd` files of
 its registry, found by following the `soffice` link in `PATH`; CUPS's printers; kate's sessions; GIMP's session files;
 the object IDs of the SVG files on the line and the actions of `inkscape --action-list`; OBS's profiles, scene
 collections and scenes; Firefox's, Thunderbird's and Chrome's profiles; VS Code's extensions and profiles; Krita's
@@ -61,7 +61,7 @@ bridge. svn, netlify and adb (`dev`) are still to do. Every module has `fn spec(
 `cmd`), and `extension.rhai` maps each command to its module (`module_of`), so a new module needs an entry there;
 nextflow, whose spec depends on the line, and mpv have completers of their own.
 
-`themes` is a plugin of its own, beside the `complete` collection (`extra/themes`): only a `plugin.toml` with
+`themes` is a plugin of its own, beside the `completion` collection (`extra/themes`): only a `plugin.toml` with
 `[colorscheme.NAME]` tables (luish's colour schemes), in pairs for dark and light backgrounds (`ansi`, `solarized`,
 `gruvbox`, `catppuccin` mocha/latte, `tokyonight` night/day). Its header comment says what each role means in every
 scheme (one colour for commands, functions bold, ...); a new scheme keeps to it, and its light member usually `inherits`
@@ -76,7 +76,7 @@ are other people's: `themes/README.md` says where each comes from and under whic
 license texts, and a scheme's colours are its palette's own (a new one needs all three, and a check that each `#rrggbb`
 is upstream). luish-extra itself is MIT (`COPYING.MIT`, as luish's).
 
-`conda` is another plugin beside `complete` (`extra/conda`): `plugin.toml` declares its options (`root`, `env`) and
+`conda` is another plugin beside `completion` (`extra/conda`): `plugin.toml` declares its options (`root`, `env`) and
 `rc.lsh` runs conda's bash hook and `conda activate ENV` in a `__luish_cache` block, whose `env=` and `files=` are what
 the hook and the activation read (the comment at the top of `rc.lsh` says why each); a failure `return`s, so that it
 isn't cached. `tests/conda.sh` stands in for conda with a script in `~/miniconda3` that logs its calls, and sets
@@ -88,7 +88,7 @@ block, keyed on the aliases and installed versions. luish's `.` doesn't pass arg
 caller's `$@`), so nvm.sh is read from a function called with `--no-use`. `tests/nvm.sh` stands in for nvm with an
 nvm.sh in `~/.nvm` that logs its calls.
 
-`complete/extra-lib` is a library plugin (`library = true` in its `plugin.toml`, which is its only entry point; `plugin
+`completion/extra-lib` is a library plugin (`library = true` in its `plugin.toml`, which is its only entry point; `plugin
 list-available` leaves it out) of helpers the others share: `files.rhai` (`with_suffix(cur, suffixes)`, and with a third
 argument, directories to leave out; `compressed(suffixes)`), `text.rhai` (`is_name`, `last_of`, `last_index`, `indent`,
 `ident`) and `help.rhai`, which the `dynamic.rhai` modules use: `help::spec(PATH, how)` reads a spec from the `-h` of a
@@ -133,9 +133,9 @@ environment with Bioconda, so nothing is installed):
   still `/dev/null`). The generators stop at an option they have no kind for (`KINDS`, `VALUES`, `ARGS` in each), so a
   new version's options get looked at. Edit the generator and run it (`python3 scripts/gen/mk_align.py`), not the
   `.rhai`; to move to a new version, change the pin, rerun, read the diff of the module and of the tests' `.expected`,
-  and update the version in `completion-todo.md`. The other modules are written by hand. `PLUGIN=complete/science
+  and update the version in `completion-todo.md`. The other modules are written by hand. `PLUGIN=completion/science
   scripts/optcheck.sh ...` checks a spec of `science` (`HELP='--help=#all'` for aria2c; `HELP=-help` for duckdb), and
-  `PLUGIN=complete/dev` one of `dev`.
+  `PLUGIN=completion/dev` one of `dev`.
 - Never run a tool with its standard input on a terminal: `samtools sort` waits for it. Use `</dev/null`.
 
 Tests (`tests/run.sh`, cases `tests/PLUGIN_*.sh` with `.expected`) load std's `completion` plugin and this repo's
@@ -162,6 +162,8 @@ sphinx-build -W docs docs/_build
   remove commands here first.
 - `completion-todo.md`: a checkbox list derived from `docs/completion.md`, one line per command. Keep the two in
   step (tick a command when its spec and test exist); the TODO has no generator script.
+- `ChangeLog`: what users would notice, in luish's format (an `Unreleased` section on top, `* ` entries wrapped at 72
+  columns); a change that needs users to edit their config says how.
 
 ## Design decisions to keep in mind
 
@@ -169,7 +171,7 @@ sphinx-build -W docs docs/_build
   colours, plugin options, `sh::capture_cached`). Every `plugin.toml` says so (`luish-version = "0.5"`, after
   `description`, if any), so that an older luish doesn't load it; a new plugin does too, and raising the minimum
   changes them all. The docs add the whole repository as a source (`extra = { gh = "luispedro/luish-extra" }`, plugins
-  `extra/complete/bio`, ...).
+  `extra/completion/bio`, ...).
 - Run programs with `sh::capture(["prog", arg, ...])` (no shell parsing; stdin is /dev/null, stderr discarded unless
   a second argument says `"merge"`, `"return"` or `"inherit"`; variables through `env`), not by building a shell
   string. A program whose output changes seldom (help text, lists of formats, rules or themes) goes through
@@ -179,16 +181,16 @@ sphinx-build -W docs docs/_build
   that pass the line (`aws_completer`) aren't cached, as std's aren't. Find programs with `sh::which(name)` and list
   them with `sh::commands(prefix)`, so that PATH is searched as luish searches it; don't walk `PATH` in Rhai.
 - **Nothing depends on the name the user gives the source.** Users add the repository as a source under a name of
-  their choice (the docs say `extra`, so the plugins are `extra/complete/bio`, ...), or the `complete/` directory alone
-  (`subdir = "complete"`: `extra-complete/bio`). So never write `@SOURCE/...`: import this repository's modules by
+  their choice (the docs say `extra`, so the plugins are `extra/completion/bio`, ...), or the `completion/` directory alone
+  (`subdir = "completion"`: `extra-completion/bio`). So never write `@SOURCE/...`: import this repository's modules by
   relative path (`import "kinds"`, `import "../extra-lib/files"`), and name kinds and `sub_spec` with each module's
   `fn own(name) { sh::plugin_dir() + "/" + name }` (`own("kinds:fasta")`, the module's absolute path, which std's
   engine imports). Only std is named (`@std/completion/...`). The plugins can be enabled one by one
-  (`extra.complete.bio`), or all at once as `extra.complete.all`: `complete/all` is
+  (`extra.completion.bio`), or all at once as `extra.completion.all`: `completion/all` is
   only a `plugin.toml` that depends on the others (a new user-facing plugin goes in its `[dependencies]`, and in the
-  `all_load` test). `complete/` itself must not get a `plugin.toml` or any other entry point: luish would then take
-  it as one plugin, not a collection, and both `extra.complete.bio` and the plain-name dependencies (`extra-lib =
-  "*"`) would stop resolving. Other kinds of plugin go beside `complete/`, as a plugin (`themes/`) or a further
+  `all_load` test). `completion/` itself must not get a `plugin.toml` or any other entry point: luish would then take
+  it as one plugin, not a collection, and both `extra.completion.bio` and the plain-name dependencies (`extra-lib =
+  "*"`) would stop resolving. Other kinds of plugin go beside `completion/`, as a plugin (`themes/`) or a further
   collection.
 - Completion is by **command name, not Bioconda package name** (`star` → `STAR`, `subread` → `featureCounts`,
   `entrez-direct` → `esearch`/`efetch`). Check the real executables.

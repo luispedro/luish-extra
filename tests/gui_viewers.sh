@@ -1,5 +1,5 @@
 # cytoscape (and Cytoscape, cytoscape.sh): -s takes a session (.cys) file, and the program takes no other arguments.
-__luish_internal plugin load "$EXTRA/complete/gui"
+__luish_internal plugin load "$EXTRA/completion/gui"
 echo "load $?"
 c() {
     echo "--- $1"

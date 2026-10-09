@@ -1,4 +1,4 @@
-"""Generates ../../complete/science/snakemake.rhai for snakemake, from its argparse parser at a pinned version.
+"""Generates ../../completion/science/snakemake.rhai for snakemake, from its argparse parser at a pinned version.
 
     python3 scripts/gen/mk_snakemake.py
 """
@@ -39,7 +39,7 @@ def kind_of(names, mv, choices):
 
 actions = gen.argparse_dump(PKG, "snakemake.cli", "get_argument_parser")
 body = gen.emit_argparse(actions, kind_of, 12, "        args: [" + K("snakemake_targets") + "],")
-open(gen.REPO + "/complete/science/snakemake.rhai", "w").write(f"""// snakemake 9.27.0, from its argparse parser (`snakemake --help`). The targets are the rules of the
+open(gen.REPO + "/completion/science/snakemake.rhai", "w").write(f"""// snakemake 9.27.0, from its argparse parser (`snakemake --help`). The targets are the rules of the
 // Snakefile, and the files of the directory.
 
 // This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.

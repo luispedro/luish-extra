@@ -1,6 +1,6 @@
 # Read QC, trimming and filtering: fastp, fastqc, falco, cutadapt, trimmomatic, trim_galore, fastq_screen, seqtk,
 # filtlong, chopper, nanoq, rasusa, porechop, NanoPlot, NanoFilt, NanoStat; seqkit (Cobra, through std's bridge).
-__luish_internal plugin load "$EXTRA/complete/bio"
+__luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 c() {
     echo "--- $1"

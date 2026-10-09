@@ -1,5 +1,5 @@
 # Writing: pandoc (its formats and extensions are asked of the installed pandoc, stood in for by tests/bin/pandoc).
-__luish_internal plugin load "$EXTRA/complete/science"
+__luish_internal plugin load "$EXTRA/completion/science"
 echo "load $?"
 c() {
     echo "--- $1"

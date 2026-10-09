@@ -1,6 +1,6 @@
 # pytest: test files, the tests in a file (`FILE::CLASS::TEST`), markers from the configuration files,
 # the settings of -o, and the options of pytest-xdist and pytest-cov.
-__luish_internal plugin load "$EXTRA/complete/dev"
+__luish_internal plugin load "$EXTRA/completion/dev"
 echo "load $?"
 c() {
     echo "--- $1"

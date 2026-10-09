@@ -1,6 +1,6 @@
 # mpv: its options are read from `mpv --list-options`, and the values of --vo, --vf, --hwdec, --profile and
 # --audio-device from `mpv --NAME=help`, of tests/bin/mpv, a stand-in (mpv 0.41.0's, cut short).
-__luish_internal plugin load "$EXTRA/complete/gui"
+__luish_internal plugin load "$EXTRA/completion/gui"
 echo "load $?"
 c() {
     echo "--- $1"

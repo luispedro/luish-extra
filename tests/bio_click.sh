@@ -1,7 +1,7 @@
-# Programs built with Click, completed by std's Click bridge (complete/bio/extension.rhai).
+# Programs built with Click, completed by std's Click bridge (completion/bio/extension.rhai).
 # The programs are stand-ins made here, one for each command: they answer
 # _PROG_COMPLETE=fish_complete as Click does, and print usage otherwise.
-__luish_internal plugin load "$EXTRA/complete/bio"
+__luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 c() {
     echo "--- $1"

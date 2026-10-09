@@ -1,7 +1,7 @@
 # borg (repositories as directories or HOST:, `::` for an archive of BORG_REPO) and fusermount. The FUSE mount
 # points come from the machine's /proc/mounts, so only a path that none can match is tried, and the hosts
 # from its /etc/hosts, so repositories are only completed from a word that no host starts with.
-__luish_internal plugin load "$EXTRA/complete/system"
+__luish_internal plugin load "$EXTRA/completion/system"
 echo "load $?"
 c() {
     echo "--- $1"
