@@ -155,10 +155,10 @@ expand               #d33682
 expand.tilde         #d33682
 expand.brace         #d33682
 expand.glob          #d33682
-op                   bold
-op.control           bold
-op.pipe              bold
-redir                bold
+op                   bold #93a1a1
+op.control           bold #93a1a1
+op.pipe              bold #93a1a1
+redir                bold #93a1a1
 redir.fd             bold #cb4b16
 assign               #b58900
 comment              italic #586e75
@@ -214,10 +214,10 @@ expand               #d33682
 expand.tilde         #d33682
 expand.brace         #d33682
 expand.glob          #d33682
-op                   bold
-op.control           bold
-op.pipe              bold
-redir                bold
+op                   bold #586e75
+op.control           bold #586e75
+op.pipe              bold #586e75
+redir                bold #586e75
 redir.fd             bold #cb4b16
 assign               #b58900
 comment              italic #93a1a1
@@ -272,10 +272,10 @@ expand               #fe8019
 expand.tilde         #fe8019
 expand.brace         #fe8019
 expand.glob          #fe8019
-op                   bold
-op.control           bold
-op.pipe              bold
-redir                bold
+op                   bold #ebdbb2
+op.control           bold #ebdbb2
+op.pipe              bold #ebdbb2
+redir                bold #ebdbb2
 redir.fd             bold #d3869b
 assign               #83a598
 comment              italic #928374
@@ -331,10 +331,10 @@ expand               #af3a03
 expand.tilde         #af3a03
 expand.brace         #af3a03
 expand.glob          #af3a03
-op                   bold
-op.control           bold
-op.pipe              bold
-redir                bold
+op                   bold #3c3836
+op.control           bold #3c3836
+op.pipe              bold #3c3836
+redir                bold #3c3836
 redir.fd             bold #8f3f71
 assign               #076678
 comment              italic #928374

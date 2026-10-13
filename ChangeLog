@@ -1,4 +1,8 @@
 Unreleased
+    * themes: gruvbox and solarized give operators and redirections
+      (|, &&, >) a colour of the palette (gruvbox's text colour,
+      solarized's emphasized grey), not the terminal's bold default,
+      which some terminals drew too dark
     * complete/ is now completion/, as std's completion plugin: the
       plugins are extra/completion/bio, ... (were extra/complete/bio);
       config.toml needs the new names (extra.completion.all = "*")

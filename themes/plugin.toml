@@ -95,13 +95,15 @@ match = "bold bg:white"
 
 # ---------------------------------------------------------------------------------------------------------------------
 # solarized: the same accents on both backgrounds; only the greys change. A match is reversed yellow, as Solarized's
-# Vim scheme has its search matches.
+# Vim scheme has its search matches. Operators are in the grey Solarized gives emphasized text (base1 on dark, base01
+# on light), not left to the terminal's bold default, which some terminals draw too dark; its own colour for them is
+# its keywords' green.
 #   Source: Solarized, by Ethan Schoonover, https://github.com/altercation/solarized (MIT; LICENSES/solarized.txt);
 #   the terminal's colours as its README maps them (the 16/8 column), with base0 and base00 for the text and cursor,
 #   as its Vim scheme has them.
 #   yellow #b58900  orange #cb4b16  red #dc322f  magenta #d33682  violet #6c71c4  blue #268bd2  cyan #2aa198
-#   green #859900;  dark: base03 #002b36 (background) base02 #073642 base01 #586e75 (comments)
-#   light: base3 #fdf6e3 (background) base2 #eee8d5 base1 #93a1a1 (comments)
+#   green #859900;  dark: base03 #002b36 (background) base02 #073642 base01 #586e75 (comments) base1 #93a1a1
+#   (emphasized); light: base3 #fdf6e3 (background) base2 #eee8d5 base1 #93a1a1 (comments) base01 #586e75 (emphasized)
 
 [colorscheme.solarized-dark]
 keyword = "bold #859900"
@@ -123,8 +125,8 @@ var = "#b58900"
 "var.unset" = "italic #dc322f"
 subst = "#d33682"
 expand = "#d33682"
-op = "bold"
-redir = "bold"
+op = "bold #93a1a1"
+redir = "bold #93a1a1"
 "redir.fd" = "#cb4b16"
 assign = "#b58900"
 comment = "italic #586e75"
@@ -152,6 +154,8 @@ palette = [
 
 [colorscheme.solarized-light]
 inherits = "solarized-dark"
+op = "bold #586e75"
+redir = "bold #586e75"
 comment = "italic #93a1a1"
 "menu.selected" = "bold bg:#eee8d5"
 "menu.description" = "#93a1a1"
@@ -170,11 +174,12 @@ cursor = "#657b83"
 #   its README and package.json say); the terminal's colours as gruvbox.vim gives them to Neovim's terminal
 #   (g:terminal_color_0 to 15), with fg1 for the text and the cursor (its Cursor is the text reversed).
 #   dark:  red #fb4934 green #b8bb26 yellow #fabd2f blue #83a598 purple #d3869b aqua #8ec07c orange #fe8019
-#          gray #928374 bg1 #3c3836 bg2 #504945 bg3 #665c54 bg4 #7c6f64 (background #282828)
+#          gray #928374 bg1 #3c3836 bg2 #504945 bg3 #665c54 bg4 #7c6f64 fg1 #ebdbb2 (background #282828)
 #   light: red #9d0006 green #79740e yellow #b57614 blue #076678 purple #8f3f71 aqua #427b58 orange #af3a03
-#          gray #928374 bg1 #ebdbb2 bg2 #d5c4a1 bg3 #bdae93 (background #fbf1c7)
+#          gray #928374 bg1 #ebdbb2 bg2 #d5c4a1 bg3 #bdae93 fg1 #3c3836 (background #fbf1c7)
 # Keywords are red, as gruvbox has them, so unknown commands are also underlined; numbers (file descriptors) are
-# purple, as its constants.
+# purple, as its constants. Operators are fg1, as gruvbox's Operator is its Normal text, written out because a
+# terminal may draw bold text in its default colour darker.
 
 [colorscheme.gruvbox-dark]
 keyword = "bold #fb4934"
@@ -196,8 +201,8 @@ var = "#83a598"
 "var.unset" = "italic #fb4934"
 subst = "bold #d3869b"
 expand = "#fe8019"
-op = "bold"
-redir = "bold"
+op = "bold #ebdbb2"
+redir = "bold #ebdbb2"
 "redir.fd" = "#d3869b"
 assign = "#83a598"
 comment = "italic #928374"
@@ -244,6 +249,8 @@ var = "#076678"
 "var.unset" = "italic #9d0006"
 subst = "bold #8f3f71"
 expand = "#af3a03"
+op = "bold #3c3836"
+redir = "bold #3c3836"
 "redir.fd" = "#8f3f71"
 assign = "#076678"
 error = "underline #9d0006"
