@@ -608,7 +608,10 @@ them in the same way. A tick with `(Cobra)` means the program answers with its s
 - [x] `coverm`: coverm 0.8.0
 - [x] `vamb`: vamb 5.0.4
 - [ ] `genomad`: Click, 1.4 s: `complete-click genomad`
-- [ ] `emapper.py`
+- [x] `emapper.py`: eggnog-mapper 2.1.15
+- [x] `download_eggnog_data.py`: eggnog-mapper 2.1.15
+- [x] `create_dbs.py`: eggnog-mapper 2.1.15
+- [x] `hmm_mapper.py`: eggnog-mapper 2.1.15
 - [ ] `mothur`
 - [ ] `qiime`
 - [ ] `picrust2`

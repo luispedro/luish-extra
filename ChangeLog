@@ -1,4 +1,7 @@
 Unreleased
+    * bio: completion for eggnog-mapper (emapper.py, with its taxonomic
+      scopes for --tax_scope; download_eggnog_data.py, create_dbs.py,
+      hmm_mapper.py)
     * bio: completion for vsearch and for cd-hit (cd-hit, cd-hit-est,
       cd-hit-2d, cd-hit-est-2d, cd-hit-454)
     * conda: looks for conda in PATH without forking, in every shell

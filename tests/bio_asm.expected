@@ -248,3 +248,110 @@ data/ont.fastq
 data/r1.fq.gz 
 data/r2.fq.gz 
 data/sub/
+=== emapper.py
+--- emapper.py --sensm
+--sensmode=	diamond's sensitivity mode
+--- emapper.py -m 
+cache 
+diamond 
+hmmer 
+mmseqs 
+no_search 
+novel_fams 
+--- emapper.py -i data/
+data/contigs.fa 
+data/sub/
+--- emapper.py --itype 
+CDS 
+genome 
+metagenome 
+proteins 
+--- emapper.py --dmnd_db data/
+data/eggnog_proteins.dmnd 
+data/sub/
+--- emapper.py --tax_scope 
+all 
+all_broad 
+all_narrow 
+archaea 
+auto 	the same as all
+auto_broad 	the same as all_broad
+bacteria 
+bacteria_broad 
+bio_asm.sh 
+busco_downloads/
+data/
+dl/
+eukaryota 
+eukaryota_broad 
+none 	don't filter by taxonomic scope
+prokaryota_broad 
+--- emapper.py --tax_scope data/
+data/a.bam 
+data/contigs.fa 
+data/eggnog_proteins.dmnd 
+data/genes.gff 
+data/models.hmm 
+data/notes.txt 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/
+--- emapper.py --tax_scope_mode inner
+inner_broadest 	the broadest clade in --tax_scope
+inner_narrowest 	the narrowest clade in --tax_scope
+--- emapper.py --decorate_gff 
+busco_downloads/
+data/
+dl/
+no 	no GFF decoration
+yes 	decorate the GFF of gene prediction
+--- emapper.py --decorate_gff data/
+data/genes.gff 
+data/sub/
+--- emapper.py --data_dir data/
+data/sub/
+--- emapper.py -d 
+arch 
+bact 
+euk 
+=== download_eggnog_data.py, create_dbs.py, hmm_mapper.py
+--- download_eggnog_data.py -
+--data_dir=	directory of the eggnog-mapper databases
+--dbname=	name of the directory of the HMM database (with -H -d)
+-D 	don't install the Diamond database
+-F 	install the novel families databases (emapper.py -m novel_fams)
+-H 	install the HMMER database of -d (emapper.py -m hmmer)
+-M 	install the MMseqs2 database (emapper.py -m mmseqs)
+-P 	install the Pfam database (de novo annotation or realignment)
+-d 	tax ID of the eggNOG HMM database to download (with -H)
+-f 	download even if the files exist
+-h 	show this help message and exit
+-q 	quiet mode
+-s 	print the commands without downloading
+-y 	assume "yes" to all questions
+--- download_eggnog_data.py --data_dir data/
+data/sub/
+--- create_dbs.py -m 
+diamond 
+mmseqs 
+--- hmm_mapper.py --qtype 
+hmm 
+seq 
+--- hmm_mapper.py -d data/
+data/a.bam 
+data/contigs.fa 
+data/eggnog_proteins.dmnd 
+data/genes.gff 
+data/models.hmm 
+data/notes.txt 
+data/ont.fastq 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/sub/
+--- hmm_mapper.py --hmm_
+--hmm_evalue=	e-value threshold
+--hmm_maxhits=	max number of hits to report (0 to report all)
+--hmm_maxseqlen=	ignore query sequences longer than this
+--hmm_qcov=	minimum query coverage (0-1)
+--hmm_score=	bit score threshold

@@ -211,6 +211,28 @@ fn cutadapt_adapter(cur) {
     [#{value: "file:", desc: "adapters from a FASTA file", suffix: ""}]
 }
 
+// The words of `words` (each a string, or `[value, desc]`) with the
+// candidates of `r`, a listing of files, when `cur` has no directory.
+fn with_words(r, words) {
+    if r.prefix == "" {
+        for w in words {
+            r.candidates.push(if type_of(w) == "array" { #{value: w[0], desc: w[1]} } else { w });
+        }
+    }
+    r
+}
+
+// The taxonomic scopes that come with eggnog-mapper (its
+// eggnogmapper/annotation/tax_scopes/, 2.1.15), for emapper.py's --tax_scope,
+// which also takes a file of tax IDs and names.
+fn emapper_tax_scopes() {
+    [
+        ["auto", "the same as all"], ["auto_broad", "the same as all_broad"], "all", "all_broad", "all_narrow",
+        "archaea", "bacteria", "bacteria_broad", "eukaryota", "eukaryota_broad", "prokaryota_broad",
+        ["none", "don't filter by taxonomic scope"],
+    ]
+}
+
 // BUSCO's datasets: those of the list that busco downloads first
 // (`file_versions.tsv` in its download directory, `--download_path` or
 // `busco_downloads`), with their domain, and those it has downloaded (in
@@ -312,6 +334,21 @@ fn kind(name, cur, words) {
         "vcf_samples" => vcf_samples(words),
         "trimmomatic_step" => trimmomatic_step(cur),
         "cutadapt_adapter" => cutadapt_adapter(cur),
+        "emapper_tax_scope" => with_words(std_kinds::listing(cur, "", false), emapper_tax_scopes()),
+        // the clade of the seed ortholog, or a second scope as in --tax_scope
+        "emapper_tax_scope_mode" => with_words(
+            std_kinds::listing(cur, "", false),
+            [
+                ["broadest", "the broadest clade"],
+                ["inner_broadest", "the broadest clade in --tax_scope"],
+                ["inner_narrowest", "the narrowest clade in --tax_scope"],
+                ["narrowest", "the narrowest clade"],
+            ] + emapper_tax_scopes()
+        ),
+        "emapper_gff" => with_words(
+            kind("gff", cur, words),
+            [["no", "no GFF decoration"], ["yes", "decorate the GFF of gene prediction"]]
+        ),
         "busco_lineage" => busco_datasets(cur, words, false),
         "busco_download" => busco_datasets(cur, words, true),
         _ => throw `unknown kind: ${name}`,

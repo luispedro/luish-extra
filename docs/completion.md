@@ -119,7 +119,8 @@ the rest of the `ucsc-*` packages
 `humann_rename_table`, `humann_split_table`, `humann_reduce_table`, `humann_unpack_pathways`, `humann_barplot`),
 `motus`, `checkm`, `checkm2`, `checkv`, `gunc`, `singlem`, `gtdbtk`, `metabat2` (`jgi_summarize_bam_contig_depths`),
 `concoct` (`concoct_coverage_table.py`, `cut_up_fasta.py`, `merge_cutup_clustering.py`, `extract_fasta_bins.py`),
-`run_MaxBin.pl` (MaxBin), `DAS_Tool` (`Fasta_to_Contig2Bin.sh`), `dRep`, `coverm`, `vamb`, `genomad`, `emapper.py`, `mothur`, `qiime`, `picrust2`, `humann`, `krona`, `abricate`,
+`run_MaxBin.pl` (MaxBin), `DAS_Tool` (`Fasta_to_Contig2Bin.sh`), `dRep`, `coverm`, `vamb`, `genomad`, `emapper.py`
+(`download_eggnog_data.py`, `create_dbs.py`, `hmm_mapper.py`), `mothur`, `qiime`, `picrust2`, `humann`, `krona`, `abricate`,
 `amrfinder`, `rgi`, `mlst`, `snippy`, `roary`, `panaroo`, `ppanggolin`, `gubbins`, `prokka`, `srst2`, `sistr`,
 `ectyper`, `seqsero2`, `kleborate`, `ariba`, `staramr`, `mykrobe`, `tb-profiler`, `bactopia`, `anvi-*` (anvio),
 `phispy`, `antismash`, `metawrap`, `phyloflash`, `graftm`, `dram`, `vibrant`, `virsorter`, `vcontact2`, `iphop`,

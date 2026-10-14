@@ -17,7 +17,8 @@ FASTA, BAM, index prefixes of aligners, reference names and samples of VCFs, ...
 STAR, kallisto, featureCounts), `blast.rhai` (BLAST+), `diamond.rhai`, `hmmer.rhai`, `reads.rhai` (read QC, trimming and
 filtering: fastp, fastqc, falco, cutadapt, trimmomatic, trim_galore, fastq_screen, seqtk, filtlong, chopper, nanoq,
 rasusa, porechop, NanoPlot, NanoFilt, NanoStat), `asm.rhai` (assembly and annotation: spades.py, metaspades.py, megahit,
-flye, quast, metaquast, busco, prodigal, prokka, bakta, barrnap), `meta.rhai` (metagenomics and microbial genomics:
+flye, quast, metaquast, busco, prodigal, prokka, bakta, barrnap, and eggnog-mapper's emapper.py,
+download_eggnog_data.py, create_dbs.py and hmm_mapper.py), `meta.rhai` (metagenomics and microbial genomics:
 rgi, so far), `cluster.rhai` (sequence clustering: vsearch, cd-hit, cd-hit-est, cd-hit-2d, cd-hit-est-2d and
 cd-hit-454), `profile.rhai` (taxonomic and functional profiling: kraken2, bracken, krakenuniq, centrifuge, kaiju,
 metaphlan, humann, motus, and the programs that come with them: kraken2-build, k2, kaiju2table, strainphlan,

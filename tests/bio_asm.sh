@@ -1,5 +1,5 @@
 # Assembly and annotation: spades.py, metaspades.py, megahit, flye, quast, metaquast, busco, prodigal, prokka, bakta,
-# barrnap.
+# barrnap, emapper.py, download_eggnog_data.py, create_dbs.py, hmm_mapper.py.
 __luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 c() {
@@ -8,7 +8,7 @@ c() {
 }
 mkdir -p data/sub
 touch data/r1.fq.gz data/r2.fq.gz data/ont.fastq data/contigs.fa data/genes.gff data/a.bam data/models.hmm
-touch data/notes.txt
+touch data/notes.txt data/eggnog_proteins.dmnd
 echo "=== spades.py, metaspades.py"
 c 'spades.py --pe-'
 c 'spades.py -1 data/'
@@ -59,3 +59,23 @@ c 'bakta data/'
 c 'barrnap --kingdom '
 c 'barrnap --no-'
 c 'barrnap data/'
+echo "=== emapper.py"
+c 'emapper.py --sensm'
+c 'emapper.py -m '
+c 'emapper.py -i data/'
+c 'emapper.py --itype '
+c 'emapper.py --dmnd_db data/'
+c 'emapper.py --tax_scope '
+c 'emapper.py --tax_scope data/'
+c 'emapper.py --tax_scope_mode inner'
+c 'emapper.py --decorate_gff '
+c 'emapper.py --decorate_gff data/'
+c 'emapper.py --data_dir data/'
+c 'emapper.py -d '
+echo "=== download_eggnog_data.py, create_dbs.py, hmm_mapper.py"
+c 'download_eggnog_data.py -'
+c 'download_eggnog_data.py --data_dir data/'
+c 'create_dbs.py -m '
+c 'hmm_mapper.py --qtype '
+c 'hmm_mapper.py -d data/'
+c 'hmm_mapper.py --hmm_'
