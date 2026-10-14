@@ -1,0 +1,349 @@
+load 0
+=== vsearch
+--- vsearch --cluster_
+--cluster_fast=	cluster sequences after sorting by length
+--cluster_size=	cluster sequences after sorting by abundance
+--cluster_smallmem=	cluster already sorted sequences
+--cluster_unoise=	denoise Illumina amplicon reads
+--- vsearch --cluster_fast data/
+data/prot.faa 
+data/reads.fq.gz 
+data/seqs.fasta 
+data/sub/
+--- vsearch --fastq_mergepairs data/
+data/reads.fq.gz 
+data/sub/
+--- vsearch --cluster_fast data/seqs.fasta --id 0.97 --centroids data/
+data/db.udb 
+data/notes.txt 
+data/prot.faa 
+data/reads.fq.gz 
+data/seqs.fasta 
+data/sub/
+--- vsearch --usearch_global data/seqs.fasta --db data/
+data/db.udb 
+data/notes.txt 
+data/prot.faa 
+data/reads.fq.gz 
+data/seqs.fasta 
+data/sub/
+--- vsearch --qmask 
+dust 
+none 
+soft 
+--- vsearch --strand 
+both 
+plus 
+--- vsearch --iddef 
+0 	CD-HIT
+1 	all differences
+2 	internal gaps
+3 	MBL
+4 	BLAST
+--- vsearch --fastq_minm
+--fastq_minmergelen=	minimum length of entire merged sequence
+--- vsearch -
+--abskew=	minimum abundance ratio
+--acceptall 	output all pairwise alignments
+--alignwidth=	width of alignments in alignment output
+--allow_fewer 	accept fewer reads than --sample_size, do not fail
+--allpairs_global=	perform global alignment of all sequence pairs
+--alnout=	filename for human-readable alignment output
+--biomout=	filename for OTU table output in biom 1.0 format
+--blast6out=	filename for blast-like tab-separated output
+--borderline=	output borderline chimeric sequences to file
+--bzip2_decompress 	decompress input with bzip2
+--centroid_sizeout 	write centroid abundances to centroid file
+--centroids=	output centroid sequences to FASTA file
+--chimeras=	output chimeric sequences to file
+--chimeras_denovo=	detect chimeras de novo in long exact sequences
+--chimeras_diff_pct=	mismatch % allowed in each chimeric region
+--chimeras_length_min=	minimum length of each chimeric region
+--chimeras_parents_max=	maximum number of parent sequences
+--chimeras_parts=	number of parts to divide sequences
+--cluster_fast=	cluster sequences after sorting by length
+--cluster_size=	cluster sequences after sorting by abundance
+--cluster_smallmem=	cluster already sorted sequences
+--cluster_unoise=	denoise Illumina amplicon reads
+--clusterout_id 	add cluster id info to consout and profile files
+--clusterout_sort 	order msaout, consout, profile by decr abundance
+--clusters=	output each cluster to a separate FASTA file
+--cons_truncate 	do not ignore terminal gaps in MSA for consensus
+--consout=	output cluster consensus sequences to FASTA file
+--cut=	filename of FASTA formatted input sequences
+--cut_pattern=	pattern to match with ^ and _ at cut sites
+--db=	reference database (FASTA, or UDB)
+--dbmask=	mask db seqs with dust, soft or no method
+--dbmatched=	FASTA file for matching database sequences
+--dbnotmatched=	FASTA file for non-matching database sequences
+--derep_fulllength=	dereplicate sequences in the given FASTA file
+--derep_id=	dereplicate using both identifiers and sequences
+--derep_prefix=	dereplicate sequences in file based on prefixes
+--derep_smallmem=	dereplicate sequences in file using less memory
+--dn=	'no' vote pseudo-count
+--ee_cutoffs=	fastq_eestats2 expected error cutoffs
+--eeout 	include expected errors in output
+--eetabbedout=	output error statistics to specified file
+--fasta2fastq=	convert from FASTA to FASTQ, fake quality scores
+--fasta_score 	include chimera score in FASTA output
+--fasta_width=	width of FASTA seq lines, 0 for no wrap
+--fastaout=	FASTA output filename
+--fastaout_discarded=	FASTA filename for discarded sequences
+--fastaout_discarded_rev=	FASTA filename for discarded reverse sequences
+--fastaout_notmerged_fwd=	FASTA filename for non-merged forward sequences
+--fastaout_notmerged_rev=	FASTA filename for non-merged reverse sequences
+--fastaout_orphans=	FASTA filename for unpaired forward reads
+--fastaout_orphans_rev=	FASTA filename for unpaired reverse reads
+--fastaout_rev=	FASTA filename for reverse sequences
+--fastapairs=	FASTA file with pairs of query and target
+--fastq_allowmergestagger 	allow merging of staggered reads
+--fastq_ascii=	FASTQ input quality score ASCII base char
+--fastq_asciiout=	FASTQ output quality score ASCII base char
+--fastq_chars=	analyse FASTQ file for version and quality range
+--fastq_convert=	convert between FASTQ file formats
+--fastq_eeout 	include expected errors (ee) in FASTQ output
+--fastq_eestats2=	expected error and length cutoff statistics
+--fastq_eestats=	quality score and expected error statistics
+--fastq_filter=	trim and filter sequences in FASTQ file
+--fastq_join=	join paired-end reads into one sequence with gap
+--fastq_maxdiffpct=	maximum percentage of different bases in overlap
+--fastq_maxdiffs=	maximum number of different bases in overlap
+--fastq_maxee=	maximum expected error value for merged sequence
+--fastq_maxee_rate=	discard if expected error rate is higher
+--fastq_maxlen=	discard if length of sequence is longer
+--fastq_maxmergelen=	maximum length of entire merged sequence
+--fastq_maxns=	maximum number of N's
+--fastq_mergepairs=	merge paired-end reads into one sequence
+--fastq_minlen=	minimum input read length after truncation
+--fastq_minmergelen=	minimum length of entire merged sequence
+--fastq_minovlen=	minimum length of overlap between reads
+--fastq_minqual=	discard if any base quality value lower
+--fastq_nostagger 	disallow merging of staggered reads
+--fastq_qmax=	maximum base quality value for FASTQ input
+--fastq_qmaxout=	maximum base quality value for FASTQ output
+--fastq_qmin=	minimum base quality value for FASTQ input
+--fastq_qminout=	minimum base quality value for FASTQ output
+--fastq_qout_max 	keep the highest quality score in each position
+--fastq_stats=	report statistics on FASTQ file
+--fastq_stripleft=	delete given number of bases from the 5' end
+--fastq_stripright=	delete given number of bases from the 3' end
+--fastq_tail=	min length of tails to count for fastq_chars
+--fastq_truncee=	truncate to given maximum expected error
+--fastq_truncee_rate=	truncate to given maximum expected error rate
+--fastq_trunclen=	truncate to given length (discard if shorter)
+--fastq_trunclen_keep=	truncate to given length (keep if shorter)
+--fastq_truncqual=	base quality value for truncation
+--fastqout=	FASTQ output filename
+--fastqout_discarded=	FASTQ filename for discarded sequences
+--fastqout_discarded_rev=	FASTQ filename for discarded reverse sequences
+--fastqout_notmerged_fwd=	FASTQ filename for non-merged forward sequences
+--fastqout_notmerged_rev=	FASTQ filename for non-merged reverse sequences
+--fastqout_orphans=	FASTQ filename for unpaired forward reads
+--fastqout_orphans_rev=	FASTQ filename for unpaired reverse reads
+--fastqout_rev=	FASTQ filename for synced reverse reads
+--fastx_filter=	trim and filter sequences in FASTA/FASTQ file
+--fastx_getseq=	extract one sequence by label from FASTA/FASTQ
+--fastx_getseqs=	extract sequences by label from FASTA/FASTQ file
+--fastx_getsubseq=	extract a subsequence by label and position
+--fastx_mask=	mask sequences in the given FASTA or FASTQ file
+--fastx_revcomp=	reverse-complement seqs in FASTA or FASTQ file
+--fastx_subsample=	subsample sequences from given FASTA/FASTQ file
+--fastx_syncpairs=	reorder paired reads to match across both files
+--fastx_uniques=	dereplicate sequences in the FASTA/FASTQ file
+--fulldp 	full dynamic programming alignment
+--gapext=	penalties for gap extension
+--gapopen=	penalties for gap opening
+--gzip_decompress 	decompress input with gzip
+--hardmask 	mask by replacing with N instead of lower case
+--id=	reject if identity lower, accepted values: 0-1.0
+--iddef=	id definition, 0-4=CD-HIT,all,int,MBL,BLAST
+--idprefix=	reject if first n nucleotides do not match
+--idsuffix=	reject if last n nucleotides do not match
+--join_padgap=	sequence string used for padding
+--join_padgapq=	quality string used for padding
+--label=	label to match, by default the whole header
+--label_field=	field for word matching, for --fastx_getseqs
+--label_substr_match 	allow the label to match anywhere in the header
+--label_suffix=	label to append to identifier in the output
+--label_word=	case-sensitive word, for --fastx_getseqs
+--label_words=	file of words to match, for --fastx_getseqs
+--labels=	file of labels to match, for --fastx_getseqs
+--lca_cutoff=	fraction of matching hits required for LCA
+--lcaout=	output LCA of matching sequences to file
+--leftjust 	reject if terminal gaps at alignment left end
+--length_cutoffs=	fastq_eestats2 length (min,max,incr)
+--lengthout 	write length annotation to output
+--log=	write messages, timing and memory info to file
+--makeudb_usearch=	make UDB file from given FASTA file
+--maskfasta=	mask sequences in the given FASTA file
+--match=	score for match
+--matched=	FASTA file for matching query sequences
+--max_unmasked_pct=	max unmasked % of sequences to keep
+--maxaccepts=	number of hits to accept and show per strand
+--maxdiffs=	reject if more substitutions or indels
+--maxgaps=	reject if more indels
+--maxhits=	maximum number of hits to show
+--maxid=	reject if identity higher
+--maxqsize=	reject if query abundance larger
+--maxqt=	reject if query/target length ratio higher
+--maxrejects=	number of non-matching hits to consider
+--maxseqlength=	maximum sequence length
+--maxsize=	maximum abundance
+--maxsizeratio=	reject if query/target abundance ratio higher
+--maxsl=	reject if shorter/longer length ratio higher
+--maxsubs=	reject if more substitutions
+--maxuniquesize=	maximum abundance for output from dereplication
+--mid=	reject if percent identity lower, ignoring gaps
+--min_unmasked_pct=	min unmasked % of sequences to keep
+--mincols=	reject if alignment length shorter
+--mindiffs=	minimum number of differences in segment
+--mindiv=	minimum divergence from closest parent
+--minh=	minimum score
+--minqt=	reject if query/target length ratio lower
+--minseqlength=	min seq length
+--minsize=	minimum abundance
+--minsizeratio=	reject if query/target abundance ratio lower
+--minsl=	reject if shorter/longer length ratio lower
+--mintsize=	reject if target abundance lower
+--minuniquesize=	minimum abundance for output from dereplication
+--minwordmatches=	minimum number of word matches required
+--mismatch=	score for mismatch
+--mothur_shared_out=	filename for OTU table output in mothur format
+--msaout=	output multiple sequence alignments to FASTA file
+--n_mismatch 	consider aligning with N's as mismatches
+--no_progress 	do not show progress indicator
+--nonchimeras=	output non-chimeric sequences to file
+--notmatched=	FASTA file for non-matching sequences
+--notmatchedfq=	FASTQ file for the sequences not extracted
+--notrunclabels 	do not truncate labels at first space
+--orient=	orient sequences in given FASTA/FASTQ file
+--otutabout=	filename for OTU table output in classic format
+--output=	output file
+--output_no_hits 	output non-matching queries to output files
+--pattern=	option is ignored
+--profile=	output sequence profile of each cluster to file
+--qmask=	mask seqs with dust, soft or no method
+--query_cov=	reject if fraction of query sequence aligned lower
+--quiet 	output just warnings and fatal errors to stderr
+--randseed=	seed for PRNG, zero to use random data source
+--read_separators=	characters preceding the mate number 1 or 2
+--relabel=	relabel sequences with this prefix string
+--relabel_keep 	keep the old label after the new when relabelling
+--relabel_md5 	relabel with md5 digest of normalized sequence
+--relabel_self 	relabel with the sequence itself as label
+--relabel_sha1 	relabel with sha1 digest of normalized sequence
+--rereplicate=	rereplicate sequences in the given FASTA file
+--reverse=	specify FASTQ file with reverse reads
+--rightjust 	reject if terminal gaps at alignment right end
+--rowlen=	width of alignment lines in alnout output
+--samheader 	include a header in the SAM output file
+--samout=	filename for SAM format output
+--sample=	add sample identifier annotation to output
+--sample_pct=	sampling percentage between 0.0 and 100.0
+--sample_size=	sampling size
+--scramble=	randomize nucleotide order within each sequence
+--scramble_kmer=	preserve counts of words up to this size 1-9
+--search_exact=	filename of queries for exact match search
+--self 	exclude identical labels for --uchime_ref
+--selfid 	exclude identical sequences for --uchime_ref
+--sff_clip 	clip ends of sequences as indicated in file
+--sff_convert=	convert given SFF file to FASTQ format
+--shuffle=	shuffle order of sequences in FASTA file randomly
+--sintax=	classify sequences in given FASTA/FASTQ file
+--sintax_cutoff=	confidence value cutoff level
+--sintax_random 	use random sequence, not shortest, if equal match
+--sizein 	propagate abundance annotation from input
+--sizeorder 	sort accepted centroids by abundance, AGC
+--sizeout 	write abundance annotation to output
+--slots=	option is ignored
+--sortbylength=	sort sequences by length in given FASTA file
+--sortbysize=	abundance sort sequences in given FASTA file
+--strand=	plus or both strands
+--subseq_end=	end position, 1-based, for --fastx_getsubseq
+--subseq_start=	start position, 1-based, for --fastx_getsubseq
+--tabbedout=	tab-separated output file
+--target_cov=	reject if fraction of target sequence aligned lower
+--threads=	number of threads to use, zero for all cores
+--top_hits_only 	output only hits with identity equal to the best
+--topn=	output only n most abundant sequences after derep
+--uc=	filename for UCLUST-like output
+--uc_allhits 	show all, not just top hit with uc output
+--uchime2_denovo=	detect chimeras de novo in denoised amplicons
+--uchime3_denovo=	detect chimeras de novo in denoised amplicons
+--uchime_denovo=	detect chimeras de novo
+--uchime_ref=	detect chimeras using a reference database
+--uchimealns=	output chimera alignments to file
+--uchimeout5 	make output compatible with uchime version 5
+--uchimeout=	output to chimera info to tab-separated file
+--udb2fasta=	output FASTA file from given UDB file
+--udbinfo=	show information about UDB file
+--udbstats=	report statistics about indexed words in UDB file
+--unoise_alpha=	alpha parameter (unoise only)
+--usearch_global=	filename of queries for global alignment search
+--userfields=	fields to output in userout file
+--userout=	filename for user-defined tab-separated output
+--usersort 	indicate sequences not pre-sorted by length
+--weak_id=	include aligned hits with >= id; continue search
+--wordlength=	length of words for matching or database index, 3-15
+--xee 	remove expected errors (ee) info from output
+--xlength 	strip length information in output
+--xn=	'no' vote weight
+--xsize 	strip abundance information in output
+-h 	display help information
+-v 	display version information
+=== cd-hit
+--- cd-hit -
+-A 	minimal alignment coverage control for both sequences
+-AL 	alignment coverage control for the longer sequence
+-AS 	alignment coverage control for the shorter sequence
+-B 	store sequences on the hard drive (no longer supported)
+-G 	use global sequence identity
+-M 	memory limit (in MB) for the program
+-S 	length difference cutoff in amino acid
+-T 	number of threads
+-U 	maximum unmatched length
+-aL 	alignment coverage for the longer sequence
+-aS 	alignment coverage for the shorter sequence
+-b 	band width of alignment
+-bak 	write a backup cluster file
+-c 	sequence identity threshold
+-d 	length of description in .clstr file
+-g 	cluster to the most similar cluster, not the first (slow)
+-h 	print this help
+-i 	input filename
+-l 	throw away sequences shorter than this
+-n 	word length
+-o 	output filename
+-p 	print alignment overlap in the .clstr file
+-s 	length difference cutoff
+-sc 	sort clusters by size (number of sequences)
+-sf 	sort FASTA/FASTQ by cluster size (number of sequences)
+-t 	tolerance for redundance
+-uL 	maximum unmatched percentage for the longer sequence
+-uS 	maximum unmatched percentage for the shorter sequence
+--- cd-hit -i data/
+data/prot.faa 
+data/seqs.fasta 
+data/sub/
+--- cd-hit -a
+-aL 	alignment coverage for the longer sequence
+-aS 	alignment coverage for the shorter sequence
+--- cd-hit -g 
+0 
+1 
+--- cd-hit-est -i data/
+data/prot.faa 
+data/reads.fq.gz 
+data/seqs.fasta 
+data/sub/
+--- cd-hit-est -j
+-j 	input filename for R2 reads, if paired-end
+--- cd-hit-2d -i2 data/
+data/prot.faa 
+data/seqs.fasta 
+data/sub/
+--- cd-hit-est-2d -gap
+-gap 	gap opening score
+-gap-ext 	gap extension score
+--- cd-hit-454 -D
+-D 	max size per indel

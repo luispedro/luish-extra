@@ -251,9 +251,9 @@ them in the same way. A tick with `(Cobra)` means the program answers with its s
 - [ ] `foldseek`
 - [ ] `hhblits`
 - [ ] `hhsearch`
-- [ ] `vsearch`
+- [x] `vsearch`: vsearch 2.32.0
 - [ ] `swarm`
-- [ ] `cd-hit`
+- [x] `cd-hit`: cd-hit 4.8.1 (also `cd-hit-est`, `cd-hit-2d`, `cd-hit-est-2d` and `cd-hit-454`)
 - [ ] `sortmerna`
 - [ ] `exonerate`
 - [ ] `lastz`

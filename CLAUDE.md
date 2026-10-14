@@ -18,7 +18,8 @@ STAR, kallisto, featureCounts), `blast.rhai` (BLAST+), `diamond.rhai`, `hmmer.rh
 filtering: fastp, fastqc, falco, cutadapt, trimmomatic, trim_galore, fastq_screen, seqtk, filtlong, chopper, nanoq,
 rasusa, porechop, NanoPlot, NanoFilt, NanoStat), `asm.rhai` (assembly and annotation: spades.py, metaspades.py, megahit,
 flye, quast, metaquast, busco, prodigal, prokka, bakta, barrnap), `meta.rhai` (metagenomics and microbial genomics:
-rgi, so far), `profile.rhai` (taxonomic and functional profiling: kraken2, bracken, krakenuniq, centrifuge, kaiju,
+rgi, so far), `cluster.rhai` (sequence clustering: vsearch, cd-hit, cd-hit-est, cd-hit-2d, cd-hit-est-2d and
+cd-hit-454), `profile.rhai` (taxonomic and functional profiling: kraken2, bracken, krakenuniq, centrifuge, kaiju,
 metaphlan, humann, motus, and the programs that come with them: kraken2-build, k2, kaiju2table, strainphlan,
 humann_renorm_table, ...), `bins.rhai` (binning and the quality, taxonomy and dereplication of MAGs: checkm,
 checkm2, gunc, gtdbtk, metabat2 and jgi_summarize_bam_contig_depths, concoct and its scripts, run_MaxBin.pl, DAS_Tool and
@@ -111,13 +112,13 @@ environment with Bioconda, so nothing is installed):
   (hybracter, pysradb print usage), and Typer programs don't speak this protocol: read the output.
 - `scripts/help2opts.py` drafts `opts:` and `values:` from a help text on standard input; read a draft before using
   it, since help formats differ in many small ways.
-- `align.rhai`, `bam.rhai`, `blast.rhai`, `diamond.rhai`, `hmmer.rhai`, `reads.rhai`, `asm.rhai`, `profile.rhai` and
-  `bins.rhai` of `bio`, `snakemake.rhai`, `pandoc.rhai`, `aria2.rhai`, `parallel.rhai`, `miller.rhai`, `cwltool.rhai` and
-  `jupyter_specs.rhai` of `science`, `pytest.rhai`, `mypy.rhai` and `poetry.rhai` of `dev`, `borg.rhai` of `system`
-  and `bandage.rhai` of `gui` are **generated** by `scripts/gen/mk_*.py` from the `--help` of pinned versions
-  (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`, cached in `$HELP_CACHE`), with the corrections and value kinds
-  written in the generators. For Python programs built with argparse, `gen.argparse_dump(PKG, "module", "function")`
-  runs the parser in the program's environment
+- `align.rhai`, `bam.rhai`, `blast.rhai`, `diamond.rhai`, `hmmer.rhai`, `cluster.rhai`, `reads.rhai`, `asm.rhai`,
+  `profile.rhai` and `bins.rhai` of `bio`, `snakemake.rhai`, `pandoc.rhai`, `aria2.rhai`, `parallel.rhai`,
+  `miller.rhai`, `cwltool.rhai` and `jupyter_specs.rhai` of `science`, `pytest.rhai`, `mypy.rhai` and `poetry.rhai` of
+  `dev`, `borg.rhai` of `system` and `bandage.rhai` of `gui` are **generated** by `scripts/gen/mk_*.py` from the
+  `--help` of pinned versions (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`, cached in `$HELP_CACHE`), with the
+  corrections and value kinds written in the generators. For Python programs built with argparse,
+  `gen.argparse_dump(PKG, "module", "function")` runs the parser in the program's environment
   (`argparse_dump.py`) and gives its options with their choices and number of values, and `gen.emit_argparse` writes the
   table; the function may also be one that builds the parser and parses the command line itself
   (`porechop.porechop:get_arguments`), since the parser is caught at `parse_args`, or one that takes the command line

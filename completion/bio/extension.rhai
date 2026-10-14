@@ -22,6 +22,7 @@ for m in [
                "makeblastdb", "blastdbcmd", "blast_formatter", "blastdb_aliastool", "dustmasker", "segmasker",
                "windowmasker", "makeprofiledb", "blastdbcheck", "update_blastdb.pl"]],
     ["diamond", ["diamond"]],
+    ["cluster", ["vsearch", "cd-hit", "cd-hit-est", "cd-hit-2d", "cd-hit-est-2d", "cd-hit-454"]],
     // Programs whose help is read when Tab is pressed (mmseqs).
     ["dynamic", ["mmseqs"]],
     ["hmmer", ["hmmsearch", "hmmscan", "phmmer", "jackhmmer", "nhmmer", "nhmmscan", "hmmbuild", "hmmalign", "hmmpress",

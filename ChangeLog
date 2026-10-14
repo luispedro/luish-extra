@@ -1,4 +1,6 @@
 Unreleased
+    * bio: completion for vsearch and for cd-hit (cd-hit, cd-hit-est,
+      cd-hit-2d, cd-hit-est-2d, cd-hit-454)
     * conda: looks for conda in PATH without forking, in every shell
     * themes: gruvbox and solarized give operators and redirections
       (|, &&, >) a colour of the palette (gruvbox's text colour,
