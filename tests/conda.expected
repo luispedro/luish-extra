@@ -120,3 +120,16 @@ PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/miniconda3/envs/py
 CONDA_DEFAULT_ENV=py FROM_SCRIPT=2 FROM_NEW=2
 conda is a shell function
 0
+--- found in PATH (not one of the usual places), past a directory and a file that is not executable
+PATH=~/tools/envs/py/bin:~/tools/condabin:~/early:~/early2:~/tools/condabin:~/sysbin
+PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/tools/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=2 FROM_NEW=2
+conda is a shell function
+0
+ran: conda shell.bash hook
+ran: conda shell.posix activate py
+PATH=~/tools/envs/py/bin:~/tools/condabin:~/early:~/early2:~/tools/condabin:~/sysbin
+PS1=(py) $  CONDA_SHLVL=1 CONDA_PREFIX=~/tools/envs/py
+CONDA_DEFAULT_ENV=py FROM_SCRIPT=2 FROM_NEW=2
+conda is a shell function
+0

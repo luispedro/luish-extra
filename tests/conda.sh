@@ -93,3 +93,11 @@ run
 echo 'export FROM_NEW=2' > "$root/envs/py/etc/conda/activate.d/b.sh"
 run
 run
+echo '--- found in PATH (not one of the usual places), past a directory and a file that is not executable'
+cp -R "$root" "$HOME/tools"
+mkdir -p "$HOME/tools/condabin" "$HOME/early/conda" "$HOME/early2"
+ln -s ../bin/conda "$HOME/tools/condabin/conda"
+: > "$HOME/early2/conda"
+PATH=$HOME/early:$HOME/early2:$HOME/tools/condabin:$HOME/sysbin
+run
+run

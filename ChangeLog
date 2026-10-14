@@ -1,4 +1,5 @@
 Unreleased
+    * conda: looks for conda in PATH without forking, in every shell
     * themes: gruvbox and solarized give operators and redirections
       (|, &&, >) a colour of the palette (gruvbox's text colour,
       solarized's emphasized grey), not the terminal's bold default,

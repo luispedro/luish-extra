@@ -15,7 +15,21 @@ _luish_conda_env=${LUISH_PLUGIN_OPTIONS[env]-}
 case $_luish_conda_root in
     '~'/*) _luish_conda_root=$HOME/${_luish_conda_root#'~/'} ;;
     '')
-        _luish_conda_root=$(command -v conda)
+        # The first conda in PATH, as `command -v conda` finds it, but without the fork of `$(...)`: this runs in
+        # every shell, outside the block, since the block's key is made from it.
+        _luish_conda_find() {
+            local IFS=: d -
+            set -f
+            for d in $PATH; do
+                if [ -f "${d:-.}/conda" ] && [ -x "${d:-.}/conda" ]; then
+                    _luish_conda_root=${d:-.}/conda
+                    return
+                fi
+            done
+        }
+        _luish_conda_root=
+        _luish_conda_find
+        unset -f _luish_conda_find
         case $_luish_conda_root in
             */condabin/conda | */bin/conda) _luish_conda_root=${_luish_conda_root%/*/conda} ;;
             *)
