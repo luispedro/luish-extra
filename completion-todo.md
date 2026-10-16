@@ -617,7 +617,8 @@ them in the same way. A tick with `(Cobra)` means the program answers with its s
 - [ ] `picrust2`
 - [ ] `krona`
 - [ ] `abricate`
-- [ ] `amrfinder`
+- [x] `amrfinder`: ncbi-amrfinderplus 4.2.7
+- [x] `amrfinder_update`: ncbi-amrfinderplus 4.2.7
 - [x] `rgi`: rgi 6.0.8
 - [ ] `mlst`
 - [ ] `snippy`

@@ -32,7 +32,7 @@ for m in [
     ["asm", ["spades.py", "metaspades.py", "megahit", "flye", "quast", "quast.py", "metaquast", "metaquast.py",
              "busco", "prodigal", "prokka", "bakta", "barrnap", "emapper.py",
              "download_eggnog_data.py", "create_dbs.py", "hmm_mapper.py"]],
-    ["meta", ["rgi"]],
+    ["meta", ["rgi", "amrfinder", "amrfinder_update"]],
     ["profile", ["kraken2", "kraken2-build", "kraken2-inspect", "k2", "bracken", "bracken-build",
                 "combine_bracken_outputs.py", "krakenuniq", "krakenuniq-build", "krakenuniq-report",
                 "krakenuniq-download", "centrifuge", "centrifuge-build", "centrifuge-inspect", "centrifuge-kreport",

@@ -1,4 +1,4 @@
-# Metagenomics and microbial genomics: rgi.
+# Metagenomics and microbial genomics: rgi and amrfinder.
 __luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 c() {
@@ -29,3 +29,17 @@ c 'rgi kmer_query --'
 c 'rgi kmer_build -c data/'
 c 'rgi database -'
 c 'rgi auto_load --'
+mkdir -p amr/sub
+touch amr/contigs.fna amr/proteins.faa.gz amr/genes.gff amr/notes.txt
+echo "=== amrfinder"
+c 'amrfinder -'
+c 'amrfinder -p amr/'
+c 'amrfinder -n amr/'
+c 'amrfinder -g amr/'
+c 'amrfinder -a '
+c 'amrfinder -d amr/'
+c 'amrfinder -O '
+c 'amrfinder --organism E'
+c 'amrfinder -d other -O '
+c 'amrfinder --database=other --organism '
+c 'amrfinder_update -'

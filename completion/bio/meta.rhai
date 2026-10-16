@@ -1,5 +1,7 @@
-// Metagenomics and microbial genomics: rgi. Written out from `rgi --help` and
-// `rgi SUB --help` (rgi 6.0.8, see completion-todo.md).
+// Metagenomics and microbial genomics: rgi and amrfinder. Written out from
+// `rgi --help` and `rgi SUB --help` (rgi 6.0.8), and from `amrfinder --help`
+// and `amrfinder_update --help` (ncbi-amrfinderplus 4.2.7; see
+// completion-todo.md).
 
 // This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
 fn own(name) { sh::plugin_dir() + "/" + name }
@@ -290,9 +292,96 @@ fn rgi_sub(sub) {
     }
 }
 
+// AMRFinderPlus. --organism completes to the taxonomy groups of the database
+// (`amrfinder -l`, with the -d of the line).
+fn amrfinder() {
+    #{
+        opts: `
+            -h, --help                              show the help and exit
+            -v, --version                           print the software version and exit
+            -u, --update                            update the AMRFinder database
+            -U, --force_update                      force updating the AMRFinder database
+            -p, --protein PROT_FASTA                input protein FASTA file (can be gzipped)
+            -n, --nucleotide NUC_FASTA              input nucleotide FASTA file (can be gzipped)
+            -g, --gff GFF_FILE                      GFF file for protein locations (can be gzipped)
+            -a, --annotation_format FORMAT          type of GFF file
+            -d, --database DATABASE_DIR             alternative directory with the AMRFinder database
+            -V, --database_version                  print the database version and exit
+            -i, --ident_min MIN_IDENT               minimum proportion of identical amino acids for a hit (0..1)
+            -c, --coverage_min MIN_COV              minimum coverage of the reference protein (0..1)
+            -O, --organism ORGANISM                 taxonomy group, for point mutations
+            -l, --list_organisms                    print the possible taxonomy groups and exit
+            -t, --translation_table TABLE           NCBI genetic code for translated BLAST
+            --plus                                  add the plus genes to the report
+            --report_common                         report proteins common to a taxonomy group
+            --report_all_equal                      report all equally-scoring BLAST and HMM matches
+            --name NAME                             text added as the first column of the report
+            --print_node                            print the hierarchy node (family)
+            --mutation_all MUT_ALL_FILE             file to report all mutations
+            -o, --output OUTPUT_FILE                write the output to a file instead of standard output
+            --protein_output PROT_FASTA_OUT         output protein FASTA file of reported proteins
+            --nucleotide_output NUC_FASTA_OUT       output nucleotide FASTA file of reported sequences
+            --nucleotide_flank5_output FASTA_OUT    output FASTA of reported sequences with 5' flanking sequences
+            --nucleotide_flank5_size SIZE           5' flanking sequence size
+            --blast_bin BLAST_DIR                   directory for BLAST
+            --hmmer_bin HMMER_DIR                   directory for HMMer
+            --pgap                                  input files are created by the NCBI PGAP
+            --gpipe_org                             NCBI internal GPipe organism names
+            --parm PARM                             amr_report parameters for testing
+            --threads THREADS                       max. number of threads
+            --debug                                 integrity checks
+            --log LOG                               error log file, appended
+            -q, --quiet                             suppress messages to standard error
+        `,
+        values: #{
+            "--protein": k("fasta"), "-p": k("fasta"), "--nucleotide": k("fasta"), "-n": k("fasta"),
+            "--gff": k("gff"), "-g": k("gff"),
+            "--annotation_format": amrfinder_formats(), "-a": amrfinder_formats(),
+            "--database": "dirs", "-d": "dirs", "--ident_min": "none", "-i": "none",
+            "--coverage_min": "none", "-c": "none",
+            "--organism": k("amrfinder_organism"), "-O": k("amrfinder_organism"),
+            "--translation_table": "none", "-t": "none", "--name": "none", "--mutation_all": "files",
+            "--output": "files", "-o": "files", "--protein_output": "files", "--nucleotide_output": "files",
+            "--nucleotide_flank5_output": "files", "--nucleotide_flank5_size": "none", "--blast_bin": "dirs",
+            "--hmmer_bin": "dirs", "--parm": "none", "--threads": "none", "--log": "files",
+        },
+        args: ["none"],
+    }
+}
+
+// The GFF dialects of amrfinder's --annotation_format.
+fn amrfinder_formats() {
+    [
+        "bakta", "genbank", "microscope", "patric", "pgap", "prodigal", "prokka", "pseudomonasdb", "rast",
+        "standard",
+    ]
+}
+
+fn amrfinder_update() {
+    #{
+        opts: `
+            -h, --help                    show the help and exit
+            -v, --version                 print the software version and exit
+            -d, --database DATABASE_DIR   directory for all versions of AMRFinder databases
+            --blast_bin BLAST_DIR         directory for BLAST
+            --hmmer_bin HMMER_DIR         directory for HMMer
+            --force_update                force updating the AMRFinder database
+            --debug                       integrity checks
+            --log LOG                     error log file, appended
+            -q, --quiet                   suppress messages to standard error
+        `,
+        values: #{
+            "--database": "dirs", "-d": "dirs", "--blast_bin": "dirs", "--hmmer_bin": "dirs", "--log": "files",
+        },
+        args: ["none"],
+    }
+}
+
 fn spec(cmd) {
     switch cmd {
         "rgi" => rgi(),
+        "amrfinder" => amrfinder(),
+        "amrfinder_update" => amrfinder_update(),
         _ => #{},
     }
 }

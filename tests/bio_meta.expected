@@ -119,3 +119,86 @@ data/sub/
 --debug 	debug mode
 --help 	show this help message and exit
 --local 	use local database
+=== amrfinder
+--- amrfinder -
+--blast_bin=	directory for BLAST
+--debug 	integrity checks
+--gpipe_org 	NCBI internal GPipe organism names
+--hmmer_bin=	directory for HMMer
+--log=	error log file, appended
+--mutation_all=	file to report all mutations
+--name=	text added as the first column of the report
+--nucleotide_flank5_output=	output FASTA of reported sequences with 5' flanking sequences
+--nucleotide_flank5_size=	5' flanking sequence size
+--nucleotide_output=	output nucleotide FASTA file of reported sequences
+--parm=	amr_report parameters for testing
+--pgap 	input files are created by the NCBI PGAP
+--plus 	add the plus genes to the report
+--print_node 	print the hierarchy node (family)
+--protein_output=	output protein FASTA file of reported proteins
+--report_all_equal 	report all equally-scoring BLAST and HMM matches
+--report_common 	report proteins common to a taxonomy group
+--threads=	max. number of threads
+-O 	taxonomy group, for point mutations
+-U 	force updating the AMRFinder database
+-V 	print the database version and exit
+-a 	type of GFF file
+-c 	minimum coverage of the reference protein (0..1)
+-d 	alternative directory with the AMRFinder database
+-g 	GFF file for protein locations (can be gzipped)
+-h 	show the help and exit
+-i 	minimum proportion of identical amino acids for a hit (0..1)
+-l 	print the possible taxonomy groups and exit
+-n 	input nucleotide FASTA file (can be gzipped)
+-o 	write the output to a file instead of standard output
+-p 	input protein FASTA file (can be gzipped)
+-q 	suppress messages to standard error
+-t 	NCBI genetic code for translated BLAST
+-u 	update the AMRFinder database
+-v 	print the software version and exit
+--- amrfinder -p amr/
+amr/contigs.fna 
+amr/proteins.faa.gz 
+amr/sub/
+--- amrfinder -n amr/
+amr/contigs.fna 
+amr/proteins.faa.gz 
+amr/sub/
+--- amrfinder -g amr/
+amr/genes.gff 
+amr/sub/
+--- amrfinder -a 
+bakta 
+genbank 
+microscope 
+patric 
+pgap 
+prodigal 
+prokka 
+pseudomonasdb 
+rast 
+standard 
+--- amrfinder -d amr/
+amr/sub/
+--- amrfinder -O 
+Campylobacter 
+Escherichia 
+Salmonella 
+--- amrfinder --organism E
+Escherichia 
+--- amrfinder -d other -O 
+Klebsiella_pneumoniae 
+Vibrio_cholerae 
+--- amrfinder --database=other --organism 
+Klebsiella_pneumoniae 
+Vibrio_cholerae 
+--- amrfinder_update -
+--blast_bin=	directory for BLAST
+--debug 	integrity checks
+--force_update 	force updating the AMRFinder database
+--hmmer_bin=	directory for HMMer
+--log=	error log file, appended
+-d 	directory for all versions of AMRFinder databases
+-h 	show the help and exit
+-q 	suppress messages to standard error
+-v 	print the software version and exit

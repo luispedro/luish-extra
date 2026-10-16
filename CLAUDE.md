@@ -19,8 +19,8 @@ filtering: fastp, fastqc, falco, cutadapt, trimmomatic, trim_galore, fastq_scree
 rasusa, porechop, NanoPlot, NanoFilt, NanoStat), `asm.rhai` (assembly and annotation: spades.py, metaspades.py, megahit,
 flye, quast, metaquast, busco, prodigal, prokka, bakta, barrnap, and eggnog-mapper's emapper.py,
 download_eggnog_data.py, create_dbs.py and hmm_mapper.py), `meta.rhai` (metagenomics and microbial genomics:
-rgi, so far), `cluster.rhai` (sequence clustering: vsearch, cd-hit, cd-hit-est, cd-hit-2d, cd-hit-est-2d and
-cd-hit-454), `profile.rhai` (taxonomic and functional profiling: kraken2, bracken, krakenuniq, centrifuge, kaiju,
+rgi, amrfinder and amrfinder_update), `cluster.rhai` (sequence clustering: vsearch, cd-hit, cd-hit-est, cd-hit-2d,
+cd-hit-est-2d and cd-hit-454), `profile.rhai` (taxonomic and functional profiling: kraken2, bracken, krakenuniq, centrifuge, kaiju,
 metaphlan, humann, motus, and the programs that come with them: kraken2-build, k2, kaiju2table, strainphlan,
 humann_renorm_table, ...), `bins.rhai` (binning and the quality, taxonomy and dereplication of MAGs: checkm,
 checkm2, gunc, gtdbtk, metabat2 and jgi_summarize_bam_contig_depths, concoct and its scripts, run_MaxBin.pl, DAS_Tool and

@@ -273,6 +273,27 @@ fn busco_datasets(cur, words, download) {
     r
 }
 
+// The taxonomy groups of an AMRFinder database, for amrfinder's --organism:
+// what `amrfinder -l` lists, for the database of -d/--database if the line
+// has one.
+fn amrfinder_organisms(words) {
+    let argv = ["timeout", "5", "amrfinder", "-l"];
+    for i in 0..words.len() {
+        if (words[i] == "-d" || words[i] == "--database") && i + 1 < words.len() {
+            argv += ["-d", words[i + 1]];
+        } else if words[i].starts_with("--database=") {
+            argv += ["-d", words[i].sub_string(11)];
+        }
+    }
+    let r = sh::capture_cached(300, argv);
+    for line in r.out.split("\n") {
+        if line.starts_with("Available --organism options: ") {
+            return line.sub_string(30).split(", ").filter(|o| o != "");
+        }
+    }
+    []
+}
+
 fn kind(name, cur, words) {
     switch name {
         "fasta" => lib_files::with_suffix(
@@ -351,6 +372,7 @@ fn kind(name, cur, words) {
         ),
         "busco_lineage" => busco_datasets(cur, words, false),
         "busco_download" => busco_datasets(cur, words, true),
+        "amrfinder_organism" => amrfinder_organisms(words),
         _ => throw `unknown kind: ${name}`,
     }
 }

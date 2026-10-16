@@ -1,0 +1,11 @@
+#!/bin/sh
+# Stand-in for amrfinder in the tests: `-l` lists three taxonomy groups, two
+# others with `-d other` (the messages on stderr, as amrfinder's).
+case "$*" in
+"-l")
+    echo 'Running: amrfinder -l' >&2
+    printf '\nAvailable --organism options: Campylobacter, Escherichia, Salmonella\n' ;;
+"-l -d other")
+    printf '\nAvailable --organism options: Klebsiella_pneumoniae, Vibrio_cholerae\n' ;;
+*) exit 1 ;;
+esac

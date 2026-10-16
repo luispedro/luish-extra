@@ -121,8 +121,8 @@ the rest of the `ucsc-*` packages
 `concoct` (`concoct_coverage_table.py`, `cut_up_fasta.py`, `merge_cutup_clustering.py`, `extract_fasta_bins.py`),
 `run_MaxBin.pl` (MaxBin), `DAS_Tool` (`Fasta_to_Contig2Bin.sh`), `dRep`, `coverm`, `vamb`, `genomad`, `emapper.py`
 (`download_eggnog_data.py`, `create_dbs.py`, `hmm_mapper.py`), `mothur`, `qiime`, `picrust2`, `humann`, `krona`, `abricate`,
-`amrfinder`, `rgi`, `mlst`, `snippy`, `roary`, `panaroo`, `ppanggolin`, `gubbins`, `prokka`, `srst2`, `sistr`,
-`ectyper`, `seqsero2`, `kleborate`, `ariba`, `staramr`, `mykrobe`, `tb-profiler`, `bactopia`, `anvi-*` (anvio),
+`amrfinder` (`amrfinder_update`), `rgi`, `mlst`, `snippy`, `roary`, `panaroo`, `ppanggolin`, `gubbins`, `prokka`,
+`srst2`, `sistr`, `ectyper`, `seqsero2`, `kleborate`, `ariba`, `staramr`, `mykrobe`, `tb-profiler`, `bactopia`, `anvi-*` (anvio),
 `phispy`, `antismash`, `metawrap`, `phyloflash`, `graftm`, `dram`, `vibrant`, `virsorter`, `vcontact2`, `iphop`,
 `phabox`, `instrain`, `binsanity`, `comebin`, `metacoag`, `binette`, `kmcp`, `ganon`, `metacache`, `krakentools`,
 `kraken-biom`, `taxpasta`, `metaeuk`, `insilicoseq`, `unifrac`, `deblur`, `gneiss`, `emperor`, `lefse`, `maaslin2`,
