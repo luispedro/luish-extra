@@ -42,6 +42,8 @@ for f in /usr/bin/* /bin/*; do
     [ -e "$l" ] || [ -L "$l" ] || ln -s "$f" "$l"
 done
 rm -f "$HOME/sysbin/conda" "$HOME/sysbin/mamba" "$HOME/sysbin/micromamba"
+# (luish by its path, found before PATH changes: run.sh's LUISH may be a name, `luish`.)
+LUISH=$(command -v "$LUISH")
 PATH=$HOME/sysbin
 show='echo "PATH=$PATH"; echo "PS1=$PS1 CONDA_SHLVL=$CONDA_SHLVL CONDA_PREFIX=$CONDA_PREFIX"
 echo "CONDA_DEFAULT_ENV=$CONDA_DEFAULT_ENV FROM_SCRIPT=$FROM_SCRIPT FROM_NEW=$FROM_NEW"; type conda | head -1
