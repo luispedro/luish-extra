@@ -1,9 +1,10 @@
 # luish-extra
 
 Tab completion for [luish](https://github.com/luispedro/luish), for the programs that its standard library leaves out:
-bioinformatics tools (`bio`), scientific computing (`science`), desktop programs (`gui`), development (`dev`),
-system administration (`system`) and audio and video (`media`). Each plugin can be enabled on its own. And
-[colour schemes](#colour-schemes) for for dark and light backgrounds (`themes`), and cached set-ups of [conda](#conda) (`conda`) and [nvm](#nvm) (`nvm`).
+bioinformatics tools (`bio`), scientific computing (`science`), desktop programs (`gui`), development (`dev`), system
+administration (`system`) and audio and video (`media`). Each plugin can be enabled on its own. And
+[colour schemes](#colour-schemes) for luish's highlighting, for dark and light backgrounds (`themes`), and cached set-ups
+of [conda](#conda) (`conda`) and [nvm](#nvm) (`nvm`).
 
 Completion knows each program's options and subcommands, and the kind of value each one takes: `samtools sort -O`
 offers `BAM`, `CRAM` and `SAM`, `samtools view -T` offers FASTA files and `samtools view in.bam` the reference names
@@ -13,18 +14,18 @@ in its header, `pytest tests/test_x.py::` the tests in that file, and `ruff chec
 
 ## What is supported
 
-273 commands are completed so far, by 240 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
+288 commands are completed so far, by 251 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
 `makeblastdb` and 16 others):
 
 | Plugin    | Commands | Tools done / listed |
 |-----------|---------:|--------------------:|
-| `bio`     |      169 |           164 / 768 |
+| `bio`     |      181 |           172 / 772 |
 | `science` |       42 |             26 / 37 |
 | `gui`     |       49 |             40 / 40 |
-| `dev`     |        9 |              7 / 10 |
+| `dev`     |       12 |             10 / 13 |
 | `system`  |        3 |               2 / 2 |
 | `media`   |        1 |               1 / 4 |
-| **Total** |  **273** |       **240 / 861** |
+| **Total** |  **288** |       **251 / 868** |
 
 The tools to support are listed in [`docs/completion.md`](docs/completion.md) and, with a box per tool, in
 [`completion-todo.md`](completion-todo.md) (`grep -c '^- \[x\]' completion-todo.md` counts the ticked ones). The
@@ -86,9 +87,9 @@ Some programs know their own completions, and are asked rather than described he
 
 If such a program isn't installed, or doesn't answer, Tab offers filenames.
 
-A few programs have their options read from the installed version when Tab is pressed, so that they follow it:
-`mmseqs`, `xsv`, `qsv` and `ruff` (from their `-h`), `mpv` (`--list-options`), `inkscape`'s actions, and the private
-options of the codecs, formats and filters of `ffmpeg` (`-h encoder=libx264`).
+A few programs have their options read from the installed version when Tab is pressed, so that they follow it: `mmseqs`,
+`xsv`, `qsv`, `ruff`, `codex` and `claude` (from their `-h`), `mpv` (`--list-options`), `inkscape`'s actions, and the
+private options of the codecs, formats and filters of `ffmpeg` (`-h encoder=libx264`).
 
 ## `bio`
 
@@ -97,16 +98,17 @@ from a `.fai` or a BAM header; presets and output formats.
 
 Done: `ngless`, `SemiBin2` / `SemiBin`, `macrel`, `argnorm`; `samtools`, `bcftools`, `bedtools`, `tabix`, `bgzip`,
 `htsfile`, `sambamba`, `bamtools`, `samblaster`, `mosdepth`, `cramino`, `vcftools`; `bwa`, `bwa-mem2`, `bowtie2`,
-`hisat2`, `minimap2`, `STAR`, `kallisto`, `featureCounts`; BLAST+ (`blastn` and the rest), `diamond`, `mmseqs`,
-HMMER; `fastp`, `fastqc`, `falco`, `cutadapt`, `trimmomatic` (its steps, and the adapter files that come with it),
-`trim_galore`, `fastq_screen`, `seqtk`, `filtlong`, `chopper`, `nanoq`, `rasusa`, `porechop`, `NanoPlot`,
-`NanoFilt`, `NanoStat`; assembly and annotation (`spades.py`, `megahit`, `flye`, `quast`, `busco`, `prodigal`,
-`prokka`, `bakta`, `barrnap`); profiling of metagenomes (`kraken2`, `bracken`, `krakenuniq`, `centrifuge`, `kaiju`,
-`metaphlan`, `humann`, `motus`); binning and MAGs (`metabat2`, `concoct`, `run_MaxBin.pl`, `vamb`, `DAS_Tool`,
-`checkm`, `checkm2`, `gunc`, `gtdbtk`, `dRep`, `coverm`); `rgi`; `seqkit`, `csvtk` and `taxonkit` (which complete
-themselves, as Cobra programs); and, through the Click bridge, `multiqc`, `peddy`, `genmod`, `plassembler`, `cooler`,
-`pairtools`, `checkv`, `virsorter`, `metacoag`, `harpy`, `defense-finder`, `dnaapler`, `genomepy`, `freyja`,
-`fastq-dl` and `biom`.
+`hisat2`, `minimap2`, `STAR`, `kallisto`, `featureCounts`; BLAST+ (`blastn` and the rest), `diamond`, `mmseqs`, HMMER;
+`vsearch`, `cd-hit` (and `cd-hit-est`, ...); `fastp`, `fastqc`, `falco`, `cutadapt`, `trimmomatic` (its steps, and the
+adapter files that come with it), `trim_galore`, `fastq_screen`, `seqtk`, `filtlong`, `chopper`, `nanoq`, `rasusa`,
+`porechop`, `NanoPlot`, `NanoFilt`, `NanoStat`; assembly and annotation (`spades.py`, `megahit`, `flye`, `quast`,
+`busco`, `prodigal`, `prokka`, `bakta`, `barrnap`, eggnog-mapper's `emapper.py` and its scripts); profiling of
+metagenomes (`kraken2`, `bracken`, `krakenuniq`, `centrifuge`, `kaiju`, `metaphlan`, `humann`, `motus`); binning and
+MAGs (`metabat2`, `concoct`, `run_MaxBin.pl`, `vamb`, `DAS_Tool`, `checkm`, `checkm2`, `gunc`, `gtdbtk`, `dRep`,
+`coverm`); `rgi`, `amrfinder` (the taxonomy groups of its database, for `--organism`); `seqkit`, `csvtk` and `taxonkit`
+(which complete themselves, as Cobra programs); and, through the Click bridge, `multiqc`, `peddy`, `genmod`,
+`plassembler`, `cooler`, `pairtools`, `checkv`, `virsorter`, `metacoag`, `harpy`, `defense-finder`, `dnaapler`,
+`genomepy`, `freyja`, `fastq-dl` and `biom`.
 `completion-todo.md` has the tool versions they were checked against.
 
 ## `science`
@@ -145,14 +147,15 @@ Done: `firefox`, `thunderbird`, `chromium`, `google-chrome`; `libreoffice` and `
 
 ## `dev`
 
-Python tooling and command-line utilities, beyond what std's `completion` plugin covers. It reads the project: the tests
-of a test file for pytest (`test_x.py::TestY::test_z`), the markers its configuration files register (`-m`), the groups,
-extras, dependencies, scripts and sources of `pyproject.toml` and the packages of `poetry.lock` for poetry, the
-repositories of `~/.pypirc` for twine; and the installed program: ruff's options, linters and rule codes
-(`--select F4` offers `F401`, ...), bat's languages and themes.
+Python tooling, coding agents and command-line utilities, beyond what std's `completion` plugin covers. It reads the
+project: the tests of a test file for pytest (`test_x.py::TestY::test_z`), the markers its configuration files register
+(`-m`), the groups, extras, dependencies, scripts and sources of `pyproject.toml` and the packages of `poetry.lock` for
+poetry, the repositories of `~/.pypirc` for twine; and the installed program: ruff's options, linters and rule codes
+(`--select F4` offers `F401`, ...), bat's languages and themes, the options and commands of `claude` and `codex` (with
+the agents of `.claude/agents` for `claude --agent`, and the profiles of `$CODEX_HOME` for `codex --profile`).
 
 Done: `pytest` (with the options of pytest-xdist and pytest-cov), `ruff`, `mypy` (its error codes, and the inverses of
-its flags), `poetry`, `twine`; `fzf`, `bat` (and `batcat`).
+its flags), `poetry`, `twine`; `claude`, `codex`, `opencode`; `fzf`, `bat` (and `batcat`).
 
 ## `system`
 
