@@ -1,0 +1,412 @@
+load 0
+=== options
+--- ffmpeg -ss
+-ss 	start transcoding at specified time
+-sseof 	set the start time offset relative to EOF
+--- ffmpeg -hwacc
+-hwaccel 	use HW accelerated decoding
+-hwaccel_device 	select a device for HW acceleration
+-hwaccel_flags 	flags
+-hwaccel_output_format 	select output format used with HW accelerated decoding
+-hwaccels 	show available HW acceleration methods
+--- ffmpeg -i in.mp4 -hwacc
+-hwaccels 	show available HW acceleration methods
+--- ffmpeg -i in.mp4 -mov
+--- ffmpeg -i in.mp4 -probes
+--- ffmpeg -probes
+-probesize 	set probing size (from 32 to I64_MAX)
+--- ffmpeg -nost
+-nostart_at_zero 	not -start_at_zero
+-nostats 	not -stats
+-nostdin 	not -stdin
+--- ffmpeg -i in.mp4 -c:
+-c:V 	video streams that aren't attached pictures
+-c:a 	audio streams
+-c:d 	data streams
+-c:s 	subtitle streams
+-c:t 	attachments
+-c:v 	video streams
+--- ffmpeg -i in.mp4 -b:
+-b:V 	video streams that aren't attached pictures
+-b:a 	audio streams
+-b:d 	data streams
+-b:s 	subtitle streams
+-b:t 	attachments
+-b:v 	video streams
+--- ffmpeg -i in.mp4 -c:v:
+--- ffmpeg -i in.mp4 -metadata:
+-metadata:c 	the metadata of a chapter (c:0)
+-metadata:g 	global metadata
+-metadata:p 	the metadata of a program (p:0)
+-metadata:s 	the metadata of streams (s:a, s:v:0...)
+--- ffmpeg -i in.mp4 -metadata:s:
+-metadata:s:V 	video streams that aren't attached pictures
+-metadata:s:a 	audio streams
+-metadata:s:d 	data streams
+-metadata:s:s 	subtitle streams
+-metadata:s:t 	attachments
+-metadata:s:v 	video streams
+--- ffmpeg -i in.mp4 -y:
+=== private options
+--- ffmpeg -i in.mp4 -c:v libx264 -pr
+-pre 	preset name
+-pre_dia_size 	diamond type & size for motion estimation pre-pass (from INT_MIN to INT_MAX)
+-precmp 	pre motion estimation compare function (from INT_MIN to INT_MAX)
+-preset 	set the encoding preset (cf. x264 --fullhelp) (libx264)
+-print_graphs 	print execution graph data to stderr
+-print_graphs_file 	write execution graph data to the specified file
+-print_graphs_format 	set the output printing format
+-profile 	set profile
+-program 	add program with specified streams
+-progress 	write program-readable progress information
+-protocols 	show available protocols
+--- ffmpeg -i in.mp4 -c:v libx264 -c:a aac -aac_
+-aac_coder 	coding algorithm (from 0 to 1) (aac)
+-aac_is 	intensity stereo coding (aac)
+-aac_ms 	force M/S stereo coding (aac)
+-aac_pce 	forces the use of PCEs (aac)
+-aac_pns 	perceptual noise substitution (aac)
+-aac_tns 	temporal noise shaping (aac)
+--- ffmpeg -i in.mp4 -c:v libx264 -preset:
+-preset:V 	video streams that aren't attached pictures
+-preset:a 	audio streams
+-preset:d 	data streams
+-preset:s 	subtitle streams
+-preset:t 	attachments
+-preset:v 	video streams
+--- ffmpeg -i in.mp4 -c:v libx264 out.mp4 -pr
+-pre 	preset name
+-pre_dia_size 	diamond type & size for motion estimation pre-pass (from INT_MIN to INT_MAX)
+-precmp 	pre motion estimation compare function (from INT_MIN to INT_MAX)
+-print_graphs 	print execution graph data to stderr
+-print_graphs_file 	write execution graph data to the specified file
+-print_graphs_format 	set the output printing format
+-profile 	set profile
+-program 	add program with specified streams
+-progress 	write program-readable progress information
+-protocols 	show available protocols
+--- ffmpeg -i in.mp4 -c:v copy -pr
+-pre 	preset name
+-pre_dia_size 	diamond type & size for motion estimation pre-pass (from INT_MIN to INT_MAX)
+-precmp 	pre motion estimation compare function (from INT_MIN to INT_MAX)
+-print_graphs 	print execution graph data to stderr
+-print_graphs_file 	write execution graph data to the specified file
+-print_graphs_format 	set the output printing format
+-profile 	set profile
+-program 	add program with specified streams
+-progress 	write program-readable progress information
+-protocols 	show available protocols
+--- ffmpeg -i in.mp4 -f mp4 -movfl
+-movflags 	MOV muxer flags (mp4)
+=== codecs and formats
+--- ffmpeg -i in.mp4 -c:v 
+copy 	copy the stream without reencoding
+libsvtav1 	SVT-AV1(Scalable Video Technology for AV1) encoder (codec av1)
+libx264 	libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10 (codec h264)
+libx265 	libx265 H.265 / HEVC (codec hevc)
+mpeg4 	MPEG-4 part 2
+--- ffmpeg -i in.mp4 -c:a 
+aac 	AAC (Advanced Audio Coding)
+copy 	copy the stream without reencoding
+flac 	FLAC (Free Lossless Audio Codec)
+libmp3lame 	libmp3lame MP3 (MPEG audio layer 3) (codec mp3)
+libopus 	libopus Opus (codec opus)
+--- ffmpeg -i in.mp4 -acodec 
+aac 	AAC (Advanced Audio Coding)
+copy 	copy the stream without reencoding
+flac 	FLAC (Free Lossless Audio Codec)
+libmp3lame 	libmp3lame MP3 (MPEG audio layer 3) (codec mp3)
+libopus 	libopus Opus (codec opus)
+--- ffmpeg -i in.mp4 -c:s:0 
+copy 	copy the stream without reencoding
+mov_text 	3GPP Timed Text subtitle
+subrip 	SubRip subtitle
+--- ffmpeg -i in.mp4 -codec 
+aac 	AAC (Advanced Audio Coding)
+copy 	copy the stream without reencoding
+flac 	FLAC (Free Lossless Audio Codec)
+libmp3lame 	libmp3lame MP3 (MPEG audio layer 3) (codec mp3)
+libopus 	libopus Opus (codec opus)
+libsvtav1 	SVT-AV1(Scalable Video Technology for AV1) encoder (codec av1)
+libx264 	libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10 (codec h264)
+libx265 	libx265 H.265 / HEVC (codec hevc)
+mov_text 	3GPP Timed Text subtitle
+mpeg4 	MPEG-4 part 2
+subrip 	SubRip subtitle
+--- ffmpeg -c:v 
+h264 	H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10
+hevc 	HEVC (High Efficiency Video Coding)
+--- ffmpeg -i in.mp4 -f 
+image2 	image2 sequence
+matroska 	Matroska
+mov 	QuickTime / MOV
+mp3 	MP3 (MPEG audio layer 3)
+mp4 	MP4 (MPEG-4 Part 14)
+null 	raw null video
+webm 	WebM
+--- ffmpeg -f 
+3g2 	QuickTime / MOV
+3gp 	QuickTime / MOV
+concat 	Virtual concatenation script
+image2 	image2 sequence
+lavfi 	Libavfilter virtual input device
+m4a 	QuickTime / MOV
+matroska 	Matroska / WebM
+mj2 	QuickTime / MOV
+mov 	QuickTime / MOV
+mp4 	QuickTime / MOV
+webm 	Matroska / WebM
+--- ffmpeg -h 
+bsf=	the options of a bitstream filter
+decoder=	the options of a decoder
+demuxer=	the options of a demuxer
+encoder=	the options of an encoder
+filter=	the options of a filter
+full 	all the options, also of formats and codecs
+long 	more options
+muxer=	the options of a muxer
+protocol=	the options of a protocol
+--- ffmpeg -h muxer=
+muxer=image2 	image2 sequence
+muxer=matroska 	Matroska
+muxer=mov 	QuickTime / MOV
+muxer=mp3 	MP3 (MPEG audio layer 3)
+muxer=mp4 	MP4 (MPEG-4 Part 14)
+muxer=null 	raw null video
+muxer=webm 	WebM
+=== values
+--- ffmpeg -i in.mp4 -c:v libx264 -aq-mode 
+autovariance 	auto-variance AQ
+autovariance-biased 	auto-variance AQ with bias to dark scenes
+none 
+variance 	variance AQ (complexity mask)
+--- ffmpeg -i in.mp4 -f mp4 -movflags 
+cmaf	write CMAF compatible fragmented MP4
+default_base_moof	set the default-base-is-moof flag in tfhd atoms
+empty_moov	make the initial moov atom empty
+faststart	run a second pass to put the index (moov atom) at the beginning of the file
+frag_keyframe	fragment at video keyframes
+--- ffmpeg -i in.mp4 -f mp4 -movflags +faststart+frag_
++faststart+frag_keyframe	fragment at video keyframes
+--- ffmpeg -fflags +gen
++genpts	generate pts
+--- ffmpeg -i in.mp4 -fflags 
+autobsf	add needed bsfs automatically
+bitexact	do not write random/volatile data
+flush_packets	reduce the latency by flushing out packets immediately
+--- ffmpeg -i in.mp4 -strict 
+experimental 	allow non-standardized experimental things
+normal 
+strict 	strictly conform to all the things in the spec no matter what the consequences
+unofficial 	allow unofficial extensions
+very 	strictly conform to a older more strict version of the spec or reference software
+--- ffmpeg -i in.mp4 -pix_fmt 
+nv12 	3 components, 12 bits per pixel
+rgb24 	3 components, 24 bits per pixel
+yuv420p 	3 components, 12 bits per pixel
+yuv420p10le 	3 components, 15 bits per pixel
+yuv444p 	3 components, 24 bits per pixel
+--- ffmpeg -i in.mp4 -sample_fmt 
+dbl 	64 bits
+dblp 	64 bits, planar
+flt 	32 bits
+fltp 	32 bits, planar
+s16 	16 bits
+s16p 	16 bits, planar
+s32 	32 bits
+s32p 	32 bits, planar
+s64 	64 bits
+s64p 	64 bits, planar
+u8 	8 bits
+u8p 	8 bits, planar
+--- ffmpeg -i in.mp4 -ch_layout 
+5.1 	FL+FR+FC+LFE+BL+BR
+7.1 	FL+FR+FC+LFE+BL+BR+SL+SR
+mono 	FC
+stereo 	FL+FR
+--- ffmpeg -i in.mp4 -ch_layout FL+
+FL+BL 	back left
+FL+BR 	back right
+FL+FC 	front center
+FL+FL 	front left
+FL+FR 	front right
+FL+LFE 	low frequency
+--- ffmpeg -i in.mp4 -bsf:v h264_mp4toannexb,
+h264_mp4toannexb,aac_adtstoasc 
+h264_mp4toannexb,dump_extra 
+h264_mp4toannexb,h264_mp4toannexb 
+h264_mp4toannexb,hevc_mp4toannexb 
+--- ffmpeg -hwaccel 
+auto 
+cuda 
+drm 
+none 
+qsv 
+vaapi 
+vulkan 
+--- ffmpeg -init_hw_device 
+cuda 
+drm 
+qsv 
+vaapi 
+vulkan 
+--- ffmpeg -i in.mp4 -disposition:a:0 default+
+default+attached_pic 
+default+captions 
+default+clean_effects 
+default+comment 
+default+default 
+default+dependent 
+default+descriptions 
+default+dub 
+default+forced 
+default+hearing_impaired 
+default+karaoke 
+default+lyrics 
+default+metadata 
+default+multilayer 
+default+non_diegetic 
+default+original 
+default+still_image 
+default+timed_thumbnails 
+default+visual_impaired 
+--- ffmpeg -i in.mp4 -s hd
+hd1080 	1920x1080
+hd480 	852x480
+hd720 	1280x720
+--- ffmpeg -r 
+film 	24
+ntsc 	30000/1001
+ntsc-film 	24000/1001
+pal 	25
+qntsc 	30000/1001
+qpal 	25
+sntsc 	30000/1001
+spal 	25
+--- ffmpeg -loglevel repeat+
+repeat+datetime+	prefix each message with the date and time
+repeat+debug 	everything, also debugging information
+repeat+error 	errors
+repeat+fatal 	only errors after which ffmpeg can't go on
+repeat+info 	the default
+repeat+level+	prefix each message with its level
+repeat+panic 	only errors that crash the process
+repeat+quiet 	show nothing
+repeat+time+	prefix each message with the time
+repeat+trace 	everything
+repeat+verbose 	more than info
+repeat+warning 	warnings and errors
+--- ffmpeg -i in.mp4 -metadata ti
+title=
+--- ffmpeg -protocol_whitelist file,
+file,file 
+file,http 
+file,https 
+file,pipe 
+file,rtmp 
+--- ffmpeg -i in.mp4 -target pal-
+pal-dv 
+pal-dv50 
+pal-dvd 
+pal-svcd 
+pal-vcd 
+--- ffmpeg -i in.mp4 -/vf 
+graph.txt 
+in.mp4 
+media_ffmpeg.sh 
+--- ffmpeg -i 
+graph.txt 
+in.mp4 
+media_ffmpeg.sh 
+--- ffmpeg -i in.mp4 -c:v libx264 
+graph.txt 
+in.mp4 
+media_ffmpeg.sh 
+=== filtergraphs
+--- ffmpeg -i in.mp4 -vf 
+crop	crop the input video
+format	convert the input video to one of the specified pixel formats
+fps	force constant framerate
+hflip	horizontally flip the input video
+overlay	overlay a video source on top of the input
+scale	scale the input video size and/or convert the image format
+split	pass on the input to N video outputs
+--- ffmpeg -i in.mp4 -vf scale=w=1280:h=-1,f
+scale=w=1280:h=-1,format	convert the input video to one of the specified pixel formats
+scale=w=1280:h=-1,fps	force constant framerate
+--- ffmpeg -i in.mp4 -af 
+amix	audio mixing
+aresample	resample audio data
+volume	change input volume
+--- ffmpeg -i in.mp4 -filter:a 
+amix	audio mixing
+aresample	resample audio data
+volume	change input volume
+--- ffmpeg -i in.mp4 -vf scale=
+scale=flags=	flags to pass to libswscale
+scale=h=	output video height
+scale=in_range=	set input color range (from 0 to 2)
+scale=interl=	set interlacing
+scale=w=	output video width
+--- ffmpeg -i in.mp4 -vf scale=w=1280:in_r
+scale=w=1280:in_range=	set input color range (from 0 to 2)
+--- ffmpeg -i in.mp4 -vf scale=in_range=
+scale=in_range=auto
+scale=in_range=full
+scale=in_range=jpeg
+scale=in_range=limited
+scale=in_range=mpeg
+scale=in_range=pc
+scale=in_range=tv
+scale=in_range=unknown
+--- ffmpeg -i in.mp4 -vf format=pix_fmts=
+format=pix_fmts=nv12 	3 components, 12 bits per pixel
+format=pix_fmts=rgb24 	3 components, 24 bits per pixel
+format=pix_fmts=yuv420p 	3 components, 12 bits per pixel
+format=pix_fmts=yuv420p10le 	3 components, 15 bits per pixel
+format=pix_fmts=yuv444p 	3 components, 24 bits per pixel
+--- ffmpeg -i in.mp4 -i in.mp4 -filter_complex "[0:v][1:v]overlay[v];[
+"[0:v][1:v]overlay[v];[0:a]	in.mp4
+"[0:v][1:v]overlay[v];[0:v]	in.mp4
+"[0:v][1:v]overlay[v];[1:a]	in.mp4
+"[0:v][1:v]overlay[v];[1:v]	in.mp4
+"[0:v][1:v]overlay[v];[v]
+--- ffmpeg -i in.mp4 -filter_complex "hflip[a];[a]spl
+"hflip[a];[a]split	pass on the input to N video outputs
+=== map
+--- ffmpeg -i in.mp4 -i missing.mkv -map 
+0 	in.mp4
+0:0 	video h264
+0:1 	audio aac (eng)
+0:2 	audio ac3 (por): Commentary
+0:a 	audio streams
+0:v 	video streams
+1 	missing.mkv
+1:a 	audio streams
+1:d 	data streams
+1:s 	subtitle streams
+1:t 	attachments
+1:v 	video streams
+--- ffmpeg -i in.mp4 -map -0:
+-0:0 	video h264
+-0:1 	audio aac (eng)
+-0:2 	audio ac3 (por): Commentary
+-0:a 	audio streams
+-0:v 	video streams
+--- ffmpeg -i in.mp4 -filter_complex "[0:v]split[a][b];[a]hflip[c]" -map [
+[b] 	an output of -filter_complex
+[c] 	an output of -filter_complex
+--- ffmpeg -i in.mp4 -map_metadata 
+-1 	none
+0 	in.mp4
+=== without ffmpeg
+--- ffmpeg -i in.mp4 -c:v 
+copy 	copy the stream without reencoding
+--- ffmpeg -i in.mp4 -c:v libx264 -pres
+--- ffmpeg -i in.mp4 -map 
+0 	in.mp4
+0:a 	audio streams
+0:d 	data streams
+0:s 	subtitle streams
+0:t 	attachments
+0:v 	video streams

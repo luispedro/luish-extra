@@ -1,0 +1,10 @@
+#!/bin/sh
+# Stand-in for ffprobe in the tests: the streams of a file, as `-show_entries stream=... -of compact=p=0` prints them,
+# a video and two audio streams (the last argument is the file).
+for f; do :; done
+[ -f "$f" ] || exit 1
+cat <<'OUT'
+index=0|codec_name=h264|codec_type=video|tag:language=und
+index=1|codec_name=aac|codec_type=audio|tag:language=eng
+index=2|codec_name=ac3|codec_type=audio|tag:language=por|tag:title=Commentary
+OUT

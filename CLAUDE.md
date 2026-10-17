@@ -5,11 +5,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## State of the repository
 
 luish-extra is a plugin collection for [luish](https://github.com/luispedro/luish) (a sibling checkout at `../luish`):
-completion modules that don't belong in luish's standard library (`std`), in plugins `bio`, `science`, `gui`, `dev`
-and `system`. Rhai (luish's scripting language) is the implementation language: `plugin.toml` + `extension.rhai` per
-plugin.
+completion modules that don't belong in luish's standard library (`std`), in plugins `bio`, `science`, `gui`, `dev`,
+`system` and `media`. Rhai (luish's scripting language) is the implementation language: `plugin.toml` +
+`extension.rhai` per plugin.
 
-`completion/bio`, `completion/science`, `completion/gui`, `completion/dev` and `completion/system` exist so far.
+`completion/bio`, `completion/science`, `completion/gui`, `completion/dev`, `completion/system` and `completion/media`
+exist so far.
 `completion/bio`: `extension.rhai` (registers the completers, one function per module), `kinds.rhai` (bio file kinds:
 FASTA, BAM, index prefixes of aligners, reference names and samples of VCFs, ...) and, by family of tools, `ours.rhai`
 (ngless, SemiBin2, macrel, argnorm), `hts.rhai` (samtools, bedtools, tabix, bgzip, htsfile), `bcftools.rhai`, `bam.rhai`
@@ -63,6 +64,15 @@ bridge. svn, netlify and adb (`dev`) are still to do. Every module has `fn spec(
 `cmd`), and `extension.rhai` maps each command to its module (`module_of`), so a new module needs an entry there;
 nextflow, whose spec depends on the line, and mpv have completers of their own.
 
+`completion/media` has only ffmpeg so far (magick, convert and yt-dlp are to do), with a completer of its own
+(`ffmpeg.rhai`): an option's place decides what it is (before the first `-i`, an input's; after it, an output's), so
+`scan` finds the inputs, whether the word is a value and the `-c` and `-f` of the same input or output, whose private
+options are read from `ffmpeg -h encoder=NAME` (AVOptions, parsed by `avoptions`, as are a filter's for filtergraphs).
+`-c:v` and `-metadata:s:a` (specifiers) are stripped to `-c` before std's engine sees the line; a kind ending in `:`
+(`codec:`, `graph:`) gets the stream type of the specifier. The tables of ffmpeg's own options and of the generic
+options of libavcodec, libavformat and libswscale are the generated `ffmpeg_opts.rhai`. `tests/bin/ffmpeg` and
+`tests/bin/ffprobe` stand in for them.
+
 `themes` is a plugin of its own, beside the `completion` collection (`extra/themes`): only a `plugin.toml` with
 `[colorscheme.NAME]` tables (luish's colour schemes), in pairs for dark and light backgrounds (`ansi`, `solarized`,
 `gruvbox`, `catppuccin` mocha/latte, `tokyonight` night/day). Its header comment says what each role means in every
@@ -98,8 +108,8 @@ command PATH (`PROG SUB ...`), `help::sub(PATH, SUB, how)` is the usual body of 
 a subcommand), and `help::commands(text)` takes a list of commands under any heading, with any gap after the name; `how`
 gives the help flag, `stderr` (`"merge"` for mmseqs), the `sub_spec` module and clap's `help` command. They are imported
 as `import "../extra-lib/files" as lib_files;`, `lib_text` and `help`, and a plugin that does so lists
-`extra-lib = "*"` in its `[dependencies]` (now `bio`, `science`, `dev` and `gui`). A helper that a second plugin needs
-goes there, not into a copy.
+`extra-lib = "*"` in its `[dependencies]` (now `bio`, `science`, `dev`, `gui` and `media`). A helper that a second
+plugin needs goes there, not into a copy.
 
 Option tables are written from the tools' real `--help`, and `completion-todo.md` records the version each ticked tool
 was checked against. To check or add one, use the scripts (all run the tool through `pixi exec`, a temporary
@@ -116,9 +126,9 @@ environment with Bioconda, so nothing is installed):
 - `align.rhai`, `bam.rhai`, `blast.rhai`, `diamond.rhai`, `hmmer.rhai`, `cluster.rhai`, `reads.rhai`, `asm.rhai`,
   `profile.rhai` and `bins.rhai` of `bio`, `snakemake.rhai`, `pandoc.rhai`, `aria2.rhai`, `parallel.rhai`,
   `miller.rhai`, `cwltool.rhai` and `jupyter_specs.rhai` of `science`, `pytest.rhai`, `mypy.rhai` and `poetry.rhai` of
-  `dev`, `borg.rhai` of `system` and `bandage.rhai` of `gui` are **generated** by `scripts/gen/mk_*.py` from the
-  `--help` of pinned versions (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`, cached in `$HELP_CACHE`), with the
-  corrections and value kinds written in the generators. For Python programs built with argparse,
+  `dev`, `borg.rhai` of `system`, `bandage.rhai` of `gui` and `ffmpeg_opts.rhai` of `media` are **generated** by
+  `scripts/gen/mk_*.py` from the `--help` of pinned versions (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`,
+  cached in `$HELP_CACHE`), with the corrections and value kinds written in the generators. For Python programs built with argparse,
   `gen.argparse_dump(PKG, "module", "function")` runs the parser in the program's environment
   (`argparse_dump.py`) and gives its options with their choices and number of values, and `gen.emit_argparse` writes the
   table; the function may also be one that builds the parser and parses the command line itself
@@ -130,7 +140,9 @@ environment with Bioconda, so nothing is installed):
   line the program sees, for one that prints its help without arguments (`checkm2.main:main predict`). `tree=True` gives
   the subcommands too (borg), and `python=` runs a local interpreter instead of pixi (borg: not in conda-forge).
   `gen.cleo_dump` does the same for Cleo programs (poetry), and `gen.dump` runs any helper that prints JSON
-  (`mypy_info.py`: mypy's error codes). A program that prints its usage only when its standard input is a terminal
+  (`mypy_info.py`: mypy's error codes). `mk_ffmpeg.py` also reads fftools' OptionDef tables
+(`ffmpeg_opt.c`, fetched from GitHub at the pinned tag and cached), since ffmpeg's help doesn't say which options take a
+value or are for inputs or outputs only. A program that prints its usage only when its standard input is a terminal
   (seqtk) is run under `script -qec "PROG SUB" /dev/null`, which gives it a pseudo-terminal (the input of `script` is
   still `/dev/null`). The generators stop at an option they have no kind for (`KINDS`, `VALUES`, `ARGS` in each), so a
   new version's options get looked at. Edit the generator and run it (`python3 scripts/gen/mk_align.py`), not the
@@ -203,8 +215,8 @@ sphinx-build -W docs docs/_build
   `String::replace`, `trim` and `sort` change the value in place and return `()`; a `switch` case with several values is
   `"a" | "b" =>`; a closure kept in a variable can't be called as `f(x)` (use a named `fn`); a backtick string keeps
   `\n` as two characters; `module` and `in` are reserved words (also as keys of a map literal: quote them); `parse_json`
-  takes only an object, so a JSON array is read as ``parse_json(`{"a": ${out}}`).a``; `go` and `sync` are reserved
-  words. An `import` can name a variable (`let m = module_of[words[0]]; import m as specs;`), which is how each
+  takes only an object, so a JSON array is read as ``parse_json(`{"a": ${out}}`).a``; `go`, `sync` and `private` are
+  reserved words (also as function names); `"".split()` is `[""]`, not `[]`. An `import` can name a variable (`let m = module_of[words[0]]; import m as specs;`), which is how each
   `extension.rhai` imports a command's module.
 - For a program whose long options take their value as the next word and have a single dash or two (`mlr`: `single_dash: true`
   and `strict_eq: true`, else the engine completes `--name=`; `nextflow` and `latexmk` have `single_dash` only). The `sub_spec`

@@ -13,7 +13,7 @@ $ plugin add luispedro/luish-extra extra
 $ plugin add extra/completion/all
 ```
 
-`all` loads `bio`, `science`, `gui`, `dev` and `system`. To have only some of them, enable them one by one instead
+`all` loads `bio`, `science`, `gui`, `dev`, `system` and `media`. To have only some of them, enable them one by one instead
 (`plugin add extra/completion/bio`, ...).
 
 This needs luish 0.5.0 or later, and the plugins need std's `completion` plugin.

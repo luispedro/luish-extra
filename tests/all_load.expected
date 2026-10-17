@@ -6,6 +6,7 @@ science
 gui
 dev
 system
+media
 all
 --- samtools so
 sort 	sort an alignment file
@@ -22,3 +23,5 @@ upload 	upload distribution files to a package index
 -q 	quiet
 -u 	unmount
 -z 	lazy unmount
+--- ffmpeg -hide_b
+-hide_banner 	do not show program banner

@@ -972,6 +972,14 @@ of the output the test stand-in in `tests/bin` was cut from.
 - [x] `borg`: borgbackup 1.2.8 (not in conda-forge: generated from the installed borg, Debian's package)
 - [x] `fusermount`: fuse 3.14.0 (also `fusermount3`)
 
+## `media`: audio, video and images
+
+- [x] `ffmpeg`: ffmpeg 9.0.2 (conda-forge; generated: its own options and the generic ones of libavcodec and
+  libavformat; the private options of codecs, formats and filters are read from the installed ffmpeg)
+- [ ] `magick`
+- [ ] `convert`
+- [ ] `yt-dlp`
+
 ## Possible later plugins
 
 - [ ] `hpc`
@@ -990,8 +998,3 @@ of the output the test stand-in in `tests/bin` was cut from.
 - [ ] `aws`
 - [ ] `gcloud`
 - [ ] `az`
-- [ ] `media`
-- [ ] `ffmpeg`
-- [ ] `magick`
-- [ ] `convert`
-- [ ] `yt-dlp`

@@ -1,9 +1,9 @@
 # luish-extra
 
 Tab completion for [luish](https://github.com/luispedro/luish), for the programs that its standard library leaves out:
-bioinformatics tools (`bio`), scientific computing (`science`), desktop programs (`gui`), development (`dev`) and
-system administration (`system`). Each plugin can be enabled on its own. And [colour schemes](#colour-schemes) for
-luish's highlighting, for dark and light backgrounds (`themes`), and cached set-ups of [conda](#conda) (`conda`) and [nvm](#nvm) (`nvm`).
+bioinformatics tools (`bio`), scientific computing (`science`), desktop programs (`gui`), development (`dev`),
+system administration (`system`) and audio and video (`media`). Each plugin can be enabled on its own. And
+[colour schemes](#colour-schemes) for for dark and light backgrounds (`themes`), and cached set-ups of [conda](#conda) (`conda`) and [nvm](#nvm) (`nvm`).
 
 Completion knows each program's options and subcommands, and the kind of value each one takes: `samtools sort -O`
 offers `BAM`, `CRAM` and `SAM`, `samtools view -T` offers FASTA files and `samtools view in.bam` the reference names
@@ -13,7 +13,7 @@ in its header, `pytest tests/test_x.py::` the tests in that file, and `ruff chec
 
 ## What is supported
 
-272 commands are completed so far, by 239 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
+273 commands are completed so far, by 240 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
 `makeblastdb` and 16 others):
 
 | Plugin    | Commands | Tools done / listed |
@@ -23,7 +23,8 @@ in its header, `pytest tests/test_x.py::` the tests in that file, and `ruff chec
 | `gui`     |       49 |             40 / 40 |
 | `dev`     |        9 |              7 / 10 |
 | `system`  |        3 |               2 / 2 |
-| **Total** |  **272** |       **239 / 857** |
+| `media`   |        1 |               1 / 4 |
+| **Total** |  **273** |       **240 / 861** |
 
 The tools to support are listed in [`docs/completion.md`](docs/completion.md) and, with a box per tool, in
 [`completion-todo.md`](completion-todo.md) (`grep -c '^- \[x\]' completion-todo.md` counts the ticked ones). The
@@ -49,8 +50,8 @@ $ plugin add extra/completion/all
 
 The first command adds the repository to `[plugins.available]` in `config.toml`, under the name `extra` (any name
 works), and fetches it. Its completion plugins are then `extra/completion/bio`, `extra/completion/science`, ...
-(`plugin list-available` lists them). The second enables `all`, which loads `bio`, `science`, `gui`, `dev` and
-`system`. To have only some of them, enable them one by one instead (`plugin add extra/completion/bio`, ...).
+(`plugin list-available` lists them). The second enables `all`, which loads `bio`, `science`, `gui`, `dev`,
+`system` and `media`. To have only some of them, enable them one by one instead (`plugin add extra/completion/bio`, ...).
 
 Or, by hand, in `config.toml` (then run `plugin sync`):
 
@@ -86,7 +87,8 @@ Some programs know their own completions, and are asked rather than described he
 If such a program isn't installed, or doesn't answer, Tab offers filenames.
 
 A few programs have their options read from the installed version when Tab is pressed, so that they follow it:
-`mmseqs`, `xsv`, `qsv` and `ruff` (from their `-h`), `mpv` (`--list-options`), and `inkscape`'s actions.
+`mmseqs`, `xsv`, `qsv` and `ruff` (from their `-h`), `mpv` (`--list-options`), `inkscape`'s actions, and the private
+options of the codecs, formats and filters of `ffmpeg` (`-h encoder=libx264`).
 
 ## `bio`
 
@@ -156,6 +158,19 @@ its flags), `poetry`, `twine`; `fzf`, `bat` (and `batcat`).
 
 Done: `borg` (repositories, and `::ARCHIVE` with `BORG_REPO`; compression specs), `fusermount` and `fusermount3` (the
 FUSE mount points, for `-u`).
+
+## `media`
+
+`ffmpeg`, whose options depend on where they are: those of an input before the first `-i`, those of an output after
+it, and the private options of the codecs and the format chosen for the same input or output (`-c:v libx264 -preset`,
+`-f mp4 -movflags`). An option takes a stream specifier (`-c:` offers `-c:v`, `-c:a`, ...; `-metadata:s:a`), and
+`-c:v` offers video encoders (or decoders, for an input). The codecs, formats, filters, pixel formats, sample formats,
+channel layouts, bitstream filters and hardware accelerations are read from the installed ffmpeg. The values of `-vf`,
+`-af` and `-filter_complex` are filtergraphs (filters, their options, and the constants of these:
+`scale=w=1280:in_range=full`); flags combine (`-movflags +faststart+frag_keyframe`); and `-map` offers the streams of
+the inputs, read with `ffprobe`, and the outputs of `-filter_complex`.
+
+Done: `ffmpeg`.
 
 ## Colour schemes
 

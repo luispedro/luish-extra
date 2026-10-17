@@ -1,4 +1,14 @@
 Unreleased
+    * media: a new plugin, for audio and video, with completion for
+      ffmpeg: the options of an input or an output (ffmpeg's own and
+      the generic ones of libavcodec and libavformat, from ffmpeg
+      9.0.2), with stream specifiers (-c:v, -metadata:s:a) and the
+      private options of the codecs and the format chosen (-c:v
+      libx264 -preset, -f mp4 -movflags), read from the installed
+      ffmpeg, as are the codecs, formats, filters and pixel formats;
+      filtergraphs (-vf scale=w=1280:in_range=full) and the streams of
+      the inputs for -map (with ffprobe). extra.completion.all loads
+      it; to have it alone, enable extra.completion.media
     * bio: completion for amrfinder (AMRFinderPlus, with the taxonomy
       groups of the installed database for --organism) and
       amrfinder_update

@@ -1,0 +1,348 @@
+#!/bin/sh
+# Stand-in for ffmpeg in the tests: what ffmpeg 9.0.2 (conda-forge's) prints for the listings and the help of a few
+# codecs, formats and filters (`-hide_banner -h encoder=libx264`), cut short. The movflags, filters, codecs and formats
+# kept are a few of each.
+shift    # -hide_banner
+case "$*" in
+"-encoders")
+    cat <<'OUT'
+Encoders:
+ V..... = Video
+ A..... = Audio
+ S..... = Subtitle
+ .F.... = Frame-level multithreading
+ ..S... = Slice-level multithreading
+ ...X.. = Codec is experimental
+ ....B. = Supports draw_horiz_band
+ .....D = Supports direct rendering method 1
+ ------
+ V..... libsvtav1            SVT-AV1(Scalable Video Technology for AV1) encoder (codec av1)
+ V....D libx264              libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10 (codec h264)
+ V....D libx265              libx265 H.265 / HEVC (codec hevc)
+ V.S..D mpeg4                MPEG-4 part 2
+ A....D aac                  AAC (Advanced Audio Coding)
+ A....D flac                 FLAC (Free Lossless Audio Codec)
+ A....D libmp3lame           libmp3lame MP3 (MPEG audio layer 3) (codec mp3)
+ A....D libopus              libopus Opus (codec opus)
+ S..... mov_text             3GPP Timed Text subtitle
+ S..... subrip               SubRip subtitle
+OUT
+    ;;
+"-decoders")
+    cat <<'OUT'
+Decoders:
+ V..... = Video
+ A..... = Audio
+ S..... = Subtitle
+ .F.... = Frame-level multithreading
+ ..S... = Slice-level multithreading
+ ...X.. = Codec is experimental
+ ....B. = Supports draw_horiz_band
+ .....D = Supports direct rendering method 1
+ ------
+ VFS..D h264                 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10
+ VFS..D hevc                 HEVC (High Efficiency Video Coding)
+ A....D aac                  AAC (Advanced Audio Coding)
+ A....D opus                 Opus
+ S..... subrip               SubRip subtitle
+OUT
+    ;;
+"-muxers")
+    cat <<'OUT'
+Formats:
+ D.. = Demuxing supported
+ .E. = Muxing supported
+ ..d = Is a device
+ ---
+  E  image2          image2 sequence
+  E  matroska        Matroska
+  E  mov             QuickTime / MOV
+  E  mp3             MP3 (MPEG audio layer 3)
+  E  mp4             MP4 (MPEG-4 Part 14)
+  E  null            raw null video
+  E  webm            WebM
+OUT
+    ;;
+"-demuxers")
+    cat <<'OUT'
+Formats:
+ D.. = Demuxing supported
+ .E. = Muxing supported
+ ..d = Is a device
+ ---
+ D   concat          Virtual concatenation script
+ D   image2          image2 sequence
+ D d lavfi           Libavfilter virtual input device
+ D   matroska,webm   Matroska / WebM
+ D   mov,mp4,m4a,3gp,3g2,mj2 QuickTime / MOV
+OUT
+    ;;
+"-devices")
+    cat <<'OUT'
+Devices:
+ D. = Demuxing supported
+ .E = Muxing supported
+ ---
+ DE alsa            ALSA audio output
+ DE fbdev           Linux framebuffer
+ D  kmsgrab         KMS screen capture
+ D  lavfi           Libavfilter virtual input device
+ DE oss             OSS (Open Sound System) playback
+ DE pulse           Pulse audio output
+ DE video4linux2,v4l2 Video4Linux2 output device
+OUT
+    ;;
+"-filters")
+    cat <<'OUT'
+Filters:
+  T.. = Timeline support
+  .S. = Slice threading
+  A = Audio input/output
+  V = Video input/output
+  N = Dynamic number and/or type of input/output
+  | = Source or sink filter
+  ------
+ .. amix              N->A       Audio mixing.
+ .. aresample         A->A       Resample audio data.
+ T. volume            A->A       Change input volume.
+ .. crop              V->V       Crop the input video.
+ .. format            V->V       Convert the input video to one of the specified pixel formats.
+ .. fps               V->V       Force constant framerate.
+ TS hflip             V->V       Horizontally flip the input video.
+ TS overlay           VV->V      Overlay a video source on top of the input.
+ .. scale             V->V       Scale the input video size and/or convert the image format.
+ .. split             V->N       Pass on the input to N video outputs.
+ .. nullsink          V->|       Do absolutely nothing with the input video.
+ .. showwaves         A->V       Convert input audio to a video output.
+OUT
+    ;;
+"-pix_fmts")
+    cat <<'OUT'
+Pixel formats:
+I.... = Supported Input  format for conversion
+.O... = Supported Output format for conversion
+..H.. = Hardware accelerated format
+...P. = Paletted format
+....B = Bitstream format
+FLAGS NAME            NB_COMPONENTS BITS_PER_PIXEL BIT_DEPTHS
+-----
+IO... yuv420p                3             12      8-8-8
+IO... rgb24                  3             24      8-8-8
+IO... yuv444p                3             24      8-8-8
+IO... nv12                   3             12      8-8-8
+IO... yuv420p10le            3             15      10-10-10
+OUT
+    ;;
+"-sample_fmts")
+    cat <<'OUT'
+name   depth
+u8        8 
+s16      16 
+s32      32 
+flt      32 
+dbl      64 
+u8p       8 
+s16p     16 
+s32p     32 
+fltp     32 
+dblp     64 
+s64      64 
+s64p     64 
+OUT
+    ;;
+"-layouts")
+    cat <<'OUT'
+Individual channels:
+NAME           DESCRIPTION
+FL             front left
+FR             front right
+FC             front center
+LFE            low frequency
+BL             back left
+BR             back right
+
+Standard channel layouts:
+NAME           DECOMPOSITION
+mono           FC
+stereo         FL+FR
+5.1            FL+FR+FC+LFE+BL+BR
+7.1            FL+FR+FC+LFE+BL+BR+SL+SR
+OUT
+    ;;
+"-bsfs")
+    cat <<'OUT'
+Bitstream filters:
+aac_adtstoasc
+dump_extra
+h264_mp4toannexb
+hevc_mp4toannexb
+OUT
+    ;;
+"-protocols")
+    cat <<'OUT'
+Supported file protocols:
+Input:
+  file
+  http
+  https
+  pipe
+  rtmp
+Output:
+  file
+  http
+  https
+  pipe
+  rtmp
+OUT
+    ;;
+"-hwaccels")
+    cat <<'OUT'
+Hardware acceleration methods:
+cuda
+vaapi
+qsv
+drm
+vulkan
+OUT
+    ;;
+"-init_hw_device list")
+    cat <<'OUT'
+Supported hardware device types:
+cuda
+vaapi
+qsv
+drm
+vulkan
+OUT
+    ;;
+"-dispositions")
+    cat <<'OUT'
+default
+dub
+original
+comment
+lyrics
+karaoke
+forced
+hearing_impaired
+visual_impaired
+clean_effects
+attached_pic
+timed_thumbnails
+non_diegetic
+captions
+descriptions
+metadata
+dependent
+still_image
+multilayer
+OUT
+    ;;
+"-colors")
+    cat <<'OUT'
+name                             #RRGGBB
+AliceBlue                        #f0f8ff
+Black                            #000000
+Red                              #ff0000
+White                            #ffffff
+OUT
+    ;;
+"-h encoder=libx264")
+    cat <<'OUT'
+Encoder libx264 [libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10]:
+    General capabilities: dr1 delay threads reorderedopaque flush reconframe 
+    Threading capabilities: other
+    Supported pixel formats: yuv420p yuvj420p yuv422p yuvj422p yuv444p yuvj444p nv12 nv16 nv21 yuv420p10le yuv422p10le yuv444p10le nv20le gray gray10le
+libx264 AVOptions:
+  -preset            <string>     E..V....... Set the encoding preset (cf. x264 --fullhelp) (default "medium")
+  -tune              <string>     E..V....... Tune the encoding params (cf. x264 --fullhelp)
+  -profile           <string>     E..V....... Set profile restrictions (cf. x264 --fullhelp)
+  -crf               <float>      E..V....... Select the quality for constant quality mode (from -1 to FLT_MAX) (default -1)
+  -aq-mode           <int>        E..V....... AQ method (from -1 to INT_MAX) (default -1)
+     none            0            E..V.......
+     variance        1            E..V....... Variance AQ (complexity mask)
+     autovariance    2            E..V....... Auto-variance AQ
+     autovariance-biased 3            E..V....... Auto-variance AQ with bias to dark scenes
+  -partitions        <string>     E..V....... A comma-separated list of partitions to consider. Possible values: p8x8, p4x4, b8x8, i8x8, i4x4, none, all
+  -x264-params       <dictionary> E..V....... Override the x264 configuration using a :-separated list of key=value parameters
+OUT
+    ;;
+"-h encoder=aac")
+    cat <<'OUT'
+Encoder aac [AAC (Advanced Audio Coding)]:
+    General capabilities: dr1 delay small 
+    Threading capabilities: none
+    Supported sample rates: 96000 88200 64000 48000 44100 32000 24000 22050 16000 12000 11025 8000 7350
+    Supported sample formats: fltp
+AAC encoder AVOptions:
+  -aac_coder         <int>        E...A...... Coding algorithm (from 0 to 1) (default twoloop)
+     twoloop         0            E...A...... Two loop searching method
+     fast            1            E...A...... Fast search
+  -aac_ms            <boolean>    E...A...... Force M/S stereo coding (default auto)
+  -aac_is            <boolean>    E...A...... Intensity stereo coding (default true)
+  -aac_pns           <boolean>    E...A...... Perceptual noise substitution (default true)
+  -aac_tns           <boolean>    E...A...... Temporal noise shaping (default true)
+  -aac_pce           <boolean>    E...A...... Forces the use of PCEs (default false)
+OUT
+    ;;
+"-h muxer=mp4")
+    cat <<'OUT'
+Muxer mp4 [MP4 (MPEG-4 Part 14)]:
+    Common extensions: mp4.
+    Mime type: video/mp4.
+    Default video codec: h264.
+    Default audio codec: aac.
+mov/mp4/tgp/psp/tg2/ipod/ismv/f4v muxer AVOptions:
+  -brand             <string>     E.......... Override major brand
+  -movflags          <flags>      E.......... MOV muxer flags (default 0)
+     cmaf                         E.......... Write CMAF compatible fragmented MP4
+     default_base_moof              E.......... Set the default-base-is-moof flag in tfhd atoms
+     empty_moov                   E.......... Make the initial moov atom empty
+     faststart                    E.......... Run a second pass to put the index (moov atom) at the beginning of the file
+     frag_keyframe                E.......... Fragment at video keyframes
+OUT
+    ;;
+"-h filter=scale")
+    cat <<'OUT'
+Filter scale
+  Scale the input video size and/or convert the image format.
+    Inputs:
+       #0: default (video)
+        dynamic (depending on the options)
+    Outputs:
+       #0: default (video)
+scale AVOptions:
+   w                 <string>     ..FV.....T. Output video width
+   h                 <string>     ..FV.....T. Output video height
+   flags             <string>     ..FV....... Flags to pass to libswscale (default "")
+   interl            <boolean>    ..FV....... set interlacing (default false)
+   in_range          <int>        ..FV....... set input color range (from 0 to 2) (default auto)
+     auto            0            ..FV.......
+     unknown         0            ..FV.......
+     full            2            ..FV.......
+     limited         1            ..FV.......
+     jpeg            2            ..FV.......
+     mpeg            1            ..FV.......
+     tv              1            ..FV.......
+     pc              2            ..FV.......
+OUT
+    ;;
+"-h filter=format")
+    cat <<'OUT'
+Filter format
+  Convert the input video to one of the specified pixel formats.
+    Inputs:
+       #0: default (video)
+    Outputs:
+       #0: default (video)
+(no)format AVOptions:
+   pix_fmts          <string>     ..FV....... A '|'-separated list of pixel formats
+   color_spaces      <string>     ..FV....... A '|'-separated list of color spaces
+   color_ranges      <string>     ..FV....... A '|'-separated list of color ranges
+   alpha_modes       <string>     ..FV....... A '|'-separated list of alpha modes
+OUT
+    ;;
+*)
+    echo "Codec '${2#*=}' is not recognized by FFmpeg."
+    ;;
+esac

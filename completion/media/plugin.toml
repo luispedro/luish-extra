@@ -1,0 +1,6 @@
+description = "Completion for audio and video tools"
+luish-version = "0.5"
+
+[dependencies]
+std.completion = "*"
+extra-lib = "*"

@@ -203,8 +203,15 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
 - **Backups**: `borg`
 - **Filesystems**: `fusermount` / `fusermount3` (the FUSE mount points, for `-u`)
 
+## `media`: audio, video and images
+
+- **Audio and video**: `ffmpeg` (the options of an input or an output, with the private options of the codecs and the
+  format chosen for it; codecs, formats, filters and pixel formats from the installed ffmpeg; filtergraphs; the streams
+  of the inputs, for `-map`)
+- **Images**: `magick`, `convert` (ImageMagick's older name)
+- **Downloads**: `yt-dlp`
+
 ## Possible later plugins
 
 - `hpc`: `sbatch`, `squeue`, `scancel`, `sacct`, `srun`, `sinfo`, `qsub`, `bsub`, `module`, `s5cmd`, `globus`
 - `cloud`: `aws`, `gcloud`, `az`
-- `media`: `ffmpeg`, `magick`, `convert` (ImageMagick's older name), `yt-dlp`
