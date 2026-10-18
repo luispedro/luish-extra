@@ -140,16 +140,25 @@ fn line(name, x, desc) {
 }
 
 // The spec for the word `cur`: the options of the installed mpv, with the flags' negations for `--no-`, and in
-// `actions`, the actions on lists (by their names, with the list's).
+// `actions`, the actions on lists (by their names, with the list's). Building it from mpv's thousand options takes
+// tens of milliseconds, so it is kept, by the text it is built from.
 fn spec(cmd, cur) {
     let r = sh::capture_cached(300, [cmd, "--list-options"]);
-    let o = options(if r.status == 0 { r.out } else { "" });
+    let text = if r.status == 0 { r.out } else { "" };
+    let negations = cur.starts_with("--no-");
+    let key = (if negations { "spec-no:" } else { "spec:" }) + text;
+    sh::cache_get(key) ?? sh::cache_put(key, 3600, build(text, negations))
+}
+
+// The spec of the options of `mpv --list-options` (`text`), with the negations of the flags if `negations`.
+fn build(text, negations) {
+    let o = options(text);
     let table = "";
     let values = #{};
     for name in o.order {
         let x = o.opts[name];
         table += line(name, x, describe(x.ty));
-        if x.flag && cur.starts_with("--no-") {
+        if x.flag && negations {
             table += `--no-${name}  ${describe(x.ty)}` + "\n";
         }
         if !x.flag {

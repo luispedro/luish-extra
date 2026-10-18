@@ -144,6 +144,10 @@ c 'soffice --accept='
 c 'soffice --unaccept='
 c 'soffice -env:'
 c 'soffice -env:UserInstallation=file:///tmp/x --headless r'
+echo "=== the registry is read again when it changes"
+sed 's/PDF - Portable Document Format/PDF (changed)/' lo/share/registry/writer.xcd >lo/writer.xcd
+mv lo/writer.xcd lo/share/registry/writer.xcd
+c 'soffice --convert-to p'
 echo "=== without a registry"
 PATH=$PWD/nobin
 c 'soffice --convert-to '

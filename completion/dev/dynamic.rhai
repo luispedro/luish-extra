@@ -196,7 +196,8 @@ fn claude_values() {
     }
 }
 
-// The help of the command `path` (`claude mcp`) in the shape of clap's, or "" if a word of it isn't a name.
+// The help of the command `path` (`claude mcp`) in the shape of clap's, or "" if a word of it isn't a name. It is
+// kept, keyed by the help, as each Tab would reshape the same text.
 fn claude_help(path) {
     let words = path.split(" ");
     for w in words {
@@ -204,7 +205,9 @@ fn claude_help(path) {
             return "";
         }
     }
-    commander(sh::capture_cached(300, words + ["--help"]).out)
+    let text = sh::capture_cached(300, words + ["--help"]).out;
+    let key = "commander:" + text;
+    sh::cache_get(key) ?? sh::cache_put(key, 3600, commander(text))
 }
 
 fn claude_spec(path) {

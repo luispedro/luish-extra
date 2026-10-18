@@ -329,21 +329,31 @@ fn ruff_rules(cur) {
     }
     let last = if w == "" { ' ' } else { w[w.len() - 1] };
     if last >= '0' && last <= '9' {
-        // `ruff rule --all` gives each rule's "name", then its "code", on lines of their own.
-        let r = sh::capture_cached(300, ["ruff", "rule", "--all", "--output-format", "json"]);
-        let name = "";
-        for line in r.out.split("\n") {
-            if line.starts_with(`    "name": "`) {
-                name = line.sub_string(13, line.len() - 15);
-            } else if line.starts_with(`    "code": "`) {
-                let code = line.sub_string(13, line.len() - 15);
-                if code.starts_with(w) {
-                    out.push(#{value: code, desc: name});
-                }
+        // (The rules are kept, keyed by the text they are read from, as each Tab would read the same text again.)
+        let text = sh::capture_cached(300, ["ruff", "rule", "--all", "--output-format", "json"]).out;
+        let key = "ruff_rules:" + text;
+        for rule in sh::cache_get(key) ?? sh::cache_put(key, 3600, ruff_rule_list(text)) {
+            if rule.value.starts_with(w) {
+                out.push(rule);
             }
         }
     }
     #{prefix: cur.sub_string(0, k + 1), candidates: out}
+}
+
+// The rules of `ruff rule --all` (`text`), as candidates: it gives each rule's "name", then its "code", on lines of
+// their own.
+fn ruff_rule_list(text) {
+    let out = [];
+    let name = "";
+    for line in text.split("\n") {
+        if line.starts_with(`    "name": "`) {
+            name = line.sub_string(13, line.len() - 15);
+        } else if line.starts_with(`    "code": "`) {
+            out.push(#{value: line.sub_string(13, line.len() - 15), desc: name});
+        }
+    }
+    out
 }
 
 // ruff's settings (`ruff config`), and after `SECTION.`, those of the section.

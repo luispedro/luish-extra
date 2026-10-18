@@ -111,6 +111,9 @@ Photo_Inkjet
 -env:UserInstallation=	the user profile, as a URL (file:///...)
 --- soffice -env:UserInstallation=file:///tmp/x --headless r
 report.odt 
+=== the registry is read again when it changes
+--- soffice --convert-to p
+pdf 	PDF (changed)
 === without a registry
 --- soffice --convert-to 
 csv 

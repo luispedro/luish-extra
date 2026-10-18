@@ -65,18 +65,24 @@ fn prop(node, name) {
 }
 
 // LibreOffice's filters (`name`, `ty` (the type), `desc`, `flags`) and file types (by name: `ext`, the extensions, and
-// `desc`), from the `org.openoffice.TypeDetection` sections of the registry's `.xcd` files.
+// `desc`), from the `org.openoffice.TypeDetection` sections of the registry's `.xcd` files. Reading them takes tens
+// of milliseconds, so what they give is kept until one of them (or the registry's directory) changes.
 fn lo_filters(words) {
-    let out = #{filters: [], types: #{}};
     let reg = lo_registry(words);
     if reg == () {
-        return out;
+        return #{filters: [], types: #{}};
     }
-    for f in fs::list_dir(reg) ?? [] {
-        if !f.ends_with(".xcd") {
-            continue;
-        }
-        for section in (fs::read_file(reg + "/" + f) ?? "").split("<oor:component-data ") {
+    let files = [reg] + (fs::list_dir(reg) ?? []).filter(|f| f.ends_with(".xcd")).map(|f| reg + "/" + f);
+    let key = "lo_filters:" + reg;
+    sh::cache_get(key, files) ?? sh::cache_put(key, 3600, files, lo_read(files))
+}
+
+// The filters and types of the registry's `.xcd` files (`files`, after the registry itself), as `lo_filters` gives
+// them.
+fn lo_read(files) {
+    let out = #{filters: [], types: #{}};
+    for path in files.extract(1) {
+        for section in (fs::read_file(path) ?? "").split("<oor:component-data ") {
             let head = section.sub_string(0, section.index_of(">"));
             if !head.contains(`"org.openoffice.TypeDetection"`) {
                 continue;

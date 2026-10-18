@@ -1,4 +1,8 @@
 Unreleased
+    * Faster Tab where completion parsed the same text at each Tab:
+      LibreOffice's formats and filters (50 ms to 2 ms), mpv's options
+      (100 ms to 15 ms), ffmpeg's codecs, filters and private options,
+      claude's commands, ruff's rule codes
     * Needs luish 0.7.0 or later (luish-version = "0.7" in every
       plugin.toml), for sh::glob
     * Files by extension (FASTA, BAM, index prefixes, ...) are listed

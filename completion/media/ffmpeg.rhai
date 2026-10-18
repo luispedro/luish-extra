@@ -157,12 +157,15 @@ fn avoptions(text) {
 }
 
 // The private options of a codec, format or filter (`ty`: encoder, decoder, muxer, demuxer or filter), from
-// `ffmpeg -h TYPE=NAME`.
+// `ffmpeg -h TYPE=NAME`. What is parsed from ffmpeg's lists and help (here, and in `codecs`, `formats` and `filters`)
+// is kept, keyed by the text, since each Tab would parse the same text again.
 fn own_options(prog, ty, name) {
     if !lib_text::is_name(name) {
         return [];
     }
-    avoptions(sh::capture_cached(300, [prog, "-hide_banner", "-h", `${ty}=${name}`]).out)
+    let text = sh::capture_cached(300, [prog, "-hide_banner", "-h", `${ty}=${name}`]).out;
+    let key = "avoptions:" + text;
+    sh::cache_get(key) ?? sh::cache_put(key, 3600, avoptions(text))
 }
 
 // What the value of an AVOption completes to (as `type_kind` of scripts/gen/mk_ffmpeg.py): its constants, or for
@@ -323,8 +326,14 @@ fn rows(text, mark) {
 // The encoders (for an output, with `copy`) or decoders (for an input) of the type of stream `t` (v, a, s, d, t; ""
 // for all), from `ffmpeg -encoders`: ` V....D libx264  libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10`.
 fn codecs(prog, side, t) {
+    let text = listing(prog, if side == "out" { "-encoders" } else { "-decoders" });
+    let key = `codecs:${side}:${t}:` + text;
+    sh::cache_get(key) ?? sh::cache_put(key, 3600, codec_rows(text, side, t))
+}
+
+fn codec_rows(text, side, t) {
     let out = if side == "out" { [#{value: "copy", desc: "copy the stream without reencoding"}] } else { [] };
-    for line in rows(listing(prog, if side == "out" { "-encoders" } else { "-decoders" }), "---") {
+    for line in rows(text, "---") {
         let f = words_of(line);
         if f.len() >= 2 && (t == "" || f[0].sub_string(0, 1).to_lower() == t) {
             out.push(#{value: f[1], desc: after(line, f, 1)});
@@ -337,9 +346,15 @@ fn codecs(prog, side, t) {
 // are the first 5 columns (` D d lavfi  Libavfilter virtual input device`, ` D   matroska,webm  Matroska / WebM`), or
 // the devices, from `ffmpeg -devices`, whose flags are the first 4 (` DE alsa  ALSA audio output`).
 fn formats(prog, option, which) {
+    let text = listing(prog, option);
+    let key = `formats:${option}:${which}:` + text;
+    sh::cache_get(key) ?? sh::cache_put(key, 3600, format_rows(text, option, which))
+}
+
+fn format_rows(text, option, which) {
     let w = if option == "-devices" { 4 } else { 5 };
     let out = [];
-    for line in rows(listing(prog, option), "---") {
+    for line in rows(text, "---") {
         let f = words_of(line.sub_string(w));
         if f.len() >= 1 && line.sub_string(0, w).contains(which) {
             for n in f[0].split(",") {
@@ -353,9 +368,15 @@ fn formats(prog, option, which) {
 // The filters for a filtergraph of the type of stream `t` (v or a: those with inputs and outputs of that type; ""
 // for all), from `ffmpeg -filters`: ` TSC aap  AA->A  Apply Affine Projection algorithm to first audio stream.`
 fn filters(prog, t) {
+    let text = listing(prog, "-filters");
+    let key = `filters:${t}:` + text;
+    sh::cache_get(key) ?? sh::cache_put(key, 3600, filter_rows(text, t))
+}
+
+fn filter_rows(text, t) {
     let out = [];
     let want = t.to_upper();
-    for line in listing(prog, "-filters").split("\n") {
+    for line in text.split("\n") {
         let f = words_of(line);
         if f.len() < 3 || !f[2].contains("->") {
             continue;
