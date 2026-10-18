@@ -1,0 +1,86 @@
+#!/bin/sh
+# Stand-in for git-annex in the tests: its real answers (git-annex 10.20241202, in a repository with the
+# remotes origin and backup and the files afile, bfile and sub/c), cut short. The completion protocol
+# (optparse-applicative's) gives the words of the line as `--bash-completion-word W`.
+if [ "$1" = --help ]; then
+    cat <<'OUT'
+Usage: git-annex COMMAND
+
+  git-annex - manage files with git, without checking their contents in
+
+  Commonly used commands:
+
+  copy            copy content of files to/from another repository
+  get             make content of annexed files available
+  sync            synchronize local repository with remotes
+
+  Repository setup commands:
+
+  config          configuration stored in git-annex branch
+  configremote    changes special remote configuration
+
+  Plumbing commands:
+
+  contentlocation looks up content for a key
+
+Available options:
+  -h,--help                Show this help text
+
+Available commands:
+  copy                     
+  get                      
+  sync                     
+  config                   
+  configremote             
+  contentlocation          
+OUT
+    exit 0
+fi
+words=
+while [ $# -gt 0 ]; do
+    case "$1" in
+    --bash-completion-word) words="$words|$2"; shift 2 ;;
+    --bash-completion-index|--bash-completion-option-desc-length) shift 2 ;;
+    --bash-completion-enriched) shift ;;
+    *) echo "git-annex: unexpected argument $1" >&2; exit 1 ;;
+    esac
+done
+remotes() {
+    printf '%s\n' backup origin web bittorrent
+}
+tab=$(printf '\t')
+case "$words" in
+"|git-annex|")
+    printf '%s\n' "-h${tab}Show this help text" "--help${tab}Show this help text" copy get sync config configremote contentlocation ;;
+"|git-annex|co")
+    printf '%s\n' contentlocation config configremote copy ;;
+"|git-annex|copy|--t")
+    cat <<OUT
+--to${tab}destination remote
+--trust${tab}deprecated, does not override trust setting
+--trust-glacier${tab}deprecated, does not trust Amazon Glacier inventory
+--time-limit${tab}stop after the specified amount of time
+OUT
+    ;;
+"|git-annex|copy|--to|"|"|git-annex|copy|--in|")
+    echo "  Remote backup cannot currently be accessed." >&2
+    remotes ;;
+"|git-annex|copy|--to|or")
+    echo origin ;;
+"|git-annex|get|")
+    printf '%s\n' sub bfile afile .git "-f${tab}source remote" "--from${tab}source remote" "-a${tab}automatic mode" ;;
+"|git-annex|get|s")
+    echo sub ;;
+"|git-annex|get|sub/")
+    echo sub/c ;;
+"|git-annex|sync|")
+    remotes
+    printf '%s\n' "-a${tab}do not operate on git branches" "--only-annex${tab}do not operate on git branches" ;;
+"|git-annex|copy|-B|SHA2")
+    printf '%s\n' SHA256E SHA256 SHA224E SHA224 ;;
+"|git-annex|version|")
+    printf '%s\n' "--raw${tab}output only program version" "-d${tab}show debug messages" "--debug${tab}show debug messages" ;;
+"|git-annex|copy|-d")
+    printf '%s\n' "-d${tab}show debug messages" "-d${tab}explain why git-annex does what it does" ;;
+esac
+exit 0

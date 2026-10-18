@@ -24,3 +24,9 @@ for cmd in module_of.keys() {
         lib::complete(specs::spec(words[0]), words, i)
     });
 }
+
+// git-annex completes itself (optparse-applicative's protocol), so it has a completer of its own.
+sh::completer("git-annex", |words, i| {
+    import "annex" as m;
+    m::complete(words, i)
+});

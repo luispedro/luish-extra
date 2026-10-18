@@ -14,18 +14,18 @@ in its header, `pytest tests/test_x.py::` the tests in that file, and `ruff chec
 
 ## What is supported
 
-288 commands are completed so far, by 251 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
+289 commands are completed so far, by 252 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
 `makeblastdb` and 16 others):
 
 | Plugin    | Commands | Tools done / listed |
 |-----------|---------:|--------------------:|
 | `bio`     |      181 |           172 / 772 |
-| `science` |       42 |             26 / 37 |
+| `science` |       42 |             26 / 68 |
 | `gui`     |       49 |             40 / 40 |
-| `dev`     |       12 |             10 / 13 |
-| `system`  |        3 |               2 / 2 |
-| `media`   |        1 |               1 / 4 |
-| **Total** |  **288** |       **251 / 868** |
+| `dev`     |       12 |             10 / 88 |
+| `system`  |        4 |               3 / 4 |
+| `media`   |        1 |               1 / 15 |
+| **Total** |  **289** |       **252 / 987** |
 
 The tools to support are listed in [`docs/completion.md`](docs/completion.md) and, with a box per tool, in
 [`completion-todo.md`](completion-todo.md) (`grep -c '^- \[x\]' completion-todo.md` counts the ticked ones). The
@@ -160,7 +160,8 @@ its flags), `poetry`, `twine`; `claude`, `codex`, `opencode`; `fzf`, `bat` (and 
 ## `system`
 
 Done: `borg` (repositories, and `::ARCHIVE` with `BORG_REPO`; compression specs), `fusermount` and `fusermount3` (the
-FUSE mount points, for `-u`).
+FUSE mount points, for `-u`), `git-annex` (which completes itself: its commands, options, remotes and backends; not yet
+as `git annex`, which std's git completer would have to hand over).
 
 ## `media`
 

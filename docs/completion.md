@@ -232,6 +232,8 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
 - **Backups**: `borg`
 - **Filesystems**: `fusermount` / `fusermount3` (the FUSE mount points, for `-u`)
 - **Archives**: `7zz` / `7z` (7-Zip, p7zip)
+- **Version control**: `git-annex` (completed by git-annex itself; `git annex` needs std's git completer to hand it
+  over, as `git lfs` does)
 
 ## `media`: audio, video and images
 

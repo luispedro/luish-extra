@@ -1,0 +1,60 @@
+load 0
+--- git-annex 
+config 	configuration stored in git-annex branch
+configremote 	changes special remote configuration
+contentlocation 	looks up content for a key
+copy 	copy content of files to/from another repository
+get 	make content of annexed files available
+sync 	synchronize local repository with remotes
+--- git-annex co
+config 	configuration stored in git-annex branch
+configremote 	changes special remote configuration
+contentlocation 	looks up content for a key
+copy 	copy content of files to/from another repository
+--- git-annex help co
+config 	configuration stored in git-annex branch
+configremote 	changes special remote configuration
+contentlocation 	looks up content for a key
+copy 	copy content of files to/from another repository
+--- git-annex copy --t
+--time-limit 	stop after the specified amount of time
+--to 	destination remote
+--trust 	deprecated, does not override trust setting
+--trust-glacier 	deprecated, does not trust Amazon Glacier inventory
+--- git-annex copy -d
+-d 	show debug messages
+--- git-annex copy --to 
+backup 
+bittorrent 
+origin 
+web 
+--- git-annex copy --to=or
+--to=origin 
+--- git-annex copy --in 
+backup 
+bittorrent 
+origin 
+web 
+--- git-annex copy -B SHA2
+SHA224 
+SHA224E 
+SHA256 
+SHA256E 
+--- git-annex get 
+afile 
+bfile 
+sub/
+--- git-annex get s
+sub/
+--- git-annex get sub/
+sub/c 
+--- git-annex sync 
+backup 
+bittorrent 
+origin 
+web 
+--- git-annex sync --content-of 
+afile 
+bfile 
+sub/
+--- git-annex version 
