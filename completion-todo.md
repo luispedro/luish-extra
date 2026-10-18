@@ -867,6 +867,7 @@ stand-ins in `tests/bin` were cut from.
 - [ ] `cromwell`
 - [ ] `toil`
 - [ ] `planemo` (Click, 1.4 s: not registered, `complete-click planemo`)
+- [ ] `dagster` (Click: not timed yet)
 - [x] `quarto`: quarto 1.9.38 (`--to` formats, `publish` providers and `install` tools are from its documentation)
 - [x] `latexmk`: latexmk 4.87 (TeX Live 2026)
 - [x] `pdflatex`: pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026), also `pdftex`
@@ -874,18 +875,48 @@ stand-ins in `tests/bin` were cut from.
 - [x] `bibtex`: TeX Live 2026
 - [ ] `biber` (not packaged in conda-forge or Bioconda: no help to check against)
 - [x] `pandoc`: pandoc 3.11 (descriptions from its man page; formats and extensions are asked of the installed pandoc)
+- [ ] `tectonic`
 - [x] `ipython`: ipython 9.9.0
 - [x] `jupyter`: jupyterlab 4.5.2, notebook 7.5.2, nbconvert 7.16.6, jupyter_client 8.8.0, jupyter_server 2.17.0, jupyter_core 5.9.1
   (`jupyter-lab`, `jupyter-nbconvert` and the other `jupyter-*` programs too)
 - [x] `Rscript`: R 4.6.1 (and `R`, which takes the same options)
+- [ ] `marimo` (Click: not timed yet)
+- [ ] `jupytext`
 - [x] `gnuplot`: gnuplot 6.0 patchlevel 5
 - [ ] `glpk`
 - [x] `datamash`: datamash 1.9
 - [ ] `tsv-utils`
+- [ ] `dot` (Graphviz; also `neato`, `fdp`, `sfdp`, `circo`, `twopi`, which take the same options)
 - [x] `mlr`: Miller 6.22.0
 - [x] `xsv`: xsv 0.13.0
 - [x] `qsv`: qsv 14.0.0
 - [x] `duckdb`: duckdb 1.5.6 (`duckdb-cli`)
+- [ ] `mpirun` (Open MPI, MPICH)
+- [ ] `mpiexec` (Open MPI, MPICH)
+- [ ] `dask` (Click: not timed yet)
+- [ ] `ray` (Click: not timed yet)
+- [ ] `spark-submit`
+- [ ] `pyspark`
+- [ ] `gdal` (GDAL 3.11 and later)
+- [ ] `gdalinfo`
+- [ ] `gdal_translate`
+- [ ] `gdalwarp`
+- [ ] `gdalbuildvrt`
+- [ ] `ogr2ogr`
+- [ ] `ogrinfo`
+- [ ] `proj`
+- [ ] `cs2cs`
+- [ ] `projinfo`
+- [ ] `ncdump`
+- [ ] `nccopy`
+- [ ] `ncgen`
+- [ ] `h5dump`
+- [ ] `h5ls`
+- [ ] `h5diff`
+- [ ] `h5repack`
+- [ ] `grib_ls`
+- [ ] `grib_dump`
+- [ ] `grib_copy`
 - [ ] `gromacs`
 - [ ] `autodock-vina`
 - [ ] `namd`
@@ -955,15 +986,90 @@ of the output the test stand-in in `tests/bin` was cut from.
 
 - [x] `poetry`: poetry 2.5.1
 - [x] `twine`: twine 7.0.0
+- [ ] `pre-commit`
+- [ ] `prek`
+- [ ] `virtualenv`
+- [ ] `tox`
+- [ ] `pipx`
+- [ ] `conda-build` (also `conda build`, `conda render`, `conda debug`)
+- [ ] `rattler-build`
+- [ ] `conda-smithy`
+- [ ] `grayskull`
+- [ ] `conda-pack`
+- [ ] `conda-lock` (Click: not timed yet)
 - [x] `pytest`: pytest 9.1.1, pytest-xdist 3.8.0, pytest-cov 7.1.0 (also `py.test`)
 - [x] `ruff`: ruff 0.16.9 (options, linters and rules read from the installed `ruff`)
 - [x] `mypy`: mypy 2.3.1
+- [ ] `coverage`
+- [ ] `isort`
+- [ ] `pylint`
+- [ ] `flake8`
+- [ ] `autopep8`
+- [ ] `yapf`
+- [ ] `pyright`
+- [ ] `ty`
+- [ ] `cython` (also `cythonize`)
+- [ ] `nbstripout`
+- [ ] `sphinx-build`
+- [ ] `sphinx-apidoc`
+- [ ] `sphinx-quickstart`
+- [ ] `gfortran`
+- [ ] `nvcc`
+- [ ] `rustc`
+- [ ] `node`
+- [ ] `java`
+- [ ] `javac`
+- [ ] `jar`
+- [ ] `keytool`
+- [ ] `ruby`
+- [ ] `gem`
+- [ ] `just`
+- [ ] `pkg-config`
+- [ ] `ccache`
+- [ ] `sccache`
+- [ ] `bazel`
+- [ ] `scons`
+- [ ] `doxygen`
+- [ ] `protoc`
+- [ ] `clang-format`
+- [ ] `clang-tidy`
+- [ ] `clangd`
+- [ ] `cppcheck`
+- [ ] `shellcheck`
+- [ ] `prettier`
+- [ ] `typos`
+- [ ] `taplo`
+- [ ] `zizmor`
+- [ ] `lefthook` (Cobra: not checked yet)
+- [ ] `inv` (also `invoke`)
+- [ ] `fab`
+- [ ] `gunicorn`
+- [ ] `fastapi`
+- [ ] `django-admin`
+- [ ] `caddy` (Cobra: not checked yet)
+- [ ] `mitmproxy`
+- [ ] `mitmdump`
+- [ ] `psql`
+- [ ] `pg_dump`
+- [ ] `pg_restore`
+- [ ] `pg_dumpall`
+- [ ] `pg_ctl`
+- [ ] `initdb`
+- [ ] `createdb`
+- [ ] `dropdb`
+- [ ] `hf`
+- [ ] `accelerate`
+- [ ] `terraform`
+- [ ] `buf` (Cobra: not checked yet)
+- [ ] `yq` (Cobra, go-yq: not checked yet)
+- [ ] `databricks` (Cobra, if conda-forge's is the Go one: not checked yet)
 - [x] `fzf`: fzf 0.74
 - [x] `bat`: bat 0.26.1 (also `batcat`; languages and themes read from the installed `bat`)
 - [x] `claude`: Claude Code 2.1.288 (options and commands read from the installed `claude`, Commander's help put in clap's shape)
 - [x] `codex`: codex-cli 0.142.5 (options and commands read from the installed `codex`)
 - [x] `opencode`: opencode 1.18.34 (a table: yargs, and a start-up of 0.8 s)
 - [ ] `svn`
+- [ ] `git lfs` (std's git completer has to hand it over)
 - [ ] `netlify`
 - [ ] `adb`
 
@@ -971,6 +1077,7 @@ of the output the test stand-in in `tests/bin` was cut from.
 
 - [x] `borg`: borgbackup 1.2.8 (not in conda-forge: generated from the installed borg, Debian's package)
 - [x] `fusermount`: fuse 3.14.0 (also `fusermount3`)
+- [ ] `7zz` (also `7z`, p7zip's)
 
 ## `media`: audio, video and images
 
@@ -978,6 +1085,17 @@ of the output the test stand-in in `tests/bin` was cut from.
   libavformat; the private options of codecs, formats and filters are read from the installed ffmpeg)
 - [ ] `magick`
 - [ ] `convert`
+- [ ] `gm`
+- [ ] `vips`
+- [ ] `tesseract`
+- [ ] `pdftotext`
+- [ ] `pdfinfo`
+- [ ] `pdftoppm`
+- [ ] `pdfimages`
+- [ ] `pdfunite`
+- [ ] `pdfseparate`
+- [ ] `gs`
+- [ ] `qpdf`
 - [ ] `yt-dlp`
 
 ## Possible later plugins

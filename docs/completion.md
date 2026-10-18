@@ -4,7 +4,10 @@ The commands that luish-extra completes, or intends to complete, by plugin. Noth
 is the target list. A command is on it because a lab uses it, or because it is among the most downloaded
 command-line tools on [Bioconda](https://bioconda.github.io/): the top 2000 packages once R, Perl and Python
 packages are set aside, which is down to about 21,000 total downloads, plus the widely used tools further down
-that list and the ones that Bioconda barely carries (licensed, vendor or GitHub-only tools). Libraries
+that list and the ones that Bioconda barely carries (licensed, vendor or GitHub-only tools). Outside `bio`, a
+command may also be on it because its package is among the most downloaded on
+[conda-forge](https://conda-forge.org/) (July to September 2026, from Anaconda's public download statistics) and
+is used from the command line, not only installed as a dependency. Libraries
 (`pysam`, `biopython`, …), R, Perl and Bioconductor packages, and packages that only provide a library are left
 out.
 
@@ -166,11 +169,18 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
 ## `science`: general scientific computing
 
 - **Workflows**: `jug` (subcommands, and jugfiles `*.py` as arguments), `snakemake` (rules from the Snakefile as
-  targets), `nextflow`, `nf-core`, `nf-test`, `cwltool`, `cromwell`, `toil`, `planemo`
-- **Writing**: `quarto`, `latexmk`, `pdflatex`, `xelatex`, `bibtex`, `biber`, `pandoc`
-- **Interactive Python and R**: `ipython`, `jupyter`, `Rscript`, `R`
-- **Plotting and numerics**: `gnuplot`, `glpk` (`glpsol`), `datamash`, `tsv-utils`
+  targets), `nextflow`, `nf-core`, `nf-test`, `cwltool`, `cromwell`, `toil`, `planemo`, `dagster`
+- **Writing**: `quarto`, `latexmk`, `pdflatex`, `xelatex`, `bibtex`, `biber`, `pandoc`, `tectonic`
+- **Interactive Python and R**: `ipython`, `jupyter`, `Rscript`, `R`, `marimo`, `jupytext`
+- **Plotting and numerics**: `gnuplot`, `glpk` (`glpsol`), `datamash`, `tsv-utils`, Graphviz (`dot`, `neato`, `fdp`,
+  `sfdp`, `circo`, `twopi`: output formats and layouts from the installed `dot`)
 - **Tabular data**: `mlr` (Miller), `xsv` / `qsv`, `duckdb`
+- **Parallel and distributed computing**: `mpirun` / `mpiexec` (Open MPI, MPICH), `dask`, `ray`, `spark-submit`,
+  `pyspark`
+- **Geospatial**: GDAL (`gdal`, the command of GDAL 3.11 and later, and `gdalinfo`, `gdal_translate`, `gdalwarp`,
+  `gdalbuildvrt`, `ogr2ogr`, `ogrinfo`), PROJ (`proj`, `cs2cs`, `projinfo`)
+- **Data formats**: netCDF (`ncdump`, `nccopy`, `ncgen`), HDF5 (`h5dump`, `h5ls`, `h5diff`, `h5repack`), ecCodes
+  (`grib_ls`, `grib_dump`, `grib_copy`)
 - **Chemistry and molecular modelling**: `gromacs` (`gmx`), `autodock-vina`, AmberTools (`tleap`, `cpptraj`, `pmemd`), `namd`, `lmp`
 - **General command-line utilities that Bioconda ships**: `parallel`, `aria2c`, `pigz`, `singularity` / `apptainer`,
   `awscli`
@@ -188,13 +198,32 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
 ## `dev`: development and deployment
 
 - **Environments and packaging**: `poetry` (the groups, extras, dependencies and sources of `pyproject.toml`, the
-  packages of `poetry.lock`), `twine` (the repositories of `~/.pypirc`)
+  packages of `poetry.lock`), `twine` (the repositories of `~/.pypirc`), `pre-commit` and `prek` (the hooks of
+  `.pre-commit-config.yaml`), `virtualenv`, `tox`, `pipx`
+- **conda-forge packaging**: `conda-build` (also `conda build`, `conda render` and `conda debug`; recipe directories
+  and variant files), `rattler-build`, `conda-smithy`, `grayskull`, `conda-pack`, `conda-lock`
 - **Python tooling**: `pytest` (test files and the tests in them, `FILE::CLASS::TEST`; markers; the options of
-  pytest-xdist and pytest-cov), `ruff` (rule codes and linter prefixes), `mypy` (error codes)
+  pytest-xdist and pytest-cov), `ruff` (rule codes and linter prefixes), `mypy` (error codes), `coverage`, `isort`,
+  `pylint` (message IDs), `flake8`, `autopep8`, `yapf`, `pyright`, `ty`, `cython` / `cythonize`, `nbstripout`,
+  Sphinx (`sphinx-build`, with builders for `-b`; `sphinx-apidoc`, `sphinx-quickstart`)
+- **Compilers and runtimes**: `gfortran`, `nvcc`, `rustc`, `node`, OpenJDK (`java`, `javac`, `jar`, `keytool`),
+  `ruby`, `gem`
+- **Build tools**: `just` (the recipes of the justfile), `pkg-config` (packages from `pkg-config --list-all`),
+  `ccache`, `sccache`, `bazel`, `scons`, `doxygen`, `protoc`
+- **C and C++ tools**: `clang-format`, `clang-tidy` (checks from `clang-tidy --list-checks`), `clangd`, `cppcheck`
+- **Linters and formatters**: `shellcheck` (check codes; optional checks from `--list-optional`), `prettier`,
+  `typos`, `taplo`, `zizmor`, `lefthook`
+- **Task runners**: `inv` / `invoke`, `fab` (Fabric), through their own `--complete`
+- **Web services**: `gunicorn`, `fastapi`, `django-admin` (through Django's own completion), `caddy`, `mitmproxy`,
+  `mitmdump`
+- **Databases**: PostgreSQL (`psql`, `pg_dump`, `pg_restore`, `pg_dumpall`, `pg_ctl`, `initdb`, `createdb`,
+  `dropdb`; databases from `psql -l`)
+- **Machine learning**: `hf` (huggingface_hub), `accelerate`
+- **Infrastructure**: `terraform`, `buf`, `yq`, `databricks`
 - **Command-line utilities**: `fzf`, `bat` (`batcat` on Debian; its languages and themes)
 - **Coding agents**: `claude` (read from its help; the agents of `.claude/agents` for `--agent`), `codex` (read from its
   help; the profiles of `$CODEX_HOME` for `--profile`), `opencode`
-- **Version control**: `svn`
+- **Version control**: `svn`, `git lfs` (a git subcommand: std's git completer has to hand it over)
 - **Web deployment**: `netlify`
 - **Android**: `adb`
 
@@ -202,13 +231,17 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
 
 - **Backups**: `borg`
 - **Filesystems**: `fusermount` / `fusermount3` (the FUSE mount points, for `-u`)
+- **Archives**: `7zz` / `7z` (7-Zip, p7zip)
 
 ## `media`: audio, video and images
 
 - **Audio and video**: `ffmpeg` (the options of an input or an output, with the private options of the codecs and the
   format chosen for it; codecs, formats, filters and pixel formats from the installed ffmpeg; filtergraphs; the streams
   of the inputs, for `-map`)
-- **Images**: `magick`, `convert` (ImageMagick's older name)
+- **Images**: `magick`, `convert` (ImageMagick's older name), `gm` (GraphicsMagick), `vips`, `tesseract` (languages
+  from `tesseract --list-langs`)
+- **PDF and PostScript**: Poppler (`pdftotext`, `pdfinfo`, `pdftoppm`, `pdfimages`, `pdfunite`, `pdfseparate`), `gs`
+  (Ghostscript; devices from `gs -h`), `qpdf`
 - **Downloads**: `yt-dlp`
 
 ## Possible later plugins
