@@ -1,5 +1,5 @@
 description = "Colour schemes for luish's line editor, in pairs for dark and light backgrounds"
-luish-version = "0.5"
+luish-version = "0.7"
 
 # Loading this plugin only makes the schemes available; choose a pair in config.toml:
 #

@@ -5,7 +5,7 @@
 # Enable it in config.toml with its options (`extra.conda = { options = { env = "py3.12" } }`), or load it with
 # `plugin load extra/conda env=py3.12`.
 
-luish-version = "0.5"
+luish-version = "0.7"
 
 [plugin-options]
 # The conda installation (the directory with bin/conda). By default, that of the conda in PATH, or the first of

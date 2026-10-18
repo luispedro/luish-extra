@@ -1,4 +1,8 @@
 Unreleased
+    * Needs luish 0.7.0 or later (luish-version = "0.7" in every
+      plugin.toml), for sh::glob
+    * Files by extension (FASTA, BAM, index prefixes, ...) are listed
+      much faster, with luish's sh::glob
     * media: a new plugin, for audio and video, with completion for
       ffmpeg: the options of an input or an output (ffmpeg's own and
       the generic ones of libavcodec and libavformat, from ffmpeg

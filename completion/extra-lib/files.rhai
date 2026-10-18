@@ -17,24 +17,12 @@ fn compressed(suffixes) {
 // The files of the directory of `cur` whose names end in one of `suffixes`,
 // and the directories.
 fn with_suffix(cur, suffixes) {
-    let r = std_kinds::listing(cur, "", false);
-    r.candidates = r.candidates.filter(|c| type_of(c) == "map" || suffixes.some(|s| c.ends_with(s)));
-    r
+    std_kinds::files_matching(cur, std_kinds::ending_with(suffixes))
 }
 
 // The same, without the directories named in `skip` (`["__pycache__"]`).
 fn with_suffix(cur, suffixes, skip) {
-    let r = std_kinds::listing(cur, "", false);
-    let out = [];
-    for c in r.candidates {
-        if type_of(c) == "map" {
-            if !skip.contains(c.value.sub_string(0, c.value.len() - 1)) {
-                out.push(c);
-            }
-        } else if suffixes.some(|s| c.ends_with(s)) {
-            out.push(c);
-        }
-    }
-    r.candidates = out;
+    let r = with_suffix(cur, suffixes);
+    r.candidates = r.candidates.filter(|c| type_of(c) == "string" || !skip.contains(c.value.sub_string(0, c.value.len() - 1)));
     r
 }

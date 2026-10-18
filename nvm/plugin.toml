@@ -5,7 +5,7 @@
 # Enable it in config.toml with its options (`extra.nvm = { options = { version = "node" } }`), or load it with
 # `plugin load extra/nvm version=node`.
 
-luish-version = "0.5"
+luish-version = "0.7"
 
 [plugin-options]
 # nvm's directory (NVM_DIR, with nvm.sh). By default $NVM_DIR, or $XDG_CONFIG_HOME/nvm if XDG_CONFIG_HOME is set and

@@ -1,5 +1,5 @@
 description = "Helpers shared by the extra-completion plugins"
-luish-version = "0.5"
+luish-version = "0.7"
 library = true
 
 [dependencies]

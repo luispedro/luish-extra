@@ -37,7 +37,7 @@ Commands are completed by the name you type, not the name of their Bioconda pack
 
 ## Enabling
 
-Requires luish 0.5.0 or later (the plugins say so in their `plugin.toml`, and an older luish doesn't load them), and
+Requires luish 0.7.0 or later (the plugins say so in their `plugin.toml`, and an older luish doesn't load them), and
 its `std.completion` plugin. The plugins depend on it and on `extra-lib`, this
 collection's library of shared helpers, so luish loads them first; `extra-lib` is not listed by `plugin
 list-available`.

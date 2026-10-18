@@ -181,8 +181,8 @@ sphinx-build -W docs docs/_build
 
 ## Design decisions to keep in mind
 
-- Needs luish 0.5.0 or later (the minimum supported version: sub-collections, colour schemes and their terminal
-  colours, plugin options, `sh::capture_cached`). Every `plugin.toml` says so (`luish-version = "0.5"`, after
+- Needs luish 0.7.0 or later (the minimum supported version: sub-collections, colour schemes and their terminal
+  colours, plugin options, `sh::capture_cached`, `sh::glob`). Every `plugin.toml` says so (`luish-version = "0.7"`, after
   `description`, if any), so that an older luish doesn't load it; a new plugin does too, and raising the minimum
   changes them all. The docs add the whole repository as a source (`extra = { gh = "luispedro/luish-extra" }`, plugins
   `extra/completion/bio`, ...).

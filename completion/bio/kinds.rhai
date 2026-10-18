@@ -8,7 +8,7 @@ import "../extra-lib/files" as lib_files;
 // is `PREFIX.1.bt2`, ...), and the directories. Files of the same prefix
 // come once.
 fn prefixes(cur, suffixes) {
-    let r = std_kinds::listing(cur, "", false);
+    let r = lib_files::with_suffix(cur, suffixes);
     let out = [];
     for c in r.candidates {
         if type_of(c) == "map" {
@@ -153,15 +153,9 @@ fn trimmomatic_step(cur) {
         if rest.contains(":") {
             return [];
         }
-        let r = std_kinds::listing(rest, "ILLUMINACLIP:", false);
-        let out = [];
-        for c in r.candidates {
-            if type_of(c) == "map" {
-                out.push(c);
-            } else if fasta.some(|s| c.ends_with(s)) {
-                out.push(#{value: c, suffix: ":"});
-            }
-        }
+        let r = lib_files::with_suffix(rest, fasta);
+        r.prefix = "ILLUMINACLIP:" + r.prefix;
+        let out = r.candidates.map(|c| if type_of(c) == "map" { c } else { #{value: c, suffix: ":"} });
         if r.prefix == "ILLUMINACLIP:" {
             for a in ["NexteraPE-PE.fa", "TruSeq2-PE.fa", "TruSeq2-SE.fa", "TruSeq3-PE.fa", "TruSeq3-PE-2.fa",
                       "TruSeq3-PE-2-GGGGG.fa", "TruSeq3-SE.fa", "TruSeq3-SE-GGGGG.fa"] {
@@ -202,9 +196,8 @@ fn trimmomatic_step(cur) {
 fn cutadapt_adapter(cur) {
     for p in ["file:", "file$:", "^file:"] {
         if cur.starts_with(p) {
-            let r = std_kinds::listing(cur.sub_string(p.len()), p, false);
-            let fasta = lib_files::compressed([".fa", ".fasta", ".fna"]);
-            r.candidates = r.candidates.filter(|c| type_of(c) == "map" || fasta.some(|s| c.ends_with(s)));
+            let r = lib_files::with_suffix(cur.sub_string(p.len()), lib_files::compressed([".fa", ".fasta", ".fna"]));
+            r.prefix = p + r.prefix;
             return r;
         }
     }
