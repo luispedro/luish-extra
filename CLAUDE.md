@@ -48,9 +48,11 @@ claude, from their `-h` like mmseqs; claude is Commander, whose help `commander(
 `[possible values: ...]`) and the generated `pytest.rhai`, `mypy.rhai`, `poetry.rhai`. `completion/system`: `kinds.rhai` (borg
 locations and compression specs, FUSE mount points from `/proc/mounts`), `tools.rhai` (fusermount, fusermount3), the
 generated `borg.rhai` and `annex.rhai`, the completer of git-annex, which completes itself (optparse-applicative's
-`--bash-completion-index`, as its bash completion does; `tests/bin/git-annex` stands in for it). `completion/gui`:
-`kinds.rhai` (LibreOffice's filters and file types, read from the `.xcd` files of its registry, found by following the `soffice` link in `PATH`; CUPS's printers; kate's sessions; GIMP's session files;
-the object IDs of the SVG files on the line and the actions of `inkscape --action-list`; OBS's profiles, scene
+`--bash-completion-index`, as its bash completion does; `tests/bin/git-annex` stands in for it); std's git completer
+hands `git annex` over to it (a git command that is a program of its own, `git-CMD` in `PATH`, goes to that program's
+completer). `completion/gui`: `kinds.rhai` (LibreOffice's filters and file types, read from the `.xcd` files of its
+registry, found by following the `soffice` link in `PATH`; CUPS's printers; kate's sessions; GIMP's session files; the
+object IDs of the SVG files on the line and the actions of `inkscape --action-list`; OBS's profiles, scene
 collections and scenes; Firefox's, Thunderbird's and Chrome's profiles; VS Code's extensions and profiles; Krita's
 workspaces and sessions; Artemis's `-D` properties; xrandr's outputs and modes, gsettings's schemas, keys and values,
 dconf's paths and wmctrl's windows), `qt.rhai` (the options of every KDE program, from QCommandLineParser and Qt),

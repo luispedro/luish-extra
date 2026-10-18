@@ -1,4 +1,8 @@
 load 0
+--- git -C repo annex get 
+afile 
+bfile 
+sub/
 --- git-annex 
 config 	configuration stored in git-annex branch
 configremote 	changes special remote configuration
@@ -58,3 +62,10 @@ afile
 bfile 
 sub/
 --- git-annex version 
+--- git annex co
+config 	configuration stored in git-annex branch
+configremote 	changes special remote configuration
+contentlocation 	looks up content for a key
+copy 	copy content of files to/from another repository
+--- git annex copy --to=or
+--to=origin 

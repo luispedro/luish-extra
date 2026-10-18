@@ -1069,7 +1069,7 @@ of the output the test stand-in in `tests/bin` was cut from.
 - [x] `codex`: codex-cli 0.142.5 (options and commands read from the installed `codex`)
 - [x] `opencode`: opencode 1.18.34 (a table: yargs, and a start-up of 0.8 s)
 - [ ] `svn`
-- [ ] `git lfs` (std's git completer has to hand it over)
+- [ ] `git lfs` (a completer for `git-lfs`, to which std's git completer hands `git lfs` over)
 - [ ] `netlify`
 - [ ] `adb`
 
@@ -1078,8 +1078,8 @@ of the output the test stand-in in `tests/bin` was cut from.
 - [x] `borg`: borgbackup 1.2.8 (not in conda-forge: generated from the installed borg, Debian's package)
 - [x] `fusermount`: fuse 3.14.0 (also `fusermount3`)
 - [ ] `7zz` (also `7z`, p7zip's)
-- [x] `git-annex`: git-annex 10.20241202 (completes itself, with optparse-applicative's protocol; `git annex` not yet:
-  std's git completer has to hand it over)
+- [x] `git-annex`: git-annex 10.20241202 (completes itself, with optparse-applicative's protocol; also `git annex`,
+  which std's git completer hands over)
 
 ## `media`: audio, video and images
 

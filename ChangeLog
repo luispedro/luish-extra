@@ -14,8 +14,7 @@ Unreleased
       the inputs for -map (with ffprobe). extra.completion.all loads
       it; to have it alone, enable extra.completion.media
     * system: completion for git-annex, by git-annex itself (its
-      commands, options, remotes, backends and files); git annex isn't
-      completed yet (std's git completer has to hand it over)
+      commands, options, remotes, backends and files), also as git annex
     * bio: completion for amrfinder (AMRFinderPlus, with the taxonomy
       groups of the installed database for --organism) and
       amrfinder_update

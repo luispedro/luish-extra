@@ -1,7 +1,7 @@
 # git-annex, which completes itself (tests/bin/git-annex stands in for it, with the remotes origin and
 # backup): the commands, with the descriptions of its --help; options; remotes, also after `--to=`;
 # backends; files, which luish lists again (git-annex lists them with compgen); a value it has no
-# completion for is a filename.
+# completion for is a filename. std's git completer hands `git annex` over, in the directory of `-C`.
 __luish_internal plugin load "$EXTRA/completion/system"
 echo "load $?"
 c() {
@@ -10,6 +10,7 @@ c() {
 }
 mkdir -p repo/sub repo/.git
 touch repo/afile repo/bfile repo/sub/c
+c 'git -C repo annex get '
 cd repo
 c 'git-annex '
 c 'git-annex co'
@@ -26,3 +27,5 @@ c 'git-annex get sub/'
 c 'git-annex sync '
 c 'git-annex sync --content-of '
 c 'git-annex version '
+c 'git annex co'
+c 'git annex copy --to=or'

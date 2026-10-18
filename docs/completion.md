@@ -223,7 +223,7 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
 - **Command-line utilities**: `fzf`, `bat` (`batcat` on Debian; its languages and themes)
 - **Coding agents**: `claude` (read from its help; the agents of `.claude/agents` for `--agent`), `codex` (read from its
   help; the profiles of `$CODEX_HOME` for `--profile`), `opencode`
-- **Version control**: `svn`, `git lfs` (a git subcommand: std's git completer has to hand it over)
+- **Version control**: `svn`, `git lfs` (std's git completer hands `git lfs` over to the completer of `git-lfs`)
 - **Web deployment**: `netlify`
 - **Android**: `adb`
 
@@ -232,8 +232,8 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
 - **Backups**: `borg`
 - **Filesystems**: `fusermount` / `fusermount3` (the FUSE mount points, for `-u`)
 - **Archives**: `7zz` / `7z` (7-Zip, p7zip)
-- **Version control**: `git-annex` (completed by git-annex itself; `git annex` needs std's git completer to hand it
-  over, as `git lfs` does)
+- **Version control**: `git-annex` (completed by git-annex itself; also `git annex`, which std's git completer hands
+  over)
 
 ## `media`: audio, video and images
 

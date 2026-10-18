@@ -160,8 +160,8 @@ its flags), `poetry`, `twine`; `claude`, `codex`, `opencode`; `fzf`, `bat` (and 
 ## `system`
 
 Done: `borg` (repositories, and `::ARCHIVE` with `BORG_REPO`; compression specs), `fusermount` and `fusermount3` (the
-FUSE mount points, for `-u`), `git-annex` (which completes itself: its commands, options, remotes and backends; not yet
-as `git annex`, which std's git completer would have to hand over).
+FUSE mount points, for `-u`), `git-annex` and `git annex` (which completes itself: its commands, options, remotes and
+backends).
 
 ## `media`
 
