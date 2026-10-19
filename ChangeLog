@@ -1,4 +1,8 @@
-Unreleased
+Version 0.7.0 2026-10-19 by luispedro
+    * The first release. Releases are tags vX.Y.N, the Nth for luish
+      X.Y, which luish 0.7's release = "luish" takes: to stay on them
+      (rather than main, which may need a newer luish), add the source
+      as extra = { gh = "luispedro/luish-extra", release = "luish" }
     * Faster Tab where completion parsed the same text at each Tab:
       LibreOffice's formats and filters (50 ms to 2 ms), mpv's options
       (100 ms to 15 ms), ffmpeg's codecs, filters and private options,
