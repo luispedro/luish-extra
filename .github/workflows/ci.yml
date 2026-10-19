@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches: [main]
+    tags: ["v*"]
   pull_request:
   workflow_dispatch:
 
@@ -12,12 +13,17 @@ concurrency:
 
 env:
   CARGO_TERM_COLOR: always
-  # The luish to test against (0.5.0 or later).
-  LUISH_REF: main
 
 jobs:
   test:
     runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        # main: luish's main, which main here follows. release: luish's vX.Y.0, for the X.Y the plugins need
+        # (scripts/release.sh --needs), which a release vX.Y.N must work with.
+        luish: [main, release]
+    name: test (luish ${{ matrix.luish }})
     steps:
       # Side by side, not luish inside this repository: tests/root_source.sh adds the whole repository as a source,
       # and would find luish's plugins in it.
@@ -25,28 +31,62 @@ jobs:
         with:
           path: extra
 
+      # Until luish tags vX.Y.0, release is skipped: luish's main is then the X.Y.0 to be (vX.Y.0 here is tagged
+      # first, see scripts/release.sh), or main here needs more than the newest luish release.
+      - name: Which luish
+        id: luish
+        working-directory: extra
+        run: |
+          ref=main
+          if [ "${{ matrix.luish }}" = release ]; then
+            ref=v$(scripts/release.sh --needs | cut -d. -f1-2).0
+            if ! git ls-remote --exit-code --tags https://github.com/luispedro/luish "refs/tags/$ref" >/dev/null; then
+              echo "::warning::luish has no tag $ref yet: not tested against a release"
+              ref=
+            fi
+          fi
+          echo "ref=$ref" >>"$GITHUB_OUTPUT"
+
       # tests/run.sh needs a luish and its std plugins (for the `completion` plugin).
       - uses: actions/checkout@v7
+        if: steps.luish.outputs.ref != ''
         with:
           repository: luispedro/luish
-          ref: ${{ env.LUISH_REF }}
+          ref: ${{ steps.luish.outputs.ref }}
           path: luish
 
       - uses: dtolnay/rust-toolchain@stable
+        if: steps.luish.outputs.ref != ''
 
       - uses: Swatinem/rust-cache@v2
+        if: steps.luish.outputs.ref != ''
         with:
           workspaces: luish
+          key: ${{ matrix.luish }}
 
       - name: Build luish
+        if: steps.luish.outputs.ref != ''
         run: cargo build --release --locked --manifest-path luish/Cargo.toml
 
       - name: Test
+        if: steps.luish.outputs.ref != ''
         env:
           LUISH: ${{ github.workspace }}/luish/target/release/luish
           STD_PLUGINS: ${{ github.workspace }}/luish/luish-std-plugins
         working-directory: extra
         run: tests/run.sh
+
+  # A tag pushed by hand, not by scripts/release.sh, gets the same checks here.
+  release:
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Check the release
+        run: scripts/release.sh --check "$GITHUB_REF_NAME"
 
   docs:
     runs-on: ubuntu-24.04

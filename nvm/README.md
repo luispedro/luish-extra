@@ -10,7 +10,7 @@ shell, which takes most of a second, so that startup is fast.
 
 ```toml
 [plugins.available]
-extra = { gh = "luispedro/luish-extra" }
+extra = { gh = "luispedro/luish-extra", release = "luish" }
 
 
 [plugins.enabled]

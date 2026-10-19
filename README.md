@@ -58,7 +58,7 @@ Or, by hand, in `config.toml` (then run `plugin sync`):
 
 ```toml
 [plugins.available]
-extra = { gh = "luispedro/luish-extra" }
+extra = { gh = "luispedro/luish-extra", release = "luish" }
 
 [plugins.enabled]
 extra.completion.all = "*"        # or "extra/completion/all" = "*"
@@ -71,6 +71,13 @@ To have only some of them, enable them one by one instead:
 extra.completion.bio = "*"
 extra.completion.science = "*"
 ```
+
+`release = "luish"` keeps you on the newest release made for your version of luish, so that the plugins never need a
+newer luish than yours; `plugin add` writes the source without it, and so follows `main`, which may (add it by hand).
+The releases are tags `vX.Y.N`, the `N`th for luish `X.Y`: `v0.7.0` is the first for luish 0.7, and `v0.7.1`, ... come
+as commands are added. `main` moves on with luish's own `main`, and starts the tags for luish `X.Y` once it is
+released. `plugin update` moves to a newer release, and `plugin sync`, after luish is upgraded, to the releases for the
+new version.
 
 A plugin costs little until it is used: each module is compiled the first time Tab is pressed for one of its commands.
 

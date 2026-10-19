@@ -10,7 +10,7 @@ that startup is fast (under 4 ms on my machine).
 
 ```toml
 [plugins.available]
-extra = { gh = "luispedro/luish-extra" }
+extra = { gh = "luispedro/luish-extra", release = "luish" }
 
 
 [plugins.enabled]

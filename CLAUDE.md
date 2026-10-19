@@ -160,9 +160,20 @@ plugin, then run `__luish_internal complete LINE`, as `../luish/tests/plugins/st
 completion itself runs are stood in for by scripts in `tests/bin`. Read the `.expected` before committing it: it is
 a snapshot, not a check.
 
-CI (`.github/workflows/ci.yml`) has two jobs: `test` builds luish from `luispedro/luish` (ref `LUISH_REF`, `main`) and
-runs `tests/run.sh` with `LUISH` and `STD_PLUGINS` pointing at that checkout; `docs` runs the Sphinx build below.
-`LUISH` must be an absolute path, because the runner `cd`s into a temp directory.
+CI (`.github/workflows/ci.yml`): `test` builds luish from `luispedro/luish` and runs `tests/run.sh` with `LUISH` and
+`STD_PLUGINS` pointing at that checkout, twice: with luish's `main`, and with its `vX.Y.0` for the `X.Y` the plugins need
+(`scripts/release.sh --needs`; skipped with a warning while luish has no such tag). `docs` runs
+the Sphinx build below, and `release`, on a pushed tag, `scripts/release.sh --check`. `LUISH` must be an absolute path,
+because the runner `cd`s into a temp directory.
+
+Releases are tags `vX.Y.N`, the `N`th for luish `X.Y`, which luish's `release = "luish"` takes (the newest for the
+user's `X.Y`), so a `vX.Y.N` must work with luish `X.Y.0`. `main` rolls on, following luish's `main`; tag at each luish
+`X.Y.0` and whenever there is something worth having in between. `vX.Y.0` comes just before luish's `X.Y.0` (the
+recommended config's `release = "luish"` fails until it exists), tested against luish's `main` once that is the commit
+luish will tag. To release, make the ChangeLog's `Unreleased` into `Version X.Y.N DATE by NAME`, commit, push, wait
+for CI, then `scripts/release.sh vX.Y.N` (it checks the `luish-version`s, the ChangeLog and CI, and makes the tag) and
+`git push origin vX.Y.N`. Raising `luish-version` to a new `X.Y` ends the series of the old one: the next tag is `vX.Y.0`. A fix for
+an old series goes on a branch from its last tag, only if someone needs it.
 
 The Read the Docs site (`.readthedocs.yaml`, Sphinx + MyST + furo, `fail_on_warning: true`) builds with:
 
@@ -187,8 +198,8 @@ sphinx-build -W docs docs/_build
 - Needs luish 0.7.0 or later (the minimum supported version: sub-collections, colour schemes and their terminal
   colours, plugin options, `sh::capture_cached`, `sh::glob`). Every `plugin.toml` says so (`luish-version = "0.7"`, after
   `description`, if any), so that an older luish doesn't load it; a new plugin does too, and raising the minimum
-  changes them all. The docs add the whole repository as a source (`extra = { gh = "luispedro/luish-extra" }`, plugins
-  `extra/completion/bio`, ...).
+  changes them all. The docs add the whole repository as a source (`extra = { gh = "luispedro/luish-extra", release =
+  "luish" }`, plugins `extra/completion/bio`, ...).
 - Run programs with `sh::capture(["prog", arg, ...])` (no shell parsing; stdin is /dev/null, stderr discarded unless
   a second argument says `"merge"`, `"return"` or `"inherit"`; variables through `env`), not by building a shell
   string. A program whose output changes seldom (help text, lists of formats, rules or themes) goes through
