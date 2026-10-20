@@ -181,9 +181,23 @@ fn commander(text) {
     out + commander_entry(section, head, desc)
 }
 
-// claude (Commander): the options whose values its help doesn't list.
-fn claude_values() {
+// claude (Commander): the options whose values its help doesn't list, from its help `text`. The aliases of the
+// models are those it names for --model ("e.g. 'fable', 'opus', or 'sonnet'": examples, so not all of them) and
+// those below; when Claude Code gets a new one, add it.
+fn claude_values(text) {
     let models = ["sonnet", "opus", "haiku", "fable"];
+    for l in text.split("\n") {
+        l.trim();
+        if l.starts_with("--model ") {
+            // (the words in quotes: every second piece between two `'`)
+            let pieces = l.split("'");
+            for j in range(1, pieces.len(), 2) {
+                if lib_text::is_name(pieces[j]) && !models.contains(pieces[j]) {
+                    models.push(pieces[j]);
+                }
+            }
+        }
+    }
     #{
         "--model": models, "--fallback-model": models, "--effort": ["low", "medium", "high", "xhigh", "max"],
         "--agent": k("claude_agents"), "--mcp-config": "files", "--plugin-dir": "files", "--settings": "files",
@@ -211,9 +225,10 @@ fn claude_help(path) {
 }
 
 fn claude_spec(path) {
-    let s = lib::help_spec(claude_help(path));
+    let text = claude_help(path);
+    let s = lib::help_spec(text);
     s.guess_values = true;
-    s.values.mixin(claude_values());
+    s.values.mixin(claude_values(text));
     s.sub_spec = own("dynamic") + ":" + path;
     s
 }
