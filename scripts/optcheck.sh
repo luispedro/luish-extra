@@ -14,7 +14,11 @@ here=$(cd "$(dirname "$0")" && pwd)
 pkg=$1; prog=$2; shift 2
 HELP=${HELP:---help}
 CHANNELS=${CHANNELS:--c conda-forge -c bioconda}
-pixi exec $CHANNELS -s "$pkg" -- conda-meta-version 2>/dev/null || true
+# the version installed: conda-meta/NAME-VERSION-BUILD.json (neither VERSION nor BUILD has a dash)
+name=${pkg%%[=<>!~ ]*}
+# shellcheck disable=SC2086
+pixi exec $CHANNELS -s "$pkg" -- sh -c 'ls "$CONDA_PREFIX/conda-meta"' </dev/null |
+    sed -n "s/^\($name\)-\([^-]*\)-[^-]*\.json\$/\1 \2/p"
 [ $# -eq 0 ] && set -- ""
 for sub in "$@"; do
     printf '%s %s: ' "$prog" "$sub"
