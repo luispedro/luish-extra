@@ -262,7 +262,9 @@ sphinx-build -W docs docs/_build
   `String::replace`, `trim` and `sort` change the value in place and return `()`; a `switch` case with several values is
   `"a" | "b" =>`; a closure kept in a variable can't be called as `f(x)` (use a named `fn`); a backtick string keeps
   `\n` as two characters; `module` and `in` are reserved words (also as keys of a map literal: quote them); `parse_json`
-  takes only an object, so a JSON array is read as ``parse_json(`{"a": ${out}}`).a``; `go`, `sync` and `private` are
+  takes only an object, so a JSON array is read as ``parse_json(`{"a": ${out}}`).a``; its syntax errors can't be caught with
+  `try` (Rhai leaves parse errors out), so a file that may not be valid JSON is checked first (`is_json_object` in
+  `science/kinds.rhai`); `go`, `sync` and `private` are
   reserved words (also as function names); `"".split()` is `[""]`, not `[]`. An `import` can name a variable (`let m = module_of[words[0]]; import m as specs;`), which is how each
   `extension.rhai` imports a command's module.
 - For a program whose long options take their value as the next word and have a single dash or two (`mlr`: `single_dash: true`

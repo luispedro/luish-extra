@@ -221,12 +221,132 @@ fn nextflow_profiles(cur, words) {
 }
 
 // The parameters of the pipeline's `nextflow_schema.json` (nf-core's), as `--name` options
-// (a table for the engine, and the values by name).
+// (a table for the engine, and the values by name). nf-core's schemas are 50-100 KB, so what they give is kept until
+// the file changes.
 fn nextflow_params(words) {
-    let text = fs::read_file(nextflow_pipeline_dir(words) + "/nextflow_schema.json");
+    let path = nextflow_pipeline_dir(words) + "/nextflow_schema.json";
+    if !fs::is_file(path) {
+        return #{opts: "", values: #{}};
+    }
+    let key = "nextflow_params:" + path;
+    sh::cache_get(key, [path]) ?? sh::cache_put(key, 3600, [path], nextflow_schema_params(path))
+}
+
+// Whether `t` is a JSON number.
+fn is_json_number(t) {
+    // 1: after the sign, 2: in the integer part, 3: after the point, 4: in the fraction, 5: after the `e`, 6: after
+    // its sign, 7: in the exponent
+    let s = 0;
+    for c in t.chars() {
+        let d = c >= '0' && c <= '9';
+        s = if d {
+            switch s { 0 | 1 | 2 => 2, 3 | 4 => 4, _ => 7 }
+        } else if c == '-' && (s == 0 || s == 5) {
+            s + 1
+        } else if c == '+' && s == 5 {
+            6
+        } else if c == '.' && s == 2 {
+            3
+        } else if (c == 'e' || c == 'E') && (s == 2 || s == 4) {
+            5
+        } else {
+            return false;
+        };
+    }
+    s == 2 || s == 4 || s == 7
+}
+
+// Whether `text` is a JSON object. parse_json throws a syntax error for anything else, which Rhai's `try` doesn't
+// catch, and a file being edited often isn't one.
+fn is_json_object(text) {
+    let stack = [];     // the open containers, '{' or '['
+    // 0: a value, 1: a key or '}', 2: ':', 3: ',' or the end of the container, 4: the end of the text, 5: a key,
+    // 6: a value or ']'
+    let state = 0;
+    let in_str = false;
+    let esc = false;
+    let tok = "";       // a number, true, false or null
+    for c in text.chars() {
+        if in_str {
+            if esc {
+                esc = false;
+            } else if c == '\\' {
+                esc = true;
+            } else if c == '"' {
+                in_str = false;
+            } else if c < ' ' {
+                return false;
+            }
+            continue;
+        }
+        if tok != "" {
+            if (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '+' || c == '-'
+                || c == '.' {
+                tok += c;
+                continue;
+            }
+            if !["true", "false", "null"].contains(tok) && !is_json_number(tok) {
+                return false;
+            }
+            tok = "";
+        }
+        if c == ' ' || c == '\n' || c == '\t' || c == '\r' {
+            continue;
+        }
+        if state == 6 && c == ']' || state == 1 && c == '}' {
+            stack.pop();
+            state = if stack.is_empty() { 4 } else { 3 };
+        } else if state == 0 || state == 6 {
+            if stack.is_empty() && c != '{' {
+                return false;
+            }
+            if c == '{' || c == '[' {
+                stack.push(c);
+                state = if c == '{' { 1 } else { 6 };
+            } else if c == '"' {
+                in_str = true;
+                state = 3;
+            } else if (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' {
+                tok = c.to_string();
+                state = 3;
+            } else {
+                return false;
+            }
+        } else if state == 1 || state == 5 {
+            if c != '"' {
+                return false;
+            }
+            in_str = true;
+            state = 2;
+        } else if state == 2 {
+            if c != ':' {
+                return false;
+            }
+            state = 0;
+        } else if state == 3 {
+            let top = stack[-1];
+            if c == ',' {
+                state = if top == '{' { 5 } else { 0 };
+            } else if c == '}' && top == '{' || c == ']' && top == '[' {
+                stack.pop();
+                state = if stack.is_empty() { 4 } else { 3 };
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    state == 4 && !in_str
+}
+
+// The parameters of the schema `path`, as `nextflow_params` gives them; none if it isn't valid JSON (as while it is
+// being edited).
+fn nextflow_schema_params(path) {
+    let text = fs::read_file(path) ?? "";
     let opts = "";
     let values = #{};
-    if text == () {
+    if !is_json_object(text) {
         return #{opts: opts, values: values};
     }
     let schema = parse_json(text);

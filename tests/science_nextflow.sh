@@ -133,3 +133,21 @@ c 'nf-test generate process '
 c 'nf-test list --'
 c 'nf-test init --'
 c 'nf-test coverage --'
+echo "=== a schema that isn't valid JSON (being edited)"
+mkdir -p broken
+echo 'workflow { }' >broken/main.nf
+printf '{"properties": {' >broken/nextflow_schema.json
+c 'nextflow run broken -res'
+c 'nextflow run broken --'
+printf '{"properties": {"x": {"type": "boolean",}}}' >broken/nextflow_schema.json
+c 'nextflow run broken --'
+printf '{"properties": {"x": 01x}}' >broken/nextflow_schema.json
+c 'nextflow run broken --'
+cat >broken/nextflow_schema.json <<'JSON'
+{"properties": {
+  "fixed": {"type": "boolean", "description": "Now \"valid\"", "default": false},
+  "ratio": {"type": "number", "default": -1.5e-3, "minimum": 0, "maximum": 1E+2, "examples": [0.5, {"a": null}, []]},
+  "empty": {}
+}}
+JSON
+c 'nextflow run broken --'

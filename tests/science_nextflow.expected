@@ -425,3 +425,13 @@ tests/
 --html=	write status results in html format
 --log=	filename for log file
 --silent 	hide header and program version
+=== a schema that isn't valid JSON (being edited)
+--- nextflow run broken -res
+-resume	execute the script using the cached results
+--- nextflow run broken --
+--- nextflow run broken --
+--- nextflow run broken --
+--- nextflow run broken --
+--empty=	
+--fixed 	Now "valid"
+--ratio=	

@@ -8,6 +8,8 @@ Unreleased
       run over to its completer. extra.completion.all loads it; to
       have it alone, enable extra.completion.hpc
     * bio: completion for pyrodigal
+    * science: a nextflow_schema.json that isn't valid JSON (one being
+      edited) no longer breaks the completion of nextflow run
 
 Version 0.7.0 2026-10-19 by luispedro
     * The first release. Releases are tags vX.Y.N, the Nth for luish
