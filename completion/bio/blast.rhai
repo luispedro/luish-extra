@@ -32,9 +32,9 @@ fn blastn() {
             -subject_loc STR              location on the subject sequence in 1-based offsets (Format: start-stop)
             -outfmt STR                   alignment view options (6 is tabular)
             -show_gis                     show NCBI GIs in deflines?
-            -num_descriptions INT         number of database sequences to show one-line descriptions for Not applicable for outfmt
+            -num_descriptions INT         number of database sequences to show one-line descriptions for
             -num_alignments INT           number of database sequences to show alignments for
-            -line_length INT              line length for formatting alignments Not applicable for outfmt > 4
+            -line_length INT              line length for formatting alignments
             -html                         produce HTML output?
             -sorthits INT                 sorting option for hits: alignment view options: 0 = Sort by evalue, 1 = Sort by bit
             -sorthsps INT                 sorting option for hps: 0 = Sort by hsp evalue, 1 = Sort by hsp score, 2 = Sort by hsp
@@ -131,9 +131,9 @@ fn blastp() {
             -subject_loc STR              location on the subject sequence in 1-based offsets (Format: start-stop)
             -outfmt STR                   alignment view options (6 is tabular)
             -show_gis                     show NCBI GIs in deflines?
-            -num_descriptions INT         number of database sequences to show one-line descriptions for Not applicable for outfmt
+            -num_descriptions INT         number of database sequences to show one-line descriptions for
             -num_alignments INT           number of database sequences to show alignments for
-            -line_length INT              line length for formatting alignments Not applicable for outfmt > 4
+            -line_length INT              line length for formatting alignments
             -html                         produce HTML output?
             -sorthits INT                 sorting option for hits: alignment view options: 0 = Sort by evalue, 1 = Sort by bit
             -sorthsps INT                 sorting option for hps: 0 = Sort by hsp evalue, 1 = Sort by hsp score, 2 = Sort by hsp
@@ -225,9 +225,9 @@ fn blastx() {
             -subject_loc STR              location on the subject sequence in 1-based offsets (Format: start-stop)
             -outfmt STR                   alignment view options (6 is tabular)
             -show_gis                     show NCBI GIs in deflines?
-            -num_descriptions INT         number of database sequences to show one-line descriptions for Not applicable for outfmt
+            -num_descriptions INT         number of database sequences to show one-line descriptions for
             -num_alignments INT           number of database sequences to show alignments for
-            -line_length INT              line length for formatting alignments Not applicable for outfmt > 4
+            -line_length INT              line length for formatting alignments
             -html                         produce HTML output?
             -sorthits INT                 sorting option for hits: alignment view options: 0 = Sort by evalue, 1 = Sort by bit
             -sorthsps INT                 sorting option for hps: 0 = Sort by hsp evalue, 1 = Sort by hsp score, 2 = Sort by hsp
@@ -320,9 +320,9 @@ fn tblastn() {
             -subject_loc STR              location on the subject sequence in 1-based offsets (Format: start-stop)
             -outfmt STR                   alignment view options (6 is tabular)
             -show_gis                     show NCBI GIs in deflines?
-            -num_descriptions INT         number of database sequences to show one-line descriptions for Not applicable for outfmt
+            -num_descriptions INT         number of database sequences to show one-line descriptions for
             -num_alignments INT           number of database sequences to show alignments for
-            -line_length INT              line length for formatting alignments Not applicable for outfmt > 4
+            -line_length INT              line length for formatting alignments
             -html                         produce HTML output?
             -sorthits INT                 sorting option for hits: alignment view options: 0 = Sort by evalue, 1 = Sort by bit
             -sorthsps INT                 sorting option for hps: 0 = Sort by hsp evalue, 1 = Sort by hsp score, 2 = Sort by hsp
@@ -411,9 +411,9 @@ fn tblastx() {
             -subject_loc STR              location on the subject sequence in 1-based offsets (Format: start-stop)
             -outfmt STR                   alignment view options (6 is tabular)
             -show_gis                     show NCBI GIs in deflines?
-            -num_descriptions INT         number of database sequences to show one-line descriptions for Not applicable for outfmt
+            -num_descriptions INT         number of database sequences to show one-line descriptions for
             -num_alignments INT           number of database sequences to show alignments for
-            -line_length INT              line length for formatting alignments Not applicable for outfmt > 4
+            -line_length INT              line length for formatting alignments
             -html                         produce HTML output?
             -sorthits INT                 sorting option for hits: alignment view options: 0 = Sort by evalue, 1 = Sort by bit
             -sorthsps INT                 sorting option for hps: 0 = Sort by hsp evalue, 1 = Sort by hsp score, 2 = Sort by hsp
@@ -493,9 +493,9 @@ fn psiblast() {
             -subject_loc STR              location on the subject sequence in 1-based offsets (Format: start-stop)
             -outfmt STR                   alignment view options (6 is tabular)
             -show_gis                     show NCBI GIs in deflines?
-            -num_descriptions INT         number of database sequences to show one-line descriptions for Not applicable for outfmt
+            -num_descriptions INT         number of database sequences to show one-line descriptions for
             -num_alignments INT           number of database sequences to show alignments for
-            -line_length INT              line length for formatting alignments Not applicable for outfmt > 4
+            -line_length INT              line length for formatting alignments
             -html                         produce HTML output?
             -sorthits INT                 sorting option for hits: alignment view options: 0 = Sort by evalue, 1 = Sort by bit
             -sorthsps INT                 sorting option for hps: 0 = Sort by hsp evalue, 1 = Sort by hsp score, 2 = Sort by hsp
@@ -587,9 +587,9 @@ fn rpsblast() {
             -comp_based_stats STR         use composition-based statistics: D or d: default (equivalent to 1 ) 0 or F or f
             -outfmt STR                   alignment view options (6 is tabular)
             -show_gis                     show NCBI GIs in deflines?
-            -num_descriptions INT         number of database sequences to show one-line descriptions for Not applicable for outfmt
+            -num_descriptions INT         number of database sequences to show one-line descriptions for
             -num_alignments INT           number of database sequences to show alignments for
-            -line_length INT              line length for formatting alignments Not applicable for outfmt > 4
+            -line_length INT              line length for formatting alignments
             -html                         produce HTML output?
             -sorthits INT                 sorting option for hits: alignment view options: 0 = Sort by evalue, 1 = Sort by bit
             -sorthsps INT                 sorting option for hps: 0 = Sort by hsp evalue, 1 = Sort by hsp score, 2 = Sort by hsp
@@ -647,9 +647,9 @@ fn rpstblastn() {
             -comp_based_stats STR         use composition-based statistics: D or d: default (equivalent to 1 ) 0 or F or f: No
             -outfmt STR                   alignment view options (6 is tabular)
             -show_gis                     show NCBI GIs in deflines?
-            -num_descriptions INT         number of database sequences to show one-line descriptions for Not applicable for outfmt
+            -num_descriptions INT         number of database sequences to show one-line descriptions for
             -num_alignments INT           number of database sequences to show alignments for
-            -line_length INT              line length for formatting alignments Not applicable for outfmt > 4
+            -line_length INT              line length for formatting alignments
             -html                         produce HTML output?
             -sorthits INT                 sorting option for hits: alignment view options: 0 = Sort by evalue, 1 = Sort by bit
             -sorthsps INT                 sorting option for hps: 0 = Sort by hsp evalue, 1 = Sort by hsp score, 2 = Sort by hsp
@@ -714,9 +714,9 @@ fn deltablast() {
             -subject_loc STR                 location on the subject sequence in 1-based offsets (Format: start-stop)
             -outfmt STR                      alignment view options (6 is tabular)
             -show_gis                        show NCBI GIs in deflines?
-            -num_descriptions INT            number of database sequences to show one-line descriptions for Not applicable for outfmt
+            -num_descriptions INT            number of database sequences to show one-line descriptions for
             -num_alignments INT              number of database sequences to show alignments for
-            -line_length INT                 line length for formatting alignments Not applicable for outfmt > 4
+            -line_length INT                 line length for formatting alignments
             -html                            produce HTML output?
             -sorthits INT                    sorting option for hits: alignment view options: 0 = Sort by evalue, 1 = Sort by bit
             -sorthsps INT                    sorting option for hps: 0 = Sort by hsp evalue, 1 = Sort by hsp score, 2 = Sort by hsp
@@ -888,9 +888,9 @@ fn blast_formatter() {
             -archive FILE          file containing BLAST Archive format in ASN.1 (i.e.: output format 11)
             -outfmt STR            alignment view options (6 is tabular)
             -show_gis              show NCBI GIs in deflines?
-            -num_descriptions INT  number of database sequences to show one-line descriptions for Not applicable for outfmt
+            -num_descriptions INT  number of database sequences to show one-line descriptions for
             -num_alignments INT    number of database sequences to show alignments for
-            -line_length INT       line length for formatting alignments Not applicable for outfmt > 4
+            -line_length INT       line length for formatting alignments
             -html                  produce HTML output?
             -sorthits INT          sorting option for hits: alignment view options: 0 = Sort by evalue, 1 = Sort by bit
             -sorthsps INT          sorting option for hps: 0 = Sort by hsp evalue, 1 = Sort by hsp score, 2 = Sort by hsp
@@ -920,7 +920,7 @@ fn blastdb_aliastool() {
             -db STR               BLAST database name
             -dbtype STR           molecule type stored in BLAST database
             -title STR            title for BLAST database
-            -gilist FILE          text or binary gi file to restrict the BLAST database provided in -db argument If text
+            -gilist FILE          text or binary gi file to restrict the BLAST database provided in -db argument
             -seqidlist FILE       text sequence id or accession file to restrict the BLAST database provided in -db argument
             -taxidlist FILE       text taxonomy id file to restrict the BLAST database provided in -db argument
             -oid_masks INT        create alias db with pre-built oid masks 0x01 Exclude Model

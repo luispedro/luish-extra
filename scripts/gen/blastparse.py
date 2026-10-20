@@ -22,13 +22,16 @@ def parse_blast(text):
             ty = ty.rstrip()[:-1]
         i += 1
         desc = []
+        stop = False
         while i < len(lines) and (lines[i].startswith("   ") or lines[i].strip() == "") and not re.match(r"^ \*\*\*", lines[i]):
             if lines[i].strip() == "":
                 if desc:
                     break
             elif lines[i].strip().startswith(("Default =", "* ")):
                 break
-            else:
+            elif desc and re.match(r"[A-Z][a-z]", lines[i].strip()):
+                stop = True    # another sentence, without a period ("Not applicable for outfmt > 4"): only the first
+            elif not stop:
                 desc.append(lines[i].strip())
             i += 1
         d = " ".join(desc)
