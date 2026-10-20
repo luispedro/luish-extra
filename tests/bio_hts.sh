@@ -30,6 +30,27 @@ c 'samtools index -'
 c 'samtools faidx data/'
 c 'samtools faidx data/genome.fa '
 c 'samtools faidx --mark-strand '
+echo "=== an assembly's contigs: none until a prefix has 5000 or fewer"
+mkdir asm
+awk 'BEGIN { for (i = 1; i <= 20000; i++) printf "k141_%d\t100\t0\t60\t61\n", i }' > asm/asm.fa.fai
+touch asm/asm.fa asm/small.fa
+c 'samtools faidx asm/asm.fa '
+c 'samtools faidx asm/asm.fa k141_1999'
+c 'samtools faidx asm/asm.fa k141_2000'
+c 'samtools faidx asm/asm.fa x'
+echo "=== over 4 MB: filtered at each Tab"
+awk 'BEGIN { for (i = 1; i <= 200000; i++) printf "k141_%d\t100\t0\t60\t61\n", i }' > asm/big.fa.fai
+touch asm/big.fa asm/big.bam
+c 'samtools faidx asm/big.fa '
+c 'samtools faidx asm/big.fa k141_1'
+c 'samtools faidx asm/big.fa k141_19999'
+c 'samtools view asm/big.bam k141_19999'
+c 'samtools view asm/big.bam k'
+echo "=== an index that changes"
+printf 'chr1\t100\t6\t60\t61\nchr2\t50\t120\t60\t61\n' > asm/small.fa.fai
+c 'samtools faidx asm/small.fa '
+printf 'chr1\t100\t6\t60\t61\nchr3\t50\t120\t60\t61\n' > asm/small.fa.fai
+c 'samtools faidx asm/small.fa '
 c 'samtools flagstat -O '
 c 'samtools flagstat data/'
 c 'samtools depth -b data/'

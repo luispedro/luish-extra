@@ -231,15 +231,17 @@ sphinx-build -W docs docs/_build
   a second argument says `"merge"`, `"return"` or `"inherit"`; variables through `env`), not by building a shell
   string. A program whose output changes seldom (help text, lists of formats, rules or themes) goes through
   `sh::capture_cached(TTL, argv)`, which keeps it in memory for `TTL` seconds (at most 300) and drops it when a
-  command line names the program: 300 for help and lists, 30 for what is read from a file (BAM headers, VCF samples),
-  which may be rewritten, and less or none for live state (`xrandr --query`, `wmctrl -l`, `dconf read`). Bridges
+  command line names the program: 300 for help and lists, 30 for what is read from a file (ffprobe's streams), which
+  may be rewritten, and less or none for live state (`xrandr --query`, `wmctrl -l`, `dconf read`). Bridges
   that pass the line (`aws_completer`) aren't cached, as std's aren't. Find programs with `sh::which(name)` and list
   them with `sh::commands(prefix)`, so that PATH is searched as luish searches it; don't walk `PATH` in Rhai.
 - What is slow to build from a program's output or from files (more than a millisecond or so a Tab: mpv's options,
   LibreOffice's registry, ffmpeg's lists, ruff's rules) is kept with `sh::cache_get(key) ?? sh::cache_put(key, 3600,
   build(text))`, keyed by the text it is built from (`"spec:" + text`: a new version's output is another key), or,
   for files, keyed by what names them and with the files as the second argument of both
-  (`sh::cache_get(key, files) ?? sh::cache_put(key, 3600, files, build(files))`), so that a change is seen. Not a
+  (`sh::cache_get(key, files) ?? sh::cache_put(key, 3600, files, build(files))`), so that a change is seen (BAM
+  headers, VCF samples: `names_of` in `bio/kinds.rhai`, which bisects a sorted list for the word, and has awk filter a
+  list too long to split, as an assembly's contigs are). Not a
   closure: luish has no `sh::cached(f)`, as Rhai runs a closure made in a module with the caller's functions. Time a
   Tab before and after (`__luish_internal complete LINE` in a loop, with a release build of luish).
 - **Nothing depends on the name the user gives the source.** Users add the repository as a source under a name of

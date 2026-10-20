@@ -90,6 +90,59 @@ custom,
 no 
 rc 
 sign 
+=== an assembly's contigs: none until a prefix has 5000 or fewer
+--- samtools faidx asm/asm.fa 
+--- samtools faidx asm/asm.fa k141_1999
+k141_1999 
+k141_19990 
+k141_19991 
+k141_19992 
+k141_19993 
+k141_19994 
+k141_19995 
+k141_19996 
+k141_19997 
+k141_19998 
+k141_19999 
+--- samtools faidx asm/asm.fa k141_2000
+k141_2000 
+k141_20000 
+--- samtools faidx asm/asm.fa x
+=== over 4 MB: filtered at each Tab
+--- samtools faidx asm/big.fa 
+--- samtools faidx asm/big.fa k141_1
+--- samtools faidx asm/big.fa k141_19999
+k141_19999 
+k141_199990 
+k141_199991 
+k141_199992 
+k141_199993 
+k141_199994 
+k141_199995 
+k141_199996 
+k141_199997 
+k141_199998 
+k141_199999 
+--- samtools view asm/big.bam k141_19999
+k141_19999 
+k141_199990 
+k141_199991 
+k141_199992 
+k141_199993 
+k141_199994 
+k141_199995 
+k141_199996 
+k141_199997 
+k141_199998 
+k141_199999 
+--- samtools view asm/big.bam k
+=== an index that changes
+--- samtools faidx asm/small.fa 
+chr1 
+chr2 
+--- samtools faidx asm/small.fa 
+chr1 
+chr3 
 --- samtools flagstat -O 
 json 
 tsv 

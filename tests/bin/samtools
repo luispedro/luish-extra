@@ -1,8 +1,11 @@
 #!/bin/sh
 # Stand-in for samtools in the tests: `view -H FILE` prints a header with
-# two sequences.
+# two sequences, or, for a FILE whose name ends with big.bam, 200000 (contigs).
 if [ "$1" = view ] && [ "$2" = -H ]; then
-    printf '@HD\tVN:1.6\n@SQ\tSN:chrA\tLN:1000\n@SQ\tSN:chrB\tLN:500\n'
+    case $3 in
+    *big.bam) awk 'BEGIN { print "@HD\tVN:1.6"; for (i = 1; i <= 200000; i++) printf "@SQ\tSN:k141_%d\tLN:100\n", i }' ;;
+    *) printf '@HD\tVN:1.6\n@SQ\tSN:chrA\tLN:1000\n@SQ\tSN:chrB\tLN:500\n' ;;
+    esac
     exit 0
 fi
 exit 1

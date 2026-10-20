@@ -64,47 +64,132 @@ fn is_alignment(name) {
     [".bam", ".cram", ".sam"].some(|s| name.ends_with(s))
 }
 
-// The `@SQ` names of an alignment file's header (`samtools view -H`, which
-// is quick). What is read from a file is kept only 30 s, since it may be
-// rewritten.
-fn header_names(path) {
-    let r = sh::capture_cached(30, ["timeout", "5", "samtools", "view", "-H", path]);
-    let names = [];
-    for l in r.out.split("\n") {
-        if l.starts_with("@SQ\t") {
-            for f in l.split("\t") {
-                if f.starts_with("SN:") {
-                    names.push(f.sub_string(3));
+// The names among `names` (sorted) that start with `cur`. A reference can have millions of sequences (the contigs of
+// an assembly), so they are found by bisection, and none are offered while more than 5000 match: a word's start
+// first.
+fn starting_with(names, cur) {
+    let lo = 0;
+    let hi = names.len();
+    while lo < hi {
+        let mid = (lo + hi) / 2;
+        if names[mid] < cur {
+            lo = mid + 1;
+        } else {
+            hi = mid;
+        }
+    }
+    let out = [];
+    while lo < names.len() && names[lo].starts_with(cur) {
+        if out.len() == 5000 {
+            return [];
+        }
+        out.push(names[lo]);
+        lo += 1;
+    }
+    out
+}
+
+// The program that lists the names of the file `path` for `what` (`header`: the `@SQ` names of an alignment file's
+// header; `fai`: the first column of a FASTA index; `tabix`: the sequences of a tabix index; `vcf`: the sequences of
+// a VCF/BCF, from its index (name, length and count); `samples`: its samples).
+fn names_argv(what, path) {
+    switch what {
+        "header" => ["samtools", "view", "-H", path],
+        "fai" => ["cat", path],
+        "tabix" => ["tabix", "-l", path],
+        "vcf" => ["bcftools", "index", "-s", path],
+        "samples" => ["bcftools", "query", "-l", path],
+        _ => throw `unknown names: ${what}`,
+    }
+}
+
+// The names of the file `path` (as `names_argv` says) that start with `cur`. Splitting a long list takes long, so
+// it is kept, sorted, until one of `files` (`path` and those it is read with) changes; a list too long to split at
+// all (an assembly's, over 4 MB) is filtered by awk at each Tab.
+fn names_of(what, path, files, cur) {
+    let key = what + ":" + path;
+    let names = sh::cache_get(key, files);
+    if names == () {
+        names = read_names(what, path);
+        if type_of(names) == "array" {
+            names.sort();
+        }
+        // (a program that failed, or a file being written: read again at the next Tab)
+        if names != [] {
+            sh::cache_put(key, 3600, files, names);
+        }
+    }
+    if type_of(names) == "array" {
+        return starting_with(names, cur);
+    }
+    if cur == "" {
+        return [];    // (more than 5000)
+    }
+    // (the names in the output of the command that start with $PREFIX, up to 5001)
+    let awk = if what == "header" {
+        `/^@SQ\t/ { for (i = 2; i <= NF; i++) if (substr($i, 1, 3) == "SN:" && index(substr($i, 4), p) == 1) {
+            print substr($i, 4); if (++n > 5000) exit } }`
+    } else {
+        `index($1, p) == 1 { print $1; if (++n > 5000) exit }`
+    };
+    let filter = `"$@" | awk -F '\t' 'BEGIN { p = ENVIRON["PREFIX"] } ${awk}'`;
+    let out = lines_of(["env", "PREFIX=" + cur, "sh", "-c", filter, "sh"] + names_argv(what, path));
+    if out.len() > 5000 { [] } else { out }
+}
+
+fn lines_of(argv) {
+    sh::capture(["timeout", "5"] + argv).out.split("\n").filter(|l| l != "")
+}
+
+// The names, or "big" for a list over 4 MB.
+fn read_names(what, path) {
+    if what == "fai" && (fs::size(path) ?? 0) > 4000000 {
+        return "big";
+    }
+    let out = sh::capture(["timeout", "5"] + names_argv(what, path)).out;
+    if what == "vcf" && out == "" {
+        out = sh::capture(["timeout", "5", "tabix", "-l", path]).out;
+    }
+    if out.len() > 4000000 {
+        return "big";
+    }
+    if what == "header" {
+        let names = [];
+        for l in out.split("\n") {
+            if l.starts_with("@SQ\t") {
+                for f in l.split("\t") {
+                    if f.starts_with("SN:") {
+                        names.push(f.sub_string(3));
+                    }
                 }
             }
         }
+        return names;
     }
-    names
+    out.split("\n").filter(|l| l != "").map(|l| l.split("\t")[0])
 }
 
 // Reference names, for a region: from the header of the first alignment
 // file in the line, else from the `.fai` next to the first FASTA file.
-fn regions(words) {
+fn regions(cur, words) {
     for w in words {
         if is_alignment(w) && fs::is_file(w) {
-            return header_names(w);
+            return names_of("header", w, [w], cur);
         }
     }
     for w in words {
         if is_fasta(w) && fs::is_file(w + ".fai") {
-            let fai = fs::read_file(w + ".fai") ?? "";
-            return fai.split("\n").filter(|l| l != "").map(|l| l.split("\t")[0]);
+            return names_of("fai", w + ".fai", [w + ".fai"], cur);
         }
     }
     []
 }
 
 // The sequences of the first tabix-indexed file in the line (`tabix -l`).
-fn tabix_regions(words) {
+fn tabix_regions(cur, words) {
     for w in words {
         if (w.ends_with(".gz") || w.ends_with(".bgz")) && fs::is_file(w) {
-            let r = sh::capture_cached(30, ["timeout", "5", "tabix", "-l", w]);
-            return r.out.split("\n").filter(|l| l != "");
+            return names_of("tabix", w, [w, w + ".tbi", w + ".csi"], cur);
         }
     }
     []
@@ -114,29 +199,21 @@ fn is_vcf(name) {
     lib_files::compressed([".vcf"]).some(|s| name.ends_with(s)) || name.ends_with(".bcf")
 }
 
-// The sequences of the first VCF/BCF in the line: from its index
-// (`bcftools index -s`, name, length and count), else `tabix -l`.
-fn vcf_regions(words) {
+// The sequences of the first VCF/BCF in the line.
+fn vcf_regions(cur, words) {
     for w in words {
         if is_vcf(w) && fs::is_file(w) {
-            let r = sh::capture_cached(30, ["timeout", "5", "bcftools", "index", "-s", w]);
-            let names = r.out.split("\n").filter(|l| l != "").map(|l| l.split("\t")[0]);
-            if !names.is_empty() {
-                return names;
-            }
-            let r = sh::capture_cached(30, ["timeout", "5", "tabix", "-l", w]);
-            return r.out.split("\n").filter(|l| l != "");
+            return names_of("vcf", w, [w, w + ".tbi", w + ".csi"], cur);
         }
     }
     []
 }
 
-// The samples of the first VCF/BCF in the line (`bcftools query -l`).
-fn vcf_samples(words) {
+// The samples of the first VCF/BCF in the line (`bcftools query -l`); a cohort can have hundreds of thousands.
+fn vcf_samples(cur, words) {
     for w in words {
         if is_vcf(w) && fs::is_file(w) {
-            let r = sh::capture_cached(30, ["timeout", "5", "bcftools", "query", "-l", w]);
-            return r.out.split("\n").filter(|l| l != "");
+            return names_of("samples", w, [w], cur);
         }
     }
     []
@@ -342,10 +419,10 @@ fn kind(name, cur, words) {
         "ngless" => lib_files::with_suffix(cur, [".ngl"]),
         "genome" => lib_files::with_suffix(cur, [".genome", ".sizes", ".fai", ".len", ".txt"]),
         "bgzipped" => lib_files::with_suffix(cur, [".gz", ".bgz"]),
-        "regions" => regions(words),
-        "tabix_regions" => tabix_regions(words),
-        "vcf_regions" => vcf_regions(words),
-        "vcf_samples" => vcf_samples(words),
+        "regions" => regions(cur, words),
+        "tabix_regions" => tabix_regions(cur, words),
+        "vcf_regions" => vcf_regions(cur, words),
+        "vcf_samples" => vcf_samples(cur, words),
         "trimmomatic_step" => trimmomatic_step(cur),
         "cutadapt_adapter" => cutadapt_adapter(cur),
         "emapper_tax_scope" => with_words(std_kinds::listing(cur, "", false), emapper_tax_scopes()),

@@ -12,6 +12,10 @@ Unreleased
       nor -x, which it doesn't have; hmmscan --qformat completes the
       formats; kallisto's -g, -c and -p take a file, and its long
       options (--gtf, --tag, ...) get their values, as do DAS_Tool's
+    * bio: the names of sequences (samtools faidx REF <Tab>, samtools
+      view BAM <Tab>, -r) and of a VCF's samples are kept until the
+      file changes, and are fast for an assembly's millions of contigs
+      (they timed out); none are offered while more than 5000 match
     * science: a nextflow_schema.json that isn't valid JSON (one being
       edited) no longer breaks the completion of nextflow run
 
