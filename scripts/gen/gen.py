@@ -3,9 +3,9 @@
     helptext("bowtie2=2.5.5", "bowtie2 --help")
 
 runs the command in a temporary pixi environment (Bioconda, conda-forge) and
-caches its output in $HELP_CACHE (default: a directory in the system temporary
-directory), so that a generator can be rerun without the network. Delete the
-cache to read the help again.
+caches its output in $HELP_CACHE (default: ~/.cache/luish-extra/help), so that a
+generator can be rerun without the network, and with the builds it was run with.
+Delete the cache to read the help again.
 """
 import os, re, subprocess, sys, hashlib, json, tempfile
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -13,8 +13,17 @@ import help2opts as h
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))
-CACHE = os.environ.get("HELP_CACHE", os.path.join(tempfile.gettempdir(), "luish-extra-help-cache"))
+CACHE = os.environ.get("HELP_CACHE") or os.path.join(
+    os.environ.get("XDG_CACHE_HOME") or os.path.expanduser("~/.cache"), "luish-extra", "help")
 os.makedirs(CACHE, exist_ok=True)
+
+def cache_put(f, text):
+    """Writes `text` to the cache file `f`, through a temporary file (an interrupted run leaves no file), and returns
+    it."""
+    with open(f + ".tmp", "w") as out:
+        out.write(text)
+    os.replace(f + ".tmp", f)
+    return text
 
 def helptext(pkg, cmd, chan="-c conda-forge -c bioconda"):
     key = hashlib.md5((pkg + "|" + cmd).encode()).hexdigest()
@@ -24,8 +33,11 @@ def helptext(pkg, cmd, chan="-c conda-forge -c bioconda"):
     specs = " ".join(f"-s '{p}'" for p in pkg.split())    # several packages: separated by spaces
     r = subprocess.run(f"pixi exec {chan} {specs} -- sh -c '{cmd} 2>&1' </dev/null", shell=True,
                        capture_output=True, text=True, timeout=300)
-    open(f, "w").write(r.stdout)
-    return r.stdout
+    # The tool's output is on stdout, even when it exits with an error (`bwa mem` with no arguments); pixi's errors
+    # (no network, no such version) are on stderr, with nothing on stdout. Those aren't cached.
+    if not r.stdout.strip():
+        sys.exit(f"pixi exec {specs} -- {cmd}: no output\n{r.stderr}")
+    return cache_put(f, r.stdout)
 
 def spec_body(pkg, cmd, values=None, args=None, extra="", indent=12, opts_extra="", drop=(), single_dash=False, text=None, edit=None):
     t = text if text is not None else helptext(pkg, cmd)
@@ -77,7 +89,7 @@ def dump(pkg, script, args, chan="-c conda-forge -c bioconda", python=None):
             json.loads(r.stdout)
         except ValueError:
             sys.exit(f"{script} {args}: not JSON:\n{r.stdout[:2000]}")
-        open(f, "w").write(r.stdout)
+        cache_put(f, r.stdout)
     return json.load(open(f))
 
 

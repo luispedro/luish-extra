@@ -145,7 +145,7 @@ def source(path):
     url = f"https://raw.githubusercontent.com/SchedMD/slurm/{TAG}/{path}"
     f = os.path.join(gen.CACHE, hashlib.md5(url.encode()).hexdigest())
     if not os.path.exists(f):
-        open(f, "w").write(urllib.request.urlopen(url, timeout=60).read().decode())
+        gen.cache_put(f, urllib.request.urlopen(url, timeout=60).read().decode())
     return open(f).read()
 
 

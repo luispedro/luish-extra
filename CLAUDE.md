@@ -143,7 +143,8 @@ environment with Bioconda, so nothing is installed):
   `dev`, `borg.rhai` of `system`, `bandage.rhai` of `gui`, `ffmpeg_opts.rhai` of `media` and `slurm_opts.rhai` of `hpc`
   are **generated** by `scripts/gen/mk_*.py` from the `--help` of pinned versions
   (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`,
-  cached in `$HELP_CACHE`), with the corrections and value kinds written in the generators. For Python programs built with argparse,
+  cached in `$HELP_CACHE`, by default `~/.cache/luish-extra/help`; a run that gives no output, such as a failed solve, isn't
+  cached), with the corrections and value kinds written in the generators. For Python programs built with argparse,
   `gen.argparse_dump(PKG, "module", "function")` runs the parser in the program's environment
   (`argparse_dump.py`) and gives its options with their choices and number of values, and `gen.emit_argparse` writes the
   table; the function may also be one that builds the parser and parses the command line itself

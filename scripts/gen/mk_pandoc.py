@@ -33,7 +33,8 @@ def man_descriptions():
     path = os.path.join(gen.CACHE, f"pandoc-{VERSION}.1")
     if not os.path.exists(path):
         url = f"https://raw.githubusercontent.com/jgm/pandoc/{VERSION}/pandoc-cli/man/pandoc.1"
-        subprocess.run(["curl", "-fsSL", "--max-time", "120", "-o", path, url], check=True)
+        subprocess.run(["curl", "-fsSL", "--max-time", "120", "-o", path + ".tmp", url], check=True)
+        os.replace(path + ".tmp", path)
 
     def plain(t):
         t = re.sub(r"\\f\[[A-Z]+\]", "", t)
