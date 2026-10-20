@@ -1,0 +1,7 @@
+#!/bin/sh
+# Stand-in for Slurm's squeue in the tests: the user's jobs.
+case "$*" in
+"--me -h -o %i|%j|%T")
+    printf '4242|assemble|RUNNING\n4243|bin|PENDING\n4250_[1-10]|array|PENDING\n' ;;
+*) exit 1 ;;
+esac

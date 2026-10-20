@@ -2,7 +2,7 @@
 
 Tab completion for [luish](https://github.com/luispedro/luish), for the programs that its standard library leaves out:
 bioinformatics tools (`bio`), scientific computing (`science`), desktop programs (`gui`), development (`dev`), system
-administration (`system`) and audio and video (`media`). Each plugin can be enabled on its own. And
+administration (`system`), audio and video (`media`) and HPC clusters (`hpc`). Each plugin can be enabled on its own. And
 [colour schemes](#colour-schemes) for luish's highlighting, for dark and light backgrounds (`themes`), and cached set-ups
 of [conda](#conda) (`conda`) and [nvm](#nvm) (`nvm`).
 
@@ -14,18 +14,19 @@ in its header, `pytest tests/test_x.py::` the tests in that file, and `ruff chec
 
 ## What is supported
 
-289 commands are completed so far, by 252 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
+297 commands are completed so far, by 260 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
 `makeblastdb` and 16 others):
 
 | Plugin    | Commands | Tools done / listed |
 |-----------|---------:|--------------------:|
-| `bio`     |      181 |           172 / 772 |
+| `bio`     |      182 |           173 / 772 |
 | `science` |       42 |             26 / 68 |
 | `gui`     |       49 |             40 / 40 |
 | `dev`     |       12 |             10 / 88 |
 | `system`  |        4 |               3 / 4 |
 | `media`   |        1 |               1 / 15 |
-| **Total** |  **289** |       **252 / 987** |
+| `hpc`     |        7 |               7 / 14 |
+| **Total** |  **297** |       **260 / 1001** |
 
 The tools to support are listed in [`docs/completion.md`](docs/completion.md) and, with a box per tool, in
 [`completion-todo.md`](completion-todo.md) (`grep -c '^- \[x\]' completion-todo.md` counts the ticked ones). The
@@ -52,7 +53,7 @@ $ plugin add extra/completion/all
 The first command adds the repository to `[plugins.available]` in `config.toml`, under the name `extra` (any name
 works), and fetches it. Its completion plugins are then `extra/completion/bio`, `extra/completion/science`, ...
 (`plugin list-available` lists them). The second enables `all`, which loads `bio`, `science`, `gui`, `dev`,
-`system` and `media`. To have only some of them, enable them one by one instead (`plugin add extra/completion/bio`, ...).
+`system`, `media` and `hpc`. To have only some of them, enable them one by one instead (`plugin add extra/completion/bio`, ...).
 
 Or, by hand, in `config.toml` (then run `plugin sync`):
 
@@ -182,6 +183,19 @@ channel layouts, bitstream filters and hardware accelerations are read from the 
 the inputs, read with `ffprobe`, and the outputs of `-filter_complex`.
 
 Done: `ffmpeg`.
+
+## `hpc`
+
+Slurm's commands, with all their options (also those that `--help` leaves out, such as `sbatch --test-only`), and the
+values that the cluster knows, asked of it when Tab is pressed: partitions (`sbatch -p` offers them with their time
+limits), accounts, QOS, clusters, nodes, node features (for `-C`, after `&` or `|`), GRES (`--gres=gpu:a100`),
+licenses, reservations and the user's jobs (for `scancel`, `--jobid`, `squeue -j` and `--dependency=afterok:`). Lists
+are completed after a comma (`--mail-type=BEGIN,END`, `squeue --states=PENDING,RUNNING`, `sacct --format=JobID,MaxRSS`).
+The command that `srun` and `salloc` run is completed by its own completer (`srun -n 4 python3 -`). The cluster's
+commands run under `timeout`, so a controller that doesn't answer makes Tab offer nothing after 3 seconds rather than
+hang.
+
+Done: `sbatch`, `salloc`, `srun`, `squeue`, `scancel`, `sinfo`, `sacct`.
 
 ## Colour schemes
 

@@ -1,4 +1,12 @@
 Unreleased
+    * hpc: a new plugin, for HPC clusters, with completion for Slurm's
+      sbatch, salloc, srun, squeue, scancel, sinfo and sacct: all
+      their options (from Slurm 26.05.5's source, as --help leaves
+      many out), and the partitions, accounts, QOS, nodes, features,
+      GRES, licenses, reservations and jobs of the cluster, asked of
+      it when Tab is pressed; srun and salloc hand the command they
+      run over to its completer. extra.completion.all loads it; to
+      have it alone, enable extra.completion.hpc
     * bio: completion for pyrodigal
 
 Version 0.7.0 2026-10-19 by luispedro

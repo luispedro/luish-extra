@@ -7,6 +7,7 @@ gui
 dev
 system
 media
+hpc
 all
 --- samtools so
 sort 	sort an alignment file
@@ -25,3 +26,5 @@ upload 	upload distribution files to a package index
 -z 	lazy unmount
 --- ffmpeg -hide_b
 -hide_banner 	do not show program banner
+--- sbatch --test-o
+--test-only 	estimate when the job would start, without submitting it

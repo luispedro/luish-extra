@@ -1,0 +1,11 @@
+#!/bin/sh
+# Stand-in for Slurm's sacctmgr in the tests: the associations, QOS and clusters of the accounting database.
+case "$*" in
+"-nP show assoc user="*" format=account")
+    printf 'lab\nlab\nteaching\n' ;;
+"-nP show qos format=name,description")
+    printf 'normal|Normal QOS default\nlong|Up to 7 days\n' ;;
+"-nP show cluster format=cluster")
+    printf 'alpha\nbeta\n' ;;
+*) exit 1 ;;
+esac

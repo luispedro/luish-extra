@@ -246,7 +246,15 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
   (Ghostscript; devices from `gs -h`), `qpdf`
 - **Downloads**: `yt-dlp`
 
+## `hpc`: HPC clusters
+
+- **Slurm**: `sbatch`, `salloc`, `srun`, `squeue`, `scancel`, `sinfo`, `sacct` (partitions, accounts, QOS, nodes,
+  features, GRES, licenses, reservations and the user's jobs from the cluster; the command that `srun` and `salloc`
+  run is completed by its own completer), `scontrol`, `sacctmgr`
+- **Other schedulers**: `qsub` (PBS, SGE), `bsub` (LSF)
+- **Environment modules**: `module`
+- **Data transfer**: `s5cmd`, `globus`
+
 ## Possible later plugins
 
-- `hpc`: `sbatch`, `squeue`, `scancel`, `sacct`, `srun`, `sinfo`, `qsub`, `bsub`, `module`, `s5cmd`, `globus`
 - `cloud`: `aws`, `gcloud`, `az`

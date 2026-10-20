@@ -1,0 +1,315 @@
+load 0
+=== sbatch
+--- sbatch --part
+--partition=	partition requested
+--- sbatch -p 
+debug 	up, 1:00:00, 2 nodes
+gpu 	up, 2-00:00:00, 2 nodes
+--- sbatch --partition=g
+--partition=gpu 	up, 2-00:00:00, 2 nodes
+--- sbatch -p debug,
+debug,gpu 	up, 2-00:00:00, 2 nodes
+--- sbatch -A 
+lab 
+teaching 
+--- sbatch --qos=
+--qos=long 	Up to 7 days
+--qos=normal 	Normal QOS default
+--- sbatch --mail-type=BEGIN,E
+--mail-type=BEGIN,END 
+--- sbatch -d 
+after:
+afterany:
+afterburstbuffer:
+aftercorr:
+afternotok:
+afterok:
+singleton 
+--- sbatch -d afterok:
+afterok:4242 	assemble (RUNNING)
+afterok:4243 	bin (PENDING)
+afterok:4250_\[1-10] 	array (PENDING)
+--- sbatch --dependency=afterok:4242:
+--dependency=afterok:4242:4242 	assemble (RUNNING)
+--dependency=afterok:4242:4243 	bin (PENDING)
+--dependency=afterok:4242:4250_\[1-10] 	array (PENDING)
+--- sbatch --dependency=afterok:4242,sing
+--dependency=afterok:4242,singleton 
+--- sbatch -C 'avx2&i
+'avx2&ib' 
+--- sbatch --constraint=a
+--constraint=avx2 
+--constraint=avx512 
+--- sbatch --gres=
+--gres=gpu 
+--gres=gpu:a100 
+--gres=gpu:v100 
+--gres=mps 
+--- sbatch -w n0
+n01 	idle
+n02 	mixed
+--- sbatch --reservation 
+maint 	INACTIVE
+--- sbatch -L 
+ansys 	0 of 4 free
+matlab 	8 of 10 free
+--- sbatch -M 
+alpha 
+beta 
+--- sbatch --open-mode 
+append 
+truncate 
+--- sbatch --test-o
+--test-only 	estimate when the job would start, without submitting it
+--- sbatch -o 
+bin/
+data.txt 
+hpc_slurm.sh 
+job.sh 
+--- sbatch -p debug jo
+job.sh 
+--- sbatch job.sh --part
+=== srun
+--- srun --mpi=
+--mpi=cray_shasta 
+--mpi=list 
+--mpi=none 
+--mpi=pmi2 
+--mpi=pmix 
+--- srun --cpu-bind=verbose,
+--cpu-bind=verbose,cores 
+--cpu-bind=verbose,help 
+--cpu-bind=verbose,ldoms 
+--cpu-bind=verbose,map_cpu: 
+--cpu-bind=verbose,map_ldom: 
+--cpu-bind=verbose,mask_cpu: 
+--cpu-bind=verbose,mask_ldom: 
+--cpu-bind=verbose,none 
+--cpu-bind=verbose,quiet 
+--cpu-bind=verbose,rank 
+--cpu-bind=verbose,rank_ldom 
+--cpu-bind=verbose,sockets 
+--cpu-bind=verbose,threads 
+--- srun --jobid 
+4242 	assemble (RUNNING)
+4243 	bin (PENDING)
+4250_\[1-10] 	array (PENDING)
+--- srun -n 4 --pty zzr
+zzrun 
+--- srun -n 4 zzrun d
+data.txt 
+--- srun -p gpu sbatch --te
+--test-only 	estimate when the job would start, without submitting it
+=== salloc
+--- salloc --x11=
+--x11=all 
+--x11=batch 
+--x11=first 
+--x11=last 
+--- salloc -N 2 zzr
+zzrun 
+=== squeue
+--- squeue -t 
+BOOT_FAIL 
+CANCELLED 
+COMPLETED 
+COMPLETING 
+CONFIGURING 
+DEADLINE 
+FAILED 
+NODE_FAIL 
+OUT_OF_MEMORY 
+PENDING 
+PREEMPTED 
+REQUEUED 
+REQUEUE_FED 
+REQUEUE_HOLD 
+RESIZING 
+RESV_DEL_HOLD 
+REVOKED 
+RUNNING 
+SIGNALING 
+SPECIAL_EXIT 
+STAGE_OUT 
+STOPPED 
+SUSPENDED 
+TIMEOUT 
+all 
+--- squeue --states=PENDING,R
+--states=PENDING,REQUEUED 
+--states=PENDING,REQUEUE_FED 
+--states=PENDING,REQUEUE_HOLD 
+--states=PENDING,RESIZING 
+--states=PENDING,RESV_DEL_HOLD 
+--states=PENDING,REVOKED 
+--states=PENDING,RUNNING 
+--- squeue -O JobId,Na
+JobId,Name 
+--- squeue -j 
+4242 	assemble (RUNNING)
+4243 	bin (PENDING)
+4250_\[1-10] 	array (PENDING)
+--- squeue --jobs=4242,
+--jobs=4242,4243 	bin (PENDING)
+--jobs=4242,4250_\[1-10] 	array (PENDING)
+--- squeue -u roo
+root 
+--- squeue -u daemon,ro
+daemon,root 
+--- squeue x
+=== scancel
+--- scancel 
+4242 	assemble (RUNNING)
+4243 	bin (PENDING)
+4250_\[1-10] 	array (PENDING)
+--- scancel 4242 
+4242 	assemble (RUNNING)
+4243 	bin (PENDING)
+4250_\[1-10] 	array (PENDING)
+--- scancel -s 
+ABRT 
+ALRM 
+BUS 
+CHLD 
+CONT 
+FPE 
+HUP 
+ILL 
+INT 
+IO 
+KILL 
+PIPE 
+PROF 
+PWR 
+QUIT 
+SEGV 
+STKFLT 
+STOP 
+SYS 
+TERM 
+TRAP 
+TSTP 
+TTIN 
+TTOU 
+URG 
+USR1 
+USR2 
+VTALRM 
+WINCH 
+XCPU 
+XFSZ 
+--- scancel --state=
+--state=BOOT_FAIL 
+--state=CANCELLED 
+--state=COMPLETED 
+--state=COMPLETING 
+--state=CONFIGURING 
+--state=DEADLINE 
+--state=FAILED 
+--state=NODE_FAIL 
+--state=OUT_OF_MEMORY 
+--state=PENDING 
+--state=PREEMPTED 
+--state=REQUEUED 
+--state=REQUEUE_FED 
+--state=REQUEUE_HOLD 
+--state=RESIZING 
+--state=RESV_DEL_HOLD 
+--state=REVOKED 
+--state=RUNNING 
+--state=SIGNALING 
+--state=SPECIAL_EXIT 
+--state=STAGE_OUT 
+--state=STOPPED 
+--state=SUSPENDED 
+--state=TIMEOUT 
+--state=all 
+=== sinfo
+--- sinfo -t 
+all 
+allocated 
+allocated+ 
+blocked 
+completing 
+down 
+drained 
+draining 
+fail 
+failing 
+future 
+idle 
+inval 
+maint 
+mixed 
+planned 
+power_down 
+powered_down 
+powering_down 
+powering_up 
+reboot_issued 
+reboot_requested 
+reserved 
+unknown 
+--- sinfo -O Node
+NodeAI 
+NodeAIOT 
+NodeAddr 
+NodeHost 
+NodeList 
+Nodes 
+--- sinfo -n 
+g01 	allocated
+g02 	drained
+n01 	idle
+n02 	mixed
+=== sacct
+--- sacct -j 
+4100 	align (COMPLETED)
+4101 	call (FAILED)
+--- sacct --format=JobID,Max
+--format=JobID,MaxDiskRead 
+--format=JobID,MaxDiskReadNode 
+--format=JobID,MaxDiskReadTask 
+--format=JobID,MaxDiskWrite 
+--format=JobID,MaxDiskWriteNode 
+--format=JobID,MaxDiskWriteTask 
+--format=JobID,MaxPagesNode 
+--format=JobID,MaxPagesTask 
+--format=JobID,MaxRSS 
+--format=JobID,MaxRSSNode 
+--format=JobID,MaxRSSTask 
+--format=JobID,MaxVMSize 
+--format=JobID,MaxVMSizeNode 
+--format=JobID,MaxVMSizeTask 
+--- sacct -s 
+BOOT_FAIL 
+CANCELLED 
+COMPLETED 
+COMPLETING 
+CONFIGURING 
+DEADLINE 
+FAILED 
+NODE_FAIL 
+OUT_OF_MEMORY 
+PENDING 
+PREEMPTED 
+REQUEUED 
+REQUEUE_FED 
+REQUEUE_HOLD 
+RESIZING 
+RESV_DEL_HOLD 
+REVOKED 
+RUNNING 
+SIGNALING 
+SPECIAL_EXIT 
+STAGE_OUT 
+STOPPED 
+SUSPENDED 
+TIMEOUT 
+all 
+--- sacct --units 
+G 
+K 
+M 
+P 
+T 

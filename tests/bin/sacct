@@ -1,0 +1,7 @@
+#!/bin/sh
+# Stand-in for Slurm's sacct in the tests: the user's jobs of today.
+case "$*" in
+"-X -n -P -o JobID,JobName,State")
+    printf '4100|align|COMPLETED\n4101|call|FAILED\n' ;;
+*) exit 1 ;;
+esac

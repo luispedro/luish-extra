@@ -1100,20 +1100,26 @@ of the output the test stand-in in `tests/bin` was cut from.
 - [ ] `qpdf`
 - [ ] `yt-dlp`
 
-## Possible later plugins
+## `hpc`: HPC clusters
 
-- [ ] `hpc`
-- [ ] `sbatch`
-- [ ] `squeue`
-- [ ] `scancel`
-- [ ] `sacct`
-- [ ] `srun`
-- [ ] `sinfo`
+- [x] `sbatch`: Slurm 26.05.5 (generated from its source at the tag, as conda-forge has only 22.05 and `--help`
+  leaves many options out: `src/common/slurm_opt.c`, the man pages; the values from the cluster)
+- [x] `salloc`: Slurm 26.05.5
+- [x] `srun`: Slurm 26.05.5 (the command it runs is completed by its own completer)
+- [x] `squeue`: Slurm 26.05.5
+- [x] `scancel`: Slurm 26.05.5
+- [x] `sinfo`: Slurm 26.05.5
+- [x] `sacct`: Slurm 26.05.5
+- [ ] `scontrol`
+- [ ] `sacctmgr`
 - [ ] `qsub`
 - [ ] `bsub`
 - [ ] `module`
 - [ ] `s5cmd`
 - [ ] `globus`
+
+## Possible later plugins
+
 - [ ] `cloud`
 - [ ] `aws`
 - [ ] `gcloud`

@@ -3,6 +3,7 @@ x/completion/all
 x/completion/bio
 x/completion/dev
 x/completion/gui
+x/completion/hpc
 x/completion/media
 x/completion/science
 x/completion/system
@@ -18,6 +19,7 @@ x/completion/gui
 x/completion/dev
 x/completion/system
 x/completion/media
+x/completion/hpc
 x/completion/all
 --- samtools view -T data/
 data/genome.fa 

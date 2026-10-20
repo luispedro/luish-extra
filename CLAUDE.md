@@ -6,11 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 luish-extra is a plugin collection for [luish](https://github.com/luispedro/luish) (a sibling checkout at `../luish`):
 completion modules that don't belong in luish's standard library (`std`), in plugins `bio`, `science`, `gui`, `dev`,
-`system` and `media`. Rhai (luish's scripting language) is the implementation language: `plugin.toml` +
+`system`, `media` and `hpc`. Rhai (luish's scripting language) is the implementation language: `plugin.toml` +
 `extension.rhai` per plugin.
 
-`completion/bio`, `completion/science`, `completion/gui`, `completion/dev`, `completion/system` and `completion/media`
-exist so far.
+`completion/bio`, `completion/science`, `completion/gui`, `completion/dev`, `completion/system`, `completion/media` and
+`completion/hpc` exist so far.
 `completion/bio`: `extension.rhai` (registers the completers, one function per module), `kinds.rhai` (bio file kinds:
 FASTA, BAM, index prefixes of aligners, reference names and samples of VCFs, ...) and, by family of tools, `ours.rhai`
 (ngless, SemiBin2, macrel, argnorm), `hts.rhai` (samtools, bedtools, tabix, bgzip, htsfile), `bcftools.rhai`, `bam.rhai`
@@ -76,6 +76,15 @@ options are read from `ffmpeg -h encoder=NAME` (AVOptions, parsed by `avoptions`
 options of libavcodec, libavformat and libswscale are the generated `ffmpeg_opts.rhai`. `tests/bin/ffmpeg` and
 `tests/bin/ffprobe` stand in for them.
 
+`completion/hpc` has Slurm's sbatch, salloc, srun, squeue, scancel, sinfo and sacct (qsub, bsub, module, scontrol and
+sacctmgr are to do), with a completer of its own (`slurm.rhai`): srun and salloc hand the command they run over to its
+completer (`delegate`, after `lib::scan` finds the first word that isn't an option), and sbatch's script gets files. Its
+kinds ask the cluster (`sinfo`, `squeue --me`, `sacct`, `sacctmgr -nP`, `scontrol -o show`) through `query`, which
+runs them under `timeout 3` (Slurm's commands wait for the controller, and Ctrl-C doesn't reach them during Tab), kept
+300 s, 30 s for nodes and licenses, 5 s for jobs; `list:NAME` completes the fixed lists of the generated
+`slurm_opts.rhai` after a comma. `tests/bin/sinfo`, `squeue`, `sacct`, `sacctmgr` and `scontrol` stand in for the
+cluster.
+
 `themes` is a plugin of its own, beside the `completion` collection (`extra/themes`): only a `plugin.toml` with
 `[colorscheme.NAME]` tables (luish's colour schemes), in pairs for dark and light backgrounds (`ansi`, `solarized`,
 `gruvbox`, `catppuccin` mocha/latte, `tokyonight` night/day). Its header comment says what each role means in every
@@ -111,7 +120,7 @@ command PATH (`PROG SUB ...`), `help::sub(PATH, SUB, how)` is the usual body of 
 a subcommand), and `help::commands(text)` takes a list of commands under any heading, with any gap after the name; `how`
 gives the help flag, `stderr` (`"merge"` for mmseqs), the `sub_spec` module and clap's `help` command. They are imported
 as `import "../extra-lib/files" as lib_files;`, `lib_text` and `help`, and a plugin that does so lists
-`extra-lib = "*"` in its `[dependencies]` (now `bio`, `science`, `dev`, `gui` and `media`). A helper that a second
+`extra-lib = "*"` in its `[dependencies]` (now `bio`, `science`, `dev`, `gui`, `media` and `hpc`). A helper that a second
 plugin needs goes there, not into a copy.
 
 Option tables are written from the tools' real `--help`, and `completion-todo.md` records the version each ticked tool
@@ -129,8 +138,9 @@ environment with Bioconda, so nothing is installed):
 - `align.rhai`, `bam.rhai`, `blast.rhai`, `diamond.rhai`, `hmmer.rhai`, `cluster.rhai`, `reads.rhai`, `asm.rhai`,
   `profile.rhai` and `bins.rhai` of `bio`, `snakemake.rhai`, `pandoc.rhai`, `aria2.rhai`, `parallel.rhai`,
   `miller.rhai`, `cwltool.rhai` and `jupyter_specs.rhai` of `science`, `pytest.rhai`, `mypy.rhai` and `poetry.rhai` of
-  `dev`, `borg.rhai` of `system`, `bandage.rhai` of `gui` and `ffmpeg_opts.rhai` of `media` are **generated** by
-  `scripts/gen/mk_*.py` from the `--help` of pinned versions (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`,
+  `dev`, `borg.rhai` of `system`, `bandage.rhai` of `gui`, `ffmpeg_opts.rhai` of `media` and `slurm_opts.rhai` of `hpc`
+  are **generated** by `scripts/gen/mk_*.py` from the `--help` of pinned versions
+  (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`,
   cached in `$HELP_CACHE`), with the corrections and value kinds written in the generators. For Python programs built with argparse,
   `gen.argparse_dump(PKG, "module", "function")` runs the parser in the program's environment
   (`argparse_dump.py`) and gives its options with their choices and number of values, and `gen.emit_argparse` writes the
@@ -145,7 +155,10 @@ environment with Bioconda, so nothing is installed):
   `gen.cleo_dump` does the same for Cleo programs (poetry), and `gen.dump` runs any helper that prints JSON
   (`mypy_info.py`: mypy's error codes). `mk_ffmpeg.py` also reads fftools' OptionDef tables
 (`ffmpeg_opt.c`, fetched from GitHub at the pinned tag and cached), since ffmpeg's help doesn't say which options take a
-value or are for inputs or outputs only. A program that prints its usage only when its standard input is a terminal
+value or are for inputs or outputs only. `mk_slurm.py` reads Slurm's source at its pinned tag only (conda-forge's Slurm
+is 22.05, and its `--help` leaves many options out): the option table of `src/common/slurm_opt.c` (sbatch, salloc,
+srun), the `long_options` of the others, and the man pages, which decide what is kept (deprecated aliases aren't
+documented) and give the descriptions that `--help` lacks. A program that prints its usage only when its standard input is a terminal
   (seqtk) is run under `script -qec "PROG SUB" /dev/null`, which gives it a pseudo-terminal (the input of `script` is
   still `/dev/null`). The generators stop at an option they have no kind for (`KINDS`, `VALUES`, `ARGS` in each), so a
   new version's options get looked at. Edit the generator and run it (`python3 scripts/gen/mk_align.py`), not the

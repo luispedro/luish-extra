@@ -1,0 +1,13 @@
+#!/bin/sh
+# Stand-in for Slurm's sinfo in the tests: a cluster of four nodes in two partitions.
+case "$*" in
+"-h -o %R|%a|%l|%D")
+    printf 'debug|up|1:00:00|2\ngpu|up|2-00:00:00|2\n' ;;
+"-h -N -o %N|%T")
+    printf 'n01|idle\nn02|mixed\ng01|allocated\ng02|drained\ng01|allocated\n' ;;
+"-h -o %f")
+    printf 'avx2,ib\navx512,ib\n(null)\n' ;;
+"-h -o %G")
+    printf '(null)\ngpu:a100:4(S:0-1)\ngpu:v100:2,mps:100\n' ;;
+*) exit 1 ;;
+esac

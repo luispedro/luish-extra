@@ -1,0 +1,6 @@
+description = "Completion for HPC tools: Slurm"
+luish-version = "0.7"
+
+[dependencies]
+std.completion = "*"
+extra-lib = "*"
