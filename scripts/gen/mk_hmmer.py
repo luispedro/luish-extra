@@ -14,11 +14,11 @@ AFMT = '["stockholm", "pfam", "a2m", "psiblast", "selex", "afa", "clustal", "clu
 SFMT = '["fasta", "embl", "genbank", "ddbj", "uniprot", "ncbi", "daemon", "hmmpgmd"]'
 PROGS = [
     ("hmmsearch", f"[{HMM}, {SEQ}]", {"--tformat": SFMT}),
-    ("hmmscan", f"[{HMM}, {SEQ}]", {"--tformat": SFMT}),
+    ("hmmscan", f"[{HMM}, {SEQ}]", {"--qformat": SFMT}),
     ("phmmer", f"[{SEQ}, {SEQ}]", {"--qformat": SFMT, "--tformat": SFMT, "--mx": MX}),
     ("jackhmmer", f"[{SEQ}, {SEQ}]", {"--qformat": SFMT, "--tformat": SFMT, "--mx": MX}),
     ("nhmmer", f"[{HMM}, {SEQ}]", {"--qformat": SFMT, "--tformat": SFMT}),
-    ("nhmmscan", f"[{HMM}, {SEQ}]", {"--qformat": SFMT, "--tformat": SFMT}),
+    ("nhmmscan", f"[{HMM}, {SEQ}]", {"--qformat": SFMT}),
     ("hmmbuild", f'["files", {MSA}]', {"--informat": AFMT, "--mx": MX}),
     ("hmmalign", f"[{HMM}, {SEQ}]", {"--informat": AFMT + "", "--outformat": AFMT}),
     ("hmmpress", f"[{HMM}]", {}),

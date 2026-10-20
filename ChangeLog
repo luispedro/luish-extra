@@ -8,6 +8,10 @@ Unreleased
       run over to its completer. extra.completion.all loads it; to
       have it alone, enable extra.completion.hpc
     * bio: completion for pyrodigal
+    * bio: bwa-mem2 mem no longer offers a line of dashes as an option,
+      nor -x, which it doesn't have; hmmscan --qformat completes the
+      formats; kallisto's -g, -c and -p take a file, and its long
+      options (--gtf, --tag, ...) get their values, as do DAS_Tool's
     * science: a nextflow_schema.json that isn't valid JSON (one being
       edited) no longer breaks the completion of nextflow run
 

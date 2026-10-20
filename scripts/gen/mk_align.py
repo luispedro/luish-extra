@@ -103,7 +103,12 @@ emit(f'''fn bwa_mem2() {{
 ''')
 b2 = []
 b2.append(case('"index"', body("", {"-p": '"files"'}, f"[{FA}]", add=[("-p", "STR", "prefix of the index")])))
-b2.append(case('"mem"', body(gen.helptext("bwa-mem2=2.2.1","bwa-mem2 mem 2>&1"), memvals, f'[{K("bwa_index")}, {SEQ}]', edit=bwa_mem_edit)))
+# (bwa-mem2 starts with which executable it runs, for the host's CPU (AVX2, AVX512BW), in a banner of dashes: from
+# "Usage:" on, the help is the same on any machine.)
+mem2 = gen.helptext("bwa-mem2=2.2.1","bwa-mem2 mem 2>&1")
+mem2 = mem2[mem2.index("Usage:"):]
+mem2vals = {n: v for n, v in memvals.items() if n != "-x"}
+b2.append(case('"mem"', body(mem2, mem2vals, f'[{K("bwa_index")}, {SEQ}]', edit=bwa_mem_edit)))
 emit('fn bwa_mem2_sub(sub) {\n    switch sub {\n' + "\n".join(b2) + '\n        _ => (),\n    }\n}\n')
 
 # ---------------- bowtie2 ----------------
@@ -280,9 +285,20 @@ kal = {}
 kv = {"-i": K("kallisto_index"), "--index": K("kallisto_index"), "-o": '"dirs"', "--output-dir": '"dirs"', "-g": GFF, "--gtf": GFF, "-c": '"files"',
       "--chromosomes": '"files"', "-d": FA, "--d-list": FA, "-T": '"dirs"', "--tmp": '"dirs"', "-B": '"files"', "--batch": '"files"', "-p": '"files"', "--priors": '"files"'}
 def kbody(cmd, args, extra_vals=None, edit=None):
-    v = dict(kv)
+    text = gen.helptext("kallisto=0.52.0", f"kallisto {cmd}")
+    v = h.only(kv, h.parse(text))    # (kv is for all the subcommands)
     if extra_vals: v.update(extra_vals)
-    return body(gen.helptext("kallisto=0.52.0", f"kallisto {cmd}"), v, args, edit)
+    return body(text, v, args, lambda opts: kedit(edit(opts) if edit else opts))
+def kedit(opts):
+    # kallisto's help gives no value name to these, which take a file
+    out = []
+    for n, a, d in opts:
+        if n == "-g, --gtf" and a.startswith("GTF"):
+            a, d = "FILE", "GTF file " + d
+        elif n in ("-c, --chromosomes", "-p, --priors") and not a:
+            a = "FILE"
+        out.append((n, a, d))
+    return out
 emit('''fn kallisto() {
     #{
         opts: `
@@ -305,7 +321,7 @@ emit('''fn kallisto() {
 ks = []
 ks.append(case('"index"', kbody("index", f"[{FA}]")))
 ks.append(case('"quant"', kbody("quant", f"[{FQ}]", {"-p": '"files"'})))
-ks.append(case('"bus"', kbody("bus", f"[{FQ}]", {"-x": '"none"'})))
+ks.append(case('"bus"', kbody("bus", f"[{FQ}]", {"-x": '"none"', "-T": '"none"'})))
 ks.append(case('"h5dump"', kbody("h5dump", '["files"]')))
 ks.append(case('"inspect"', body(gen.helptext("kallisto=0.52.0","kallisto inspect"), {}, f"[{K('kallisto_index')}]")))
 emit('fn kallisto_sub(sub) {\n    switch sub {\n' + "\n".join(ks) + '\n        _ => (),\n    }\n}\n')

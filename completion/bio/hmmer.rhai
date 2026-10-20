@@ -96,8 +96,9 @@ fn hmmscan() {
             "-o": "files", "--tblout": "files", "--domtblout": "files", "--pfamtblout": "files", "--textw": "none",
             "-E": "none", "-T": "none", "--domE": "none", "--domT": "none", "--incE": "none", "--incT": "none",
             "--incdomE": "none", "--incdomT": "none", "--F1": "none", "--F2": "none", "--F3": "none", "-Z": "none",
-            "--domZ": "none", "--seed": "none", "--qformat": "none", "--cpu": "none",
-            "--tformat": ["fasta", "embl", "genbank", "ddbj", "uniprot", "ncbi", "daemon", "hmmpgmd"],
+            "--domZ": "none", "--seed": "none",
+            "--qformat": ["fasta", "embl", "genbank", "ddbj", "uniprot", "ncbi", "daemon", "hmmpgmd"],
+            "--cpu": "none",
         },
         args: [k("hmm"), k("sequences")],
     }
@@ -356,7 +357,6 @@ fn nhmmscan() {
             "-T": "none", "--incE": "none", "--incT": "none", "--F1": "none", "--F2": "none", "--F3": "none",
             "--qformat": ["fasta", "embl", "genbank", "ddbj", "uniprot", "ncbi", "daemon", "hmmpgmd"],
             "-Z": "none", "--seed": "none", "--w_beta": "none", "--w_length": "none", "--cpu": "none",
-            "--tformat": ["fasta", "embl", "genbank", "ddbj", "uniprot", "ncbi", "daemon", "hmmpgmd"],
         },
         args: [k("hmm"), k("sequences")],
     }

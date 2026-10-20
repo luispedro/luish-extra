@@ -597,7 +597,7 @@ fn cramino() {
         `,
         values: #{
             "-t": "none", "--threads": "none", "--reference": k("fasta"), "-m": "none", "--min-read-len": "none",
-            "--arrow": "files", "--format": ["text", "json", "tsv"],
+            "--hist": "files", "--arrow": "files", "--format": ["text", "json", "tsv"], "--hist-count": "files",
         },
         args: [k("bam")],
     }

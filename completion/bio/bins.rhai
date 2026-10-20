@@ -1608,10 +1608,11 @@ fn das_tool() {
             -h, --help                             show this
         `,
         values: #{
-            "-i": "files", "-c": k("fasta"), "-o": "files", "-l": "none",
-            "--search_engine": ["diamond", "blastp", "usearch"], "-p": k("fasta"), "-t": "none",
-            "--score_threshold": "none", "--duplicate_penalty": "none", "--megabin_penalty": "none",
-            "--max_iter_post_threshold": "none", "--dbDirectory": "dirs",
+            "-i": "files", "--bins": "files", "-c": k("fasta"), "--contigs": k("fasta"), "-o": "files",
+            "--outputbasename": "files", "-l": "none", "--labels": "none",
+            "--search_engine": ["diamond", "blastp", "usearch"], "-p": k("fasta"), "--proteins": k("fasta"),
+            "-t": "none", "--threads": "none", "--score_threshold": "none", "--duplicate_penalty": "none",
+            "--megabin_penalty": "none", "--max_iter_post_threshold": "none", "--dbDirectory": "dirs",
         },
         args: ["none"],
     }

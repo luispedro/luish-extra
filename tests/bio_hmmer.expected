@@ -26,6 +26,15 @@ data/sub/
 --- hmmscan --domtblout 
 bio_hmmer.sh 
 data/
+--- hmmscan --qformat 
+daemon 
+ddbj 
+embl 
+fasta 
+genbank 
+hmmpgmd 
+ncbi 
+uniprot 
 --- phmmer --mx 
 BLOSUM45 
 BLOSUM50 

@@ -11,8 +11,10 @@ replace those with kinds or lists of values where there are any.
 """
 import re, sys
 
-# a line that starts an option: `-x`, `-x, --long ARG`, `--long=ARG`, `-long ARG`
-start = re.compile(r"^\s{0,12}(-[A-Za-z0-9@-][^\s,]*(?:(?:,\s*|\s*[/|]\s*)-[A-Za-z0-9@-][^\s,]*)*)(.*)$")
+# a line that starts an option: `-x`, `-x, --long ARG`, `--long=ARG`, `-long ARG` (not a rule of dashes, `-----`:
+# a name has a letter or digit)
+name = r"-[A-Za-z0-9@-]*[A-Za-z0-9@][^\s,]*"
+start = re.compile(r"^\s{0,12}(" + name + r"(?:(?:,\s*|\s*[/|]\s*)" + name + r")*)(.*)$")
 
 
 def clean(d):
@@ -103,6 +105,17 @@ def value_kind(arg):
     return '"none"'
 
 
+def names_of(opts):
+    """The names of the options of a table (`--index` for `-i, --index=STRING`)."""
+    return {re.sub(r"\[?=.*", "", x) for n, _, _ in opts for x in n.replace(",", " ").split()}
+
+
+def only(values, opts):
+    """The entries of `values` for the options of the table `opts`: for values shared by several tables."""
+    names = names_of(opts)
+    return {n: k for n, k in values.items() if n in names}
+
+
 def emit(opts, indent=12, values=None, tail=""):
     pad = " " * indent
     w = max((len(n) + (len(a) + 1 if a else 0) for n, a, _ in opts), default=0)
@@ -115,10 +128,13 @@ def emit(opts, indent=12, values=None, tail=""):
     values = values or {}
     seen = set()
     for n, a, d in opts:
+        # (`--index=STRING`, `--cs[=STR]`: std's engine takes the name before the `=`, and the value after it)
+        eq = re.search(r"=([^\s\]]+)", n)
+        a = a or (eq.group(1) if eq else "")
         if not a:
             continue
         kind = value_kind(a.split()[0])
-        names = n.replace(",", " ").split()
+        names = [re.sub(r"\[?=.*", "", x) for x in n.replace(",", " ").split()]
         # an override on any name of the option applies to all its names
         for name in names:
             if name in values:
@@ -126,9 +142,9 @@ def emit(opts, indent=12, values=None, tail=""):
         for name in names:
             vals.append(f'"{name}": {kind}')
             seen.add(name)
-    for name, kind in values.items():
+    for name in values:
         if name not in seen:
-            vals.append(f'"{name}": {kind}')
+            print(f"help2opts: values for {name}, which isn't in the table: left out", file=sys.stderr)
     if vals:
         out.append(pad[:-4] + "values: #{")
         line = pad

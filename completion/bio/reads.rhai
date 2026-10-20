@@ -401,7 +401,7 @@ fn trim_galore() {
             "--preserve-tags": "none", "--output-format": ["fastq", "ubam"], "-r": "none", "--length_1": "none",
             "--length_2": "none", "--passthrough": k("fastq"), "--consider_already_trimmed": "none",
             "--fastqc_args": "none", "-j": "none", "--cores": "none", "-n": "none", "--times": "none",
-            "--hardtrim5": "none", "--hardtrim3": "none", "--demux": "files",
+            "--hardtrim5": "none", "--hardtrim3": "none", "--implicon": "none", "--demux": "files",
         },
         args: [k("fastq")],
     }

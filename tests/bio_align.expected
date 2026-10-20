@@ -124,6 +124,7 @@ data/ref.fa.bwt
 data/ref.mmi 
 data/sub/
 data/tx.idx 
+--- bwa-mem2 mem --
 === bowtie2, hisat2
 --- bowtie2 -x data/
 data/idx 
@@ -284,6 +285,10 @@ data/tx.idx
 --- kallisto quant -g data/
 data/genes.gtf 
 data/sub/
+--- kallisto quant --gtf data/
+data/genes.gtf 
+data/sub/
+--- kallisto bus --tag 
 --- kallisto quant -o data/
 data/sub/
 --- kallisto quant --f
@@ -306,7 +311,7 @@ data/sub/
 -T 	5′ tag sequence to identify UMI reads for certain technologies
 -b 	input file is a BAM file
 -c 	tab separated file with chromosome names and lengths
--g 	for transcriptome information (required for --genomebam)
+-g 	GTF file for transcriptome information (required for --genomebam)
 -i 	filename for the kallisto index to be used for pseudoalignment
 -l 	list all single-cell technologies supported
 -n 	output number of read in flag column (incompatible with --bam)

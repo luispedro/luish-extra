@@ -104,7 +104,7 @@ def spades_values(opts):
     return v
 for name, prog in [("spades", "spades.py"), ("metaspades", "metaspades.py")]:
     o = spades_opts(gen.helptext(PIN["spades"], f"{prog} --help"))
-    fn(name, body(o, spades_values(o), f"[{READS}]"))
+    fn(name, body(o, h.only(spades_values(o), o), f"[{READS}]"))
 
 # ---------------- megahit ----------------
 mh = [(n, argname(a), d) for n, a, d in h.parse(gen.helptext(PIN["megahit"], "megahit --help"))]
@@ -164,7 +164,7 @@ for name, prog in [("quast", "quast.py"), ("metaquast", "metaquast.py")]:
     assert len(o) > 70, len(o)
     v = dict(quast_values)
     v.update({n.split(",")[0]: NONE for n, a, _ in o if a and not any(x in v for x in n.split(", "))})
-    fn(name, body(o, v, f"[{FA}]"))
+    fn(name, body(o, h.only(v, o), f"[{FA}]"))
 
 # ---------------- busco (argparse) ----------------
 bu = gen.argparse_dump(PIN["busco"], "busco.run_BUSCO", "_parse_args")

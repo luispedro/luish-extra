@@ -256,49 +256,47 @@ fn bwa_mem2_sub(sub) {
         },
         "mem" => #{
         opts: `
-            -----------------------------
-            -----------------------------
-            -o STR                         output SAM file name
-            -t INT                         number of threads
-            -k INT                         minimum seed length
-            -w INT                         band width for banded alignment
-            -d INT                         off-diagonal X-dropoff
-            -r FLOAT                       look for internal seeds inside a seed longer than {-k} * FLOAT
-            -y INT                         seed occurrence for the 3rd round seeding
-            -c INT                         skip seeds with more than INT occurrences
-            -D FLOAT                       drop chains shorter than FLOAT fraction of the longest overlapping chain
-            -W INT                         discard a chain if seeded bases shorter than INT
-            -m INT                         perform at most INT rounds of mate rescues for each read
-            -S                             skip mate rescue
-            -P                             skip pairing; mate rescue performed unless -S also in use
-            -A INT                         score for a sequence match, which scales options -TdBOELU unless overridden
-            -B INT                         penalty for a mismatch
-            -O INT[,INT]                   gap open penalties for deletions and insertions
-            -E INT[,INT]                   gap extension penalty; a gap of size k cost '{-O} + {-E}*k'
-            -L INT[,INT]                   penalty for 5'- and 3'-end clipping
-            -U INT                         penalty for an unpaired read pair
-            -p                             smart pairing (ignoring in2.fq)
-            -R STR                         read group header line such as '@RG\tID:foo\tSM:bar'
-            -H STR/FILE                    insert STR to header if it starts with @; or insert lines in FILE
-            -j                             treat ALT contigs as part of the primary assembly
-            -5                             for split alignment, take the alignment with the smallest coordinate as primary
-            -q                             don't modify mapQ of supplementary alignments
-            -K INT                         process INT input bases in each batch regardless of nThreads (for reproducibility)
-            -v INT                         verbose level: 1=error, 2=warning, 3=message, 4+=debugging
-            -T INT                         minimum score to output
-            -h INT[,INT]                   if there are <INT hits with score >80% of the max score, output all in XA
-            -a                             output all alignments for SE or unpaired PE
-            -C                             append FASTA/FASTQ comment to SAM output
-            -V                             output the reference FASTA header in the XR tag
-            -Y                             use soft clipping for supplementary alignments
-            -M                             mark shorter split hits as secondary
-            -I FLOAT[,FLOAT[,INT[,INT]]]   specify the mean, standard deviation (10% of the mean if absent), max
+            -o STR                        output SAM file name
+            -t INT                        number of threads
+            -k INT                        minimum seed length
+            -w INT                        band width for banded alignment
+            -d INT                        off-diagonal X-dropoff
+            -r FLOAT                      look for internal seeds inside a seed longer than {-k} * FLOAT
+            -y INT                        seed occurrence for the 3rd round seeding
+            -c INT                        skip seeds with more than INT occurrences
+            -D FLOAT                      drop chains shorter than FLOAT fraction of the longest overlapping chain
+            -W INT                        discard a chain if seeded bases shorter than INT
+            -m INT                        perform at most INT rounds of mate rescues for each read
+            -S                            skip mate rescue
+            -P                            skip pairing; mate rescue performed unless -S also in use
+            -A INT                        score for a sequence match, which scales options -TdBOELU unless overridden
+            -B INT                        penalty for a mismatch
+            -O INT[,INT]                  gap open penalties for deletions and insertions
+            -E INT[,INT]                  gap extension penalty; a gap of size k cost '{-O} + {-E}*k'
+            -L INT[,INT]                  penalty for 5'- and 3'-end clipping
+            -U INT                        penalty for an unpaired read pair
+            -p                            smart pairing (ignoring in2.fq)
+            -R STR                        read group header line such as '@RG\tID:foo\tSM:bar'
+            -H STR/FILE                   insert STR to header if it starts with @; or insert lines in FILE
+            -j                            treat ALT contigs as part of the primary assembly
+            -5                            for split alignment, take the alignment with the smallest coordinate as primary
+            -q                            don't modify mapQ of supplementary alignments
+            -K INT                        process INT input bases in each batch regardless of nThreads (for reproducibility)
+            -v INT                        verbose level: 1=error, 2=warning, 3=message, 4+=debugging
+            -T INT                        minimum score to output
+            -h INT[,INT]                  if there are <INT hits with score >80% of the max score, output all in XA
+            -a                            output all alignments for SE or unpaired PE
+            -C                            append FASTA/FASTQ comment to SAM output
+            -V                            output the reference FASTA header in the XR tag
+            -Y                            use soft clipping for supplementary alignments
+            -M                            mark shorter split hits as secondary
+            -I FLOAT[,FLOAT[,INT[,INT]]]  specify the mean, standard deviation (10% of the mean if absent), max
         `,
         values: #{
             "-o": "files", "-t": "none", "-k": "none", "-w": "none", "-d": "none", "-r": "none", "-y": "none",
             "-c": "none", "-D": "none", "-W": "none", "-m": "none", "-A": "none", "-B": "none", "-O": "none",
             "-E": "none", "-L": "none", "-U": "none", "-R": "none", "-H": "files", "-K": "none", "-v": "none",
-            "-T": "none", "-h": "none", "-I": "none", "-x": ["pacbio", "ont2d", "intractg"],
+            "-T": "none", "-h": "none", "-I": "none",
         },
         args: [k("bwa_index"), k("sequences")],
         },
@@ -671,7 +669,7 @@ fn minimap2() {
             "-k": "none", "-w": "none", "-I": "none", "-d": "files", "-f": "none", "-g": "none", "-G": "none",
             "-F": "none", "-n": "none", "-m": "none", "-p": "none", "-N": "none", "-A": "none", "-B": "none",
             "-O": "none", "-E": "none", "-z": "none", "-s": "none", "-u": ["f", "b", "n"], "-J": "none",
-            "-j": k("bed"), "-o": "files", "-R": "none", "-t": "none", "-K": "none",
+            "-j": k("bed"), "-o": "files", "-R": "none", "--cs": "none", "-t": "none", "-K": "none",
             "-x": ["map-ont", "map-hifi", "map-pb", "lr:hq", "splice", "splice:hq", "splice:sr", "asm5", "asm10", "asm20", "sr", "ava-pb", "ava-ont"],
             "-r": "none", "--secondary": ["yes", "no"], "--junc-bed": k("bed"), "--split-prefix": "files",
             "--frag": ["yes", "no"], "--seed": "none", "--max-qlen": "none", "--end-bonus": "none",
@@ -1048,10 +1046,9 @@ fn kallisto_sub(sub) {
             -e, --ec-max-size=INT     maximum number of targets in an equivalence class
         `,
         values: #{
-            "-d": k("fasta"), "--d-list=STRING": k("fasta"), "-i": k("kallisto_index"),
-            "--index": k("kallisto_index"), "-o": "dirs", "--output-dir": "dirs", "-g": k("gff"),
-            "--gtf": k("gff"), "-c": "files", "--chromosomes": "files", "--d-list": k("fasta"), "-T": "dirs",
-            "--tmp": "dirs", "-B": "files", "--batch": "files", "-p": "files", "--priors": "files",
+            "-i": k("kallisto_index"), "--index": k("kallisto_index"), "-k": "none", "--kmer-size": "none",
+            "-t": "none", "--threads": "none", "-d": k("fasta"), "--d-list": k("fasta"), "-T": "dirs",
+            "--tmp": "dirs", "-m": "none", "--min-size": "none", "-e": "none", "--ec-max-size": "none",
         },
         args: [k("fasta")],
         },
@@ -1068,19 +1065,20 @@ fn kallisto_sub(sub) {
             --rf-stranded                 strand specific reads, first read reverse
             -l, --fragment-length=DOUBLE  estimated average fragment length
             -s, --sd=DOUBLE               estimated standard deviation of fragment length
-            -p, --priors                  priors for the EM algorithm, either as raw counts or as probabilities
+            -p, --priors FILE             priors for the EM algorithm, either as raw counts or as probabilities
             --pseudobam                   save pseudoalignments to transcriptome to BAM file
             --genomebam                   project pseudoalignments to genome sorted BAM file
-            -g, --gtf GTF file            for transcriptome information (required for --genomebam)
-            -c, --chromosomes             tab separated file with chromosome names and lengths
+            -g, --gtf FILE                GTF file for transcriptome information (required for --genomebam)
+            -c, --chromosomes FILE        tab separated file with chromosome names and lengths
             -t, --threads=INT             number of threads to use
             --verbose                     print out progress information every 1M proccessed reads
         `,
         values: #{
-            "-g": k("gff"), "--gtf": k("gff"), "-i": k("kallisto_index"), "--index": k("kallisto_index"),
-            "-o": "dirs", "--output-dir": "dirs", "-c": "files", "--chromosomes": "files", "-d": k("fasta"),
-            "--d-list": k("fasta"), "-T": "dirs", "--tmp": "dirs", "-B": "files", "--batch": "files",
-            "-p": "files", "--priors": "files",
+            "-i": k("kallisto_index"), "--index": k("kallisto_index"), "-o": "dirs", "--output-dir": "dirs",
+            "-b": "none", "--bootstrap-samples": "none", "--seed": "none", "-l": "none",
+            "--fragment-length": "none", "-s": "none", "--sd": "none", "-p": "files", "--priors": "files",
+            "-g": k("gff"), "--gtf": k("gff"), "-c": "files", "--chromosomes": "files", "-t": "none",
+            "--threads": "none",
         },
         args: [k("fastq")],
         },
@@ -1106,15 +1104,15 @@ fn kallisto_sub(sub) {
             --inleaved               specifies that input is an interleaved FASTQ file
             --batch-barcodes         records both batch and extracted barcode in BUS file
             --genomebam              project pseudoalignments to genome sorted BAM file
-            -g, --gtf GTF file       for transcriptome information (required for --genomebam)
-            -c, --chromosomes        tab separated file with chromosome names and lengths
+            -g, --gtf FILE           GTF file for transcriptome information (required for --genomebam)
+            -c, --chromosomes FILE   tab separated file with chromosome names and lengths
             --verbose                print out progress information every 1M proccessed reads
         `,
         values: #{
-            "-g": k("gff"), "--gtf": k("gff"), "-i": k("kallisto_index"), "--index": k("kallisto_index"),
-            "-o": "dirs", "--output-dir": "dirs", "-c": "files", "--chromosomes": "files", "-d": k("fasta"),
-            "--d-list": k("fasta"), "-T": "dirs", "--tmp": "dirs", "-B": "files", "--batch": "files",
-            "-p": "files", "--priors": "files", "-x": "none",
+            "-i": k("kallisto_index"), "--index": k("kallisto_index"), "-o": "dirs", "--output-dir": "dirs",
+            "-x": "none", "--technology": "none", "-B": "files", "--batch": "files", "-t": "none",
+            "--threads": "none", "-T": "none", "--tag": "none", "-g": k("gff"), "--gtf": k("gff"), "-c": "files",
+            "--chromosomes": "files",
         },
         args: [k("fastq")],
         },
@@ -1123,10 +1121,7 @@ fn kallisto_sub(sub) {
             -o, --output-dir=STRING  directory to write output to
         `,
         values: #{
-            "-i": k("kallisto_index"), "--index": k("kallisto_index"), "-o": "dirs", "--output-dir": "dirs",
-            "-g": k("gff"), "--gtf": k("gff"), "-c": "files", "--chromosomes": "files", "-d": k("fasta"),
-            "--d-list": k("fasta"), "-T": "dirs", "--tmp": "dirs", "-B": "files", "--batch": "files",
-            "-p": "files", "--priors": "files",
+            "-o": "dirs", "--output-dir": "dirs",
         },
         args: ["files"],
         },

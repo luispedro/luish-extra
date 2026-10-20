@@ -152,8 +152,7 @@ fn metaspades() {
             "-t": "none", "--threads": "none", "-m": "none", "--memory": "none", "--tmp-dir": "dirs", "-k": "none",
             "--phred-offset": ["33", "64"], "--custom-hmms": "dirs",
             "--grid-engine": ["slurm", "local", "mpi", "save_yaml"], "--grid-queue": "none",
-            "--grid-nnodes": "none", "--grid-extra": "none", "--grid-time": "none", "--sanger": k("reads"),
-            "--trusted-contigs": k("fasta"), "--untrusted-contigs": k("fasta"), "--cov-cutoff": ["auto", "off"],
+            "--grid-nnodes": "none", "--grid-extra": "none", "--grid-time": "none",
         },
         args: [k("reads")],
     }
@@ -350,7 +349,7 @@ fn quast() {
             "--pe1": k("fastq"), "-2": k("fastq"), "--pe2": k("fastq"), "--pe12": k("fastq"), "--mp1": k("fastq"),
             "--mp2": k("fastq"), "--mp12": k("fastq"), "--single": k("fastq"), "--pacbio": k("reads"),
             "--nanopore": k("reads"), "--ref-sam": k("sam"), "--ref-bam": k("bam"), "--sam": k("sam"),
-            "--bam": k("bam"), "--sv-bedpe": k("bed"), "--references-list": "files", "--blast-db": "files",
+            "--bam": k("bam"), "--sv-bedpe": k("bed"),
         },
         args: [k("fasta")],
     }
