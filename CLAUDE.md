@@ -63,9 +63,11 @@ zathura, xdg-open), `editors.rhai` (code, with a completer of its own and its cl
 (xrandr, gsettings, dconf, notify-send, wmctrl, swaymsg, hyprctl, and xdotool, whose chained commands have a completer
 of their own), the generated `bandage.rhai` (BandageNG) and `mpv.rhai` (its options read from the installed mpv's
 `--list-options` when Tab is pressed, with a completer of its own, as nextflow has); proksee goes through std's Click
-bridge. svn, netlify and adb (`dev`) are still to do. Every module has `fn spec(cmd)` (the generated ones too, ignoring
+bridge.
+
+In `bio`, `science`, `gui`, `dev` and `system`, every module has `fn spec(cmd)` (the generated ones too, ignoring
 `cmd`), and `extension.rhai` maps each command to its module (`module_of`), so a new module needs an entry there;
-nextflow, whose spec depends on the line, and mpv have completers of their own.
+nextflow, whose spec depends on the line, and mpv have completers of their own, as do `media` and `hpc` throughout.
 
 `completion/media` has only ffmpeg so far (magick, convert and yt-dlp are to do), with a completer of its own
 (`ffmpeg.rhai`): an option's place decides what it is (before the first `-i`, an input's; after it, an output's), so
@@ -172,6 +174,17 @@ Tests (`tests/run.sh`, cases `tests/PLUGIN_*.sh` with `.expected`) load std's `c
 plugin, then run `__luish_internal complete LINE`, as `../luish/tests/plugins/std_completion*.sh` do. Programs that
 completion itself runs are stood in for by scripts in `tests/bin`. Read the `.expected` before committing it: it is
 a snapshot, not a check.
+
+```sh
+tests/run.sh                       # every case
+tests/run.sh bio_align gui_media   # some cases, by name without .sh
+UPDATE=1 tests/run.sh bio_align    # rewrite their .expected (then read the diff)
+LUISH=$PWD/../luish/target/release/luish tests/run.sh   # another luish (STD_PLUGINS defaults to ../luish/luish-std-plugins)
+```
+
+Each case runs under `env -i` in a fresh directory that is also `$HOME`, with `LC_ALL=C`; anything on its standard
+error fails it, even when the output matches. A case starts with `__luish_internal plugin load "$EXTRA/completion/PLUGIN"`
+and defines `c() { echo "--- $1"; __luish_internal complete "$1"; }`.
 
 CI (`.github/workflows/ci.yml`): `test` builds luish from `luispedro/luish` and runs `tests/run.sh` with `LUISH` and
 `STD_PLUGINS` pointing at that checkout, twice: with luish's `main`, and with its `vX.Y.0` for the `X.Y` the plugins need
