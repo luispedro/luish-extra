@@ -30,7 +30,7 @@ for m in [
     ["reads", ["fastp", "fastqc", "falco", "cutadapt", "trimmomatic", "trim_galore", "fastq_screen", "seqtk",
                "filtlong", "chopper", "nanoq", "rasusa", "porechop", "NanoPlot", "NanoFilt", "NanoStat"]],
     ["asm", ["spades.py", "metaspades.py", "megahit", "flye", "quast", "quast.py", "metaquast", "metaquast.py",
-             "busco", "prodigal", "prokka", "bakta", "barrnap", "emapper.py",
+             "busco", "prodigal", "pyrodigal", "prokka", "bakta", "barrnap", "emapper.py",
              "download_eggnog_data.py", "create_dbs.py", "hmm_mapper.py"]],
     ["meta", ["rgi", "amrfinder", "amrfinder_update"]],
     ["profile", ["kraken2", "kraken2-build", "kraken2-inspect", "k2", "bracken", "bracken-build",

@@ -178,7 +178,7 @@ eukaryota 	group of datasets
 mine_odb12 	downloaded
 prokaryota 	group of datasets
 virus 	group of datasets
-=== prodigal, prokka, bakta, barrnap
+=== prodigal, pyrodigal, prokka, bakta, barrnap
 --- prodigal -
 -a 	write protein translations to the selected file
 -c 	closed ends: don't let genes run off the edges
@@ -199,6 +199,43 @@ virus 	group of datasets
 meta 
 single 
 --- prodigal -i data/
+data/contigs.fa 
+data/sub/
+--- pyrodigal --
+--help 	show this help message and exit
+--jobs=	number of threads, for an input of several sequences
+--max-overlap=	maximum overlap of two genes on the same strand (at most --min-gene)
+--min-edge-gene=	the minimum edge gene length
+--min-gene=	the minimum gene length
+--no-stop-codon 	don't translate the stop codons of complete genes as *
+--pool=	kind of pool that processes genomes in parallel
+--version 	show version number and exit
+--- pyrodigal -g 
+1 
+10 
+11 
+12 
+13 
+14 
+15 
+16 
+2 
+21 
+22 
+23 
+24 
+25 
+26 
+29 
+3 
+30 
+32 
+33 
+4 
+5 
+6 
+9 
+--- pyrodigal -i data/
 data/contigs.fa 
 data/sub/
 --- prokka --kingdom 

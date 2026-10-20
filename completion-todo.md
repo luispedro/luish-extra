@@ -695,7 +695,7 @@ them in the same way. A tick with `(Cobra)` means the program answers with its s
 - [ ] `ntm-profiler`
 - [ ] `nullarbor`
 - [x] `dnaapler`: dnaapler 1.4.0 (Click)
-- [ ] `pyrodigal`
+- [x] `pyrodigal`: pyrodigal 3.7.1
 - [ ] `phanotate`
 - [ ] `minced`
 - [ ] `platon`

@@ -109,9 +109,9 @@ Done: `ngless`, `SemiBin2` / `SemiBin`, `macrel`, `argnorm`; `samtools`, `bcftoo
 `vsearch`, `cd-hit` (and `cd-hit-est`, ...); `fastp`, `fastqc`, `falco`, `cutadapt`, `trimmomatic` (its steps, and the
 adapter files that come with it), `trim_galore`, `fastq_screen`, `seqtk`, `filtlong`, `chopper`, `nanoq`, `rasusa`,
 `porechop`, `NanoPlot`, `NanoFilt`, `NanoStat`; assembly and annotation (`spades.py`, `megahit`, `flye`, `quast`,
-`busco`, `prodigal`, `prokka`, `bakta`, `barrnap`, eggnog-mapper's `emapper.py` and its scripts); profiling of
-metagenomes (`kraken2`, `bracken`, `krakenuniq`, `centrifuge`, `kaiju`, `metaphlan`, `humann`, `motus`); binning and
-MAGs (`metabat2`, `concoct`, `run_MaxBin.pl`, `vamb`, `DAS_Tool`, `checkm`, `checkm2`, `gunc`, `gtdbtk`, `dRep`,
+`busco`, `prodigal`, `pyrodigal`, `prokka`, `bakta`, `barrnap`, eggnog-mapper's `emapper.py` and its scripts);
+profiling of metagenomes (`kraken2`, `bracken`, `krakenuniq`, `centrifuge`, `kaiju`, `metaphlan`, `humann`, `motus`);
+binning and MAGs (`metabat2`, `concoct`, `run_MaxBin.pl`, `vamb`, `DAS_Tool`, `checkm`, `checkm2`, `gunc`, `gtdbtk`, `dRep`,
 `coverm`); `rgi`, `amrfinder` (the taxonomy groups of its database, for `--organism`); `seqkit`, `csvtk` and `taxonkit`
 (which complete themselves, as Cobra programs); and, through the Click bridge, `multiqc`, `peddy`, `genmod`,
 `plassembler`, `cooler`, `pairtools`, `checkv`, `virsorter`, `metacoag`, `harpy`, `defense-finder`, `dnaapler`,

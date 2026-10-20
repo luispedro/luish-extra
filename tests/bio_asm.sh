@@ -1,5 +1,5 @@
-# Assembly and annotation: spades.py, metaspades.py, megahit, flye, quast, metaquast, busco, prodigal, prokka, bakta,
-# barrnap, emapper.py, download_eggnog_data.py, create_dbs.py, hmm_mapper.py.
+# Assembly and annotation: spades.py, metaspades.py, megahit, flye, quast, metaquast, busco, prodigal, pyrodigal,
+# prokka, bakta, barrnap, emapper.py, download_eggnog_data.py, create_dbs.py, hmm_mapper.py.
 __luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 c() {
@@ -46,10 +46,13 @@ c 'busco -l m'
 c 'busco -l busco_downloads/lineages/'
 c 'busco --download_path dl -l '
 c 'busco --download '
-echo "=== prodigal, prokka, bakta, barrnap"
+echo "=== prodigal, pyrodigal, prokka, bakta, barrnap"
 c 'prodigal -'
 c 'prodigal -p '
 c 'prodigal -i data/'
+c 'pyrodigal --'
+c 'pyrodigal -g '
+c 'pyrodigal -i data/'
 c 'prokka --kingdom '
 c 'prokka --hmms data/'
 c 'prokka data/'
