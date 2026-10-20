@@ -7,13 +7,13 @@ caches its output in $HELP_CACHE (default: a directory in the system temporary
 directory), so that a generator can be rerun without the network. Delete the
 cache to read the help again.
 """
-import os, re, subprocess, sys, hashlib, json
+import os, re, subprocess, sys, hashlib, json, tempfile
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import help2opts as h
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))
-CACHE = os.environ.get("HELP_CACHE", os.path.join(__import__("tempfile").gettempdir(), "luish-extra-help-cache"))
+CACHE = os.environ.get("HELP_CACHE", os.path.join(tempfile.gettempdir(), "luish-extra-help-cache"))
 os.makedirs(CACHE, exist_ok=True)
 
 def helptext(pkg, cmd, chan="-c conda-forge -c bioconda"):
@@ -66,9 +66,11 @@ def dump(pkg, script, args, chan="-c conda-forge -c bioconda", python=None):
     if not os.path.exists(f):
         specs = " ".join(f"-s '{p}'" for p in pkg.split())
         run = python if python else f"pixi exec {chan} {specs} -- python"
-        # (PYTHONHASHSEED: choices that a program keeps in a set come out in the same order each time.)
-        r = subprocess.run(f"PYTHONHASHSEED=0 {run} {HERE}/{script} {args}", shell=True, capture_output=True,
-                           text=True, timeout=600, stdin=subprocess.DEVNULL)
+        # (PYTHONHASHSEED: choices that a program keeps in a set come out in the same order each time. A temporary
+        # directory: what a program writes where it runs, such as busco's busco_PID.log, isn't left in the repository.)
+        with tempfile.TemporaryDirectory() as tmp:
+            r = subprocess.run(f"PYTHONHASHSEED=0 {run} {HERE}/{script} {args}", shell=True, capture_output=True,
+                               text=True, timeout=600, stdin=subprocess.DEVNULL, cwd=tmp)
         if r.returncode:
             sys.exit(r.stderr)
         try:
