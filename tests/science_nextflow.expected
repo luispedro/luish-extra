@@ -198,6 +198,7 @@ test_full
 --genome=	Genome name
 --input=	Path to the samplesheet
 --outdir=	The output directory
+--save_reference 	Save the reference files that are generated, such as the genome index, to the
 --skip_qc 	Skip the QC
 --- nextflow run pipe --o
 --outdir=	The output directory

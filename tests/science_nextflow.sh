@@ -53,7 +53,8 @@ cat >pipe/nextflow_schema.json <<'JSON'
       "properties": {
         "aligner": {"type": "string", "enum": ["star", "hisat2"], "description": "The aligner"},
         "skip_qc": {"type": "boolean", "description": "Skip the QC"},
-        "genome": {"type": "string", "description": "Genome name"}
+        "genome": {"type": "string", "description": "Genome name"},
+        "save_reference": {"type": "boolean", "description": "Save the reference files that are generated, such as the genome index, to the results: they"}
       }
     }
   },

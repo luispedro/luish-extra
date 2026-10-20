@@ -372,8 +372,16 @@ fn nextflow_schema_params(path) {
             if dot > 0 {
                 desc = desc.sub_string(0, dot);
             }
+            // (at most 80 characters, cut between words, as help2opts.clean cuts)
             if desc.len() > 80 {
                 desc = desc.sub_string(0, 80);
+                let space = lib_text::last_index(desc, " ");
+                if space > 0 {
+                    desc = desc.sub_string(0, space);
+                }
+                while [" ", ",", ";", ":", "(", "-"].some(|c| desc.ends_with(c)) {
+                    desc = desc.sub_string(0, desc.len() - 1);
+                }
             }
             if p["type"] == "boolean" {
                 opts += "--" + name + "  " + desc + "\n";
