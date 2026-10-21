@@ -1,4 +1,4 @@
-# Used by Read the Docs; keep in step with the `docs` feature in pixi.toml.
+# Used by Read the Docs and CI (sphinx-build -W docs docs/_build).
 sphinx>=8
 myst-parser>=4
 furo

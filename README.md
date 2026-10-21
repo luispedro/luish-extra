@@ -301,9 +301,10 @@ extra.nvm = { options = { version = "node" } }
 only loads nvm. The option `dir` gives nvm's directory, if it isn't `$NVM_DIR` or `~/.nvm`. See
 [`docs/nvm.md`](docs/nvm.md) for what the cache depends on.
 
-## Tests
+## Developing
 
-For working on the plugins (see [`CLAUDE.md`](CLAUDE.md) for how specs are written and generated):
+[`docs/developing.md`](docs/developing.md) says how to add a tool, step by step, and [`CLAUDE.md`](CLAUDE.md)
+how specs are written and generated. The tests:
 
 ```sh
 tests/run.sh                 # all the cases

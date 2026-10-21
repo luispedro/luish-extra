@@ -209,10 +209,10 @@ pip install -r docs/requirements.txt
 sphinx-build -W docs docs/_build
 ```
 
-`docs/requirements.txt` says it is kept in step with a `docs` feature in `pixi.toml`, which doesn't exist yet.
-
 ## Documents and what is authoritative
 
+- `docs/developing.md`: the step-by-step guide for contributors (adding a tool, testing it, recording it), published on
+  Read the Docs. Keep it in step with what this file says; this file stays the reference.
 - `docs/supported.md`: includes the README's "What is supported" and the sections from "Programs that complete
   themselves" to "When Tab doesn't offer what you expect", between `<!-- supported N -->` comments, so links there
   must also work from `docs/` (use full GitHub URLs for files outside it). Its counts table is printed by
