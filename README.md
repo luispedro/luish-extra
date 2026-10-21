@@ -14,6 +14,9 @@ in its header, `pytest tests/test_x.py::` the tests in that file, and `ruff chec
 
 ## What is supported
 
+<!-- docs/supported.md includes the parts between the comments "supported N" and "/supported N", so links there
+must work from docs/ too. scripts/counts.py prints the table, and CI checks it. -->
+<!-- supported 1 -->
 297 commands are completed so far, by 260 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
 `makeblastdb` and 16 others):
 
@@ -24,17 +27,19 @@ in its header, `pytest tests/test_x.py::` the tests in that file, and `ruff chec
 | `gui`     |       49 |             40 / 40 |
 | `dev`     |       12 |             10 / 88 |
 | `system`  |        4 |               3 / 4 |
-| `media`   |        1 |               1 / 15 |
-| `hpc`     |        7 |               7 / 14 |
-| **Total** |  **297** |       **260 / 1001** |
-
-The tools to support are listed in [`docs/completion.md`](docs/completion.md) and, with a box per tool, in
-[`completion-todo.md`](completion-todo.md) (`grep -c '^- \[x\]' completion-todo.md` counts the ticked ones). The
-sections below list what each plugin completes.
+| `media`   |        1 |              1 / 15 |
+| `hpc`     |        7 |              7 / 14 |
+| **Total** |  **297** |      **260 / 1001** |
 
 Commands are completed by the name you type, not the name of their Bioconda package (`STAR`, not `star`;
 `featureCounts`, not `subread`). Commands that std's `completion` plugin already covers (`rg`, `fd`, `jq`, `uv`, `pixi`,
 `conda`, `docker`, ...) are left to it.
+<!-- /supported 1 -->
+
+The tools to support are listed in [`docs/completion.md`](docs/completion.md) and, with a box per tool, in
+[`completion-todo.md`](completion-todo.md), which gives the version each ticked tool was checked against. The
+sections below list what each plugin completes, and [what to check](#when-tab-doesnt-offer-what-you-expect) when Tab
+doesn't offer what you expect.
 
 ## Enabling
 
@@ -74,7 +79,8 @@ extra.completion.science = "*"
 ```
 
 `release = "luish"` keeps you on the newest release made for your version of luish, so that the plugins never need a
-newer luish than yours; `plugin add` writes the source without it, and so follows `main`, which may (add it by hand).
+newer luish than yours. `plugin add` writes the source without it, and so follows `main`, which may need a newer luish
+than yours: add `release = "luish"` to the line by hand.
 The releases are tags `vX.Y.N`, the `N`th for luish `X.Y`: `v0.7.0` is the first for luish 0.7, and `v0.7.1`, ... come
 as commands are added. `main` moves on with luish's own `main`, and starts the tags for luish `X.Y` once it is
 released. `plugin update` moves to a newer release, and `plugin sync`, after luish is upgraded, to the releases for the
@@ -82,6 +88,7 @@ new version.
 
 A plugin costs little until it is used: each module is compiled the first time Tab is pressed for one of its commands.
 
+<!-- supported 2 -->
 ## Programs that complete themselves
 
 Some programs know their own completions, and are asked rather than described here:
@@ -196,6 +203,36 @@ commands run under `timeout`, so a controller that doesn't answer makes Tab offe
 hang.
 
 Done: `sbatch`, `salloc`, `srun`, `squeue`, `scancel`, `sinfo`, `sacct`.
+
+## When Tab doesn't offer what you expect
+
+- `plugin list-loaded` lists the plugins that are loaded. With `all`, it shows `extra/completion/bio`,
+  `extra/completion/science`, ... (with the name you gave the source), `extra/completion/extra-lib` and
+  `std/completion`.
+- `__luish_internal list-completions` lists the commands that have a completer, each with the plugin that registered
+  it (`__luish_internal list-completions | grep samtools` shows that `bio` completes `samtools`). A command that
+  isn't listed gets luish's default completion, which is filenames.
+- `__luish_internal complete LINE` prints what Tab offers at the end of LINE, one match per line (the text that
+  replaces the word, a tab, then the description): `__luish_internal complete 'samtools sort -O '` prints `BAM`,
+  `CRAM` and `SAM`.
+- A program that completes itself (Click, Cobra, `aws`, `git-annex`), or whose options are read from it when Tab is
+  pressed (`mmseqs`, `ruff`, `mpv`, ffmpeg's codecs, ...), has to be installed. Tab offers only filenames, or only
+  what doesn't come from the program, when the program isn't in `PATH`, fails, or doesn't answer in time. A Click
+  program that takes more than a second to answer isn't registered at all: `complete-click PROG` adds it, if you
+  accept the wait.
+- What is read from a program is kept for up to five minutes, or until a command line names that program. Slurm's
+  jobs are kept for 5 seconds, and its nodes and licenses for 30. After you upgrade a program, run it once
+  (`ffmpeg -version`) to have Tab read it again.
+- What is read from the project is read line by line, not parsed:
+  - a Snakefile's rules are the `rule` and `checkpoint` lines at the start of a line, in the Snakefile and in the
+    files it `include:`s, so rules made by `use rule ... from MODULE as ...` aren't offered;
+  - pytest's tests are the `test*` functions and `Test*` classes that pytest collects by default, so those that a
+    configuration selects with other `python_files`, `python_classes` or `python_functions`, and the IDs of
+    parametrized tests (`test_x[case1]`), aren't offered;
+  - Nextflow's profiles are the blocks directly inside the `profiles { ... }` of `nextflow.config` (and of the files
+    given with `-c`), found by counting braces, so profiles in files that it reads with `includeConfig` aren't
+    offered.
+<!-- /supported 2 -->
 
 ## Colour schemes
 

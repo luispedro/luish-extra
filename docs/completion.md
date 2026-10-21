@@ -1,11 +1,12 @@
-# Supported completions
+# Commands done and planned
 
-The commands that luish-extra completes, or intends to complete, by plugin. Nothing here has shipped yet: this
-is the target list. A command is on it because a lab uses it, or because it is among the most downloaded
-command-line tools on [Bioconda](https://bioconda.github.io/): the top 2000 packages once R, Perl and Python
-packages are set aside, which is down to about 21,000 total downloads, plus the widely used tools further down
-that list and the ones that Bioconda barely carries (licensed, vendor or GitHub-only tools). Outside `bio`, a
-command may also be on it because its package is among the most downloaded on
+The commands that luish-extra completes, and those it is to complete, by plugin: [](supported.md) says which are
+done, and [`completion-todo.md`](https://github.com/luispedro/luish-extra/blob/main/completion-todo.md) ticks each
+one that is, with the version it was checked against. A command is on this list because a lab uses it, or because
+it is among the most downloaded command-line tools on [Bioconda](https://bioconda.github.io/): the top 2000
+packages once R, Perl and Python packages are set aside, which is down to about 21,000 total downloads, plus the
+widely used tools further down that list and the ones that Bioconda barely carries (licensed, vendor or
+GitHub-only tools). Outside `bio`, a command may also be on it because its package is among the most downloaded on
 [conda-forge](https://conda-forge.org/) (July to September 2026, from Anaconda's public download statistics) and
 is used from the command line, not only installed as a dependency. Libraries
 (`pysam`, `biopython`, …), R, Perl and Bioconductor packages, and packages that only provide a library are left
@@ -183,7 +184,7 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
   (`grib_ls`, `grib_dump`, `grib_copy`)
 - **Chemistry and molecular modelling**: `gromacs` (`gmx`), `autodock-vina`, AmberTools (`tleap`, `cpptraj`, `pmemd`), `namd`, `lmp`
 - **General command-line utilities that Bioconda ships**: `parallel`, `aria2c`, `pigz`, `singularity` / `apptainer`,
-  `awscli`
+  `aws` (awscli)
 
 ## `gui`: desktop programs
 
@@ -257,4 +258,4 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
 
 ## Possible later plugins
 
-- `cloud`: `aws`, `gcloud`, `az`
+- `cloud`: `gcloud`, `az` (and `aws`, which `science` completes already)

@@ -102,6 +102,10 @@ jobs:
       - name: Install requirements
         run: pip install -r docs/requirements.txt
 
+      # The table of README.md's "What is supported", which docs/supported.md includes.
+      - name: Check the README's counts
+        run: scripts/counts.py --check
+
       # As Read the Docs builds it (fail_on_warning).
       - name: Build docs
         run: sphinx-build -W docs docs/_build

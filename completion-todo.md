@@ -926,7 +926,7 @@ stand-ins in `tests/bin` were cut from.
 - [x] `pigz`: pigz 2.8
 - [x] `apptainer` (Cobra): apptainer 1.5.4, 10 ms
 - [ ] `singularity` (Cobra): registered on the same bridge as `apptainer`, but not run: it is not in conda-forge
-- [x] `awscli`: AWS CLI 2.36.47, through its `aws_completer` (50 ms)
+- [x] `aws`: AWS CLI 2.36.47, through its `aws_completer` (50 ms)
 
 ## `gui`: desktop programs
 
@@ -1121,6 +1121,5 @@ of the output the test stand-in in `tests/bin` was cut from.
 ## Possible later plugins
 
 - [ ] `cloud`
-- [ ] `aws`
 - [ ] `gcloud`
 - [ ] `az`

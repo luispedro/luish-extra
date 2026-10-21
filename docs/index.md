@@ -18,6 +18,9 @@ $ plugin add extra/completion/all
 
 This needs luish 0.7.0 or later, and the plugins need std's `completion` plugin.
 
+[](supported.md) lists the commands that are completed so far, and what to check when Tab doesn't offer what you
+expect; [](completion.md) lists those planned too.
+
 The colour schemes are the plugin `themes` (`plugin add extra/themes`): see [](themes.md). The plugin `conda` sets
 conda up in interactive shells, cached (`extra.conda = { options = { env = "ENV" } }`): see [](conda.md). The plugin `nvm` does
 the same for nvm (`extra.nvm = { options = { version = "node" } }`): see [](nvm.md).
@@ -28,6 +31,7 @@ under their own licenses (see [](themes.md)).
 ```{toctree}
 :maxdepth: 2
 
+supported
 completion
 themes
 conda

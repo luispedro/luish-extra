@@ -213,6 +213,10 @@ sphinx-build -W docs docs/_build
 
 ## Documents and what is authoritative
 
+- `docs/supported.md`: includes the README's "What is supported" and the sections from "Programs that complete
+  themselves" to "When Tab doesn't offer what you expect", between `<!-- supported N -->` comments, so links there
+  must also work from `docs/` (use full GitHub URLs for files outside it). Its counts table is printed by
+  `scripts/counts.py` (from each `extension.rhai` and `completion-todo.md`), and CI checks it (`--check`).
 - `docs/completion.md`: **the authoritative list of commands** to complete, grouped by plugin and section. Add or
   remove commands here first.
 - `completion-todo.md`: a checkbox list derived from `docs/completion.md`, one line per command. Keep the two in
