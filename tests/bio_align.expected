@@ -226,6 +226,51 @@ data/sub/
 data/tx.idx 
 --- minimap2 --sam-
 --sam-hit-only 	in SAM, do not output unmapped reads
+=== strobealign
+--- strobealign data/
+data/reads.fa 
+data/ref.fa 
+data/sub/
+--- strobealign data/ref.fa data/
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/reads.fa 
+data/ref.fa 
+data/sub/
+--- strobealign data/ref.fa data/r1.fq.gz data/
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/reads.fa 
+data/ref.fa 
+data/sub/
+--- strobealign --mcs 
+always 
+first-strobe 
+off 
+rescue 
+--- strobealign -P 
+noisy 
+--- strobealign --rg
+--rg-id=	read group ID
+--rg=	add read group metadata to SAM header (can be specified multiple times)
+--- strobealign -o data/
+data/a.bam 
+data/a.sai 
+data/genes.gtf 
+data/gx.1.ht2 
+data/idx.1.bt2 
+data/idx.2.bt2 
+data/idx.rev.1.bt2 
+data/notes.txt 
+data/r1.fq.gz 
+data/r2.fq.gz 
+data/reads.fa 
+data/ref.fa 
+data/ref.fa.amb 
+data/ref.fa.bwt 
+data/ref.mmi 
+data/sub/
+data/tx.idx 
 === STAR
 --- STAR --runMode 
 alignReads 	map reads

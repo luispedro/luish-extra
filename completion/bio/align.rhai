@@ -1,6 +1,6 @@
-// Mapping and quantification: bwa, bwa-mem2, bowtie2, minimap2, hisat2, STAR,
-// kallisto and featureCounts. The option tables come from the tools' own
-// `--help` (versions in completion-todo.md).
+// Mapping and quantification: bwa, bwa-mem2, bowtie2, minimap2, strobealign,
+// hisat2, STAR, kallisto and featureCounts. The option tables come from the
+// tools' own `--help` (versions in completion-todo.md).
 
 // This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
 fn own(name) { sh::plugin_dir() + "/" + name }
@@ -679,6 +679,69 @@ fn minimap2() {
     }
 }
 
+fn strobealign() {
+    #{
+        opts: `
+            -t <N>                        number of threads
+            -h, --help                    print help
+            -V, --version                 print version
+            -o <PATH>                     write output to PATH instead of stdout
+            -v                            verbose output
+            --no-progress                 do not show progress indicator
+            -x                            only map reads, no base level alignment (produces PAF file)
+            --aemb                        output the estimated abundance per contig (tabular output)
+            -p, --interleaved             interleaved (or mixed single-end/paired-end) input
+            -i, --create-index            generate the index and write it to disk
+            --use-index                   use an index previously generated with --create-index
+            --eqx                         emit =/X instead of M CIGAR operations
+            --no-PG                       do not output the PG header line
+            -U                            do not output unmapped single-end reads
+            --rg-id <RG_ID>               read group ID
+            --rg <RG>                     add read group metadata to SAM header (can be specified multiple times)
+            --details                     add extra details to SAM records (for debugging)
+            -C                            append FASTQ comment to SAM record
+            -N <N>                        retain at most N secondary alignments (is upper bounded by -M and depends on -S)
+            --st <FRACTION>               secondary threshold
+            -r <READ_LENGTH>              mean read length
+            -P <PROFILE>                  read profile (cannot be used with -r)
+            -k <K>                        syncmer (strobe) length (must be less than 32)
+            -s <S>                        submer size for creating syncmers
+            -l <L>                        start of downstream syncmer sampling window
+            -u <U>                        end of downstream syncmer sampling window
+            -b <BITS>                     number of top bits of the hash to use as bucket indices (8-31)
+            --aux-len <N>                 number of bits to use for the secondary strobe hash
+            --mcs <STRATEGY>              multi-context seed strategy for finding hits
+            -f <FILTER_FRACTION>          top fraction of repetitive strobemers to filter out
+            -S <DROPOFF_THRESHOLD>        try candidate sites with mapping score at least S of maximum mapping score
+            -M <MAX_TRIES>                maximum number of mapping sites to try
+            -R <RESCUE_DISTANCE>          maximum allowed distance (in nucleotides) between filtered seeds
+            -H <N>                        search among up to N predecessor anchors
+            --gd <DIAG_DIFF_PENALTY>      diagonal gap cost
+            --gl <GAP_LENGTH_PENALTY>     gap length cost
+            --vp <VALID_SCORE_THRESHOLD>  best chain score threshold
+            --sg <MAX_REF_GAP>            maximum allowed distance between anchors on the reference
+            --mw <MATCHES_WEIGHT>         weight given to the number of anchors for the final score of chains
+            --mr <MAX_DIAGONAL_RATIO>     maximum query/reference gap ratio between anchors
+            -A <N>                        match score
+            -B <N>                        mismatch penalty
+            -O <N>                        gap open penalty
+            -E <N>                        gap extension penalty
+            -L <N>                        bonus added to the alignment score when no soft-clipping occurs
+            --ssw                         use SSW extension instead of piecewise
+            --bw <N>                      bandwidth of the piecewise start/end extensions, in diagonals
+        `,
+        values: #{
+            "-t": "none", "-o": "files", "--rg-id": "none", "--rg": "none", "-N": "none", "--st": "none",
+            "-r": "none", "-P": ["noisy"], "-k": "none", "-s": "none", "-l": "none", "-u": "none", "-b": "none",
+            "--aux-len": "none", "--mcs": ["always", "rescue", "off", "first-strobe"], "-f": "none", "-S": "none",
+            "-M": "none", "-R": "none", "-H": "none", "--gd": "none", "--gl": "none", "--vp": "none",
+            "--sg": "none", "--mw": "none", "--mr": "none", "-A": "none", "-B": "none", "-O": "none", "-E": "none",
+            "-L": "none", "--bw": "none",
+        },
+        args: [k("fasta"), k("sequences"), k("sequences")],
+    }
+}
+
 fn star() {
     #{
         opts: `
@@ -1204,6 +1267,7 @@ fn spec(cmd) {
         "hisat2" => hisat2(),
         "hisat2-build" => hisat2_build(),
         "minimap2" => minimap2(),
+        "strobealign" => strobealign(),
         "STAR" => star(),
         "kallisto" => kallisto(),
         "featureCounts" => featurecounts(),

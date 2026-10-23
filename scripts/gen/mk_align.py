@@ -1,5 +1,5 @@
-"""Generates ../../completion/bio/align.rhai: bwa, bwa-mem2, bowtie2, hisat2, minimap2, STAR, kallisto
-and featureCounts, from their --help at the pinned versions (see completion-todo.md).
+"""Generates ../../completion/bio/align.rhai: bwa, bwa-mem2, bowtie2, hisat2, minimap2, strobealign, STAR,
+kallisto and featureCounts, from their --help at the pinned versions (see completion-todo.md).
 
     python3 scripts/gen/mk_align.py
 """
@@ -31,9 +31,9 @@ FA, FQ, SEQ, SAM, BAM, GFF, BED = K("fasta"), K("fastq"), K("sequences"), K("sam
 out = []
 def emit(s): out.append(s)
 
-emit('''// Mapping and quantification: bwa, bwa-mem2, bowtie2, minimap2, hisat2, STAR,
-// kallisto and featureCounts. The option tables come from the tools' own
-// `--help` (versions in completion-todo.md).
+emit('''// Mapping and quantification: bwa, bwa-mem2, bowtie2, minimap2, strobealign,
+// hisat2, STAR, kallisto and featureCounts. The option tables come from the
+// tools' own `--help` (versions in completion-todo.md).
 
 // This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.
 fn own(name) { sh::plugin_dir() + "/" + name }
@@ -251,6 +251,26 @@ emit('''fn minimap2() {
 }
 ''')
 
+# ---------------- strobealign ----------------
+sa = gen.helptext("strobealign=0.19.1", "strobealign --help")
+# clap's `[possible values: ...]` of an option, by its value name
+def possible(text, name):
+    m = re.search(r"<" + name + r">.*\[possible values: ([^\]]*)\]", text)
+    return "[" + ", ".join(f'"{v.strip()}"' for v in m.group(1).split(",")) + "]"
+def sa_edit(opts):
+    # (descriptions that start with "No." stop there, and --mcs's is cut in its list of values)
+    fix = {"-b": "number of top bits of the hash to use as bucket indices (8-31)",
+           "--aux-len": "number of bits to use for the secondary strobe hash",
+           "--mcs": "multi-context seed strategy for finding hits"}
+    return [(n, a, fix.get(n, d)) for n, a, d in opts]
+sav = {"-o": '"files"', "-P": possible(sa, "PROFILE"), "--mcs": possible(sa, "STRATEGY")}
+emit('''fn strobealign() {
+    #{
+''' + body(sa, sav, f"[{FA}, {SEQ}, {SEQ}]", sa_edit) + '''
+    }
+}
+''')
+
 # ---------------- STAR ----------------
 import star_params
 sopts, svals = star_params.star_params()
@@ -347,6 +367,7 @@ emit('''fn spec(cmd) {
         "hisat2" => hisat2(),
         "hisat2-build" => hisat2_build(),
         "minimap2" => minimap2(),
+        "strobealign" => strobealign(),
         "STAR" => star(),
         "kallisto" => kallisto(),
         "featureCounts" => featurecounts(),

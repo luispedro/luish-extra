@@ -17,19 +17,19 @@ in its header, `pytest tests/test_x.py::` the tests in that file, and `ruff chec
 <!-- docs/supported.md includes the parts between the comments "supported N" and "/supported N", so links there
 must work from docs/ too. scripts/counts.py prints the table, and CI checks it. -->
 <!-- supported 1 -->
-297 commands are completed so far, by 260 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
+298 commands are completed so far, by 261 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
 `makeblastdb` and 16 others):
 
 | Plugin    | Commands | Tools done / listed |
 |-----------|---------:|--------------------:|
-| `bio`     |      182 |           173 / 772 |
+| `bio`     |      183 |           174 / 772 |
 | `science` |       42 |             26 / 68 |
 | `gui`     |       49 |             40 / 40 |
 | `dev`     |       12 |             10 / 88 |
 | `system`  |        4 |               3 / 4 |
 | `media`   |        1 |              1 / 15 |
 | `hpc`     |        7 |              7 / 14 |
-| **Total** |  **297** |      **260 / 1001** |
+| **Total** |  **298** |      **261 / 1001** |
 
 Commands are completed by the name you type, not the name of their Bioconda package (`STAR`, not `star`;
 `featureCounts`, not `subread`). Commands that std's `completion` plugin already covers (`rg`, `fd`, `jq`, `uv`, `pixi`,
@@ -113,11 +113,11 @@ from a `.fai` or a BAM header; presets and output formats.
 
 Done: `ngless`, `SemiBin2` / `SemiBin`, `macrel`, `argnorm`; `samtools`, `bcftools`, `bedtools`, `tabix`, `bgzip`,
 `htsfile`, `sambamba`, `bamtools`, `samblaster`, `mosdepth`, `cramino`, `vcftools`; `bwa`, `bwa-mem2`, `bowtie2`,
-`hisat2`, `minimap2`, `STAR`, `kallisto`, `featureCounts`; BLAST+ (`blastn` and the rest), `diamond`, `mmseqs`, HMMER;
-`vsearch`, `cd-hit` (and `cd-hit-est`, ...); `fastp`, `fastqc`, `falco`, `cutadapt`, `trimmomatic` (its steps, and the
-adapter files that come with it), `trim_galore`, `fastq_screen`, `seqtk`, `filtlong`, `chopper`, `nanoq`, `rasusa`,
-`porechop`, `NanoPlot`, `NanoFilt`, `NanoStat`; assembly and annotation (`spades.py`, `megahit`, `flye`, `quast`,
-`busco`, `prodigal`, `pyrodigal`, `prokka`, `bakta`, `barrnap`, eggnog-mapper's `emapper.py` and its scripts);
+`hisat2`, `minimap2`, `strobealign`, `STAR`, `kallisto`, `featureCounts`; BLAST+ (`blastn` and the rest), `diamond`,
+`mmseqs`, HMMER; `vsearch`, `cd-hit` (and `cd-hit-est`, ...); `fastp`, `fastqc`, `falco`, `cutadapt`, `trimmomatic` (its
+steps, and the adapter files that come with it), `trim_galore`, `fastq_screen`, `seqtk`, `filtlong`, `chopper`, `nanoq`,
+`rasusa`, `porechop`, `NanoPlot`, `NanoFilt`, `NanoStat`; assembly and annotation (`spades.py`, `megahit`, `flye`,
+`quast`, `busco`, `prodigal`, `pyrodigal`, `prokka`, `bakta`, `barrnap`, eggnog-mapper's `emapper.py` and its scripts);
 profiling of metagenomes (`kraken2`, `bracken`, `krakenuniq`, `centrifuge`, `kaiju`, `metaphlan`, `humann`, `motus`);
 binning and MAGs (`metabat2`, `concoct`, `run_MaxBin.pl`, `vamb`, `DAS_Tool`, `checkm`, `checkm2`, `gunc`, `gtdbtk`, `dRep`,
 `coverm`); `rgi`, `amrfinder` (the taxonomy groups of its database, for `--organism`); `seqkit`, `csvtk` and `taxonkit`

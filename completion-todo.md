@@ -199,7 +199,7 @@ them in the same way. A tick with `(Cobra)` means the program answers with its s
 - [ ] `regtools`
 - [ ] `tophat`
 - [ ] `chromap`
-- [ ] `strobealign`
+- [x] `strobealign`: strobealign 0.19.1
 - [ ] `ngmlr`
 - [ ] `segemehl`
 - [ ] `graphmap`

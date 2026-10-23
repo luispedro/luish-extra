@@ -1,4 +1,4 @@
-# Mapping and quantification: bwa, bowtie2, minimap2, hisat2, STAR, kallisto, featureCounts.
+# Mapping and quantification: bwa, bowtie2, minimap2, strobealign, hisat2, STAR, kallisto, featureCounts.
 __luish_internal plugin load "$EXTRA/completion/bio"
 echo "load $?"
 c() {
@@ -43,6 +43,14 @@ c 'minimap2 -x map-ont data/ref.mmi data/'
 c 'minimap2 --secondary='
 c 'minimap2 -d data/'
 c 'minimap2 --sam-'
+echo "=== strobealign"
+c 'strobealign data/'
+c 'strobealign data/ref.fa data/'
+c 'strobealign data/ref.fa data/r1.fq.gz data/'
+c 'strobealign --mcs '
+c 'strobealign -P '
+c 'strobealign --rg'
+c 'strobealign -o data/'
 echo "=== STAR"
 c 'STAR --runMode '
 c 'STAR --runMod'
