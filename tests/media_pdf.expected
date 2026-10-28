@@ -1,0 +1,266 @@
+load 0
+--- pdftotext -
+--help 	print usage information
+-H 	height of the crop area in pixels
+-W 	width of the crop area in pixels
+-\? 	print usage information
+-bbox 	write each word's bounding box and the page size to HTML
+-bbox-layout 	like -bbox, with the layout's bounding boxes
+-colspacing 	spacing after a word that starts a new column (of the font size, default 0.7)
+-cropbox 	use the crop box rather than the media box
+-enc 	output text encoding
+-eol 	end-of-line convention
+-f 	first page
+-fixed 	assume fixed-pitch (or tabular) text
+-h 	print usage information
+-help 	print usage information
+-htmlmeta 	write a simple HTML file, with the meta information
+-l 	last page
+-layout 	keep the original physical layout
+-listenc 	list the available encodings
+-nodiag 	discard diagonal text
+-nopgbrk 	don't insert page breaks between pages
+-opw 	owner password (for encrypted files)
+-q 	don't print any messages or errors
+-r 	resolution, in DPI (default 72)
+-raw 	keep strings in content stream order
+-remove-hyphens 	end-of-line hyphens to remove
+-tsv 	write a TSV file, with the bounding boxes
+-upw 	user password (for encrypted files)
+-urls 	print the URL of each link next to its text
+-v 	print copyright and version info
+-x 	x-coordinate of the crop area's top left corner
+-y 	y-coordinate of the crop area's top left corner
+--- pdftotext -remove
+-remove-hyphens 	end-of-line hyphens to remove
+--- pdftotext -remove-hyphens 
+all 	remove all end-of-line hyphens (default)
+none 	keep end-of-line hyphens
+soft 	remove soft hyphens only
+--- pdftotext -enc 
+ASCII7 
+Big5 
+Big5ascii 
+EUC-CN 
+EUC-JP 
+GBK 
+ISO-2022-CN 
+ISO-2022-JP 
+ISO-2022-KR 
+ISO-8859-6 
+ISO-8859-7 
+ISO-8859-8 
+ISO-8859-9 
+KOI8-R 
+Latin1 
+Latin2 
+Shift-JIS 
+Symbol 
+TIS-620 
+UTF-16 
+UTF-8 
+Windows-1255 
+ZapfDingbats 
+--- pdftotext -enc UT
+UTF-16 
+UTF-8 
+--- pdftotext -eol 
+dos 
+mac 
+unix 
+--- pdftotext -f 2 
+attached.pdf 
+docs/
+paper.pdf 
+scan.PDF 
+--- pdftotext paper.pdf 
+attached.pdf 
+docs/
+media_pdf.sh 
+notes.txt 
+paper.pdf 
+profile.icc 
+scan.PDF 
+--- pdfinfo -enc L
+Latin1 
+Latin2 
+--- pdfinfo 
+attached.pdf 
+docs/
+paper.pdf 
+scan.PDF 
+--- pdfinfo paper.pdf 
+--- pdftoppm -scale
+-scale-dimension-before-rotation 	for a rotated PDF, resize before the rotation
+-scale-to 	scale each page to fit in a square of PIXELS
+-scale-to-x 	scale each page to PIXELS wide
+-scale-to-y 	scale each page to PIXELS high
+--- pdftoppm -tiffcompression 
+deflate 
+jpeg 
+lzw 
+none 
+packbits 
+--- pdftoppm -aa 
+no 
+yes 
+--- pdftoppm -displayprofile 
+docs/
+profile.icc 
+--- pdftoppm -jpegopt 
+optimize=	optimize the Huffman tables (y, n)
+progressive=	progressive JPEG (y, n)
+quality=	JPEG quality (0 to 100)
+--- pdftoppm -jpegopt quality=90,
+quality=90,optimize=	optimize the Huffman tables (y, n)
+quality=90,progressive=	progressive JPEG (y, n)
+--- pdftoppm -jpegopt quality=90,progressive=
+quality=90,progressive=n
+quality=90,progressive=y
+--- pdftoppm -png -r 300 paper.pdf 
+attached.pdf 
+docs/
+media_pdf.sh 
+notes.txt 
+paper.pdf 
+profile.icc 
+scan.PDF 
+--- pdfimages -
+--help 	print usage information
+-\? 	print usage information
+-all 	the same as -png -tiff -j -jp2 -jbig2 -ccitt
+-ccitt 	write CCITT images as CCITT files
+-f 	first page
+-h 	print usage information
+-help 	print usage information
+-j 	write JPEG images as JPEG files
+-jbig2 	write JBIG2 images as JBIG2 files
+-jp2 	write JPEG2000 images as JP2 files
+-l 	last page
+-list 	list the images instead of saving them
+-min-height 	ignore images less high
+-min-width 	ignore images less wide
+-opw 	owner password (for encrypted files)
+-p 	include page numbers in the file names
+-png 	write PNG files by default
+-print-filenames 	print the names of the image files
+-q 	don't print any messages or errors
+-tiff 	write TIFF files by default
+-upw 	user password (for encrypted files)
+-v 	print copyright and version info
+--- pdfimages -list 
+attached.pdf 
+docs/
+paper.pdf 
+scan.PDF 
+--- pdfunite 
+attached.pdf 
+docs/
+paper.pdf 
+scan.PDF 
+--- pdfunite docs/
+docs/a.pdf 
+docs/b.pdf 
+--- pdfunite paper.pdf docs/a.pdf 
+attached.pdf 
+docs/
+paper.pdf 
+scan.PDF 
+--- pdfseparate -
+--help 	print usage information
+-\? 	print usage information
+-f 	first page to extract
+-h 	print usage information
+-help 	print usage information
+-l 	last page to extract
+-v 	print copyright and version info
+--- pdfseparate paper.pdf 
+attached.pdf 
+docs/
+media_pdf.sh 
+notes.txt 
+paper.pdf 
+profile.icc 
+scan.PDF 
+--- pdffonts -
+--help 	print usage information
+-\? 	print usage information
+-f 	first page
+-h 	print usage information
+-help 	print usage information
+-l 	last page
+-opw 	owner password (for encrypted files)
+-subst 	show font substitutions
+-upw 	user password (for encrypted files)
+-v 	print copyright and version info
+--- pdftocairo -antialias 
+best 	prefer quality
+default 	the target device's (default)
+fast 	prefer speed
+good 	balance quality and speed
+gray 	shades of gray
+none 	disabled
+subpixel 	using the LCD's subpixels
+--- pdftocairo -paper 
+A3 
+A4 
+legal 
+letter 
+match 	the size of each page
+--- pdftocairo -icc 
+docs/
+profile.icc 
+--- pdftocairo -svg paper.pdf 
+attached.pdf 
+docs/
+media_pdf.sh 
+notes.txt 
+paper.pdf 
+profile.icc 
+scan.PDF 
+--- pdftohtml -fmt 
+jpg 
+png 
+--- pdftohtml -enc UTF
+UTF-16 
+UTF-8 
+--- pdftops -rasterize 
+always 
+never 
+whenneeded 
+--- pdftops -processcolorformat 
+CMYK8 
+MONO8 
+RGB8 
+--- pdfdetach -save
+-save 	save an embedded file, by number
+-saveall 	save all the embedded files
+-savefile 	save an embedded file, by name
+--- pdfdetach attached.pdf -savefile 
+data\ table.csv 
+notes.txt 
+--- pdfdetach -o out attached.pdf -save 
+1 	notes.txt
+2 	data table.csv
+--- pdfdetach -savefile 
+--- pdfdetach paper.pdf -save 
+--- pdfattach paper.pdf 
+attached.pdf 
+docs/
+media_pdf.sh 
+notes.txt 
+paper.pdf 
+profile.icc 
+scan.PDF 
+--- pdfattach paper.pdf notes.txt 
+attached.pdf 
+docs/
+paper.pdf 
+scan.PDF 
+--- pdfsig -backend 
+GPG 	GnuPG (GPGME)
+NSS 	Mozilla's NSS
+--- pdfsig -digest 
+SHA256 
+--- pdfsig -nssdir 
+docs/

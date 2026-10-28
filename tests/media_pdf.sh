@@ -1,0 +1,55 @@
+# Poppler's tools: PDF files as arguments, single-dash options with their values as the next word, the encodings of
+# tests/bin/pdftotext's -listenc, -jpegopt's options, and the files embedded in a PDF, from tests/bin/pdfdetach.
+__luish_internal plugin load "$EXTRA/completion/media"
+echo "load $?"
+c() {
+    echo "--- $1"
+    __luish_internal complete "$1"
+}
+mkdir -p docs
+touch attached.pdf paper.pdf scan.PDF notes.txt docs/a.pdf docs/b.pdf profile.icc
+c 'pdftotext -'
+c 'pdftotext -remove'
+c 'pdftotext -remove-hyphens '
+c 'pdftotext -enc '
+c 'pdftotext -enc UT'
+c 'pdftotext -eol '
+c 'pdftotext -f 2 '
+c 'pdftotext paper.pdf '
+c 'pdfinfo -enc L'
+c 'pdfinfo '
+c 'pdfinfo paper.pdf '
+c 'pdftoppm -scale'
+c 'pdftoppm -tiffcompression '
+c 'pdftoppm -aa '
+c 'pdftoppm -displayprofile '
+c 'pdftoppm -jpegopt '
+c 'pdftoppm -jpegopt quality=90,'
+c 'pdftoppm -jpegopt quality=90,progressive='
+c 'pdftoppm -png -r 300 paper.pdf '
+c 'pdfimages -'
+c 'pdfimages -list '
+c 'pdfunite '
+c 'pdfunite docs/'
+c 'pdfunite paper.pdf docs/a.pdf '
+c 'pdfseparate -'
+c 'pdfseparate paper.pdf '
+c 'pdffonts -'
+c 'pdftocairo -antialias '
+c 'pdftocairo -paper '
+c 'pdftocairo -icc '
+c 'pdftocairo -svg paper.pdf '
+c 'pdftohtml -fmt '
+c 'pdftohtml -enc UTF'
+c 'pdftops -rasterize '
+c 'pdftops -processcolorformat '
+c 'pdfdetach -save'
+c 'pdfdetach attached.pdf -savefile '
+c 'pdfdetach -o out attached.pdf -save '
+c 'pdfdetach -savefile '
+c 'pdfdetach paper.pdf -save '
+c 'pdfattach paper.pdf '
+c 'pdfattach paper.pdf notes.txt '
+c 'pdfsig -backend '
+c 'pdfsig -digest '
+c 'pdfsig -nssdir '

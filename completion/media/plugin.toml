@@ -1,4 +1,4 @@
-description = "Completion for audio and video tools"
+description = "Completion for audio, video, image and PDF tools"
 luish-version = "0.7"
 
 [dependencies]

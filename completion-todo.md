@@ -1090,12 +1090,19 @@ of the output the test stand-in in `tests/bin` was cut from.
 - [ ] `gm`
 - [ ] `vips`
 - [ ] `tesseract`
-- [ ] `pdftotext`
-- [ ] `pdfinfo`
-- [ ] `pdftoppm`
-- [ ] `pdfimages`
-- [ ] `pdfunite`
-- [ ] `pdfseparate`
+- [x] `pdftotext`: poppler 26.10.0 (conda-forge; the encodings read from the installed `pdftotext -listenc`)
+- [x] `pdfinfo`: poppler 26.10.0
+- [x] `pdftoppm`: poppler 26.10.0
+- [x] `pdfimages`: poppler 26.10.0
+- [x] `pdfunite`: poppler 26.10.0
+- [x] `pdfseparate`: poppler 26.10.0
+- [x] `pdffonts`: poppler 26.10.0
+- [x] `pdftocairo`: poppler 26.10.0
+- [x] `pdftohtml`: poppler 26.10.0
+- [x] `pdftops`: poppler 26.10.0
+- [x] `pdfdetach`: poppler 26.10.0 (the embedded files read with the installed `pdfdetach -list`)
+- [x] `pdfattach`: poppler 26.10.0
+- [x] `pdfsig`: poppler 26.10.0
 - [ ] `gs`
 - [ ] `qpdf`
 - [ ] `yt-dlp`

@@ -243,8 +243,9 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
   of the inputs, for `-map`)
 - **Images**: `magick`, `convert` (ImageMagick's older name), `gm` (GraphicsMagick), `vips`, `tesseract` (languages
   from `tesseract --list-langs`)
-- **PDF and PostScript**: Poppler (`pdftotext`, `pdfinfo`, `pdftoppm`, `pdfimages`, `pdfunite`, `pdfseparate`), `gs`
-  (Ghostscript; devices from `gs -h`), `qpdf`
+- **PDF and PostScript**: Poppler (`pdftotext`, `pdfinfo`, `pdftoppm`, `pdfimages`, `pdfunite`, `pdfseparate`,
+  `pdffonts`, `pdftocairo`, `pdftohtml`, `pdftops`, `pdfdetach`, `pdfattach`, `pdfsig`), `gs` (Ghostscript; devices
+  from `gs -h`), `qpdf`
 - **Downloads**: `yt-dlp`
 
 ## `hpc`: HPC clusters

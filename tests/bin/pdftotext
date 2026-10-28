@@ -1,0 +1,12 @@
+#!/bin/sh
+# Stand-in for pdftotext in the tests: `-listenc` (poppler 26.01.0 with poppler-data, Ubuntu's).
+case "$1" in
+-listenc)
+    printf '%s\n' 'Available encodings are:' ASCII7 Big5 Big5ascii EUC-CN EUC-JP GBK ISO-2022-CN ISO-2022-JP \
+        ISO-2022-KR ISO-8859-6 ISO-8859-7 ISO-8859-8 ISO-8859-9 KOI8-R Latin1 Latin2 Shift-JIS Symbol TIS-620 UTF-16 \
+        UTF-8 Windows-1255 ZapfDingbats
+    ;;
+*)
+    exit 1
+    ;;
+esac

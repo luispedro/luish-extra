@@ -65,12 +65,17 @@ of their own), the generated `bandage.rhai` (BandageNG) and `mpv.rhai` (its opti
 `--list-options` when Tab is pressed, with a completer of its own, as nextflow has); proksee goes through std's Click
 bridge.
 
-In `bio`, `science`, `gui`, `dev` and `system`, every module has `fn spec(cmd)` (the generated ones too, ignoring
-`cmd`), and `extension.rhai` maps each command to its module (`module_of`), so a new module needs an entry there;
-nextflow, whose spec depends on the line, and mpv have completers of their own, as do `media` and `hpc` throughout.
+In `bio`, `science`, `gui`, `dev`, `system` and `media`, every module has `fn spec(cmd)` (the generated ones too,
+ignoring `cmd`), and `extension.rhai` maps each command to its module (`module_of`), so a new module needs an entry
+there; nextflow, whose spec depends on the line, mpv and ffmpeg have completers of their own, as does `hpc`
+throughout.
 
-`completion/media` has only ffmpeg so far (magick, convert and yt-dlp are to do), with a completer of its own
-(`ffmpeg.rhai`): an option's place decides what it is (before the first `-i`, an input's; after it, an output's), so
+`completion/media` has ffmpeg and Poppler's tools (magick, convert, gs, qpdf and yt-dlp are to do). `pdf.rhai` has
+the specs of pdftotext, pdfinfo, pdftoppm, pdfimages, pdfunite, pdfseparate, pdffonts, pdftocairo, pdftohtml, pdftops,
+pdfdetach, pdfattach and pdfsig (single-dash options, their values as the next word) and their kinds (PDFs, ICC
+profiles, `-enc`'s encodings from `pdftotext -listenc`, `-jpegopt`, the files embedded in the PDF on pdfdetach's line
+from `pdfdetach -list`; `tests/bin/pdftotext` and `tests/bin/pdfdetach` stand in for them), mapped by `module_of` as in the other plugins. ffmpeg has a completer
+of its own (`ffmpeg.rhai`): an option's place decides what it is (before the first `-i`, an input's; after it, an output's), so
 `scan` finds the inputs, whether the word is a value and the `-c` and `-f` of the same input or output, whose private
 options are read from `ffmpeg -h encoder=NAME` (AVOptions, parsed by `avoptions`, as are a filter's for filtergraphs).
 `-c:v` and `-metadata:s:a` (specifiers) are stripped to `-c` before std's engine sees the line; a kind ending in `:`

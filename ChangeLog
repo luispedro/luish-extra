@@ -11,6 +11,11 @@ Unreleased
       run over to its completer. extra.completion.all loads it; to
       have it alone, enable extra.completion.hpc
     * bio: completion for pyrodigal and strobealign
+    * media: completion for Poppler's tools: pdftotext, pdfinfo,
+      pdftoppm, pdfimages, pdfunite, pdfseparate, pdffonts, pdftocairo,
+      pdftohtml, pdftops, pdfdetach, pdfattach and pdfsig (PDF files,
+      the encodings of -enc, read from pdftotext -listenc, and the
+      files embedded in a PDF, for pdfdetach -savefile and -save)
     * bio: bwa-mem2 mem no longer offers a line of dashes as an option,
       nor -x, which it doesn't have; hmmscan --qformat completes the
       formats; kallisto's -g, -c and -p take a file, and its long

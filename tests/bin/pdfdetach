@@ -1,0 +1,10 @@
+#!/bin/sh
+# Stand-in for pdfdetach in the tests: `-list FILE` lists two embedded files of attached.pdf (none of others).
+if [ "$1" = -list ]; then
+    case "$2" in
+    attached.pdf) printf '2 embedded files\n1: notes.txt\n2: data table.csv\n' ;;
+    *) printf '0 embedded files\n' ;;
+    esac
+    exit 0
+fi
+exit 1

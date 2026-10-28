@@ -40,8 +40,8 @@ documents its fields and the format of the option tables in
 [Reusing std's completion engine](https://luish.readthedocs.io/en/latest/extensions.html#reusing-std-s-completion-engine).
 `completion/system/tools.rhai` is a short example of a module.
 
-`media` (ffmpeg) and `hpc` (Slurm) have a completer of their own rather than specs, and so do a few commands
-elsewhere (`nextflow`, `mpv`, `code`, `xdotool`, `git-annex`). Start from a spec unless the line itself decides what
+`ffmpeg` and `hpc` (Slurm) have a completer of their own rather than specs, and so do a few commands elsewhere
+(`nextflow`, `mpv`, `code`, `xdotool`, `git-annex`). Start from a spec unless the line itself decides what
 an option means.
 
 ## Adding a tool

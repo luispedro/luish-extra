@@ -2,7 +2,7 @@
 
 Tab completion for [luish](https://github.com/luispedro/luish), for the programs that its standard library leaves out:
 bioinformatics tools (`bio`), scientific computing (`science`), desktop programs (`gui`), development (`dev`), system
-administration (`system`), audio and video (`media`) and HPC clusters (`hpc`). Each plugin can be enabled on its own. And
+administration (`system`), audio, video, images and PDFs (`media`) and HPC clusters (`hpc`). Each plugin can be enabled on its own. And
 [colour schemes](#colour-schemes) for luish's highlighting, for dark and light backgrounds (`themes`), and cached set-ups
 of [conda](#conda) (`conda`) and [nvm](#nvm) (`nvm`).
 
@@ -17,7 +17,7 @@ in its header, `pytest tests/test_x.py::` the tests in that file, and `ruff chec
 <!-- docs/supported.md includes the parts between the comments "supported N" and "/supported N", so links there
 must work from docs/ too. scripts/counts.py prints the table, and CI checks it. -->
 <!-- supported 1 -->
-298 commands are completed so far, by 261 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
+311 commands are completed so far, by 274 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
 `makeblastdb` and 16 others):
 
 | Plugin    | Commands | Tools done / listed |
@@ -27,9 +27,9 @@ must work from docs/ too. scripts/counts.py prints the table, and CI checks it. 
 | `gui`     |       49 |             40 / 40 |
 | `dev`     |       12 |             10 / 88 |
 | `system`  |        4 |               3 / 4 |
-| `media`   |        1 |              1 / 15 |
+| `media`   |       14 |             14 / 22 |
 | `hpc`     |        7 |              7 / 14 |
-| **Total** |  **298** |      **261 / 1001** |
+| **Total** |  **311** |      **274 / 1008** |
 
 Commands are completed by the name you type, not the name of their Bioconda package (`STAR`, not `star`;
 `featureCounts`, not `subread`). Commands that std's `completion` plugin already covers (`rg`, `fd`, `jq`, `uv`, `pixi`,
@@ -189,7 +189,12 @@ channel layouts, bitstream filters and hardware accelerations are read from the 
 `scale=w=1280:in_range=full`); flags combine (`-movflags +faststart+frag_keyframe`); and `-map` offers the streams of
 the inputs, read with `ffprobe`, and the outputs of `-filter_complex`.
 
-Done: `ffmpeg`.
+Poppler's tools (`pdftotext`, `pdfinfo`, `pdftoppm`, `pdftocairo`, `pdftops`, `pdftohtml`, ...) complete PDF files and
+the values of their options: the encodings of `-enc`, read from `pdftotext -listenc`, the options of `-jpegopt`, ICC
+profiles, and for `pdfdetach -savefile` and `-save`, the files embedded in the PDF on the line.
+
+Done: `ffmpeg`, `pdftotext`, `pdfinfo`, `pdftoppm`, `pdfimages`, `pdfunite`, `pdfseparate`, `pdffonts`, `pdftocairo`,
+`pdftohtml`, `pdftops`, `pdfdetach`, `pdfattach`, `pdfsig`.
 
 ## `hpc`
 
