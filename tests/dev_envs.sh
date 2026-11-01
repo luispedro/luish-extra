@@ -124,9 +124,10 @@ c 'pipx interpreter '
 c 'pipx manifest '
 c 'pipx help '
 c 'pipx environment --value '
-c 'pipx --global uninstall '
+# not the default /opt/pipx: the machine's may have environments (GitHub's runners do)
 PIPX_GLOBAL_HOME=$PWD/opt/pipx
 export PIPX_GLOBAL_HOME
+c 'pipx --global uninstall '
 c 'pipx uninstall --global '
 PIPX_HOME=$PWD/opt/pipx
 export PIPX_HOME

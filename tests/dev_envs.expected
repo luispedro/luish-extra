@@ -313,6 +313,7 @@ PIPX_UV_BINARY
 PIPX_VENV_CACHEDIR 
 UV_CACHE_DIR 
 --- pipx --global uninstall 
+ruff 
 --- pipx uninstall --global 
 ruff 
 --- pipx reinstall 
