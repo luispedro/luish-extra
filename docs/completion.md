@@ -1,29 +1,28 @@
-# Commands done and planned
+# Auto-completion plugins
 
-The commands that luish-extra completes, and those it is to complete, by plugin: [](supported.md) says which are
-done, and [`completion-todo.md`](https://github.com/luispedro/luish-extra/blob/main/completion-todo.md) ticks each
-one that is, with the version it was checked against. A command is on this list because a lab uses it, or because
-it is among the most downloaded command-line tools on [Bioconda](https://bioconda.github.io/): the top 2000
-packages once R, Perl and Python packages are set aside, which is down to about 21,000 total downloads, plus the
-widely used tools further down that list and the ones that Bioconda barely carries (licensed, vendor or
-GitHub-only tools). Outside `bio`, a command may also be on it because its package is among the most downloaded on
-[conda-forge](https://conda-forge.org/) (July to September 2026, from Anaconda's public download statistics) and
-is used from the command line, not only installed as a dependency. Libraries
-(`pysam`, `biopython`, …), R, Perl and Bioconductor packages, and packages that only provide a library are left
-out.
+## Enabling
 
-Commands that luish's standard `completion` plugin already completes (`uv`, `pixi`, `micromamba`, `pip`, `conda`,
-`mamba`, `fd`, `rg`, `jq`, `zstd`, `sqlite3`, `tmux`, `nvim`, `loginctl`, `docker`, `podman`, `rclone`, `rsync`, …) are
-not repeated here. Commands that only the `bash-completion` bridge covers are still listed: the plugins here are
-preferred, and the bridge is the fallback.
+These plugins need the repository to be added as a source of plugins first: see [](install.md). We recommend enabling
+all of them at once, with `all`, which loads `bio`, `science`, `gui`, `dev`, `system`, `media` and `hpc`:
 
-Several Bioconda packages provide commands under other names, so completion is by command name, not package name:
-`htslib` (`bgzip`, `tabix`, `htsfile`), `blast` (`blastn` and the rest), `gatk4`, `spades`, `abyss`, `mmseqs2`,
-`hhsuite`, `ensembl-vep`, `primer3`, `subread`, `trim-galore`, `kalign2` / `kalign3`, `t-coffee`, `transdecoder`,
-`rtg-tools`, `picard-slim`, `mummer4`, `bwameth`, `lumpy-sv`, `kmer-jellyfish`, `snakemake-minimal`.
+```console
+$ plugin add extra/completion/all
+```
 
-Every command gets its options and subcommands. Where it makes sense, arguments and option values are completed
-by kind: FASTA, FASTQ, BAM and other files by extension, reference names, presets, output formats, and so on.
+or, in `config.toml` (then run `plugin sync`):
+
+```toml
+[plugins.enabled]
+extra.completion.all = "*"
+```
+
+A plugin costs little until it is used: each module is compiled the first time Tab is pressed for one of its commands,
+so there is no need to pick and choose. To have only some of them, enable them one by one instead (`plugin add
+extra/completion/bio`, or `extra.completion.bio = "*"`). They need std's `completion` plugin.
+
+The sections below list, by plugin, the commands that are done and those planned: [](supported.md) says which are
+done, and [`completion-todo.md`](https://github.com/luispedro/luish-extra/blob/main/completion-todo.md) ticks each one
+that is, with the version it was checked against.
 
 ## `bio`: bioinformatics
 

@@ -16,7 +16,9 @@ $ plugin add extra/completion/all
 `all` loads `bio`, `science`, `gui`, `dev`, `system`, `media` and `hpc`. To have only some of them, enable them one by one instead
 (`plugin add extra/completion/bio`, ...).
 
-This needs luish 0.7.0 or later, and the plugins need std's `completion` plugin.
+This needs luish 0.7.0 or later, and the plugins need std's `completion` plugin. [](install.md) has more: adding the
+repository by hand in `config.toml`, staying on the releases made for your version of luish (`release = "luish"`),
+and the other plugins.
 
 [](supported.md) lists the commands that are completed so far, and what to check when Tab doesn't offer what you
 expect; [](completion.md) lists those planned too. [](developing.md) says how to add one.
@@ -31,6 +33,7 @@ under their own licenses (see [](themes.md)).
 ```{toctree}
 :maxdepth: 2
 
+install
 supported
 completion
 themes

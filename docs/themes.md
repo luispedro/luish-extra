@@ -19,15 +19,29 @@ and a suggestion:
 :file: themes_preview.html
 ```
 
-## Choosing one
+## Using a theme
 
-Loading the plugin only makes the schemes available. Choose a pair in `config.toml`, and luish takes the one that
-fits the terminal's background, which it asks the terminal for (or reads from `$LUISH_BACKGROUND`):
+Loading the plugin only makes the schemes available.
+
+You can set a scheme in `config.toml`:
 
 ```toml
 [plugins.enabled]
 extra.themes = "*"
 
+[style]
+colorscheme = "tokyonight-night"
+```
+
+luish also sets the terminal's own colours (background, text, cursor and its palette of 16) to the scheme's while it is
+in use, and puts them back when it is not; `terminal-colors = false` in `[style]` turns that off.
+
+### Automatic background detection
+
+You can also choose a pair of schemes, and luish takes the one that fits the terminal's background, which it asks the
+terminal for (or reads from `$LUISH_BACKGROUND`):
+
+```toml
 [style]
 colorscheme = { dark = "tokyonight-night", light = "tokyonight-day" }
 ```
