@@ -63,8 +63,9 @@ The schemes differ in their colours, not in what they mark:
 - operators and redirections are bold; the file descriptors of redirections are in the colour of numbers;
 - comments are italic, in the palette's colour for comments, which suggestions and descriptions in the menu share;
 - syntax errors are underlined red, and with `setopt highlight.paths`, files are underlined;
-- in the output of `plugin`, names are bold, what worked green, what changed (or can) yellow, warnings orange
-  where the palette has it, errors bold red, and details in the colour of the menu's descriptions.
+- in the output of `plugin` and the menu of `jobs -i`, names and keys are bold, what worked or runs green, what
+  changed (or can) and stopped jobs yellow, warnings orange where the palette has it, errors bold red, and details
+  in the colour of the menu's descriptions.
 
 ## Colours and terminals
 

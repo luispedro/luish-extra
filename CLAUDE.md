@@ -207,7 +207,9 @@ and defines `c() { echo "--- $1"; __luish_internal complete "$1"; }`.
 
 CI (`.github/workflows/ci.yml`): `test` builds luish from `luispedro/luish` and runs `tests/run.sh` with `LUISH` and
 `STD_PLUGINS` pointing at that checkout, twice: with luish's `main`, and with its `vX.Y.0` for the `X.Y` the plugins need
-(`scripts/release.sh --needs`; skipped with a warning while luish has no such tag). `docs` runs
+(`scripts/release.sh --needs`; skipped with a warning while luish has no such tag). The `themes` case is left out of
+the run with v0.7.0: its schemes set the `ui.*` styles, which luish has only after 0.7.1 (the skip ends by itself
+when `luish-version` becomes 0.8). `docs` runs
 the Sphinx build below, and `release`, on a pushed tag, `scripts/release.sh --check`. `LUISH` must be an absolute path,
 because the runner `cd`s into a temp directory.
 

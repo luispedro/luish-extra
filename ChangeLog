@@ -1,4 +1,8 @@
 Unreleased
+    * themes: the schemes set luish's ui.ok, ui.warn, ui.bad, ui.dim
+      and ui.strong (luish's main, after 0.7.1), so they also colour the
+      menu of jobs -i. With luish 0.7, they leave the output of plugin,
+      the menu's descriptions and suggestions in the text colour
     * Documentation: a page of what is supported, with what to check
       when Tab doesn't offer what you expect, and a guide to adding a
       tool, on Read the Docs (and in the README)

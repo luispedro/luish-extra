@@ -66,6 +66,19 @@ plugin.update        yellow
 plugin.warn          yellow
 plugin.error         bold red
 plugin.dim           bright-black
+jobs                 plain
+jobs.number          bold
+jobs.pid             bright-black
+jobs.running         green
+jobs.stopped         yellow
+jobs.done            bright-black
+jobs.key             bold
+ui                   plain
+ui.ok                green
+ui.warn              yellow
+ui.bad               bold red
+ui.dim               bright-black
+ui.strong            bold
 --- ansi-light
 command              green
 command.builtin      green
@@ -121,6 +134,19 @@ plugin.update        136
 plugin.warn          136
 plugin.error         bold red
 plugin.dim           bright-black
+jobs                 plain
+jobs.number          bold
+jobs.pid             bright-black
+jobs.running         green
+jobs.stopped         136
+jobs.done            bright-black
+jobs.key             bold
+ui                   plain
+ui.ok                green
+ui.warn              136
+ui.bad               bold red
+ui.dim               bright-black
+ui.strong            bold
 --- solarized-dark
 command              #268bd2
 command.builtin      #268bd2
@@ -176,6 +202,19 @@ plugin.update        #b58900
 plugin.warn          #cb4b16
 plugin.error         bold #dc322f
 plugin.dim           #586e75
+jobs                 plain
+jobs.number          bold
+jobs.pid             #586e75
+jobs.running         #859900
+jobs.stopped         #b58900
+jobs.done            #586e75
+jobs.key             bold
+ui                   plain
+ui.ok                #859900
+ui.warn              #b58900
+ui.bad               bold #dc322f
+ui.dim               #586e75
+ui.strong            bold
 terminal.background  #002b36
 terminal.cursor      #839496
 terminal.foreground  #839496
@@ -235,6 +274,19 @@ plugin.update        #b58900
 plugin.warn          #cb4b16
 plugin.error         bold #dc322f
 plugin.dim           #93a1a1
+jobs                 plain
+jobs.number          bold
+jobs.pid             #93a1a1
+jobs.running         #859900
+jobs.stopped         #b58900
+jobs.done            #93a1a1
+jobs.key             bold
+ui                   plain
+ui.ok                #859900
+ui.warn              #b58900
+ui.bad               bold #dc322f
+ui.dim               #93a1a1
+ui.strong            bold
 terminal.background  #fdf6e3
 terminal.cursor      #657b83
 terminal.foreground  #657b83
@@ -293,6 +345,19 @@ plugin.update        #fabd2f
 plugin.warn          #fe8019
 plugin.error         bold #fb4934
 plugin.dim           #928374
+jobs                 plain
+jobs.number          bold
+jobs.pid             #928374
+jobs.running         #b8bb26
+jobs.stopped         #fabd2f
+jobs.done            #928374
+jobs.key             bold
+ui                   plain
+ui.ok                #b8bb26
+ui.warn              #fabd2f
+ui.bad               bold #fb4934
+ui.dim               #928374
+ui.strong            bold
 terminal.background  #282828
 terminal.cursor      #ebdbb2
 terminal.foreground  #ebdbb2
@@ -352,6 +417,19 @@ plugin.update        #b57614
 plugin.warn          #af3a03
 plugin.error         bold #9d0006
 plugin.dim           #7c6f64
+jobs                 plain
+jobs.number          bold
+jobs.pid             #7c6f64
+jobs.running         #79740e
+jobs.stopped         #b57614
+jobs.done            #7c6f64
+jobs.key             bold
+ui                   plain
+ui.ok                #79740e
+ui.warn              #b57614
+ui.bad               bold #9d0006
+ui.dim               #7c6f64
+ui.strong            bold
 terminal.background  #fbf1c7
 terminal.cursor      #3c3836
 terminal.foreground  #3c3836
@@ -411,6 +489,19 @@ plugin.update        #f9e2af
 plugin.warn          #fab387
 plugin.error         bold #f38ba8
 plugin.dim           #7f849c
+jobs                 plain
+jobs.number          bold
+jobs.pid             #7f849c
+jobs.running         #a6e3a1
+jobs.stopped         #f9e2af
+jobs.done            #7f849c
+jobs.key             bold
+ui                   plain
+ui.ok                #a6e3a1
+ui.warn              #f9e2af
+ui.bad               bold #f38ba8
+ui.dim               #7f849c
+ui.strong            bold
 terminal.background  #1e1e2e
 terminal.cursor      #f5e0dc
 terminal.foreground  #cdd6f4
@@ -470,6 +561,19 @@ plugin.update        #fe640b
 plugin.warn          #fe640b
 plugin.error         bold #d20f39
 plugin.dim           #8c8fa1
+jobs                 plain
+jobs.number          bold
+jobs.pid             #8c8fa1
+jobs.running         #40a02b
+jobs.stopped         #fe640b
+jobs.done            #8c8fa1
+jobs.key             bold
+ui                   plain
+ui.ok                #40a02b
+ui.warn              #fe640b
+ui.bad               bold #d20f39
+ui.dim               #8c8fa1
+ui.strong            bold
 terminal.background  #eff1f5
 terminal.cursor      #dc8a78
 terminal.foreground  #4c4f69
@@ -529,6 +633,19 @@ plugin.update        #e0af68
 plugin.warn          #ff9e64
 plugin.error         bold #db4b4b
 plugin.dim           #737aa2
+jobs                 plain
+jobs.number          bold
+jobs.pid             #737aa2
+jobs.running         #9ece6a
+jobs.stopped         #e0af68
+jobs.done            #737aa2
+jobs.key             bold
+ui                   plain
+ui.ok                #9ece6a
+ui.warn              #e0af68
+ui.bad               bold #db4b4b
+ui.dim               #737aa2
+ui.strong            bold
 terminal.background  #1a1b26
 terminal.cursor      #c0caf5
 terminal.foreground  #c0caf5
@@ -588,6 +705,19 @@ plugin.update        #8c6c3e
 plugin.warn          #b15c00
 plugin.error         bold #c64343
 plugin.dim           #68709a
+jobs                 plain
+jobs.number          bold
+jobs.pid             #68709a
+jobs.running         #587539
+jobs.stopped         #8c6c3e
+jobs.done            #68709a
+jobs.key             bold
+ui                   plain
+ui.ok                #587539
+ui.warn              #8c6c3e
+ui.bad               bold #c64343
+ui.dim               #68709a
+ui.strong            bold
 terminal.background  #e1e2e7
 terminal.cursor      #3760bf
 terminal.foreground  #3760bf
