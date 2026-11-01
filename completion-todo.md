@@ -979,8 +979,9 @@ stand-ins in `tests/bin` were cut from.
 
 ## `dev`: development and deployment
 
-Versions are what the options were checked against, from conda-forge. `scripts/gen/mk_*.py` generate pytest's, mypy's
-and poetry's tables from their parsers (pytest's with the pytest-xdist and pytest-cov that are pinned with it). ruff's
+Versions are what the options were checked against, from conda-forge. `scripts/gen/mk_*.py` generate the tables of
+pytest, mypy, poetry, virtualenv, tox, pipx, coverage, pylint, flake8, autopep8 and Cython from their parsers (pytest's
+with the pytest-xdist and pytest-cov that are pinned with it, flake8's with the plugins it comes with). ruff's
 options, linters and rules are read from the installed ruff when Tab is pressed (`dynamic.rhai`), so the version is that
 of the output the test stand-in in `tests/bin` was cut from.
 
@@ -988,9 +989,9 @@ of the output the test stand-in in `tests/bin` was cut from.
 - [x] `twine`: twine 7.0.0
 - [ ] `pre-commit`
 - [ ] `prek`
-- [ ] `virtualenv`
-- [ ] `tox`
-- [ ] `pipx`
+- [x] `virtualenv`: virtualenv 21.15.2
+- [x] `tox`: tox 4.67.4
+- [x] `pipx`: pipx 1.18.4
 - [ ] `conda-build` (also `conda build`, `conda render`, `conda debug`)
 - [ ] `rattler-build`
 - [ ] `conda-smithy`
@@ -1000,15 +1001,15 @@ of the output the test stand-in in `tests/bin` was cut from.
 - [x] `pytest`: pytest 9.1.1, pytest-xdist 3.8.0, pytest-cov 7.1.0 (also `py.test`)
 - [x] `ruff`: ruff 0.16.9 (options, linters and rules read from the installed `ruff`)
 - [x] `mypy`: mypy 2.3.1
-- [ ] `coverage`
+- [x] `coverage`: coverage 7.17.0
 - [ ] `isort`
-- [ ] `pylint`
-- [ ] `flake8`
-- [ ] `autopep8`
+- [x] `pylint`: pylint 4.1.3
+- [x] `flake8`: flake8 7.5.0 (pycodestyle 2.15.0, pyflakes 4.1.0, mccabe 0.7.0)
+- [x] `autopep8`: autopep8 2.3.2
 - [ ] `yapf`
 - [ ] `pyright`
 - [ ] `ty`
-- [ ] `cython` (also `cythonize`)
+- [x] `cython`: Cython 3.3.0 (also `cythonize`)
 - [ ] `nbstripout`
 - [ ] `sphinx-build`
 - [ ] `sphinx-apidoc`

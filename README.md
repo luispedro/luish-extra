@@ -17,7 +17,7 @@ in its header, `pytest tests/test_x.py::` the tests in that file, and `ruff chec
 <!-- docs/supported.md includes the parts between the comments "supported N" and "/supported N", so links there
 must work from docs/ too. scripts/counts.py prints the table, and CI checks it. -->
 <!-- supported 1 -->
-311 commands are completed so far, by 274 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
+320 commands are completed so far, by 282 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
 `makeblastdb` and 16 others):
 
 | Plugin    | Commands | Tools done / listed |
@@ -25,11 +25,11 @@ must work from docs/ too. scripts/counts.py prints the table, and CI checks it. 
 | `bio`     |      183 |           174 / 772 |
 | `science` |       42 |             26 / 68 |
 | `gui`     |       49 |             40 / 40 |
-| `dev`     |       12 |             10 / 88 |
+| `dev`     |       21 |             18 / 88 |
 | `system`  |        4 |               3 / 4 |
 | `media`   |       14 |             14 / 22 |
 | `hpc`     |        7 |              7 / 14 |
-| **Total** |  **311** |      **274 / 1008** |
+| **Total** |  **320** |      **282 / 1008** |
 
 Commands are completed by the name you type, not the name of their Bioconda package (`STAR`, not `star`;
 `featureCounts`, not `subread`). Commands that std's `completion` plugin already covers (`rg`, `fd`, `jq`, `uv`, `pixi`,
@@ -167,10 +167,14 @@ project: the tests of a test file for pytest (`test_x.py::TestY::test_z`), the m
 (`-m`), the groups, extras, dependencies, scripts and sources of `pyproject.toml` and the packages of `poetry.lock` for
 poetry, the repositories of `~/.pypirc` for twine; and the installed program: ruff's options, linters and rule codes
 (`--select F4` offers `F401`, ...), bat's languages and themes, the options and commands of `claude` and `codex` (with
-the agents of `.claude/agents` for `claude --agent`, and the profiles of `$CODEX_HOME` for `codex --profile`).
+the agents of `.claude/agents` for `claude --agent`, and the profiles of `$CODEX_HOME` for `codex --profile`). tox's
+environments (`-e`, generative names such as `py3{11-13}` expanded) and labels come from `tox.ini`, `setup.cfg`,
+`pyproject.toml` or `tox.toml`, and pipx's environments, their apps and injected packages from its home.
 
 Done: `pytest` (with the options of pytest-xdist and pytest-cov), `ruff`, `mypy` (its error codes, and the inverses of
-its flags), `poetry`, `twine`; `claude`, `codex`, `opencode`; `fzf`, `bat` (and `batcat`).
+its flags), `poetry`, `twine`, `virtualenv`, `tox`, `pipx`, `coverage`, `pylint` (its messages, by symbol or ID, and
+extensions), `flake8` (the codes of pycodestyle, pyflakes and mccabe), `autopep8` (its fixes), `cython` and `cythonize`
+(compiler directives for `-X`); `claude`, `codex`, `opencode`; `fzf`, `bat` (and `batcat`).
 
 ## `system`
 

@@ -1,0 +1,257 @@
+load 0
+=== coverage
+--- coverage 
+annotate 	annotate source files with execution information
+combine 	combine a number of data files
+debug 	display information about the internals of coverage.py
+erase 	erase previously collected coverage data
+help 	get help on using coverage.py
+html 	create an HTML report
+json 	create a JSON report of coverage results
+lcov 	create an LCOV report of coverage results
+report 	report coverage stats on modules
+run 	run a Python program and measure code execution
+xml 	create an XML report of coverage results
+--- coverage run 
+build/
+main.py 
+pkg/
+--- coverage run --
+--append 	append data to the data file
+--branch 	measure branch coverage in addition to statement coverage
+--concurrency=	measure code that uses these concurrency libraries (comma-separated)
+--context=	the context label to record for this coverage run
+--data-file=	write the recorded coverage data to this file
+--debug=	debug options (comma-separated)
+--help 	get help on this command
+--include=	only the files whose paths match these patterns (comma-separated, shell-style)
+--module 	the program is a module, to run as python -m does
+--omit=	omit the files whose paths match these patterns (comma-separated, shell-style)
+--parallel-mode 	add a unique suffix to the data file's name (for the data of several processes)
+--pylib 	measure coverage even inside the Python installed library, which isn't done by default
+--rcfile=	the configuration file to read
+--save-signal=	specify a signal that will trigger coverage to write its collected data
+--source=	the directories or importable names of the code to measure (comma-separated)
+--timid 	use the slower Python trace function core
+--- coverage run -m 
+IPython 
+black 
+build 
+cProfile 
+calendar 
+compileall 
+doctest 
+ensurepip 
+flask 
+http.server 
+json.tool 
+jupyter 
+main 
+mypy 
+pdb 
+pip 
+pipx 
+pkg 
+profile 
+py_compile 
+pydoc 
+pytest 
+ruff 
+site 
+tarfile 
+timeit 
+trace 
+twine 
+unittest 
+uvicorn 
+venv 
+zipfile 
+--- coverage run --concurrency 
+eventlet 
+gevent 
+greenlet 
+multiprocessing 
+thread 
+--- coverage run --concurrency thread,m
+thread,multiprocessing 
+--- coverage run --save-signal 
+USR1 
+USR2 
+--- coverage report --format 
+markdown 
+text 
+total 
+--- coverage report --sort=
+--sort=branch 
+--sort=brpart 
+--sort=cover 
+--sort=miss 
+--sort=name 
+--sort=stmts 
+--- coverage report pkg/
+pkg/__init__.py 
+--- coverage html -d 
+build/
+pkg/
+--- coverage debug 
+config 	show configuration settings
+data 	summarize data files
+premain 	show what is calling coverage
+pybehave 	show internal flags describing Python behavior
+sqlite 	show SQLite compilation options
+sys 	show installation information
+--- coverage help 
+annotate 
+combine 
+debug 
+erase 
+help 
+html 
+json 
+lcov 
+report 
+run 
+xml 
+--- coverage combine --
+--append 	append data to the data file
+--data-file=	base name of the data files to operate on
+--debug=	debug options (comma-separated)
+--help 	get help on this command
+--keep 	keep original coverage files, otherwise they are deleted
+--quiet 	don't print messages about what is happening
+--rcfile=	the configuration file to read
+=== cython
+--- cython 
+build/
+main.py 
+pkg/
+--- cython pkg/
+pkg/__init__.py 
+pkg/fast.pyx 
+--- cython -X 
+allow_none_for_extension_args=
+always_allow_keywords=
+annotation_typing=
+auto_cpdef=
+auto_pickle=
+autotestdict.all=
+autotestdict.cdef=
+autotestdict=
+binding=
+boundscheck=
+c_api_binop_methods=
+c_compile_guard=
+c_string_type=
+callspec=
+ccomplex=
+cdivision=
+cdivision_warnings=
+collection_type=
+control_flow.dot_annotate_defs=
+control_flow.dot_output=
+cpow=
+cpp_locals=
+embedsignature.format=
+embedsignature=
+emit_code_comments=
+fast_getattr=
+fast_gil=
+final=
+formal_grammar=
+freelist=
+freethreading_compatible=
+infer_types.verbose=
+infer_types=
+initializedcheck=
+internal=
+iterable_coroutine=
+language_level=
+legacy_implicit_noexcept=
+linetrace=
+no_gc=
+no_gc_clear=
+nonecheck=
+np_pythran=
+old_style_globals=
+optimize.inline_defnode_calls=
+optimize.unpack_method_calls=
+optimize.unpack_method_calls_in_pyinit=
+optimize.use_switch=
+overflowcheck.fold=
+overflowcheck=
+preliminary_late_includes_cy28=
+profile=
+py2_import=
+remove_unreachable=
+set_initial_path=
+show_performance_hints=
+subinterpreters_compatible=
+test_body_needs_exception_handling=
+trashcan=
+type_version_tag=
+unraisable_tracebacks=
+warn.deprecated.DEF=
+warn.deprecated.IF=
+warn.maybe_uninitialized=
+warn.multiple_declarators=
+warn.undeclared=
+warn.unreachable=
+warn.unused=
+warn.unused_arg=
+warn.unused_result=
+wraparound=
+--- cython -X bound
+boundscheck=
+--- cython -X boundscheck=
+boundscheck=False 
+boundscheck=True 
+--- cython -X boundscheck=False,language_level=
+boundscheck=False,language_level=2 
+boundscheck=False,language_level=3 
+boundscheck=False,language_level=3str 
+--- cython --directive=c_string_type=
+--directive=c_string_type=bytearray 
+--directive=c_string_type=bytes 
+--directive=c_string_type=str 
+--directive=c_string_type=unicode 
+--- cython --emb
+--embed	generate a main() function (or NAME()) that embeds the Python interpreter
+--embed-modules=	the modules to embed with --embed (comma-separated)
+--embed-positions 	embed the positions of the definitions in the Cython files in their docstrings
+--- cython -I 
+build/
+pkg/
+--- cython -W
+-Werror 	make all warnings into errors
+-Wextra 	enable extra warnings
+=== cythonize
+--- cythonize 
+build/
+main.py 
+pkg/
+--- cythonize -i pkg/
+pkg/__init__.py 
+pkg/fast.pyx 
+--- cythonize -X wrap
+wraparound=
+--- cythonize --
+--3str 	use Python 3 syntax mode by default (deprecated alias for -3)
+--annotate 	produce a colorized HTML version of the source
+--annotate-fullc 	produce a colorized HTML version of the source which includes entire generated C/C++-code
+--build 	build extension modules using distutils/setuptools
+--compile-time-env=	set compile-time constants, as DEF would (NAME=VALUE, comma-separated)
+--cplus 	compile as C++ rather than C
+--depfile 	produce depfiles for the sources
+--directive=	override compiler directives (NAME=VALUE, comma-separated)
+--exclude=	exclude certain file patterns from the compilation
+--force 	force recompilation
+--help 	show this help message and exit
+--inplace 	build extension modules in place using distutils/setuptools (implies -b)
+--keep-going 	compile as much as possible, ignore compilation failures
+--lenient 	increase Python compatibility by ignoring some compile time errors
+--no-docstrings 	strip docstrings
+--option=	set an option of cythonize (NAME=VALUE)
+--parallel=	run builds in N parallel jobs
+--quiet 	be less verbose during compilation
+--setup=	use CODESTRING as pre-benchmark setup code for --bench
+--timeit=	build in place, then compile+run CODESTRING as benchmark in first module's namespace

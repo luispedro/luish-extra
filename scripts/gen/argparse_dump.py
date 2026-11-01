@@ -1,6 +1,6 @@
 """Dumps the options of a Python program's argparse parser as JSON, to be run inside its environment:
 
-    python argparse_dump.py [--tree] MODULE FUNCTION      # FUNCTION() returns the ArgumentParser
+    python argparse_dump.py [--tree] [--returned] MODULE FUNCTION    # FUNCTION() returns the ArgumentParser
 
 For a program that builds its parser in a function (snakemake.cli:get_argument_parser), or that builds it and
 parses the command line in the same function (porechop.porechop:get_arguments): the parser is taken where
@@ -10,7 +10,9 @@ a required parameter (metaphlan.metaphlan:read_params(args)) is given the comman
 returns a tuple, the parser is its first element (mypy.main:define_options). FUNCTION `__main__` runs MODULE
 (`bin/PROG`) as a script, for one that builds its parser at the top level (bin/checkm). Words after FUNCTION are the
 command line that the program sees, for one that prints its help when it has no arguments (checkm2.main:main predict).
-Prints a list with, for each action, its option strings, metavar, nargs, choices, help and whether it is a flag.
+With `--returned`, the parser is what FUNCTION returns and nothing is caught, for a program that parses with it while
+it builds it (virtualenv.run:build_parser; pylint, whose checkers do, in python_tools.py:pylint_parser). Prints a list
+with, for each action, its option strings, metavar, nargs, choices, help and whether it is a flag.
 
 With `--tree`, for a program with subcommands (borg), prints {"actions": [...], "commands": [...]}, where each command
 has its name, aliases, help and the same map for its own actions and subcommands.
@@ -27,12 +29,14 @@ def catch(self, *args, **kwargs):
 
 
 args = sys.argv[1:]
-tree = args[:1] == ["--tree"]
-if tree:
+tree = returned = False
+while args[:1] in (["--tree"], ["--returned"]):
+    tree, returned = tree or args[0] == "--tree", returned or args[0] == "--returned"
     args = args[1:]
 mod, fn = args[:2]
 sys.argv = [fn] + args[2:]
-argparse.ArgumentParser.parse_args = argparse.ArgumentParser.parse_known_args = catch
+if not returned:
+    argparse.ArgumentParser.parse_args = argparse.ArgumentParser.parse_known_args = catch
 try:
     if fn == "__main__":
         runpy.run_path(shutil.which(mod[4:]) if mod.startswith("bin/") else mod, run_name="__main__")

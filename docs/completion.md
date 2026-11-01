@@ -199,13 +199,15 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
 
 - **Environments and packaging**: `poetry` (the groups, extras, dependencies and sources of `pyproject.toml`, the
   packages of `poetry.lock`), `twine` (the repositories of `~/.pypirc`), `pre-commit` and `prek` (the hooks of
-  `.pre-commit-config.yaml`), `virtualenv`, `tox`, `pipx`
+  `.pre-commit-config.yaml`), `virtualenv`, `tox` (the environments and labels of its configuration), `pipx` (its
+  environments)
 - **conda-forge packaging**: `conda-build` (also `conda build`, `conda render` and `conda debug`; recipe directories
   and variant files), `rattler-build`, `conda-smithy`, `grayskull`, `conda-pack`, `conda-lock`
 - **Python tooling**: `pytest` (test files and the tests in them, `FILE::CLASS::TEST`; markers; the options of
   pytest-xdist and pytest-cov), `ruff` (rule codes and linter prefixes), `mypy` (error codes), `coverage`, `isort`,
-  `pylint` (message IDs), `flake8`, `autopep8`, `yapf`, `pyright`, `ty`, `cython` / `cythonize`, `nbstripout`,
-  Sphinx (`sphinx-build`, with builders for `-b`; `sphinx-apidoc`, `sphinx-quickstart`)
+  `pylint` (message IDs), `flake8` (error codes), `autopep8` (fixes), `yapf`, `pyright`, `ty`, `cython` / `cythonize`
+  (compiler directives), `nbstripout`, Sphinx (`sphinx-build`, with builders for `-b`; `sphinx-apidoc`,
+  `sphinx-quickstart`)
 - **Compilers and runtimes**: `gfortran`, `nvcc`, `rustc`, `node`, OpenJDK (`java`, `javac`, `jar`, `keytool`),
   `ruby`, `gem`
 - **Build tools**: `just` (the recipes of the justfile), `pkg-config` (packages from `pkg-config --list-all`),

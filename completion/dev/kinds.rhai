@@ -470,6 +470,280 @@ fn codex_profiles() {
     out
 }
 
+// The names that a generative name of tox stands for: `py3{11,12}-django{50,51}` (the product of the
+// alternatives in braces), and `py3{10-13}` (a range).
+fn tox_expand(name) {
+    let open = name.index_of("{");
+    let close = if open < 0 { -1 } else { name.index_of("}", open) };
+    if close < 0 {
+        return [name];
+    }
+    let head = name.sub_string(0, open);
+    let tails = tox_expand(name.sub_string(close + 1));
+    let out = [];
+    for a in name.sub_string(open + 1, close - open - 1).split(",") {
+        a.trim();
+        let items = [a];
+        let dash = a.index_of("-");
+        if dash > 0 {
+            let lo = a.sub_string(0, dash);
+            let hi = a.sub_string(dash + 1);
+            if !sh::matches("*[!0-9]*", lo + hi) && hi != "" && lo.len() < 6 && hi.len() < 6
+                && lo.parse_int() <= hi.parse_int() && hi.parse_int() - lo.parse_int() < 100 {
+                items = [];
+                for n in lo.parse_int()..=hi.parse_int() {
+                    items.push(`${n}`);
+                }
+            }
+        }
+        for x in items {
+            for t in tails {
+                out.push(head + x + t);
+            }
+        }
+    }
+    out
+}
+
+// The environments of a list of tox (`env_list`, `-e`): names separated by commas, spaces or lines, but not
+// inside braces, each expanded with `tox_expand`.
+fn tox_names(list) {
+    let out = [];
+    let word = "";
+    let depth = 0;
+    for c in (list + ",").chars() {
+        if depth == 0 && (c == ',' || c == ' ' || c == '\n' || c == '\t') {
+            if word != "" && !word.starts_with("#") {
+                out += tox_expand(word);
+            }
+            word = "";
+            continue;
+        }
+        if c == '{' {
+            depth += 1;
+        } else if c == '}' && depth > 0 {
+            depth -= 1;
+        }
+        word += c;
+    }
+    out
+}
+
+// The sections of an INI file, as a map from each section's name to a map from its keys to their values (the
+// lines of a value, those indented after its key, separated by `\n`).
+fn ini(text) {
+    let out = #{"": #{}};
+    let sec = "";
+    let key = ();
+    for line in text.split("\n") {
+        let t = line;
+        t.trim();
+        if t == "" || t.starts_with("#") || t.starts_with(";") {
+            continue;
+        }
+        if line.starts_with(" ") || line.starts_with("\t") {
+            if key != () {
+                out[sec][key] += "\n" + t;
+            }
+        } else if t.starts_with("[") && t.ends_with("]") {
+            sec = t.sub_string(1, t.len() - 2);
+            sec.trim();
+            if out[sec] == () {
+                out[sec] = #{};
+            }
+            key = ();
+        } else {
+            let eq = t.index_of("=");
+            if eq > 0 {
+                key = t.sub_string(0, eq);
+                key.trim();
+                let v = t.sub_string(eq + 1);
+                v.trim();
+                out[sec][key] = v;
+            }
+        }
+    }
+    out
+}
+
+// The keys of a TOML inline table (`{ test = ["py312"], lint = ["ruff"] }`).
+fn inline_keys(v) {
+    let out = [];
+    let depth = 0;
+    let word = "";
+    for c in v.chars() {
+        if c == '{' || c == '[' {
+            depth += 1;
+        } else if c == '}' || c == ']' {
+            depth -= 1;
+        } else if depth == 1 && c == '=' {
+            out.push(std_kinds::unquote(word));
+            word = "";
+        } else if depth == 1 && c == ',' {
+            word = "";
+        } else if depth == 1 {
+            word += c;
+        }
+    }
+    out
+}
+
+// tox's configuration: `#{envs, labels}`, its environments (as candidates, with their descriptions; those of
+// `env_list` first) and labels, from the file that tox reads, the first in the current directory or the nearest
+// parent of tox.ini, setup.cfg (with `[tox:tox]`), pyproject.toml (with `[tool.tox]`, or `legacy_tox_ini`) and
+// tox.toml.
+fn tox_config() {
+    let dir = sh::cwd();
+    loop {
+        for f in ["tox.ini", "setup.cfg", "pyproject.toml", "tox.toml"] {
+            let p = dir + "/" + f;
+            let text = fs::read_file(p);
+            if text == () || f == "setup.cfg" && !text.contains("[tox:tox]")
+                || f == "pyproject.toml" && !text.contains("[tool.tox") {
+                continue;
+            }
+            let key = "tox_config:" + p;
+            return sh::cache_get(key, [p]) ?? sh::cache_put(key, 3600, [p], tox_parse(f, text));
+        }
+        let k = lib_text::last_index(dir, "/");
+        if k < 0 || dir == "/" {
+            return #{envs: [], labels: []};
+        }
+        dir = if k == 0 { "/" } else { dir.sub_string(0, k) };
+    }
+}
+
+// The environments and labels of the tox configuration `text`, in the file named `f`.
+fn tox_parse(f, text) {
+    let envs = [];
+    let desc = #{};
+    let labels = [];
+    let legacy = text.index_of("legacy_tox_ini");
+    if f.ends_with(".toml") && legacy < 0 {
+        let t = std_kinds::toml(text);
+        let p = if f == "pyproject.toml" { "tool.tox" } else { "" };
+        let core = t[p] ?? #{};
+        // (the strings of the list: a `{ product = [...] }` isn't one)
+        envs = std_kinds::toml_list(core.env_list ?? "").filter(|x| lib_text::is_name(x));
+        labels = inline_keys(core.labels ?? "") + (t[if p == "" { "labels" } else { p + ".labels" }] ?? #{}).keys();
+        let prefix = if p == "" { "env." } else { p + ".env." };
+        for name in t.keys() {
+            if name.starts_with(prefix) && !name.sub_string(prefix.len()).contains(".") {
+                let e = std_kinds::unquote(name.sub_string(prefix.len()));
+                for x in tox_expand(e) {
+                    desc[x] = std_kinds::unquote(t[name].description ?? "");
+                    envs.push(x);
+                }
+            }
+        }
+    } else {
+        if legacy >= 0 {
+            let open = text.index_of("\"\"\"", legacy);
+            let close = if open < 0 { -1 } else { text.index_of("\"\"\"", open + 3) };
+            text = if close < 0 { "" } else { text.sub_string(open + 3, close - open - 3) };
+        }
+        let t = ini(text);
+        let core = t[if f == "setup.cfg" { "tox:tox" } else { "tox" }] ?? #{};
+        envs = tox_names(core.env_list ?? core.envlist ?? "");
+        for line in (core.labels ?? "").split("\n") {
+            let eq = line.index_of("=");
+            if eq > 0 {
+                let l = line.sub_string(0, eq);
+                l.trim();
+                labels.push(l);
+            }
+        }
+        for name in t.keys() {
+            if name.starts_with("testenv:") {
+                for x in tox_expand(name.sub_string(8)) {
+                    desc[x] = (t[name].description ?? "").split("\n")[0];
+                    envs.push(x);
+                }
+            }
+        }
+    }
+    let out = [#{value: "ALL", desc: "all environments"}];
+    let seen = [];
+    for e in envs {
+        e.trim();
+        if e != "" && !e.starts_with(".") && !seen.contains(e) {
+            seen.push(e);
+            out.push(#{value: e, desc: desc[e] ?? ""});
+        }
+    }
+    #{envs: out, labels: labels}
+}
+
+// pipx's home: `$PIPX_HOME`, or, with `--global`, `$PIPX_GLOBAL_HOME` (by default /opt/pipx); otherwise
+// ~/.local/pipx if it exists (pipx's old default, which it keeps using), or `$XDG_DATA_HOME/pipx`.
+fn pipx_home(words) {
+    if words.contains("--global") {
+        return sh::getvar("PIPX_GLOBAL_HOME") ?? "/opt/pipx";
+    }
+    let h = sh::getvar("PIPX_HOME");
+    if h != () && h != "" {
+        return h;
+    }
+    let home = std_kinds::home();
+    if fs::is_dir(home + "/.local/pipx") {
+        home + "/.local/pipx"
+    } else {
+        (sh::getvar("XDG_DATA_HOME") ?? (home + "/.local/share")) + "/pipx"
+    }
+}
+
+// The environments that pipx manages.
+fn pipx_venvs(words) {
+    let dir = pipx_home(words) + "/venvs";
+    (fs::list_dir(dir) ?? []).filter(|v| !v.starts_with(".") && fs::is_dir(dir + "/" + v))
+}
+
+// The metadata of the pipx environment named after `cmd` on the line (the first word after it that isn't an
+// option), or an empty map.
+fn pipx_metadata(words, cmd) {
+    let k = words.index_of(cmd);
+    let venv = ();
+    if k >= 0 {
+        for w in words.extract(k + 1) {
+            if !w.starts_with("-") {
+                venv = w;
+                break;
+            }
+        }
+    }
+    if venv == () || !lib_text::is_name(venv) {
+        return #{};
+    }
+    let p = pipx_home(words) + "/venvs/" + venv + "/pipx_metadata.json";
+    let key = "pipx_metadata:" + p;
+    sh::cache_get(key, [p]) ?? sh::cache_put(key, 3600, [p], read_json(p))
+}
+
+// The JSON object in the file `p`, or an empty map if it isn't one.
+fn read_json(p) {
+    let text = fs::read_file(p) ?? "";
+    if lib_text::is_json_object(text) { parse_json(text) } else { #{} }
+}
+
+// The packages injected into the environment of `pipx uninject ENV`.
+fn pipx_injected(words) {
+    (pipx_metadata(words, "uninject").injected_packages ?? #{}).keys()
+}
+
+// The apps of the environment of `pipx exec ENV`: its main package's and those of the packages injected into it.
+fn pipx_apps(words) {
+    let m = pipx_metadata(words, "exec");
+    let out = m.main_package?.apps ?? [];
+    for p in (m.injected_packages ?? #{}).values() {
+        for a in p.apps ?? [] {
+            if !out.contains(a) {
+                out.push(a);
+            }
+        }
+    }
+    out
+}
+
 fn kind(name, cur, words) {
     switch name {
         "pytest_tests" => pytest_tests(cur, false),
@@ -478,6 +752,7 @@ fn kind(name, cur, words) {
         "python_files" => lib_files::with_suffix(cur, [".py", ".pyi"], ["__pycache__"]),
         "ruff_files" => lib_files::with_suffix(cur, [".py", ".pyi", ".ipynb"], ["__pycache__"]),
         "python_dists" => lib_files::with_suffix(cur, [".whl", ".tar.gz", ".zip", ".asc"], ["__pycache__"]),
+        "cython_sources" => lib_files::with_suffix(cur, [".pyx", ".py"], ["__pycache__"]),
         "pythons" => pythons(cur),
         "poetry_groups" => poetry_groups(),
         "poetry_extras" => poetry_extras(),
@@ -493,6 +768,11 @@ fn kind(name, cur, words) {
         "bat_themes" => bat_themes(words, false),
         "claude_agents" => claude_agents(),
         "codex_profiles" => codex_profiles(),
+        "tox_envs" => lib_text::comma_list(cur, tox_config().envs),
+        "tox_labels" => tox_config().labels,
+        "pipx_venvs" => pipx_venvs(words),
+        "pipx_injected" => pipx_injected(words),
+        "pipx_apps" => pipx_apps(words),
         _ => throw `unknown kind: ${name}`,
     }
 }

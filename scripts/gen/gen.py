@@ -93,15 +93,18 @@ def dump(pkg, script, args, chan="-c conda-forge -c bioconda", python=None):
     return json.load(open(f))
 
 
-def argparse_dump(pkg, module, function, chan="-c conda-forge -c bioconda", tree=False, python=None):
+def argparse_dump(pkg, module, function, chan="-c conda-forge -c bioconda", tree=False, python=None,
+                  returned=False):
     """The options of a Python program's argparse parser (scripts/gen/argparse_dump.py), at a pinned version:
     a list of dicts (names, metavar, nargs, choices, help, flag, positional), cached as helptext() is. With `tree`,
     {"actions": [...], "commands": [...]}, the subcommands with their own actions and subcommands. MODULE can be a
     file of scripts/gen (`pytest_parser.py`), or `bin/PROG`, a Python script of the environment (`bin/k2`). FUNCTION can
-    be followed by the words of a command line (`main predict`); see argparse_dump.py."""
+    be followed by the words of a command line (`main predict`); see argparse_dump.py. With `returned`, the parser is what
+    FUNCTION returns, and nothing is caught (`--returned`)."""
     if module.endswith(".py") and not module.startswith("bin/"):
         module = os.path.join(HERE, module)
-    return dump(pkg, "argparse_dump.py", ("--tree " if tree else "") + f"{module} {function}", chan, python)
+    flags = ("--tree " if tree else "") + ("--returned " if returned else "")
+    return dump(pkg, "argparse_dump.py", flags + f"{module} {function}", chan, python)
 
 
 def cleo_dump(pkg, module, cls, chan="-c conda-forge"):
@@ -168,3 +171,46 @@ def emit_argparse(actions, kind_of, indent=12, extra=""):
     if extra:
         out.append(extra)
     return "\n".join(out)
+
+
+def emit_tree(cmds, kind_of, args_of, indent=8, path=(), skip=frozenset(), desc=None, extra=None):
+    """`commands:` and `subs:` of a spec from argparse_dump(tree=True)'s commands (but the hidden ones), with the names
+    and aliases of each (`run, r`), its options but those named in `skip` (the ones common to all, given as `common:`),
+    and its arguments or its own subcommands. kind_of(cmd, names, metavar, choices) gives the values of an option, as
+    in emit_argparse, args_of(cmd, positionals) the kinds of the arguments (a list of Rhai expressions), and desc(cmd,
+    help) a command's description; `cmd` is the command's path (`interpreter list`). extra(cmd), if given, gives more
+    fields of a command's spec (`args_if: ...`), or None."""
+    pad = " " * indent
+    cmds = [c for c in cmds if not c["hidden"]]
+    describe = desc or (lambda cmd, d: h.clean(d or ""))
+    rows = [(", ".join([c["name"]] + c["aliases"]), describe(" ".join(path + (c["name"],)), c["help"])) for c in cmds]
+    w = max(len(n) for n, _ in rows)
+    out = [f"{pad}commands: `"] + [f"{pad}    {n}{' ' * (w + 2 - len(n))}{d}".rstrip() for n, d in rows] + [f"{pad}`,"]
+    out.append(f"{pad}subs: #{{")
+    for c in cmds:
+        cmd = " ".join(path + (c["name"],))
+        opts = [a for a in c["actions"] if a["names"] and not a["hidden"] and not set(a["names"]) & set(skip)]
+        body = []
+        if opts:
+            text = emit_argparse(opts, lambda names, mv, choices: kind_of(cmd, names, mv, choices), indent + 12)
+            body.append(re.sub(r"\n *values: #\{\n *\n *\},", "", text))
+        if c["commands"]:
+            body.append(emit_tree(c["commands"], kind_of, args_of, indent + 8, path + (c["name"],), skip, desc, extra))
+        else:
+            args = args_of(cmd, [a for a in c["actions"] if a["positional"]])
+            body.append(f"{pad}        args: [{', '.join(args)}],")
+        if extra and extra(cmd):
+            body.append(f"{pad}        {extra(cmd)}")
+        out.append(f'{pad}    "{c["name"]}": #{{\n' + "\n".join(body) + f"\n{pad}    }},")
+    out.append(f"{pad}}},")
+    return "\n".join(out)
+
+
+def name_choices(t, width=24):
+    """Gives the options with choices but no metavar whose choices are longer than `width` (`--stderr-color
+    BLACK|BLUE|...`) their `dest` as metavar, in a list of actions or in argparse_dump(tree=True)'s tree."""
+    for a in t["actions"] if isinstance(t, dict) else t:
+        if a["choices"] and not a["metavar"] and len("|".join(a["choices"])) > width:
+            a["metavar"] = a["dest"].upper()
+    for c in t.get("commands", []) if isinstance(t, dict) else []:
+        name_choices(c, width)

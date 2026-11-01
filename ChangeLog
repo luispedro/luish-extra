@@ -11,6 +11,14 @@ Unreleased
       run over to its completer. extra.completion.all loads it; to
       have it alone, enable extra.completion.hpc
     * bio: completion for pyrodigal and strobealign
+    * dev: completion for virtualenv, tox, pipx, coverage, pylint,
+      flake8, autopep8, cython and cythonize: tox's environments (-e)
+      and labels (-m), read from tox.ini, setup.cfg, pyproject.toml or
+      tox.toml; pipx's environments, with the apps and injected
+      packages of each; pylint's messages (by symbol, or by ID once
+      W0 is typed), categories, extensions and reporters; the codes of
+      flake8's checkers and autopep8's fixes (--select E5 offers
+      E501, ...); Cython's compiler directives and their values (-X)
     * media: completion for Poppler's tools: pdftotext, pdfinfo,
       pdftoppm, pdfimages, pdfunite, pdfseparate, pdffonts, pdftocairo,
       pdftohtml, pdftops, pdfdetach, pdfattach and pdfsig (PDF files,

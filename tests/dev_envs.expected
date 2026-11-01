@@ -1,0 +1,319 @@
+load 0
+=== virtualenv
+--- virtualenv --cr
+--creator=	create the environment with (builtin: cpython3-posix)
+--- virtualenv --creator 
+builtin 
+cpython3-posix 
+venv 
+--- virtualenv --seeder=
+--seeder=app-data 
+--seeder=pip 
+--- virtualenv --activators 
+bash 
+batch 
+cshell 
+fish 
+nushell 
+powershell 
+python 
+xonsh 
+--- virtualenv --activators bash,f
+bash,fish 
+--- virtualenv --activators bash,fish,
+bash,fish,batch 
+bash,fish,cshell 
+bash,fish,nushell 
+bash,fish,powershell 
+bash,fish,python 
+bash,fish,xonsh 
+--- virtualenv --pip 
+bundle 
+embed 
+none 
+--- virtualenv -
+--activators=	the activators to generate (comma-separated; default: all supported)
+--always-copy 	try to use copies rather than symlinks, even when symlinks are the default for the
+--app-data=	a data folder used as cache by the virtualenv
+--clear 	remove the destination directory if exist before starting (will overwrite files otherwise)
+--copies 	try to use copies rather than symlinks, even when symlinks are the default for the
+--creator=	create the environment with (builtin: cpython3-posix)
+--discovery=	interpreter discovery method
+--download 	download the latest pip/setuptools/wheel from PyPI
+--extra-search-dir=	a path containing wheels to extend the internal wheel list (can be set 1+ times)
+--never-download 	don't download the latest pip/setuptools/wheel from PyPI
+--no-download 	don't download the latest pip/setuptools/wheel from PyPI
+--no-periodic-update 	disable the periodic (once every 14 days) update of the embedded wheels
+--no-pip 	do not install pip
+--no-seed 	do not install seed packages
+--no-setuptools 	do not install setuptools
+--no-vcs-ignore 	don't create VCS ignore directive in the destination directory
+--no-venv-redirect 	write no PEP-832 .venv redirect file
+--pip=	version of pip to install as seed: embed, bundle, none or exact version
+--prompt=	an alternative prompt prefix for the environment (.: the name of the current directory)
+--read-only-app-data 	use app data folder in read-only mode (write operations will fail with error)
+--reset-app-data 	start with empty app data folder
+--seeder=	seed packages install method
+--setuptools=	version of setuptools to install as seed: embed, bundle, none or exact version
+--symlink-app-data 	symlink the python packages from the app-data folder
+--symlinks 	try to use symlinks rather than copies, when symlinks are not the default for the platform
+--system-site-packages 	give the virtual environment access to the system site-packages dir
+--try-first-with=	try first these interpreters before starting the discovery
+--upgrade-embed-wheels 	trigger a manual update of the embedded wheels
+--venv-redirect 	point a PEP-832 .venv redirect file next to the destination at the created environment
+--version 	display the version of the virtualenv package and its location, then exit
+--with-traceback 	on failure also display the stacktrace internals of virtualenv
+--without-pip 	do not install seed packages
+-h 	show this help message and exit
+-p 	the interpreter to create the environment with
+-q 	decrease verbosity
+-v 	increase verbosity
+--- virtualenv 
+cfg/
+dists/
+ini/
+legacy/
+opt/
+toml/
+=== tox
+--- tox 
+config 	show tox configuration
+depends 	visualize tox environment dependencies
+devenv 	set up a development environment
+exec 	execute an arbitrary command within a tox environment
+legacy 	legacy entry-point command
+list 	list environments
+man 	set up tox's man page for the current shell
+quickstart 	create a tox config file for a Python project
+run 	run environments
+run-parallel 	run environments in parallel
+schema 	generate the schema of tox's configuration
+--- tox --c
+--colored=	whether to colour the output
+--conf=	the configuration file or folder of tox
+--- tox -e 
+ALL 	all environments
+django42-dbpg 	
+django42-dbsqlite 	
+django52-dbpg 	
+django52-dbsqlite 	
+docs 	docs and types
+lint 	run the linters
+py311 	
+py312 	
+py313 	
+type 	docs and types
+--- tox -e lint,py3
+lint,py311 	
+lint,py312 	
+lint,py313 	
+--- tox -e django42-
+django42-dbpg 	
+django42-dbsqlite 	
+--- tox run -e 
+ALL 	all environments
+django42-dbpg 	
+django42-dbsqlite 	
+django52-dbpg 	
+django52-dbsqlite 	
+docs 	docs and types
+lint 	run the linters
+py311 	
+py312 	
+py313 	
+type 	docs and types
+--- tox r -m 
+static 
+test 
+--- tox p -p 
+0 
+all 
+auto 
+--- tox exec -e lint -- py
+pytest 
+python3 
+--- tox --installpkg ../dists/
+../dists/x-1.0-py3-none-any.whl 
+../dists/x-1.0.tar.gz 
+--- tox list --
+--colored=	whether to colour the output
+--conf=	the configuration file or folder of tox
+--exit-and-dump-after=	dump tox's threads after SECONDS and exit (0: never)
+--help 	show this help message and exit
+--no-desc 	do not show description
+--no-provision	don't provision tox, fail (and write the provision's metadata as JSON to REQ_JSON)
+--no-recreate-provision 	if recreate is set do not recreate provision tox environment
+--override=	override a setting of the configuration (testenv:NAME.KEY=VALUE)
+--quiet 	decrease verbosity
+--recreate 	recreate the tox environments
+--root=	project root directory (if not specified will be the folder of the config file)
+--runner=	the tox run engine to use when not explicitly stated in tox env configuration
+--skip-env=	exclude all environments selected that match this regular expression
+--stderr-color=	color for stderr output, use RESET for terminal defaults
+--verbose 	increase verbosity
+--version 	show program's and plugins version number and exit
+--workdir=	tox working directory (if not specified will be the folder of the config file)
+--- tox -s
+-s 	don't fail for missing interpreters
+--- tox -e l
+lint 	run the linters
+--- tox -e 
+ALL 	all environments
+flake8 	flake8
+py312 	
+--- tox -e 
+ALL 	all environments
+mypy 	type checks
+py310 	
+--- tox -e 
+3.12 	
+3.13 	
+ALL 	all environments
+lint 	run the linters
+type 	type checks
+--- tox -m 
+checks 
+tests 
+--- tox -e 
+=== pipx
+--- pipx 
+cache 	manage cached run environments
+completions 	print instructions on enabling shell completions for pipx
+ensurepath 	ensure directories necessary for pipx operation are in your PATH environment variable
+environment 	print a list of environment variables and paths used by pipx
+exec 	run an application from an existing pipx environment
+expose 	relink hidden or missing resources of an environment
+health 	check installed package environments
+help 	show help for pipx or a command
+inject 	install packages into an existing Virtual Environment
+install 	install a package
+install-all 	install all packages
+interpreter 	interact with interpreters managed by pipx
+list 	list installed packages
+manifest 	manage tools declared in an explicit manifest
+pin 	pin the specified package to prevent it from being upgraded
+reinstall 	reinstall a package
+reinstall-all 	reinstall all packages
+repair 	repair broken package environments
+reset 	return pipx to a fresh install
+run 	run an app from a package in a temporary environment
+runpip 	run pip, or 'uv pip' under the uv backend, in an existing pipx-managed Virtual Environment
+unexpose 	hide resources without removing an environment
+uninject 	uninstall injected packages from an existing Virtual Environment
+uninstall 	uninstall a package
+uninstall-all 	uninstall all packages
+unpin 	unpin the specified package
+upgrade 	upgrade a package
+upgrade-all 	upgrade all packages
+upgrade-shared 	upgrade shared libraries
+--- pipx in
+inject 	install packages into an existing Virtual Environment
+install 	install a package
+install-all 	install all packages
+interpreter 	interact with interpreters managed by pipx
+--- pipx uninstall 
+black 
+httpie 
+--- pipx upgrade --
+--backend=	backend used for creating venvs and managing packages
+--cooldown=	ignore files uploaded to the index less than DAYS days ago
+--editable 	install a project in editable mode
+--fetch-missing-python 	deprecated: alias for --fetch-python=missing
+--fetch-python=	when to fetch a standalone Python build from python-build-standalone
+--force 	modify an existing environment and the files in PIPX_BIN_DIR and PIPX_MAN_DIR
+--global 	perform action globally for all users
+--help 	show this help message and exit
+--include-injected 	also upgrade packages injected into the main app's environment
+--index-url=	the base URL of the Python package index
+--install 	install package spec if missing
+--output=	select the output format
+--pip-args=	arguments to pass to pip (quoted, as one word)
+--python=	the Python to install with (a version, such as 3.12, or a path)
+--quiet 	give less output
+--skip-maintenance 	do not upgrade shared libraries; use bundled pip when creating them
+--system-site-packages 	give the virtual environment access to the system site-packages dir
+--verbose 	give more output
+--- pipx uninject black 
+jupyter-black 
+tomli 
+--- pipx uninject --leave-deps black t
+tomli 
+--- pipx exec black 
+black 
+blackd 
+jblack 
+--- pipx exec httpie 
+--- pipx inject b
+black 
+--- pipx install --backend 
+pip 
+uv 
+--- pipx interpreter 
+list 	list available interpreters
+prune 	prune unused interpreters
+upgrade 	upgrade installed interpreters to the latest available micro/patch version
+--- pipx manifest 
+lock 	resolve a tool manifest with nab
+sync 	apply a tool manifest
+--- pipx help 
+cache 
+completions 
+ensurepath 
+environment 
+exec 
+expose 
+health 
+help 
+inject 
+install 
+install-all 
+interpreter 
+list 
+manifest 
+pin 
+reinstall 
+reinstall-all 
+repair 
+reset 
+run 
+runpip 
+unexpose 
+uninject 
+uninstall 
+uninstall-all 
+unpin 
+upgrade 
+upgrade-all 
+upgrade-shared 
+--- pipx environment --value 
+PIPX_BACKEND_SOURCE 
+PIPX_BIN_DIR 
+PIPX_COMPLETION_DIR 
+PIPX_COOLDOWN 
+PIPX_DEFAULT_BACKEND 
+PIPX_DEFAULT_PYTHON 
+PIPX_DISABLE_SHARED_LIBS_AUTO_UPGRADE 
+PIPX_FETCH_MISSING_PYTHON 
+PIPX_FETCH_PYTHON 
+PIPX_GLOBAL_BIN_DIR 
+PIPX_GLOBAL_COMPLETION_DIR 
+PIPX_GLOBAL_HOME 
+PIPX_GLOBAL_MAN_DIR 
+PIPX_HOME 
+PIPX_LOCAL_VENVS 
+PIPX_LOG_DIR 
+PIPX_MAN_DIR 
+PIPX_MAX_LOGS 
+PIPX_RESOLVED_BACKEND 
+PIPX_SHARED_LIBS 
+PIPX_STANDALONE_PYTHON_CACHEDIR 
+PIPX_TRASH_DIR 
+PIPX_USE_EMOJI 
+PIPX_UV_BINARY 
+PIPX_VENV_CACHEDIR 
+UV_CACHE_DIR 
+--- pipx --global uninstall 
+--- pipx uninstall --global 
+ruff 
+--- pipx reinstall 
+ruff 

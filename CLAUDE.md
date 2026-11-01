@@ -41,12 +41,18 @@ apptainer and singularity (Cobra bridge) and nf-core (Click bridge).
 
 `completion/dev`: `kinds.rhai` (pytest's tests in a file and markers; poetry's groups, extras, dependencies, locked
 packages, scripts and sources from `pyproject.toml` and `poetry.lock`; `~/.pypirc`; ruff's rules and settings; bat's
-languages and themes; claude's agents and codex's profiles), `python.rhai` (twine), `tools.rhai` (fzf, bat and batcat),
-`agents.rhai` (opencode, a table: yargs help, and a start-up of most of a second), `dynamic.rhai` (ruff, codex and
+languages and themes; claude's agents and codex's profiles; tox's environments, with generative names expanded, and
+labels, from the first of tox.ini, setup.cfg, pyproject.toml and tox.toml that has tox's configuration, in the
+current directory or a parent; pipx's environments in its home, and their apps and injected packages from each
+`pipx_metadata.json`), `python.rhai` (twine), `tools.rhai` (fzf, bat and batcat), `agents.rhai` (opencode, a table:
+yargs help, and a start-up of most of a second), `dynamic.rhai` (ruff, codex and
 claude, from their `-h` like mmseqs; claude is Commander, whose help `commander()` puts in clap's shape before std's
 `help_spec` reads it: wrapped descriptions joined, `stop|kill <id>` as `stop, kill`, `(choices: ...)` as
-`[possible values: ...]`) and the generated `pytest.rhai`, `mypy.rhai`, `poetry.rhai`. `completion/system`: `kinds.rhai` (borg
-locations and compression specs, FUSE mount points from `/proc/mounts`), `tools.rhai` (fusermount, fusermount3), the
+`[possible values: ...]`) and the generated `pytest.rhai`, `mypy.rhai`, `poetry.rhai`, `envs.rhai` (virtualenv, tox,
+pipx), `lint.rhai` (pylint, flake8, autopep8, with pylint's messages, the codes of pycodestyle, pyflakes and mccabe,
+and autopep8's fixes) and `pytools.rhai` (coverage, cython, cythonize, with Cython's compiler directives).
+`completion/system`: `kinds.rhai` (borg locations and compression specs, FUSE mount points from `/proc/mounts`),
+`tools.rhai` (fusermount, fusermount3), the
 generated `borg.rhai` and `annex.rhai`, the completer of git-annex, which completes itself (optparse-applicative's
 `--bash-completion-index`, as its bash completion does; `tests/bin/git-annex` stands in for it); std's git completer
 hands `git annex` over to it (a git command that is a program of its own, `git-CMD` in `PATH`, goes to that program's
@@ -122,8 +128,9 @@ nvm.sh in `~/.nvm` that logs its calls.
 `completion/extra-lib` is a library plugin (`library = true` in its `plugin.toml`, which is its only entry point; `plugin
 list-available` leaves it out) of helpers the others share: `files.rhai` (`with_suffix(cur, suffixes)`, and with a third
 argument, directories to leave out; `compressed(suffixes)`), `text.rhai` (`is_name`, `last_of`, `last_index`, `indent`,
-`ident`) and `help.rhai`, which the `dynamic.rhai` modules use: `help::spec(PATH, how)` reads a spec from the `-h` of a
-command PATH (`PROG SUB ...`), `help::sub(PATH, SUB, how)` is the usual body of a `sub_spec` (`()` for a word that isn't
+`ident`, `comma_list`: the completion of the last item of a comma-separated list, and `is_json_object`) and
+`help.rhai`, which the `dynamic.rhai` modules use: `help::spec(PATH, how)` reads a spec from the `-h` of a command PATH
+(`PROG SUB ...`), `help::sub(PATH, SUB, how)` is the usual body of a `sub_spec` (`()` for a word that isn't
 a subcommand), and `help::commands(text)` takes a list of commands under any heading, with any gap after the name; `how`
 gives the help flag, `stderr` (`"merge"` for mmseqs), the `sub_spec` module and clap's `help` command. They are imported
 as `import "../extra-lib/files" as lib_files;`, `lib_text` and `help`, and a plugin that does so lists
@@ -144,9 +151,10 @@ environment with Bioconda, so nothing is installed):
   it, since help formats differ in many small ways.
 - `align.rhai`, `bam.rhai`, `blast.rhai`, `diamond.rhai`, `hmmer.rhai`, `cluster.rhai`, `reads.rhai`, `asm.rhai`,
   `profile.rhai` and `bins.rhai` of `bio`, `snakemake.rhai`, `pandoc.rhai`, `aria2.rhai`, `parallel.rhai`,
-  `miller.rhai`, `cwltool.rhai` and `jupyter_specs.rhai` of `science`, `pytest.rhai`, `mypy.rhai` and `poetry.rhai` of
-  `dev`, `borg.rhai` of `system`, `bandage.rhai` of `gui`, `ffmpeg_opts.rhai` of `media` and `slurm_opts.rhai` of `hpc`
-  are **generated** by `scripts/gen/mk_*.py` from the `--help` of pinned versions
+  `miller.rhai`, `cwltool.rhai` and `jupyter_specs.rhai` of `science`, `pytest.rhai`, `mypy.rhai`, `poetry.rhai`,
+  `envs.rhai`, `lint.rhai` and `pytools.rhai` of `dev`, `borg.rhai` of `system`, `bandage.rhai` of `gui`,
+  `ffmpeg_opts.rhai` of `media` and `slurm_opts.rhai` of `hpc` are **generated** by `scripts/gen/mk_*.py` from the
+  `--help` of pinned versions
   (`gen.helptext("bowtie2=2.5.5", "bowtie2 --help")`,
   cached in `$HELP_CACHE`, by default `~/.cache/luish-extra/help`; a run that gives no output, such as a failed solve, isn't
   cached), with the corrections and value kinds written in the generators. For Python programs built with argparse,
@@ -161,7 +169,12 @@ environment with Bioconda, so nothing is installed):
   line the program sees, for one that prints its help without arguments (`checkm2.main:main predict`). `tree=True` gives
   the subcommands too (borg), and `python=` runs a local interpreter instead of pixi (borg: not in conda-forge).
   `gen.cleo_dump` does the same for Cleo programs (poetry), and `gen.dump` runs any helper that prints JSON
-  (`mypy_info.py`: mypy's error codes). `mk_ffmpeg.py` also reads fftools' OptionDef tables
+  (`mypy_info.py`: mypy's error codes; `python_tools.py`: coverage's optparse parsers, put in argparse_dump's shape,
+  pylint's messages, the codes of flake8's plugins, autopep8's fixes, Cython's directives). `returned=True` takes the
+  parser that the function returns without catching it at `parse_args`, for a program that parses with it while it
+  builds it (`virtualenv.run:build_parser`, pylint's checkers). With `tree=True`, `gen.emit_tree` writes the
+  `commands` and `subs` (aliases, the options common to all left to `common:`), and `gen.name_choices` names the
+  value of an option with a long list of choices by its `dest`. `mk_ffmpeg.py` also reads fftools' OptionDef tables
 (`ffmpeg_opt.c`, fetched from GitHub at the pinned tag and cached), since ffmpeg's help doesn't say which options take a
 value or are for inputs or outputs only. `mk_slurm.py` reads Slurm's source at its pinned tag only (conda-forge's Slurm
 is 22.05, and its `--help` leaves many options out): the option table of `src/common/slurm_opt.c` (sbatch, salloc,
@@ -275,8 +288,8 @@ sphinx-build -W docs docs/_build
   `"a" | "b" =>`; a closure kept in a variable can't be called as `f(x)` (use a named `fn`); a backtick string keeps
   `\n` as two characters; `module` and `in` are reserved words (also as keys of a map literal: quote them); `parse_json`
   takes only an object, so a JSON array is read as ``parse_json(`{"a": ${out}}`).a``; its syntax errors can't be caught with
-  `try` (Rhai leaves parse errors out), so a file that may not be valid JSON is checked first (`is_json_object` in
-  `science/kinds.rhai`); `go`, `sync` and `private` are
+  `try` (Rhai leaves parse errors out), so a file that may not be valid JSON is checked first
+  (`lib_text::is_json_object`); `go`, `sync` and `private` are
   reserved words (also as function names); `"".split()` is `[""]`, not `[]`. An `import` can name a variable (`let m = module_of[words[0]]; import m as specs;`), which is how each
   `extension.rhai` imports a command's module.
 - For a program whose long options take their value as the next word and have a single dash or two (`mlr`: `single_dash: true`
