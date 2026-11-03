@@ -8,7 +8,7 @@ quirks of Rhai met so far, how caching and releases work) is
 
 You need:
 
-- luish 0.7 or later, in `PATH` or given as `LUISH`;
+- luish 0.8 or later, in `PATH` or given as `LUISH`;
 - a checkout of [luish](https://github.com/luispedro/luish) next to this one (`../luish`), for std's plugins, whose
   completion engine the plugins use (`STD_PLUGINS`, by default `../luish/luish-std-plugins`);
 - Python 3.11 or later, for the scripts;
@@ -26,7 +26,7 @@ tests/run.sh bio_align gui_media   # some cases, by name without .sh
 
 Each completion plugin (`completion/bio`, `completion/science`, ...) has:
 
-- `plugin.toml`, which says which luish it needs (`luish-version = "0.7"`) and what it depends on (`std.completion`,
+- `plugin.toml`, which says which luish it needs (`luish-version = "0.8"`) and what it depends on (`std.completion`,
   and `extra-lib`, the helpers that the plugins share);
 - `extension.rhai`, which registers a completer for each command. Its `module_of` map gives the module of each
   command. A module is imported only on the first Tab for one of its commands, so a shell start costs nothing per

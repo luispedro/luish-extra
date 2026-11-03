@@ -207,10 +207,7 @@ and defines `c() { echo "--- $1"; __luish_internal complete "$1"; }`.
 
 CI (`.github/workflows/ci.yml`): `test` builds luish from `luispedro/luish` and runs `tests/run.sh` with `LUISH` and
 `STD_PLUGINS` pointing at that checkout, twice: with luish's `main`, and with its `vX.Y.0` for the `X.Y` the plugins need
-(`scripts/release.sh --needs`; skipped with a warning while luish has no such tag). The `themes` case is left out of
-the run with v0.7.0: its schemes set the `ui.*` styles, which luish has only after 0.7.1 (the skip ends by itself
-when `luish-version` becomes 0.8). `docs` runs
-the Sphinx build below, and `release`, on a pushed tag, `scripts/release.sh --check`. `LUISH` must be an absolute path,
+(`scripts/release.sh --needs`; skipped with a warning while luish has no such tag). `docs` runs the Sphinx build below, and `release`, on a pushed tag, `scripts/release.sh --check`. `LUISH` must be an absolute path,
 because the runner `cd`s into a temp directory.
 
 Releases are tags `vX.Y.N`, the `N`th for luish `X.Y`, which luish's `release = "luish"` takes (the newest for the
@@ -246,8 +243,9 @@ sphinx-build -W docs docs/_build
 
 ## Design decisions to keep in mind
 
-- Needs luish 0.7.0 or later (the minimum supported version: sub-collections, colour schemes and their terminal
-  colours, plugin options, `sh::capture_cached`, `sh::glob`). Every `plugin.toml` says so (`luish-version = "0.7"`, after
+- Needs luish 0.8.0 or later (the minimum supported version: sub-collections, colour schemes and their terminal
+  colours, plugin options, `sh::capture_cached`, `sh::glob`, and the `ui.*` styles that `themes` sets). Every
+  `plugin.toml` says so (`luish-version = "0.8"`, after
   `description`, if any), so that an older luish doesn't load it; a new plugin does too, and raising the minimum
   changes them all. The docs add the whole repository as a source (`extra = { gh = "luispedro/luish-extra", release =
   "luish" }`, plugins `extra/completion/bio`, ...).

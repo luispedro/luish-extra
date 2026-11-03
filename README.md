@@ -43,7 +43,7 @@ doesn't offer what you expect.
 
 ## Enabling
 
-Requires luish 0.7.0 or later (the plugins say so in their `plugin.toml`, and an older luish doesn't load them), and
+Requires luish 0.8.0 or later (the plugins say so in their `plugin.toml`, and an older luish doesn't load them), and
 its `std.completion` plugin. The plugins depend on it and on `extra-lib`, this
 collection's library of shared helpers, so luish loads them first; `extra-lib` is not listed by `plugin
 list-available`.
@@ -81,7 +81,7 @@ extra.completion.science = "*"
 `release = "luish"` keeps you on the newest release made for your version of luish, so that the plugins never need a
 newer luish than yours. `plugin add` writes the source without it, and so follows `main`, which may need a newer luish
 than yours: add `release = "luish"` to the line by hand.
-The releases are tags `vX.Y.N`, the `N`th for luish `X.Y`: `v0.7.0` is the first for luish 0.7, and `v0.7.1`, ... come
+The releases are tags `vX.Y.N`, the `N`th for luish `X.Y`: `v0.8.0` is the first for luish 0.8, and `v0.8.1`, ... come
 as commands are added. `main` moves on with luish's own `main`, and starts the tags for luish `X.Y` once it is
 released. `plugin update` moves to a newer release, and `plugin sync`, after luish is upgraded, to the releases for the
 new version.

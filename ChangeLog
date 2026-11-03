@@ -1,8 +1,10 @@
-Unreleased
-    * themes: the schemes set luish's ui.ok, ui.warn, ui.bad, ui.dim
-      and ui.strong (luish's main, after 0.7.1), so they also colour the
-      menu of jobs -i. With luish 0.7, they leave the output of plugin,
-      the menu's descriptions and suggestions in the text colour
+Version 0.8.0 2026-11-03 by luispedro
+    * Needs luish 0.8.0 or later (luish-version = "0.8" in every
+      plugin.toml). With release = "luish", luish 0.7 stays on the
+      v0.7.N releases
+    * themes: the schemes set luish 0.8's ui.ok, ui.warn, ui.bad,
+      ui.dim and ui.strong, so they also colour the output of plugin,
+      the menu's descriptions, the suggestions and the menu of jobs -i
     * Documentation: a page of what is supported, with what to check
       when Tab doesn't offer what you expect, and a guide to adding a
       tool, on Read the Docs (and in the README)

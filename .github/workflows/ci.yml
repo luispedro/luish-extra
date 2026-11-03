@@ -74,14 +74,7 @@ jobs:
           LUISH: ${{ github.workspace }}/luish/target/release/luish
           STD_PLUGINS: ${{ github.workspace }}/luish/luish-std-plugins
         working-directory: extra
-        # themes sets the ui.* styles, which luish has after 0.7.1 only: with v0.7.0, its schemes leave plugin's
-        # output and the suggestions uncoloured, so it is tested against luish's main alone until the plugins need 0.8.
-        run: |
-          if [ "${{ steps.luish.outputs.ref }}" = v0.7.0 ]; then
-            echo "::warning::themes not tested against luish v0.7.0 (it needs ui.*, after 0.7.1)"
-            set -- $(cd tests && ls *.sh | sed 's/\.sh$//' | grep -v -e '^run$' -e '^themes$')
-          fi
-          tests/run.sh "$@"
+        run: tests/run.sh
 
   # A tag pushed by hand, not by scripts/release.sh, gets the same checks here.
   release:

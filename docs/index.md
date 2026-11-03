@@ -16,7 +16,7 @@ $ plugin add extra/completion/all
 `all` loads `bio`, `science`, `gui`, `dev`, `system`, `media` and `hpc`. To have only some of them, enable them one by one instead
 (`plugin add extra/completion/bio`, ...).
 
-This needs luish 0.7.0 or later, and the plugins need std's `completion` plugin. [](install.md) has more: adding the
+This needs luish 0.8.0 or later, and the plugins need std's `completion` plugin. [](install.md) has more: adding the
 repository by hand in `config.toml`, staying on the releases made for your version of luish (`release = "luish"`),
 and the other plugins.
 

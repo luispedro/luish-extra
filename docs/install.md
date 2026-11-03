@@ -3,7 +3,7 @@
 luish-extra is a repository of luish plugins. Installing it means adding the repository as a source of plugins, once;
 each plugin is then enabled on its own (see [Enabling the plugins](#enabling-the-plugins)).
 
-It needs luish 0.7.0 or later: every plugin says so in its `plugin.toml`, and an older luish doesn't load them.
+It needs luish 0.8.0 or later: every plugin says so in its `plugin.toml`, and an older luish doesn't load them.
 
 ## Adding the repository
 
@@ -30,7 +30,7 @@ extra = { gh = "luispedro/luish-extra", release = "luish" }
 newer luish than yours. `plugin add` writes the source without it, and so follows `main`, which may need a newer luish
 than yours: add `release = "luish"` to the line by hand.
 
-The releases are tags `vX.Y.N`, the `N`th for luish `X.Y`: `v0.7.0` is the first for luish 0.7, and `v0.7.1`, ...
+The releases are tags `vX.Y.N`, the `N`th for luish `X.Y`: `v0.8.0` is the first for luish 0.8, and `v0.8.1`, ...
 come as commands are added. `plugin update` moves to a newer release, and `plugin sync`, after luish is upgraded, to
 the releases for the new version.
 
