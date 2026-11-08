@@ -4,7 +4,7 @@ Tab completion for [luish](https://github.com/luispedro/luish), for the programs
 bioinformatics tools (`bio`), scientific computing (`science`), desktop programs (`gui`), development (`dev`), system
 administration (`system`), audio, video, images and PDFs (`media`) and HPC clusters (`hpc`). Each plugin can be enabled on its own. And
 [colour schemes](#colour-schemes) for luish's highlighting, for dark and light backgrounds (`themes`), and cached set-ups
-of [conda](#conda) (`conda`) and [nvm](#nvm) (`nvm`).
+of [conda](#conda) (`conda`) and [nvm](#nvm) (`nvm`), and zsh's [zmv](#zmv) (`zmv`).
 
 Completion knows each program's options and subcommands, and the kind of value each one takes: `samtools sort -O`
 offers `BAM`, `CRAM` and `SAM`, `samtools view -T` offers FASTA files and `samtools view in.bam` the reference names
@@ -309,6 +309,21 @@ extra.nvm = { options = { version = "node" } }
 (or `plugin load extra/nvm version=node`). Without `version`, it uses the alias `default`, as nvm.sh does; `none`
 only loads nvm. The option `dir` gives nvm's directory, if it isn't `$NVM_DIR` or `~/.nvm`. See
 [`docs/nvm.md`](docs/nvm.md) for what the cache depends on.
+
+## zmv
+
+The plugin `zmv` (`extra/zmv`) has zsh's `zmv`, `zcp` and `zln`, which rename, copy or link the files that a pattern
+matches, to names made of the parts that its groups matched, and `mmv`, which is `zmv -W`:
+
+```sh
+zmv '(*).txt' '$1.md'           # a.txt -> a.md, ...
+zmv '(**/)(*).jpeg' '$1$2.jpg'  # also in subdirectories
+mmv '*.txt' '*.md'              # the same as the first, with wildcards in both
+zmv -n '(*)' '${1:l}'           # -n shows what would be done
+```
+
+Enable it with `extra.zmv = { }` (or `plugin load extra/zmv`). With a luish that has `noglob` (after 0.8.0), `mmv`
+is `noglob zmv -W`, as zsh users have it, so its patterns need no quotes. See [`docs/zmv.md`](docs/zmv.md).
 
 ## Developing
 

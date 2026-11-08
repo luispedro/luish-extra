@@ -25,7 +25,8 @@ expect; [](completion.md) lists those planned too. [](developing.md) says how to
 
 The colour schemes are the plugin `themes` (`plugin add extra/themes`): see [](themes.md). The plugin `conda` sets
 conda up in interactive shells, cached (`extra.conda = { options = { env = "ENV" } }`): see [](conda.md). The plugin `nvm` does
-the same for nvm (`extra.nvm = { options = { version = "node" } }`): see [](nvm.md).
+the same for nvm (`extra.nvm = { options = { version = "node" } }`): see [](nvm.md). The plugin `zmv` has zsh's
+`zmv`, `zcp`, `zln` and `mmv` (`plugin add extra/zmv`): see [](zmv.md).
 
 luish-extra is licensed under the MIT License, as luish is; the palettes of the colour schemes are their authors',
 under their own licenses (see [](themes.md)).
@@ -39,5 +40,6 @@ completion
 themes
 conda
 nvm
+zmv
 developing
 ```

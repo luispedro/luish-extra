@@ -1,0 +1,8 @@
+# zmv: zsh's zmv, zcp and zln, which rename, copy or link the files that a pattern matches, to names built from
+# the parts of each that its groups matched (`zmv '(*).txt' '$1.md'`), and mmv, which is `zmv -W` (`mmv '*.txt'
+# '*.md'`). They are commands written in Rhai (extension.rhai, zmv.rhai). With a luish that has `noglob` (after
+# 0.8.0), rc.lsh makes mmv an alias, `noglob zmv -W`, as zsh users have it, so that `mmv *.txt *.md` needs no quotes.
+#
+# Enable it in config.toml (`extra.zmv = { }`), or load it with `plugin load extra/zmv`.
+
+luish-version = "0.8"

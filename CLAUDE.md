@@ -125,6 +125,14 @@ block, keyed on the aliases and installed versions. luish's `.` doesn't pass arg
 caller's `$@`), so nvm.sh is read from a function called with `--no-use`. `tests/nvm.sh` stands in for nvm with an
 nvm.sh in `~/.nvm` that logs its calls.
 
+`zmv` is a fourth (`extra/zmv`): zsh's zmv, zcp and zln, and mmv (`zmv -W`), as commands in Rhai (`sh::builtin`;
+`extension.rhai` registers them and their completer, `zmv.rhai` does the work, imported on first use). `translate`
+makes SRCPAT into a pattern for `sh::glob` (groups dropped, `(a|b)` as `{a,b}`) and an anchored ERE with the groups
+(`groups`: which of the ERE's groups are SRCPAT's, as `**/` adds one); a shell function run with `sh::run` matches
+each file with `[[ $f =~ $re ]]` and evaluates DEST in double quotes with the groups as its positional parameters, and
+the results come back in an array variable. `rc.lsh` makes mmv the alias `noglob zmv -W` when luish has `noglob`
+(after 0.8.0), so the plugin still needs only 0.8. `tests/zmv.sh` runs them on files it makes.
+
 `completion/extra-lib` is a library plugin (`library = true` in its `plugin.toml`, which is its only entry point; `plugin
 list-available` leaves it out) of helpers the others share: `files.rhai` (`with_suffix(cur, suffixes)`, and with a third
 argument, directories to leave out; `compressed(suffixes)`), `text.rhai` (`is_name`, `last_of`, `last_index`, `indent`,

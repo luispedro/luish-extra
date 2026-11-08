@@ -1,3 +1,11 @@
+Unreleased
+    * zmv: a new plugin, with zsh's zmv, zcp and zln, which rename, copy
+      or link the files that a pattern matches to names made of the
+      parts that its groups matched (zmv '(*).txt' '$1.md'), and mmv
+      (zmv -W: mmv '*.txt' '*.md'). Enable it with extra.zmv = { }.
+      With a luish that has noglob, mmv is noglob zmv -W, so its
+      patterns need no quotes
+
 Version 0.8.0 2026-11-03 by luispedro
     * Needs luish 0.8.0 or later (luish-version = "0.8" in every
       plugin.toml). With release = "luish", luish 0.7 stays on the

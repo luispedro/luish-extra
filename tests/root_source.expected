@@ -10,6 +10,7 @@ x/completion/system
 x/conda
 x/nvm
 x/themes
+x/zmv
 load 0
 std/completion
 x/completion/extra-lib

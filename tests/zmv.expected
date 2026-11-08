@@ -1,0 +1,151 @@
+load 0
+--- zmv -n (*).txt $1.md
+mv -- a.txt a.md
+mv -- b.txt b.md
+mv -- 'c d.txt' 'c d.md'
+--- zmv -n (*) ${1:u}
+mv -- a.txt A.TXT
+mv -- b.txt B.TXT
+mv -- bin BIN
+mv -- 'c d.txt' 'C D.TXT'
+mv -- d D
+mv -- esc ESC
+mv -- p.c P.C
+mv -- q.h Q.H
+mv -- zmv.sh ZMV.SH
+--- zmv -n (*).(c|h) $2.$1
+mv -- p.c c.p
+mv -- q.h h.q
+--- zmv -n (**/)(*).txt $1new-$2.txt
+mv -- a.txt new-a.txt
+mv -- b.txt new-b.txt
+mv -- 'c d.txt' 'new-c d.txt'
+mv -- d/e/y.txt d/e/new-y.txt
+mv -- d/x.txt d/new-x.txt
+--- zmv -nW **/*.txt **/*.lis
+mv -- a.txt a.lis
+mv -- b.txt b.lis
+mv -- 'c d.txt' 'c d.lis'
+mv -- d/e/y.txt d/e/y.lis
+mv -- d/x.txt d/x.lis
+--- zmv -nw *.txt $1.$f
+mv -- a.txt a.a.txt
+mv -- b.txt b.b.txt
+mv -- 'c d.txt' 'c d.c d.txt'
+--- mmv -n *.txt *.md
+mv -- a.txt a.md
+mv -- b.txt b.md
+mv -- 'c d.txt' 'c d.md'
+--- mmv -n [ab].txt *.TXT
+mv -- a.txt a.TXT
+mv -- b.txt b.TXT
+--- zmv -n *.txt(#qD) dot/$f
+mv -- .hidden.txt dot/.hidden.txt
+mv -- a.txt dot/a.txt
+mv -- b.txt dot/b.txt
+mv -- 'c d.txt' 'dot/c d.txt'
+--- zmv -nQ (*)(.) files/$1
+mv -- a.txt files/a.txt
+mv -- b.txt files/b.txt
+mv -- 'c d.txt' 'files/c d.txt'
+mv -- p.c files/p.c
+mv -- q.h files/q.h
+mv -- zmv.sh files/zmv.sh
+--- zmv -n esc/a\((*)\) esc/a-$1
+mv -- 'esc/a(1)' esc/a-1
+--- zmv -n esc/a(\{*\}), esc/b$1
+mv -- 'esc/a{2},' 'esc/b{2}'
+--- zmv -n esc/* esc/$f
+mv -- 'esc/a(1)' 'esc/esc/a(1)'
+mv -- 'esc/a{2},' 'esc/esc/a{2},'
+--- zmv (*).txt all
+zmv: error(s) in substitution:
+b.txt and a.txt both map to all
+c d.txt and a.txt both map to all
+--- zmv (a).txt b.txt
+zmv: error(s) in substitution:
+file exists: b.txt
+--- zmv (*).txt 
+zmv: error(s) in substitution:
+a.txt has an empty target
+b.txt has an empty target
+c d.txt has an empty target
+--- zmv none* x
+zmv: no files matched: none*
+--- zmv (*.txt x
+zmv: unbalanced ( in (*.txt
+--- zmv -W *.txt *.*
+zmv: *.*: more wildcards than in the pattern
+--- zmv (*).txt "
+Syntax error: Unterminated quoted string
+zmv: error in the replacement: "
+--- zmv one
+zmv: usage: zmv [-finqQsvwW] [-C|-L|-M|-p PROG|-P PROG] [-o OPTS] SRCPAT DEST
+  SRCPAT's groups (parenthesised) are $1, $2, ... in DEST, and $f is the file:
+  zmv '(*).txt' '$1.md'      zmv -W '*.txt' '*.md'      mmv '*.txt' '*.md'
+--- zmv -Z a b
+zmv: bad option: -Z
+usage: zmv [-finqQsvwW] [-C|-L|-M|-p PROG|-P PROG] [-o OPTS] SRCPAT DEST
+  SRCPAT's groups (parenthesised) are $1, $2, ... in DEST, and $f is the file:
+  zmv '(*).txt' '$1.md'      zmv -W '*.txt' '*.md'      mmv '*.txt' '*.md'
+--- zmv -p
+zmv: option requires an argument: -p
+usage: zmv [-finqQsvwW] [-C|-L|-M|-p PROG|-P PROG] [-o OPTS] SRCPAT DEST
+  SRCPAT's groups (parenthesised) are $1, $2, ... in DEST, and $f is the file:
+  zmv '(*).txt' '$1.md'      zmv -W '*.txt' '*.md'      mmv '*.txt' '*.md'
+a.txt
+b.txt
+bin
+c d.txt
+d
+esc
+p.c
+q.h
+zmv.sh
+--- zmv -v (*).txt $1.md
+mv -- a.txt a.md
+mv -- b.txt b.md
+mv -- 'c d.txt' 'c d.md'
+one two kept
+--- zmv -f (a).md b.md
+--- zcp -v (b).md $1.copy
+cp -- b.md b.copy
+--- zln -sv b.md link
+ln -s -- b.md link
+--- zmv -L -o -s (b).copy $1.link2
+--- zmv -P echo (p).c $1.C
+p.c p.C
+--- zmv -p echo run (q).h $1.H
+run -- q.h q.H
+--- zmv -M (**/)(*).txt $1$2.txt.bak
+--- zmv -i *.md X$f
+mv -- b.md Xb.md? mv -- 'c d.md' 'Xc d.md'? 
+l b.link2 -> b.copy
+l link -> b.md
+./d/e/y.txt.bak
+./d/x.txt.bak
+--- zmv -
+-C 	copy (cp)
+-L 	link (ln)
+-M 	move (mv)
+-P 	-p, for a program that doesn't take --
+-Q 	a final group of the pattern is a glob qualifier
+-W 	-w, and the wildcards of the target are the groups
+-f 	overwrite existing targets
+-i 	ask before each command
+-n 	show the commands without running them
+-o 	options for the program
+-p 	run a program instead of mv, cp or ln
+-q 	no glob qualifiers (the default)
+-s 	symbolic links (with ln)
+-v 	show each command as it runs
+-w 	make each wildcard of the pattern a group
+--- mmv -n
+-n 	show the commands without running them
+--- zmv -p zmvpr
+zmvprog 
+--- zcp -o 
+--- zln b.
+b.copy 
+b.link2 
+b.md 

@@ -1,0 +1,6 @@
+# mmv as zsh users have it, `alias mmv='noglob zmv -W'`, so that its patterns need no quotes (`mmv *.txt *.md`), if
+# this luish has noglob (after 0.8.0). Without it, mmv is the plugin's command, `zmv -W`, and its patterns must be
+# quoted, as zmv's.
+if command -v noglob >/dev/null 2>&1; then
+    alias mmv='noglob zmv -W'
+fi

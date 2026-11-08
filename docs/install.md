@@ -44,3 +44,4 @@ Once the repository is added, enable the plugins you want:
 | `extra/themes` | Colour schemes, for dark and light backgrounds | [](themes.md) |
 | `extra/conda` | Sets conda up in interactive shells, cached | [](conda.md) |
 | `extra/nvm` | Sets nvm up in interactive shells, cached | [](nvm.md) |
+| `extra/zmv` | zsh's `zmv`, `zcp`, `zln` and `mmv`, to rename many files at once | [](zmv.md) |
