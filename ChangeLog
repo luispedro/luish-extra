@@ -1,4 +1,12 @@
 Unreleased
+    * pathed: a new plugin, to see and edit PATH. pathed shows it,
+      numbered, with what is wrong with it (directories that are
+      missing, duplicated, relative or empty, and the commands that each
+      shadows), and its normalised form if that differs; pathed add,
+      rm, mv and clean change it, pathed edit (or vipath) opens it in
+      $EDITOR, one directory per line, pathed undo undoes a change, and
+      pathed which CMD shows every CMD in PATH. Enable it with
+      extra.pathed = { }
     * zmv: a new plugin, with zsh's zmv, zcp and zln, which rename, copy
       or link the files that a pattern matches to names made of the
       parts that its groups matched (zmv '(*).txt' '$1.md'), and mmv

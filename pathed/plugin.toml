@@ -1,0 +1,11 @@
+# pathed: shows PATH with what is wrong with it (directories that are missing, duplicated, relative, the commands
+# that each shadows), and edits it: `pathed add DIR`, `pathed rm ENTRY`, `pathed mv ENTRY N`, `pathed clean`,
+# `pathed edit` (or `vipath`: PATH in $EDITOR, one directory per line) and `pathed undo`. A command written in Rhai
+# (extension.rhai, pathed.rhai). Changes are to the shell's PATH: nothing is written to a file.
+#
+# Enable it in config.toml (`extra.pathed = { }`), or load it with `plugin load extra/pathed`.
+
+luish-version = "0.8"
+
+[dependencies]
+std.completion = "*"

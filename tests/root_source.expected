@@ -9,6 +9,7 @@ x/completion/science
 x/completion/system
 x/conda
 x/nvm
+x/pathed
 x/themes
 x/zmv
 load 0

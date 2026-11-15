@@ -1,0 +1,359 @@
+load 0
+=== list
+--- pathed
+ 1  ~/one           shadows tool
+ 2  two             relative: ~/two
+ 3  ~/link          same directory as 2
+ 4  ~/one/          normalised: ~/one; duplicate of 1
+ 5  ~/nope          missing
+ 6  ''              empty: the current directory
+ 7  ~/notdir        not a directory
+ 8  ~/three/sub/..  normalised: ~/three
+ 9  ~/new           a literal ~, which only bash expands
+10  ~/two           duplicate of 2
+
+normalised (pathed clean):
+1  ~/one
+2  ~/two
+3  ~/link
+4  ~/nope
+5  ~/notdir
+6  ~/three
+7  ~/new
+status 0
+--- pathed
+1  ~/one  shadows tool
+2  ~/two
+status 0
+--- pathed
+PATH is empty
+status 0
+=== add
+--- pathed add -v ~/new
+added   ~/new (1)
+status 0
+PATH=~/new:~/one:~/two
+--- pathed add -v ~/one
+~/one is already in PATH (2); -m moves it
+status 0
+--- pathed add -mv ~/two
+moved   ~/two (3 -> 1)
+status 0
+--- pathed add -av ~/three
+added   ~/three (4)
+status 0
+--- pathed add -v --before ~/one ~/three/sub
+added   ~/three/sub (3)
+status 0
+--- pathed add -v --after 2 three/sub/../sub ~/link
+~/three/sub is already in PATH (3); -m moves it
+added   ~/link (3)
+status 0
+--- pathed add -n --after 2 ./link
+~/link is already in PATH (3); -m moves it
+status 0
+--- pathed add ~/nope
+pathed: add: no such directory: ~/nope (-f adds it anyway)
+status 1
+--- pathed add -f ~/nope
+status 0
+--- pathed add --after 1 --before 2 ~/new
+pathed: add: -a, --before and --after go alone
+status 1
+--- pathed add -x ~/new
+pathed: add: unknown option -x
+usage: pathed [list]               PATH, numbered, with notes
+       pathed add [-afmnv] [--before ENTRY|--after ENTRY] DIR...
+       pathed rm [-nv] ENTRY...
+       pathed mv [-nv] ENTRY (N|first|last|--before ENTRY|--after ENTRY)
+       pathed clean [-nv] [--missing]
+       pathed edit                 (or pathed -e, or vipath)
+       pathed undo [-fn] | pathed undo -l
+       pathed which CMD...
+  An ENTRY is a number, a directory or a pattern ('*conda*').
+status 1
+--- pathed add
+pathed: add: no directory
+usage: pathed [list]               PATH, numbered, with notes
+       pathed add [-afmnv] [--before ENTRY|--after ENTRY] DIR...
+       pathed rm [-nv] ENTRY...
+       pathed mv [-nv] ENTRY (N|first|last|--before ENTRY|--after ENTRY)
+       pathed clean [-nv] [--missing]
+       pathed edit                 (or pathed -e, or vipath)
+       pathed undo [-fn] | pathed undo -l
+       pathed which CMD...
+  An ENTRY is a number, a directory or a pattern ('*conda*').
+status 1
+PATH=~/nope:~/two:~/new:~/link:~/three/sub:~/one:~/three
+runs: ~/two/tool
+=== rm
+--- pathed rm -v *nope* 1
+removed ~/nope (1)
+status 0
+--- pathed rm -v link
+removed ~/link (3)
+status 0
+--- pathed rm 99
+pathed: no entry 99 (PATH has 5)
+status 1
+--- pathed rm ~/nope
+pathed: not in PATH: ~/nope
+status 1
+PATH=~/two:~/new:~/three/sub:~/one:~/three
+runs: ~/two/tool
+=== mv
+--- pathed
+1  ~/two        shadows tool
+2  ~/new
+3  ~/three/sub
+4  ~/one
+5  ~/three
+status 0
+--- pathed mv -v 1 last
+moved   ~/two (1 -> 5)
+status 0
+--- pathed mv -v two first
+moved   ~/two (5 -> 1)
+status 0
+--- pathed mv -v 3 2
+moved   ~/new (2 -> 3)
+status 0
+--- pathed mv -v --after 1 3
+moved   ~/three/sub (2 -> 3)
+status 0
+--- pathed mv -v *one --before two
+moved   ~/one (4 -> 1)
+status 0
+--- pathed mv 1 1
+status 0
+--- pathed mv 1 nowhere
+pathed: mv: nowhere isn't a position: a number, first or last
+status 1
+--- pathed mv 1
+pathed: mv: an entry and where to put it
+usage: pathed [list]               PATH, numbered, with notes
+       pathed add [-afmnv] [--before ENTRY|--after ENTRY] DIR...
+       pathed rm [-nv] ENTRY...
+       pathed mv [-nv] ENTRY (N|first|last|--before ENTRY|--after ENTRY)
+       pathed clean [-nv] [--missing]
+       pathed edit                 (or pathed -e, or vipath)
+       pathed undo [-fn] | pathed undo -l
+       pathed which CMD...
+  An ENTRY is a number, a directory or a pattern ('*conda*').
+status 1
+--- pathed mv 1 --after 1
+pathed: mv: 1 can't go next to itself
+status 1
+PATH=~/one:~/two:~/new:~/three/sub:~/three
+=== undo
+--- pathed undo -l
+pathed mv -v '*one' --before two
+pathed mv -v --after 1 3
+pathed mv -v 3 2
+pathed mv -v two first
+pathed mv -v 1 last
+pathed rm -v link
+pathed rm -v '*nope*' 1
+pathed add -f ~/nope
+pathed add -v --after 2 three/sub/../sub ~/link
+pathed add -v --before ~/one ~/three/sub
+pathed add -av ~/three
+pathed add -mv ~/two
+pathed add -v ~/new
+status 0
+--- pathed undo -n
+undo pathed mv -v '*one' --before two
+moved   ~/one (1 -> 4)
+status 0
+--- pathed undo
+undo pathed mv -v '*one' --before two
+moved   ~/one (1 -> 4)
+status 0
+PATH=~/two:~/new:~/three/sub:~/one:~/three
+--- pathed undo
+pathed: undo: PATH has changed since pathed mv -v --after 1 3, not by pathed: -f undoes that too
+status 1
+--- pathed undo -f
+undo pathed mv -v --after 1 3
+removed ~/new (6)
+moved   ~/new (2 -> 3)
+status 0
+PATH=~/two:~/three/sub:~/new:~/one:~/three
+=== clean
+--- pathed clean -n
+normalised two as ~/two (2)
+normalised ~/three/sub/.. as ~/three (5)
+removed ~/one/ (4)
+removed '' (6)
+removed ~/two (8)
+status 0
+--- pathed clean -v --missing
+normalised two as ~/two (2)
+normalised ~/three/sub/.. as ~/three (4)
+removed ~/one/ (4)
+removed ~/nope (5)
+removed '' (6)
+removed ~/two (8)
+status 0
+PATH=~/one:~/two:~/link:~/three
+--- pathed clean -v
+PATH unchanged
+status 0
+--- pathed undo
+undo pathed clean -v --missing
+replaced ~/two by two (2)
+replaced ~/three by ~/three/sub/.. (7)
+added   ~/one/ (4)
+added   ~/nope (5)
+added   '' (6)
+added   ~/two (8)
+status 0
+PATH=~/one:two:~/link:~/one/:~/nope::~/three/sub/..:~/two
+=== edit
+--- pathed edit
+PATH unchanged
+status 0
+--- pathed edit
+PATH unchanged
+status 0
+--- pathed edit
+removed ~/nope (4)
+added   ~/new (1)
+status 0
+PATH=~/new:~/one:~/two:
+--- pathed -e
+no directories: PATH left alone
+status 0
+--- pathed edit
+pathed: edit: the editor failed (status 1); PATH left alone
+status 1
+--- vipath
+removed ~/two (3)
+status 0
+PATH=~/new:~/one:
+--- pathed undo -l
+vipath
+pathed edit
+pathed mv -v 3 2
+pathed mv -v two first
+pathed mv -v 1 last
+pathed rm -v link
+pathed rm -v '*nope*' 1
+pathed add -f ~/nope
+pathed add -v --after 2 three/sub/../sub ~/link
+pathed add -v --before ~/one ~/three/sub
+pathed add -av ~/three
+pathed add -mv ~/two
+pathed add -v ~/new
+status 0
+--- pathed edit
+# PATH, one directory per line: the first is searched first. Move a line to move
+# the directory, delete it to take it out of PATH, add one to add it (~ is your
+# home; '' is the empty entry, the current directory). A line that starts with #
+# is ignored, and so is a note after "  #".
+# Save and quit to apply; leave the file as it is, or empty it, to leave PATH alone.
+~/new
+~/one
+''     # empty: the current directory
+PATH unchanged
+status 0
+=== which
+--- pathed which tool
+1  ~/one/tool  (runs)
+2  ~/link/tool
+status 0
+--- pathed which other only1 none
+other:
+2  ~/link/other  (runs)
+only1:
+1  ~/one/only1  (runs)
+none:
+pathed: none: not in PATH
+status 1
+--- pathed which alias
+1  ~/one/alias -> tool  (runs)
+status 0
+--- pathed which one/tool
+pathed: which: not a command name: one/tool
+status 1
+=== errors
+--- pathed nonsense
+pathed: unknown subcommand: nonsense
+usage: pathed [list]               PATH, numbered, with notes
+       pathed add [-afmnv] [--before ENTRY|--after ENTRY] DIR...
+       pathed rm [-nv] ENTRY...
+       pathed mv [-nv] ENTRY (N|first|last|--before ENTRY|--after ENTRY)
+       pathed clean [-nv] [--missing]
+       pathed edit                 (or pathed -e, or vipath)
+       pathed undo [-fn] | pathed undo -l
+       pathed which CMD...
+  An ENTRY is a number, a directory or a pattern ('*conda*').
+status 1
+--- pathed list extra
+pathed: list: no arguments
+usage: pathed [list]               PATH, numbered, with notes
+       pathed add [-afmnv] [--before ENTRY|--after ENTRY] DIR...
+       pathed rm [-nv] ENTRY...
+       pathed mv [-nv] ENTRY (N|first|last|--before ENTRY|--after ENTRY)
+       pathed clean [-nv] [--missing]
+       pathed edit                 (or pathed -e, or vipath)
+       pathed undo [-fn] | pathed undo -l
+       pathed which CMD...
+  An ENTRY is a number, a directory or a pattern ('*conda*').
+status 1
+--- pathed help
+usage: pathed [list]               PATH, numbered, with notes
+       pathed add [-afmnv] [--before ENTRY|--after ENTRY] DIR...
+       pathed rm [-nv] ENTRY...
+       pathed mv [-nv] ENTRY (N|first|last|--before ENTRY|--after ENTRY)
+       pathed clean [-nv] [--missing]
+       pathed edit                 (or pathed -e, or vipath)
+       pathed undo [-fn] | pathed undo -l
+       pathed which CMD...
+  An ENTRY is a number, a directory or a pattern ('*conda*').
+status 0
+=== completion
+--- pathed 
+add 	add directories (at the front)
+clean 	normalise PATH: absolute, no duplicates or empty entries
+edit 	edit PATH in $VISUAL or $EDITOR
+help 	show the usage
+list 	PATH, numbered, with notes
+mv 	move an entry
+rm 	remove entries
+undo 	undo the last change
+which 	every copy of a command in PATH
+--- pathed add -
+--after=	add after an entry
+--before=	add before an entry
+-a 	add at the end
+-f 	add directories that don't exist
+-m 	move directories that are already in PATH
+-n 	show what would change, without changing PATH
+-v 	show what changed
+--- pathed add --before 
+~/one 	1
+~/two 	2
+--- pathed add n
+new/
+--- pathed rm 
+~/one 	1
+~/two 	2
+--- pathed rm 1
+1 	~/one
+--- pathed rm ~/
+~/one 	1
+~/two 	2
+--- pathed mv 1 
+1 	~/one
+2 	~/two
+3 	''
+4 	~/one
+first 	the front of PATH
+last 	the end of PATH
+--- pathed undo -
+-f 	undo even if PATH has changed since, not by pathed
+-l 	list the changes that can be undone, the last first
+-n 	show what would change, without changing PATH
+--- pathed which to
+tool 

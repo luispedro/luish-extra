@@ -4,7 +4,8 @@ Tab completion for [luish](https://github.com/luispedro/luish), for the programs
 bioinformatics tools (`bio`), scientific computing (`science`), desktop programs (`gui`), development (`dev`), system
 administration (`system`), audio, video, images and PDFs (`media`) and HPC clusters (`hpc`). Each plugin can be enabled on its own. And
 [colour schemes](#colour-schemes) for luish's highlighting, for dark and light backgrounds (`themes`), and cached set-ups
-of [conda](#conda) (`conda`) and [nvm](#nvm) (`nvm`), and zsh's [zmv](#zmv) (`zmv`).
+of [conda](#conda) (`conda`) and [nvm](#nvm) (`nvm`), zsh's [zmv](#zmv) (`zmv`), and [pathed](#pathed) (`pathed`), to see and
+edit `PATH`.
 
 Completion knows each program's options and subcommands, and the kind of value each one takes: `samtools sort -O`
 offers `BAM`, `CRAM` and `SAM`, `samtools view -T` offers FASTA files and `samtools view in.bam` the reference names
@@ -324,6 +325,25 @@ zmv -n '(*)' '${1:l}'           # -n shows what would be done
 
 Enable it with `extra.zmv = { }` (or `plugin load extra/zmv`). With a luish that has `noglob` (after 0.8.0), `mmv`
 is `noglob zmv -W`, as zsh users have it, so its patterns need no quotes. See [`docs/zmv.md`](docs/zmv.md).
+
+## pathed
+
+The plugin `pathed` (`extra/pathed`) shows `PATH`, numbered, with what is wrong with it (directories that are
+missing, duplicated, relative or empty, and the commands that each shadows), and its normalised form if that
+differs, and edits it:
+
+```sh
+pathed add ~/bin           # at the front (-a: at the end; --before/--after ENTRY)
+pathed rm '*conda*'        # by number, directory or pattern
+pathed mv 3 first
+pathed clean               # absolute, without duplicates or empty entries
+pathed edit                # (or vipath) in $EDITOR, one directory per line
+pathed undo                # the last change (-l: the list)
+pathed which python3       # every python3 in PATH, and which one runs
+```
+
+Enable it with `extra.pathed = { }` (or `plugin load extra/pathed`). Changes are to the shell's `PATH`, not to a
+file. See [`docs/pathed.md`](docs/pathed.md).
 
 ## Developing
 

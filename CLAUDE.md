@@ -133,6 +133,15 @@ each file with `[[ $f =~ $re ]]` and evaluates DEST in double quotes with the gr
 the results come back in an array variable. `rc.lsh` makes mmv the alias `noglob zmv -W` when luish has `noglob`
 (after 0.8.0), so the plugin still needs only 0.8. `tests/zmv.sh` runs them on files it makes.
 
+`pathed` is a fifth (`extra/pathed`): `pathed`, which shows PATH with notes and edits it (`add`, `rm`, `mv`, `clean`,
+`edit`, `undo`, `which`), and `vipath` (`pathed edit`), commands in Rhai (`pathed.rhai`, which also has the spec that
+std's engine completes it with, and the kinds of PATH's entries). Changes are to the shell's PATH only (no file);
+each one pushes the old PATH, the new one and the command onto the shell arrays `__pathed_before`, `__pathed_after`
+and `__pathed_cmds`, which `undo` pops. `norm` is the normalised form of an entry (absolute, no `.`, `//` or trailing
+`/`, `..` taken out only if `fs::realpath` says it is the same directory; links never resolved), and `diff` lines
+the old and new lists up by it. `edit` runs no external program but the editor (and `rm`, by path if PATH lost it),
+as PATH may be what is broken. `tests/pathed.sh` runs on directories it makes, with its own tools named by path.
+
 `completion/extra-lib` is a library plugin (`library = true` in its `plugin.toml`, which is its only entry point; `plugin
 list-available` leaves it out) of helpers the others share: `files.rhai` (`with_suffix(cur, suffixes)`, and with a third
 argument, directories to leave out; `compressed(suffixes)`), `text.rhai` (`is_name`, `last_of`, `last_index`, `indent`,

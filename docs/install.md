@@ -45,3 +45,4 @@ Once the repository is added, enable the plugins you want:
 | `extra/conda` | Sets conda up in interactive shells, cached | [](conda.md) |
 | `extra/nvm` | Sets nvm up in interactive shells, cached | [](nvm.md) |
 | `extra/zmv` | zsh's `zmv`, `zcp`, `zln` and `mmv`, to rename many files at once | [](zmv.md) |
+| `extra/pathed` | Shows `PATH` with what is wrong with it, and edits it | [](pathed.md) |
