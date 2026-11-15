@@ -18,19 +18,19 @@ in its header, `pytest tests/test_x.py::` the tests in that file, and `ruff chec
 <!-- docs/supported.md includes the parts between the comments "supported N" and "/supported N", so links there
 must work from docs/ too. scripts/counts.py prints the table, and CI checks it. -->
 <!-- supported 1 -->
-320 commands are completed so far, by 282 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
+321 commands are completed so far, by 283 tools (a tool can bring several commands: BLAST+ is `blastn`, `blastp`,
 `makeblastdb` and 16 others):
 
 | Plugin    | Commands | Tools done / listed |
 |-----------|---------:|--------------------:|
 | `bio`     |      183 |           174 / 772 |
 | `science` |       42 |             26 / 68 |
-| `gui`     |       49 |             40 / 40 |
+| `gui`     |       50 |             41 / 41 |
 | `dev`     |       21 |             18 / 88 |
 | `system`  |        4 |               3 / 4 |
 | `media`   |       14 |             14 / 22 |
 | `hpc`     |        7 |              7 / 14 |
-| **Total** |  **320** |      **282 / 1008** |
+| **Total** |  **321** |      **283 / 1009** |
 
 Commands are completed by the name you type, not the name of their Bioconda package (`STAR`, not `star`;
 `featureCounts`, not `subread`). Commands that std's `completion` plugin already covers (`rg`, `fd`, `jq`, `uv`, `pixi`,
@@ -146,7 +146,8 @@ Desktop programs. It reads the installed LibreOffice's filter registry (found fr
 formats of `--convert-to` (`pdf`, `docx`, ...) and, after `EXT:`, the filters that write them (`pdf:writer_pdf_Export`),
 and the input filters of `--infilter=`; and CUPS's printers (`lpstat -e`) for `--pt` and `--printer-name`. mpv's
 options are read from the installed mpv (`--list-options`), with the values of its choices and the video outputs,
-filters, profiles and audio devices it lists; and Inkscape's actions (`--actions`) from `inkscape --action-list`, and
+filters, profiles and audio devices it lists; mplayer's video and audio outputs, filters, codecs and demuxers from
+`mplayer -vo help` and the like, and its profiles from its configuration files; and Inkscape's actions (`--actions`) from `inkscape --action-list`, and
 the object IDs of `--export-id`, `--query-id` and `--select` from the SVG files on the command line. It also reads
 kate's sessions, GIMP's session files, and OBS's profiles, scene collections and scenes (of the collection given or the
 current one); Firefox's and Thunderbird's profiles (`-P`) and Chrome's (`--profile-directory`); VS Code's installed
@@ -156,8 +157,8 @@ enum and boolean keys, dconf's keys and directories, and wmctrl's windows. xdoto
 chained (`xdotool search --name x windowactivate`).
 
 Done: `firefox`, `thunderbird`, `chromium`, `google-chrome`; `libreoffice` and `soffice`, `evince`, `okular`,
-`zathura`, `xdg-open`; `code`, `meld`, `gedit`, `kate`; `vlc` (and `cvlc`), `mpv`, `gimp`, `inkscape`, `krita`,
-`blender`, `obs`, `audacity`, `eog`; `cytoscape` (and `Cytoscape`, `cytoscape.sh`), `jalview`, Artemis (`art`, `act`,
+`zathura`, `xdg-open`; `code`, `meld`, `gedit`, `kate`; `vlc` (and `cvlc`), `mpv`, `mplayer`, `gimp`, `inkscape`,
+`krita`, `blender`, `obs`, `audacity`, `eog`; `cytoscape` (and `Cytoscape`, `cytoscape.sh`), `jalview`, Artemis (`art`, `act`,
 `bamview`, `dnaplotter`), `tablet`, `BandageNG`, `proksee` (Click), `pymol`, `chimerax`, `vmd`; `xrandr`, `gsettings`,
 `dconf`, `notify-send`, `wmctrl`, `xdotool`, `swaymsg`, `hyprctl`.
 

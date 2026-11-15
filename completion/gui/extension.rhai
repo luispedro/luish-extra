@@ -19,6 +19,7 @@ for m in [
     ["documents", ["libreoffice", "soffice", "evince", "okular", "zathura", "xdg-open"]],
     ["editors", ["meld", "gedit", "kate"]],
     ["media", ["vlc", "cvlc", "gimp", "inkscape", "krita", "blender", "obs", "audacity", "eog"]],
+    ["mplayer", ["mplayer"]],
     ["viewers", ["cytoscape", "Cytoscape", "cytoscape.sh", "jalview", "art", "act", "bamview", "dnaplotter", "tablet",
                  "pymol", "chimerax", "ChimeraX", "vmd"]],
     ["bandage", ["BandageNG"]],

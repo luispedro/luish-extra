@@ -1,6 +1,6 @@
 // Media and graphics: vlc and cvlc (3.0.24), gimp (3.0.4, and 2.10.36, which lacks --quit), inkscape (1.4.2), krita
 // (6.0.4), blender (5.2.2), obs (OBS Studio 32.2.2), audacity (4.0.1, and the options of 3.7.5 that 4 dropped) and eog
-// (45.3). mpv has a module of its own.
+// (45.3). mpv and mplayer have modules of their own.
 import "qt" as qt;
 
 // This plugin's `MODULE:NAME` (a kind or sub_spec) by the module's path, whatever the source is called.

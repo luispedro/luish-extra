@@ -190,7 +190,7 @@ ViennaRNA tools, `meme`, `fimo` and the other MEME suite tools, `homer`, `macs2`
 - **Browsers and mail**: `firefox` (profiles for `-P`), `chromium`, `google-chrome`, `thunderbird`
 - **Documents**: `libreoffice` / `soffice` (`--convert-to` formats), `evince`, `okular`, `zathura`, `xdg-open`
 - **Editors**: `code` (installed extensions for `--uninstall-extension`), `meld`, `gedit`, `kate`
-- **Media and graphics**: `vlc` (and `cvlc`), `mpv`, `gimp`, `inkscape`, `krita`, `blender`, `obs`, `audacity`, `eog`
+- **Media and graphics**: `vlc` (and `cvlc`), `mpv`, `mplayer`, `gimp`, `inkscape`, `krita`, `blender`, `obs`, `audacity`, `eog`
 - **Bioinformatics viewers**: `cytoscape`, `jalview`, `artemis` (`art`, `act`, `bamview`, `dnaplotter`), `tablet`,
   `bandage_ng` (`BandageNG`), `proksee`, `pymol`, `chimerax`, `vmd`
 - **Desktop tools**: `xrandr`, `gsettings`, `dconf`, `notify-send`, `wmctrl`, `xdotool`, `swaymsg`, `hyprctl`

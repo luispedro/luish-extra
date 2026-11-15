@@ -1,0 +1,110 @@
+#!/bin/sh
+# Stand-in for mplayer in the tests: what MPlayer 1.5+svn38681 (Debian's) prints for -NAME help, cut short. Its
+# banner, with no newline, starts the first line.
+case "$*" in
+"-vo help")
+    cat <<'OUT'
+MPlayer 1.5+svn38681-1 (Debian)Available video output drivers:
+	xv	X11/Xv
+	gl_nosw	OpenGL no software rendering
+	x11	X11 ( XImage/Shm )
+	xover	General X11 driver for overlay capable video output drivers
+	sdl	SDL YUV/RGB/BGR renderer (SDL v1.1.7+ only!)
+	gl	OpenGL
+OUT
+    ;;
+"-ao help")
+    cat <<'OUT'
+MPlayer 1.5+svn38681-1 (Debian)Available audio output drivers:
+	sndio	sndio audio output
+	oss	OSS/ioctl audio output
+	alsa	ALSA-0.9.x-1.x audio output
+	pulse	PulseAudio audio output
+	jack	JACK audio output
+OUT
+    ;;
+"-vf help")
+    cat <<'OUT'
+Available video filters:
+  rectangle      : draw rectangle
+  bmovl          : Read bitmaps from a FIFO and display them in window
+  crop           : cropping
+  expand         : expanding & osd
+  scale          : software scaling
+  vo             : libvo wrapper
+  format         : force output format
+  yadif          : Yet Another DeInterlacing Filter
+  scale          : software scaling
+OUT
+    ;;
+"-af help")
+    cat <<'OUT'
+MPlayer 1.5+svn38681-1 (Debian)Available audio filters:
+  dummy          : dummy
+  delay          : Delay audio filter
+  channels       : Insert or remove channels
+  format         : Sample format conversion
+  resample       : Sample frequency conversion
+  volume         : Volume control audio filter
+OUT
+    ;;
+"-vc help")
+    cat <<'OUT'
+MPlayer 1.5+svn38681-1 (Debian)Available video codecs:
+vc:     vfm:      status:   info:  [lib/dll]
+fflibdav1d  ffmpeg    working   FFmpeg wrapper for libdav1d  [libdav1d]
+fflibaomav1 ffmpeg    working   FFmpeg wrapper for libaom/AV1  [libaom-av1]
+ffiff       ffmpeg    working   FFmpeg IFF ANIM/ILBM/PBM/RGB8/RGBN  [iff]
+ffanm       ffmpeg    working   FFmpeg Deluxe Paint Animation  [anm]
+ffansi      ffmpeg    working   FFmpeg ASCII/ANSI art  [ansi]
+ffavs       ffmpeg    working   FFmpeg Audio Video Standard (game format)  [avs]
+ffhevc      ffmpeg    working   FFmpeg HEVC / H.265  [hevc]
+ffh264      ffmpeg    working   FFmpeg H.264  [h264]
+ffvp9       ffmpeg    working   FFmpeg VP9  [vp9]
+OUT
+    ;;
+"-ac help")
+    cat <<'OUT'
+MPlayer 1.5+svn38681-1 (Debian)Available audio codecs:
+ac:     afm:      status:   info:  [lib/dll]
+wma9dmo     dmo       working   Windows Media Audio 9 DMO  [wma9dmod.dll]
+wmadmo      dmo       working   Windows Media Audio DMO  [wmadmod.dll]
+wma9spdmo   dmo       working   Windows Media Audio 9 Speech DMO  [wmspdmod.dll]
+wma9spdshow dshow     working   Windows Media Audio 9 Speech DShow  [wmavds32.ax]
+OUT
+    ;;
+"-vfm help")
+    cat <<'OUT'
+MPlayer 1.5+svn38681-1 (Debian)Available (compiled-in) video codec families/drivers:
+   vfm:    info:  (comment)
+    null  Null video decoder (no decoding)
+   black  black video generator (no decoding, always outputs black frames)
+  ffmpeg  FFmpeg's libavcodec codec family (native codecs)
+  theora  Theora/VP3 (Theora project's VP3 codec)
+OUT
+    ;;
+"-afm help")
+    cat <<'OUT'
+MPlayer 1.5+svn38681-1 (Debian)Available (compiled-in) audio codec families/drivers:
+    afm:    info:  (comment)
+   mpg123  MPEG 1.0/2.0/2.5 layers I, II, III (High-performance decoder using libmpg123.)
+   liba52  AC3 decoding with liba52
+    hwac3  AC3/DTS pass-through S/PDIF
+    hwmpa  MPEG audio pass-through (fake decoder) (For hardware decoders)
+OUT
+    ;;
+"-demuxer help")
+    cat <<'OUT'
+MPlayer 1.5+svn38681-1 (Debian)Available demuxers:
+ demuxer:  type  info:  (comment)
+  rawaudio  20   Raw audio demuxer
+  rawvideo  26   Raw video demuxer
+        tv   9   Tv card demuxer (?)
+        mf  16   mf demuxer (multiframe?, pictures demuxer)
+  lavfpref  44   libavformat preferred demuxer (supports many formats, requires libavformat)
+       avi   3   AVI demuxer (AVI files, including non interleaved files)
+       mkv  31   Matroska demuxer
+      lavf  35   libavformat demuxer (supports many formats, requires libavformat)
+OUT
+    ;;
+esac

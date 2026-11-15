@@ -950,6 +950,8 @@ stand-ins in `tests/bin` were cut from.
 - [x] `vlc`: VLC 3.0.24 (the core's options used most, from `src/libvlc-module.c`; also `cvlc`)
 - [x] `mpv`: read from the installed mpv's `--list-options` (0.37.0 and 0.41.0 checked; the tests' stand-in is
   0.41.0's)
+- [x] `mplayer`: MPlayer 1.5+svn38681 (Debian's; the options used most, from its manual page, checked against
+  `-list-options`); drivers, filters, codecs and demuxers from `mplayer -NAME help`
 - [x] `gimp`: GIMP 3.0.4 (from its source, `app/main.c`), and 2.10.36 (Ubuntu's), which lacks `--quit`
 - [x] `inkscape`: Inkscape 1.4.2 (from its source and manual page; 1.2.2, Ubuntu's, has `--pdf-page` where 1.4 has
   `--pages`); actions from `inkscape --action-list`

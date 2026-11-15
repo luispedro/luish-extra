@@ -1,0 +1,153 @@
+load 0
+=== options
+--- mplayer -fs
+-fs 	play full screen
+-fstype 	the full-screen modes, in order (X11)
+--- mplayer -sub
+-sub 	subtitle files (,-separated)
+-sub-bg-alpha 	the opacity of the subtitles' background (0 to 255)
+-sub-bg-color 	the subtitles' background (0 to 255)
+-sub-demuxer 	the demuxer of -subfile
+-sub-fuzziness 	which subtitle files to load
+-sub-paths 	more directories to look for subtitles in (,-separated)
+-subalign 	which edge of the subtitles is at -subpos
+-subcc 	show the DVD closed captions of a channel (1 to 8)
+-subcp 	the code page of the subtitles (enca:LANG:FALLBACK: guess it)
+-subdelay 	the subtitle delay
+-subfile 	a subtitle file of a format that has a demuxer
+-subfont 	the subtitle font (a font file, or a fontconfig pattern)
+-subfont-autoscale 	how the text is scaled
+-subfont-blur 	the font's blur radius (0 to 8)
+-subfont-encoding 	the font's encoding
+-subfont-osd-scale 	the size of the OSD (0 to 100)
+-subfont-outline 	the font's outline width (0 to 8)
+-subfont-text-scale 	the size of subtitle text (0 to 100)
+-subfps 	the frame rate of the subtitle file
+-subpos 	the subtitles' height (0 to 150, 100: the bottom)
+-subwidth 	the subtitles' width (10 to 100)
+--- mplayer -nos
+-noslices 	draw the video whole, not in bands
+-nosound 	play no audio
+-nostop-xscreensaver 	don't turn off the screensaver while playing
+-nosub 	don't show subtitles from the file
+=== values
+--- mplayer -vo 
+gl 	OpenGL
+gl_nosw 	OpenGL no software rendering
+sdl 	SDL YUV/RGB/BGR renderer (SDL v1.1.7+ only!)
+x11 	X11 ( XImage/Shm )
+xover 	General X11 driver for overlay capable video output drivers
+xv 	X11/Xv
+--- mplayer -vo xv,
+xv,gl 	OpenGL
+xv,gl_nosw 	OpenGL no software rendering
+xv,sdl 	SDL YUV/RGB/BGR renderer (SDL v1.1.7+ only!)
+xv,x11 	X11 ( XImage/Shm )
+xv,xover 	General X11 driver for overlay capable video output drivers
+--- mplayer -vo gl:yuv=2,x
+gl:yuv=2,x11 	X11 ( XImage/Shm )
+gl:yuv=2,xover 	General X11 driver for overlay capable video output drivers
+gl:yuv=2,xv 	X11/Xv
+--- mplayer -ao p
+pulse 	PulseAudio audio output
+--- mplayer -vf 
+bmovl 	Read bitmaps from a FIFO and display them in window
+crop 	cropping
+expand 	expanding & osd
+format 	force output format
+rectangle 	draw rectangle
+scale 	software scaling
+vo 	libvo wrapper
+yadif 	Yet Another DeInterlacing Filter
+--- mplayer -vf scale=640:480,y
+scale=640:480,yadif 	Yet Another DeInterlacing Filter
+--- mplayer -vf scale=
+--- mplayer -af-add v
+volume 	Volume control audio filter
+--- mplayer -vc ffh
+ffh264 	FFmpeg H.264
+ffhevc 	FFmpeg HEVC / H.265
+--- mplayer -vc -ffh264,ffh
+-ffh264,ffhevc 	FFmpeg HEVC / H.265
+--- mplayer -ac wma9
+wma9dmo 	Windows Media Audio 9 DMO
+wma9spdmo 	Windows Media Audio 9 Speech DMO
+wma9spdshow 	Windows Media Audio 9 Speech DShow
+--- mplayer -vfm 
+black 	black video generator (no decoding, always outputs black frames)
+ffmpeg 	FFmpeg's libavcodec codec family (native codecs)
+null 	Null video decoder (no decoding)
+theora 	Theora/VP3 (Theora project's VP3 codec)
+--- mplayer -afm hw
+hwac3 	AC3/DTS pass-through S/PDIF
+hwmpa 	MPEG audio pass-through (fake decoder) (For hardware decoders)
+--- mplayer -demuxer 
+avi 	AVI demuxer (AVI files, including non interleaved files)
+lavf 	libavformat demuxer (supports many formats, requires libavformat)
+lavfpref 	libavformat preferred demuxer (supports many formats, requires libavformat)
+mf 	mf demuxer (multiframe?, pictures demuxer)
+mkv 	Matroska demuxer
+rawaudio 	Raw audio demuxer
+rawvideo 	Raw video demuxer
+tv 	Tv card demuxer (?)
+--- mplayer -demuxer +m
++mf 	mf demuxer (multiframe?, pictures demuxer)
++mkv 	Matroska demuxer
+--- mplayer -sub-demuxer l
+lavf 	libavformat demuxer (supports many formats, requires libavformat)
+lavfpref 	libavformat preferred demuxer (supports many formats, requires libavformat)
+--- mplayer -profile 
+fast 	no frills
+hq 	
+--- mplayer -profile fast,
+fast,hq 	
+--- mplayer -show-profile h
+hq 	
+--- mplayer -sws 
+0 	fast bilinear
+1 	bilinear
+10 	natural bicubic spline
+2 	bicubic (default)
+3 	experimental
+4 	nearest neighbour
+5 	area
+6 	luma bicubic, chroma bilinear
+7 	gauss
+8 	sincR
+9 	lanczos
+--- mplayer -osdlevel 
+0 	subtitles only
+1 	volume and seek (default)
+2 	volume, seek, time and percentage
+3 	volume, seek, time, percentage and total time
+--- mplayer -fstype layer,s
+layer,stays_on_top 	_NETWM_STATE_STAYS_ON_TOP
+--- mplayer -sub movie.srt,movie.a
+movie.srt,movie.ass 
+--- mplayer -sub-paths subs/
+subs/en/
+--- mplayer -ss 
+--- mplayer -ss 10 m
+movie.ass 
+movie.mkv 
+movie.srt 
+--- mplayer -noconfig 
+all 
+gui 
+system 
+user 
+=== arguments
+--- mplayer m
+movie.ass 
+movie.mkv 
+movie.srt 
+--- mplayer -fs -loop 0 m
+movie.ass 
+movie.mkv 
+movie.srt 
+=== without mplayer
+--- mplayer -vo 
+--- mplayer m
+movie.ass 
+movie.mkv 
+movie.srt 

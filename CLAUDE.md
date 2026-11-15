@@ -68,8 +68,10 @@ zathura, xdg-open), `editors.rhai` (code, with a completer of its own and its cl
 `viewers.rhai` (cytoscape, jalview, art, act, bamview, dnaplotter, tablet, pymol, chimerax, vmd), `desktop.rhai`
 (xrandr, gsettings, dconf, notify-send, wmctrl, swaymsg, hyprctl, and xdotool, whose chained commands have a completer
 of their own), the generated `bandage.rhai` (BandageNG) and `mpv.rhai` (its options read from the installed mpv's
-`--list-options` when Tab is pressed, with a completer of its own, as nextflow has); proksee goes through std's Click
-bridge.
+`--list-options` when Tab is pressed, with a completer of its own, as nextflow has), and `mplayer.rhai` (its options
+from its manual page, since `-list-options` cuts names at 20 characters; its drivers, filters, codecs and demuxers
+from `mplayer -NAME help`, run with `HOME=/nonexistent`, as mplayer makes `~/.mplayer`; `tests/bin/mplayer` stands
+in for it); proksee goes through std's Click bridge.
 
 In `bio`, `science`, `gui`, `dev`, `system` and `media`, every module has `fn spec(cmd)` (the generated ones too,
 ignoring `cmd`), and `extension.rhai` maps each command to its module (`module_of`), so a new module needs an entry

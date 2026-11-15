@@ -1,4 +1,7 @@
 Unreleased
+    * gui: mplayer, with the drivers, filters, codecs and demuxers of
+      the installed MPlayer (-vo, -ao, -vf, -af, -vc, -ac, -demuxer, ...)
+      and the profiles of its configuration files
     * pathed: a new plugin, to see and edit PATH. pathed shows it,
       numbered, with what is wrong with it (directories that are
       missing, duplicated, relative or empty, and the commands that each
